@@ -7,8 +7,19 @@ import { soloStreakReducer } from './reducers/soloStreakReducer';
 import { teamStreakReducer } from './reducers/teamStreakReducer';
 import { userReducer } from './reducers/userReducer';
 
+const sharedReducers = {
+    authReducer,
+    feedbackReducer,
+    friendReducer,
+    friendRequestReducer,
+    soloStreakReducer,
+    teamStreakReducer,
+    userReducer,
+};
+
 export {
     types,
+    sharedReducers,
     authReducer,
     feedbackReducer,
     friendReducer,
