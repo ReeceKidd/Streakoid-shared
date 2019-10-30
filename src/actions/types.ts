@@ -6,8 +6,58 @@ import { UserWithClientData, SelectedUser } from '../reducers/userReducer';
 import { FriendStateWithClientData } from '../reducers/friendReducer';
 import CognitoPayload from './cognitoPayload';
 
-export const AUTH_ERROR = 'AUTH_ERROR';
+export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
+export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
+export const NAVIGATE_TO_LOGIN = 'NAVIGATE_TO_LOGIN';
+export const NAVIGATE_TO_UPDATE_PASSWORD = 'NAVIGATE_TO_UPDATE_PASSWORD';
+export const NAVIGATE_TO_SOLO_STREAKS = 'NAVIGATE_TO_SOLO_STREAKS';
+export const NAVIGATE_TO_LIVE_SOLO_STREAKS = 'NAVIGATE_TO_LIVE_SOLO_STREAKS';
+export const NAVIGATE_TO_THANK_YOU = 'NAVIGATE_TO_THANK_YOU';
+export const NAVIGATE_TO_TEAM_STREAKS = 'NAVIGATE_TO_TEAM_STREAKS';
 
+export interface NavigateToHomeAction {
+    type: typeof NAVIGATE_TO_HOME;
+}
+
+export interface NavigateToVerifyUserAction {
+    type: typeof NAVIGATE_TO_VERIFY_USER;
+}
+
+export interface NavigateToLoginAction {
+    type: typeof NAVIGATE_TO_LOGIN;
+}
+
+export interface NavigateToUpdatePasswordAction {
+    type: typeof NAVIGATE_TO_UPDATE_PASSWORD;
+}
+
+export interface NavigateToSoloStreaksAction {
+    type: typeof NAVIGATE_TO_SOLO_STREAKS;
+}
+
+export interface NavigateToLiveSoloStreaksAction {
+    type: typeof NAVIGATE_TO_SOLO_STREAKS;
+}
+
+export interface NavigateToThankYouAction {
+    type: typeof NAVIGATE_TO_THANK_YOU;
+}
+
+export interface NavigateToTeamStreakAction {
+    type: typeof NAVIGATE_TO_TEAM_STREAKS;
+}
+
+export type NavigationActionTypes =
+    | NavigateToHomeAction
+    | NavigateToVerifyUserAction
+    | NavigateToLoginAction
+    | NavigateToUpdatePasswordAction
+    | NavigateToSoloStreaksAction
+    | NavigateToLiveSoloStreaksAction
+    | NavigateToThankYouAction
+    | NavigateToTeamStreakAction;
+
+export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const REFRESH_SESSION = 'REFRESH_SESSION';
@@ -1234,6 +1284,7 @@ export type FriendRequestActionTypes =
     | GetPendingFriendRequestsIsLoadedAction;
 
 export type AppActions =
+    | NavigationActionTypes
     | AuthActionTypes
     | SoloStreakActionTypes
     | TeamStreakActionTypes
