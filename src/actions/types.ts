@@ -11,9 +11,10 @@ export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
 export const NAVIGATE_TO_LOGIN = 'NAVIGATE_TO_LOGIN';
 export const NAVIGATE_TO_UPDATE_PASSWORD = 'NAVIGATE_TO_UPDATE_PASSWORD';
 export const NAVIGATE_TO_SOLO_STREAKS = 'NAVIGATE_TO_SOLO_STREAKS';
-export const NAVIGATE_TO_LIVE_SOLO_STREAKS = 'NAVIGATE_TO_LIVE_SOLO_STREAKS';
+export const NAVIGATE_TO_SPECIFIC_SOLO_STREAK = 'NAVIGATE_TO_SPECIFIC_SOLO_STREAK';
 export const NAVIGATE_TO_THANK_YOU = 'NAVIGATE_TO_THANK_YOU';
 export const NAVIGATE_TO_TEAM_STREAKS = 'NAVIGATE_TO_TEAM_STREAKS';
+export const NAVIGATE_TO_SPECIFIC_TEAM_STREAK = 'NAVIGATE_TO_SPECIFIC_TEAM_STREAK';
 
 export interface NavigateToHomeAction {
     type: typeof NAVIGATE_TO_HOME;
@@ -35,8 +36,8 @@ export interface NavigateToSoloStreaksAction {
     type: typeof NAVIGATE_TO_SOLO_STREAKS;
 }
 
-export interface NavigateToLiveSoloStreaksAction {
-    type: typeof NAVIGATE_TO_LIVE_SOLO_STREAKS;
+export interface NavigateToSpecificSoloStreakAction {
+    type: typeof NAVIGATE_TO_SPECIFIC_SOLO_STREAK;
     payload: string;
 }
 
@@ -46,6 +47,10 @@ export interface NavigateToThankYouAction {
 
 export interface NavigateToTeamStreakAction {
     type: typeof NAVIGATE_TO_TEAM_STREAKS;
+}
+
+export interface NavigateToSpecificTeamStreakAction {
+    type: typeof NAVIGATE_TO_SPECIFIC_TEAM_STREAK;
     payload: string;
 }
 
@@ -55,9 +60,10 @@ export type NavigationActionTypes =
     | NavigateToLoginAction
     | NavigateToUpdatePasswordAction
     | NavigateToSoloStreaksAction
-    | NavigateToLiveSoloStreaksAction
+    | NavigateToSpecificSoloStreakAction
     | NavigateToThankYouAction
-    | NavigateToTeamStreakAction;
+    | NavigateToTeamStreakAction
+    | NavigateToSpecificTeamStreakAction;
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
