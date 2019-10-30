@@ -8,6 +8,7 @@ import { teamStreakReducer } from './reducers/teamStreakReducer';
 import { userReducer } from './reducers/userReducer';
 import { AppActions } from './actions/types';
 import CognitoPayload from './actions/cognitoPayload';
+import { authActions } from './actions/authActions';
 
 const sharedReducers = {
     auth: authReducer,
@@ -31,4 +32,5 @@ export {
     userReducer,
     AppActions,
     CognitoPayload,
+    authActions,
 };
