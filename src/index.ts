@@ -9,6 +9,12 @@ import { userReducer } from './reducers/userReducer';
 import { AppActions } from './actions/types';
 import CognitoPayload from './actions/cognitoPayload';
 import { emailActions } from './actions/emailActions';
+import { feedbackActions } from './actions/feedbackActions';
+import { friendRequestActions } from './actions/friendRequestActions';
+import { soloStreakActions } from './actions/soloStreakActions';
+import { stripeActions } from './actions/stripeActions';
+import { teamMemberStreakTaskActions } from './actions/teamMemberStreakTaskActions';
+import { teamStreakActions } from './actions/teamStreakActions';
 
 const sharedReducers = {
     auth: authReducer,
@@ -33,4 +39,10 @@ export {
     AppActions,
     CognitoPayload,
     emailActions,
+    feedbackActions,
+    friendRequestActions,
+    soloStreakActions,
+    stripeActions,
+    teamMemberStreakTaskActions,
+    teamStreakActions,
 };
