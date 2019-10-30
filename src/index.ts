@@ -17,4 +17,14 @@ const sharedReducers = {
     users: userReducer,
 };
 
-export { types, sharedReducers };
+export {
+    types,
+    sharedReducers,
+    authReducer,
+    feedbackReducer,
+    friendReducer,
+    friendRequestReducer,
+    soloStreakReducer,
+    teamStreakReducer,
+    userReducer,
+};
