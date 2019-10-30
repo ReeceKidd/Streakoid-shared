@@ -36,7 +36,7 @@ export interface NavigateToSoloStreaksAction {
 }
 
 export interface NavigateToLiveSoloStreaksAction {
-    type: typeof NAVIGATE_TO_SOLO_STREAKS;
+    type: typeof NAVIGATE_TO_LIVE_SOLO_STREAKS;
 }
 
 export interface NavigateToThankYouAction {
