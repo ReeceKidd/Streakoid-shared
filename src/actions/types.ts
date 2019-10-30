@@ -46,6 +46,7 @@ export interface NavigateToThankYouAction {
 
 export interface NavigateToTeamStreakAction {
     type: typeof NAVIGATE_TO_TEAM_STREAKS;
+    payload: string;
 }
 
 export type NavigationActionTypes =
