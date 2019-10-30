@@ -19,6 +19,8 @@ const sharedReducers = {
     users: userReducer,
 };
 
+export type AppState = ReturnType<typeof sharedReducers>;
+
 export {
     types,
     sharedReducers,
