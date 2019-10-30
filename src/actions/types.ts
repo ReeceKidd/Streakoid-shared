@@ -4,6 +4,7 @@ import { LiveSoloStreakWithClientData, ArchivedSoloStreakWithClientData } from '
 import { FriendRequestStateWithClientData } from '../reducers/friendRequestReducer';
 import { UserWithClientData, SelectedUser } from '../reducers/userReducer';
 import { FriendStateWithClientData } from '../reducers/friendReducer';
+import CognitoPayload from './cognitoPayload';
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 
@@ -40,14 +41,6 @@ export const FORGOT_PASSWORD_IS_LOADING = 'FORGOT_PASSWORD_IS_LOADING';
 export const FORGOT_PASSWORD_IS_LOADED = 'FORGOT_PASSWORD_IS_LOADED';
 export const UPDATE_PASSWORD_IS_LOADING = 'UPDATE_PASSWORD_IS_LOADING';
 export const UPDATE_PASSWORD_IS_LOADED = 'UPDATE_PASSWORD_IS_LOADED';
-
-export interface CognitoPayload {
-    idToken: string;
-    idTokenExpiryTime: number;
-    accessToken: string;
-    refreshToken: string;
-    username: string;
-}
 
 export interface LoginSuccessAction {
     type: typeof LOGIN_SUCCESS;

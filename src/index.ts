@@ -6,6 +6,8 @@ import { friendRequestReducer } from './reducers/friendRequestReducer';
 import { soloStreakReducer } from './reducers/soloStreakReducer';
 import { teamStreakReducer } from './reducers/teamStreakReducer';
 import { userReducer } from './reducers/userReducer';
+import { AppActions } from './actions/types';
+import CognitoPayload from './actions/cognitoPayload';
 
 const sharedReducers = {
     auth: authReducer,
@@ -27,4 +29,6 @@ export {
     soloStreakReducer,
     teamStreakReducer,
     userReducer,
+    AppActions,
+    CognitoPayload,
 };
