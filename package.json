@@ -1,6 +1,6 @@
 {
     "name": "@streakoid/streakoid-shared",
-    "version": "1.0.29",
+    "version": "1.0.30",
     "description": "Streakoid Shared",
     "main": "lib/index.js",
     "types": "lib",
