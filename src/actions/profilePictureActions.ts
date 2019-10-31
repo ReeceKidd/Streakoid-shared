@@ -12,7 +12,7 @@ import { Dispatch } from 'redux';
 import axios, { AxiosResponse } from 'axios';
 import { AppActions, AppState } from '..';
 
-const profilePictureActions = (apiUrl: string, idToken: string) => {
+const profilePictureActions = (apiUrl: string, getIdToken: () => Promise<string>) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const uploadProfileImage = ({ formData }: { formData: any }) => async (
         dispatch: Dispatch<AppActions>,
@@ -23,6 +23,7 @@ const profilePictureActions = (apiUrl: string, idToken: string) => {
             const { currentUser } = users;
             const { timezone } = currentUser;
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADING });
+            const idToken = await getIdToken();
             const response: AxiosResponse<ProfileImages> = await axios.post(
                 `${apiUrl}/v1/${RouterCategories.profileImages}`,
                 formData,
