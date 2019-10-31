@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import { Auth } from 'aws-amplify';
 
 import {
     LOGIN_SUCCESS,
@@ -45,31 +46,12 @@ import CognitoPayload from '../cognitoPayload';
 const authActions = (
     streakoid: typeof streakoidSDK,
     streakoidRegistration: typeof streakoidSDK,
-    signIn: (
-        emailOrUsername: string,
-        password: string,
-    ) => {
-        username: string;
-        signInUserSession: {
-            idToken: {
-                payload: {
-                    exp: number;
-                };
-                jwtToken: string;
-            };
-            refreshToken: {
-                token: string;
-            };
-            accessToken: {
-                jwtToken: string;
-            };
-        };
-    },
-    signUp: ({  }: { username: string; password: string; attributes: { email: string } }) => Promise<void>,
-    confirmSignUp: (username: string, verificationCode: string, {  }: { forceAliasCreation: boolean }) => Promise<void>,
-    resendSignUp: (username: string) => Promise<void>,
-    authForgotPassword: (emailOrUsername: string) => Promise<{ CodeDeliveryDetails: { Destination: string } }>,
-    forgotPasswordSubmit: (emailOrUsername: string, code: string, newPassword: string) => Promise<void>,
+    signIn: typeof Auth.signIn,
+    signUp: typeof Auth.signUp,
+    confirmSignUp: typeof Auth.confirmSignUp,
+    resendSignUp: typeof Auth.resendSignUp,
+    authForgotPassword: typeof Auth.forgotPassword,
+    forgotPasswordSubmit: typeof Auth.forgotPasswordSubmit,
 ) => {
     const loginUser = ({ emailOrUsername, password }: { emailOrUsername: string; password: string }) => async (
         dispatch: Dispatch<AppActions>,
@@ -157,7 +139,7 @@ const authActions = (
             });
             if (password) {
                 username = username.toLowerCase();
-                const cognitoUser = await signIn(username, password);
+                const cognitoUser = await Auth.signIn(username, password);
                 const { idToken, refreshToken, accessToken } = cognitoUser.signInUserSession;
                 const idTokenJwt = idToken.jwtToken;
                 const idTokenExpiryTime = idToken.payload.exp;
