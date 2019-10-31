@@ -10,6 +10,9 @@ import {
     GET_FRIENDS_IS_LOADED,
     DELETE_FRIEND_IS_LOADING,
     DELETE_FRIEND_IS_LOADED,
+    SELECT_FRIEND,
+    UNSELECT_FRIEND,
+    CLEAR_SELECTED_FRIENDS,
 } from './types';
 import { Reducer } from 'redux';
 import { AppActions } from '..';
@@ -68,9 +71,26 @@ const friendActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer) => 
         }
     };
 
+    const selectFriend = (friendId: string): AppActions => ({
+        type: SELECT_FRIEND,
+        friendId,
+    });
+
+    const unselectFriend = (friendId: string): AppActions => ({
+        type: UNSELECT_FRIEND,
+        friendId,
+    });
+
+    const clearSelectedFriends = (): AppActions => ({
+        type: CLEAR_SELECTED_FRIENDS,
+    });
+
     return {
         getFriends,
         deleteFriend,
+        selectFriend,
+        unselectFriend,
+        clearSelectedFriends,
     };
 };
 
