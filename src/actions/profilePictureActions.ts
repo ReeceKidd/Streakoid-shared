@@ -12,7 +12,7 @@ import { Dispatch } from 'redux';
 import axios, { AxiosResponse } from 'axios';
 import { AppActions, AppState } from '..';
 
-const profilePictureActions = (apiUrl: string, getIdToken: () => Promise<string>) => {
+const profilePictureActions = (apiUrl: string, getIdToken: () => string | Promise<string>) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const uploadProfileImage = ({ formData }: { formData: any }) => async (
         dispatch: Dispatch<AppActions>,
