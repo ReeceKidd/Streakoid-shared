@@ -9,7 +9,6 @@ import { teamMemberStreakTaskActions } from './teamMemberStreakTaskActions';
 import { teamStreakActions } from './teamStreakActions';
 import { userActions } from './userActions';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const getSharedActions = (streakoid: typeof streakoidSDK) => {
     return {
         emailActions: emailActions(streakoid),

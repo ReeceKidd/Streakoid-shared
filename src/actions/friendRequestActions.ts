@@ -23,7 +23,6 @@ import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoi
 import { AppActions, AppState } from '..';
 import { FriendRequestStatus } from '@streakoid/streakoid-sdk/lib';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const friendRequestActions = (streakoid: typeof streakoidSDK) => {
     const getPendingFriendRequests = () => async (
         dispatch: Dispatch<AppActions>,

@@ -4,7 +4,6 @@ import { CREATE_FEEDBACK, CREATE_FEEDBACK_FAIL, CLEAR_FEEDBACK } from './types';
 import { AppActions } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const feedbackActions = (streakoid: typeof streakoidSDK) => {
     const submitFeedback = (
         userId: string,

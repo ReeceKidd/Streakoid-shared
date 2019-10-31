@@ -12,7 +12,6 @@ import {
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const stripeActions = (streakoid: typeof streakoidSDK) => {
     const createStripeSubscription = ({ token }: { token: Token }) => async (
         dispatch: Dispatch<AppActions>,

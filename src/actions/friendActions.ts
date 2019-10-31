@@ -16,7 +16,6 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const friendActions = (streakoid: typeof streakoidSDK) => {
     const getFriends = () => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
