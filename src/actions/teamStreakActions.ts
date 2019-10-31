@@ -203,20 +203,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK, rootReducer: R
         type: CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE,
     });
 
-    const deleteTeamStreak = (teamStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
-        try {
-            await streakoid.teamStreaks.update({ teamStreakId, updateData: { status: StreakStatus.deleted } });
-            dispatch({ type: DELETE_TEAM_STREAK, teamStreakId });
-            dispatch({ type: NAVIGATE_TO_TEAM_STREAKS });
-        } catch (err) {
-            if (err.response) {
-                dispatch({ type: DELETE_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
-            } else {
-                dispatch({ type: DELETE_TEAM_STREAK_FAIL, errorMessage: err.message });
-            }
-        }
-    };
-
     const addFriendToTeamStreak = (friendId: string, teamStreakId: string) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
