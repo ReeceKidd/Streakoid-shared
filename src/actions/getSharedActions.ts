@@ -9,9 +9,11 @@ import { teamMemberStreakTaskActions } from './teamMemberStreakTaskActions';
 import { teamStreakActions } from './teamStreakActions';
 import { userActions } from './userActions';
 import { profilePictureActions } from './profilePictureActions';
+import { authActions } from './authActions';
 
-export const getSharedActions = (streakoid: typeof streakoidSDK) => {
+export const getSharedActions = (streakoid: typeof streakoidSDK, streakoidRegistration: typeof streakoidSDK) => {
     return {
+        authActions: authActions(streakoid, streakoidRegistration),
         emailActions: emailActions(streakoid),
         feedbackActions: feedbackActions(streakoid),
         friendActions: friendActions(streakoid),
