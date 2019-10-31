@@ -20,6 +20,7 @@
     "license": "ISC",
     "devDependencies": {
         "@types/jest": "^24.0.18",
+        "@types/node": "^12.12.3",
         "eslint": "^6.5.1",
         "husky": "^3.0.5",
         "jest": "^24.9.0",
@@ -33,6 +34,7 @@
     "dependencies": {
         "@streakoid/streakoid-sdk": "^1.0.175",
         "@types/form-data": "^2.5.0",
+        "@types/graphql": "^14.5.0",
         "@types/node-fetch": "^2.5.2",
         "@types/react": "^16.9.9",
         "@typescript-eslint/eslint-plugin": "^2.3.2",
@@ -42,6 +44,7 @@
         "eslint-config-prettier": "^6.4.0",
         "eslint-plugin-prettier": "^3.1.1",
         "form-data": "^2.5.1",
+        "graphql": "^14.5.8",
         "react": "^16.10.2",
         "react-stripe-checkout": "^2.6.3",
         "redux": "^4.0.4"
