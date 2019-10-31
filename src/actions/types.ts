@@ -632,8 +632,6 @@ export const EDIT_TEAM_STREAK_FAIL = 'EDIT_TEAM_STREAK_FAIL';
 export const EDIT_TEAM_STREAK_LOADING = 'EDIT_TEAM_STREAK_LOADING';
 export const EDIT_TEAM_STREAK_LOADED = 'EDIT_TEAM_STREAK_LOADED';
 export const CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE = 'CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE';
-export const DELETE_TEAM_STREAK = 'DELETE_TEAM_STREAK';
-export const DELETE_TEAM_STREAK_FAIL = 'DELETE_TEAM_STREAK_FAIL';
 export const ADD_FRIEND_TO_TEAM_STREAK = 'ADD_FRIEND_TO_TEAM_STREAK';
 export const ADD_FRIEND_TO_TEAM_STREAK_FAIL = 'ADD_FRIEND_TO_TEAM_STREAK_FAIL';
 export const COMPLETE_TEAM_MEMBER_STREAK_TASK = 'COMPLETE_TEAM_MEMBER_STREAK_TASK';
@@ -709,16 +707,6 @@ export interface EditTeamStreakLoadedAction {
 
 export interface ClearEditTeamStreakErrorMessageAction {
     type: typeof CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE;
-}
-
-export interface DeleteTeamStreakAction {
-    type: typeof DELETE_TEAM_STREAK;
-    teamStreakId: string;
-}
-
-export interface DeleteTeamStreakFailAction {
-    type: typeof DELETE_TEAM_STREAK_FAIL;
-    errorMessage: string;
 }
 
 export interface AddFriendToTeamStreakAction {
@@ -828,8 +816,6 @@ export type TeamStreakActionTypes =
     | EditTeamStreakLoadingAction
     | EditTeamStreakLoadedAction
     | ClearEditTeamStreakErrorMessageAction
-    | DeleteTeamStreakAction
-    | DeleteTeamStreakFailAction
     | AddFriendToTeamStreakAction
     | AddFriendToTeamStreakFailAction
     | CompleteTeamMemberStreakTaskAction
