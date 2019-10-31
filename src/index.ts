@@ -10,6 +10,7 @@ import { AppActions } from './actions/types';
 import CognitoPayload from './cognitoPayload';
 import { emailActions } from './actions/emailActions';
 import { feedbackActions } from './actions/feedbackActions';
+import { friendActions } from './actions/friendActions';
 import { friendRequestActions } from './actions/friendRequestActions';
 import { soloStreakActions } from './actions/soloStreakActions';
 import { stripeActions } from './actions/stripeActions';
@@ -41,6 +42,7 @@ export {
     CognitoPayload,
     emailActions,
     feedbackActions,
+    friendActions,
     friendRequestActions,
     soloStreakActions,
     stripeActions,

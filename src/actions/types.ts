@@ -4,7 +4,7 @@ import { LiveSoloStreakWithClientData, ArchivedSoloStreakWithClientData } from '
 import { FriendRequestStateWithClientData } from '../reducers/friendRequestReducer';
 import { UserWithClientData, SelectedUser } from '../reducers/userReducer';
 import { FriendStateWithClientData } from '../reducers/friendReducer';
-import CognitoPayload from './cognitoPayload';
+import CognitoPayload from '../cognitoPayload';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
