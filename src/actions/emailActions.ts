@@ -1,5 +1,4 @@
 import { Dispatch } from 'react';
-import { Reducer } from 'redux';
 
 import {
     SEND_CONTACT_US_EMAIL_LOADED,
@@ -8,14 +7,14 @@ import {
     CLEAR_SEND_CONTACT_US_EMAIL_MESSAGES,
     SEND_CONTACT_US_EMAIL,
 } from './types';
-import { AppActions } from '..';
+import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const emailActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer) => {
+const emailActions = (streakoid: typeof streakoidSDK) => {
     const sendContactUsEmail = ({ name, email, message }: { name: string; email: string; message: string }) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => ReturnType<typeof rootReducer>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: SEND_CONTACT_US_EMAIL_LOADING });

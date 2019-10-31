@@ -1,6 +1,5 @@
 import { Token } from 'react-stripe-checkout';
 import { Dispatch } from 'react';
-import { Reducer } from 'redux';
 import {
     CREATE_STRIPE_SUBSCRIPTION,
     UPDATE_CURRENT_USER,
@@ -10,14 +9,14 @@ import {
     CREATE_STRIPE_SUBSCRIPTION_LOADED,
     NAVIGATE_TO_THANK_YOU,
 } from './types';
-import { AppActions } from '..';
+import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const stripeActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer) => {
+const stripeActions = (streakoid: typeof streakoidSDK) => {
     const createStripeSubscription = ({ token }: { token: Token }) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => ReturnType<typeof rootReducer>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: CREATE_STRIPE_SUBSCRIPTION_LOADING });

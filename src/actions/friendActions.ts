@@ -14,15 +14,11 @@ import {
     UNSELECT_FRIEND,
     CLEAR_SELECTED_FRIENDS,
 } from './types';
-import { Reducer } from 'redux';
-import { AppActions } from '..';
+import { AppActions, AppState } from '..';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const friendActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer) => {
-    const getFriends = () => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => ReturnType<typeof rootReducer>,
-    ): Promise<void> => {
+const friendActions = (streakoid: typeof streakoidSDK) => {
+    const getFriends = () => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: GET_FRIENDS_IS_LOADING });
             const userId = getState().users.currentUser._id;
@@ -47,7 +43,7 @@ const friendActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer) => 
 
     const deleteFriend = (friendId: string) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => ReturnType<typeof rootReducer>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: DELETE_FRIEND_IS_LOADING, friendId });

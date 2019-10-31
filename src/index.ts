@@ -9,6 +9,7 @@ import { userReducer } from './reducers/userReducer';
 import { AppActions } from './actions/types';
 import { getSharedActions } from './actions/getSharedActions';
 import CognitoPayload from './cognitoPayload';
+import { combineReducers } from 'redux';
 
 const sharedReducers = {
     auth: authReducer,
@@ -19,6 +20,12 @@ const sharedReducers = {
     teamStreaks: teamStreakReducer,
     users: userReducer,
 };
+
+const sharedReducer = combineReducers({
+    ...sharedReducers,
+});
+
+export type AppState = ReturnType<typeof sharedReducer>;
 
 export {
     types,

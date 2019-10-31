@@ -1,5 +1,4 @@
 import { Dispatch } from 'react';
-import { Reducer } from 'redux';
 import {
     COMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL,
     COMPLETE_TEAM_MEMBER_STREAK_TASK,
@@ -11,18 +10,18 @@ import {
     INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED,
     GET_LIVE_TEAM_STREAKS,
 } from './types';
-import { AppActions } from '..';
+import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer) => {
+export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
     const completeTeamMemberStreakTask = ({
         teamStreakId,
         teamMemberStreakId,
     }: {
         teamStreakId: string;
         teamMemberStreakId: string;
-    }) => async (dispatch: Dispatch<AppActions>, getState: () => ReturnType<typeof rootReducer>): Promise<void> => {
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING, teamMemberStreakId });
             const userId = getState().users.currentUser._id;
@@ -83,7 +82,7 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK, root
     }: {
         teamStreakId: string;
         teamMemberStreakId: string;
-    }) => async (dispatch: Dispatch<AppActions>, getState: () => ReturnType<typeof rootReducer>): Promise<void> => {
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING, teamMemberStreakId });
             const userId = getState().users.currentUser._id;

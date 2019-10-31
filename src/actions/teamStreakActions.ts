@@ -1,5 +1,4 @@
 import { Dispatch } from 'react';
-import { Reducer } from 'redux';
 
 import {
     GET_LIVE_TEAM_STREAKS,
@@ -31,15 +30,15 @@ import {
     NAVIGATE_TO_SPECIFIC_TEAM_STREAK,
     NAVIGATE_TO_TEAM_STREAKS,
 } from './types';
-import { AppActions } from '..';
+import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const teamStreakActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer) => {
+export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveTeamStreaks = () => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => ReturnType<typeof rootReducer>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADING });
@@ -117,7 +116,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK, rootReducer: R
         members: { memberId: string }[];
         streakDescription?: string;
         numberOfMinutes?: number;
-    }) => async (dispatch: Dispatch<AppActions>, getState: () => ReturnType<typeof rootReducer>): Promise<void> => {
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: CREATE_TEAM_STREAK_IS_LOADING });
             const userId = getState().users.currentUser._id;

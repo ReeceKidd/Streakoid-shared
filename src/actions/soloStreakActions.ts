@@ -1,4 +1,4 @@
-import { Dispatch, Reducer } from 'redux';
+import { Dispatch } from 'redux';
 import StreakStatus from '@streakoid/streakoid-sdk/lib/StreakStatus';
 
 import {
@@ -55,14 +55,14 @@ import {
     NAVIGATE_TO_SOLO_STREAKS,
     NAVIGATE_TO_SPECIFIC_SOLO_STREAK,
 } from './types';
-import { AppActions } from '..';
+import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const soloStreakActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer) => {
+const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveSoloStreaks = () => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => ReturnType<typeof rootReducer>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING });
@@ -91,7 +91,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer)
 
     const getArchivedSoloStreaks = () => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => ReturnType<typeof rootReducer>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING });
@@ -157,7 +157,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer)
         streakName: string;
         streakDescription?: string;
         numberOfMinutes?: number;
-    }) => async (dispatch: Dispatch<AppActions>, getState: () => ReturnType<typeof rootReducer>): Promise<void> => {
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: CREATE_SOLO_STREAK_IS_LOADING });
             dispatch({ type: CLEAR_CREATE_SOLO_STREAK_ERROR });
@@ -316,7 +316,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer)
 
     const updateSoloStreakTimezones = (timezone: string) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => ReturnType<typeof rootReducer>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             const userId = getState().users.currentUser._id;
@@ -338,7 +338,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer)
 
     const completeSoloStreakTask = (soloStreakId: string) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => ReturnType<typeof rootReducer>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: CREATE_COMPLETE_SOLO_STREAK_TASK_LOADING, soloStreakId });
@@ -367,7 +367,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer)
 
     const incompleteSoloStreakTask = (soloStreakId: string) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => ReturnType<typeof rootReducer>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADING, soloStreakId });

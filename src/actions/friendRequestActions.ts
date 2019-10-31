@@ -20,15 +20,14 @@ import {
     ACCEPT_FRIEND_REQUEST_FAIL,
 } from './types';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
-import { AppActions } from '..';
+import { AppActions, AppState } from '..';
 import { FriendRequestStatus } from '@streakoid/streakoid-sdk/lib';
-import { Reducer } from 'redux';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const friendRequestActions = (streakoid: typeof streakoidSDK, rootReducer: Reducer) => {
+const friendRequestActions = (streakoid: typeof streakoidSDK) => {
     const getPendingFriendRequests = () => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => ReturnType<typeof rootReducer>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_PENDING_FRIEND_REQUESTS_IS_LOADING });
@@ -66,7 +65,7 @@ const friendRequestActions = (streakoid: typeof streakoidSDK, rootReducer: Reduc
 
     const getSentFriendRequests = () => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => ReturnType<typeof rootReducer>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_SENT_FRIEND_REQUESTS_IS_LOADING });
@@ -94,7 +93,7 @@ const friendRequestActions = (streakoid: typeof streakoidSDK, rootReducer: Reduc
     }: {
         requesterId: string;
         friendRequestId: string;
-    }) => async (dispatch: Dispatch<AppActions>, getState: () => ReturnType<typeof rootReducer>): Promise<void> => {
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             const userId = getState().users.currentUser._id;
             dispatch({ type: ACCEPT_FRIEND_REQUEST_IS_LOADING, friendRequestId });
