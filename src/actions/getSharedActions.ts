@@ -7,6 +7,7 @@ import { soloStreakActions } from './soloStreakActions';
 import { stripeActions } from './stripeActions';
 import { teamMemberStreakTaskActions } from './teamMemberStreakTaskActions';
 import { teamStreakActions } from './teamStreakActions';
+import { userActions } from './userActions';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const getSharedActions = (streakoid: typeof streakoidSDK) => {
@@ -19,5 +20,6 @@ export const getSharedActions = (streakoid: typeof streakoidSDK) => {
         stripeActions: stripeActions(streakoid),
         teamMemberStreakTaskActions: teamMemberStreakTaskActions(streakoid),
         teamStreakActions: teamStreakActions(streakoid),
+        userActions: userActions(streakoid),
     };
 };
