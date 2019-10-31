@@ -7,16 +7,8 @@ import { soloStreakReducer } from './reducers/soloStreakReducer';
 import { teamStreakReducer } from './reducers/teamStreakReducer';
 import { userReducer } from './reducers/userReducer';
 import { AppActions } from './actions/types';
-import CognitoPayload from './cognitoPayload';
-import { emailActions } from './actions/emailActions';
-import { feedbackActions } from './actions/feedbackActions';
-import { friendActions } from './actions/friendActions';
-import { friendRequestActions } from './actions/friendRequestActions';
-import { soloStreakActions } from './actions/soloStreakActions';
-import { stripeActions } from './actions/stripeActions';
-import { teamMemberStreakTaskActions } from './actions/teamMemberStreakTaskActions';
-import { teamStreakActions } from './actions/teamStreakActions';
 import { getSharedActions } from './actions/getSharedActions';
+import CognitoPayload from './cognitoPayload';
 
 const sharedReducers = {
     auth: authReducer,
@@ -40,13 +32,5 @@ export {
     userReducer,
     AppActions,
     CognitoPayload,
-    emailActions,
-    feedbackActions,
-    friendActions,
-    friendRequestActions,
-    soloStreakActions,
-    stripeActions,
-    teamMemberStreakTaskActions,
-    teamStreakActions,
     getSharedActions,
 };
