@@ -8,6 +8,7 @@ import { stripeActions } from './stripeActions';
 import { teamMemberStreakTaskActions } from './teamMemberStreakTaskActions';
 import { teamStreakActions } from './teamStreakActions';
 import { userActions } from './userActions';
+import { profilePictureActions } from './profilePictureActions';
 
 export const getSharedActions = (streakoid: typeof streakoidSDK) => {
     return {
@@ -20,5 +21,6 @@ export const getSharedActions = (streakoid: typeof streakoidSDK) => {
         teamMemberStreakTaskActions: teamMemberStreakTaskActions(streakoid),
         teamStreakActions: teamStreakActions(streakoid),
         userActions: userActions(streakoid),
+        profilePictureActions,
     };
 };
