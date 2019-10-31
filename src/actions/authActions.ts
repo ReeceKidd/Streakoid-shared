@@ -1,4 +1,4 @@
-import { Dispatch } from 'redux';
+import { Dispatch } from 'react';
 import Amplify, { Auth } from 'aws-amplify';
 
 import {

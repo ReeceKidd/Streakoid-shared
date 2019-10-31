@@ -840,25 +840,6 @@ export type TeamStreakActionTypes =
     | ArchiveTeamStreakIsLoadingAction
     | ArchiveTeamStreakIsLoadedAction;
 
-export const CREATE_FEEDBACK = 'CREATE_FEEDBACK';
-export const CREATE_FEEDBACK_FAIL = 'CREATE_FEEDBACK_FAIL';
-export const CLEAR_FEEDBACK = 'CLEAR_FEEDBACK';
-
-export interface CreateFeedbackAction {
-    type: typeof CREATE_FEEDBACK;
-}
-
-export interface CreateFeedbackFailAction {
-    type: typeof CREATE_FEEDBACK_FAIL;
-    errorMessage: string;
-}
-
-export interface ClearFeedbackAction {
-    type: typeof CLEAR_FEEDBACK;
-}
-
-export type FeedbackActionTypes = CreateFeedbackAction | CreateFeedbackFailAction | ClearFeedbackAction;
-
 export const GET_USERS = 'GET_USERS';
 export const GET_USERS_FAIL = 'GET_USERS_FAIL';
 export const GET_USERS_IS_LOADING = 'GET_USERS_IS_LOADING';
@@ -1282,6 +1263,5 @@ export type AppActions =
     | AuthActionTypes
     | SoloStreakActionTypes
     | TeamStreakActionTypes
-    | FeedbackActionTypes
     | UserActionTypes
     | FriendRequestActionTypes;
