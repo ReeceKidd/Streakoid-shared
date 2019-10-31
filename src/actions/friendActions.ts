@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
 import {

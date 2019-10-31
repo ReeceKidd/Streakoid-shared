@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 
 import {
     SEND_CONTACT_US_EMAIL_LOADED,

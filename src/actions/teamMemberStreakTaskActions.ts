@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import {
     COMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL,
     COMPLETE_TEAM_MEMBER_STREAK_TASK,

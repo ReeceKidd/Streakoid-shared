@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import StreakStatus from '@streakoid/streakoid-sdk/lib/StreakStatus';
 
 import {

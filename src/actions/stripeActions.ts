@@ -1,5 +1,5 @@
 import { Token } from 'react-stripe-checkout';
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import {
     CREATE_STRIPE_SUBSCRIPTION,
     UPDATE_CURRENT_USER,

@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 
 import {
     GET_LIVE_TEAM_STREAKS,
