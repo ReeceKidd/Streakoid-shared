@@ -11,9 +11,9 @@ import { userActions } from './userActions';
 import { profilePictureActions } from './profilePictureActions';
 import { authActions } from './authActions';
 
-export const getSharedActions = (streakoid: typeof streakoidSDK, streakoidRegistration: typeof streakoidSDK) => {
+export const getSharedActions = (streakoid: typeof streakoidSDK) => {
     return {
-        authActions: authActions(streakoid, streakoidRegistration),
+        authActions,
         emailActions: emailActions(streakoid),
         feedbackActions: feedbackActions(streakoid),
         friendActions: friendActions(streakoid),

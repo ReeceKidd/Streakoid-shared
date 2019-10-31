@@ -1,5 +1,4 @@
 import { Dispatch } from 'redux';
-import Amplify, { Auth } from 'aws-amplify';
 
 import {
     LOGIN_SUCCESS,
@@ -43,24 +42,42 @@ import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import CognitoPayload from '../cognitoPayload';
 
-Amplify.configure({
-    Auth: {
-        mandatorySignIn: true,
-        region: 'eu-west-1',
-        userPoolId: 'eu-west-1_jzNG2ske9',
-        userPoolWebClientId: '68agp8bcm9bidhh4p97rj1ke1g',
+const authActions = (
+    streakoid: typeof streakoidSDK,
+    streakoidRegistration: typeof streakoidSDK,
+    signIn: (
+        emailOrUsername: string,
+        password: string,
+    ) => {
+        username: string;
+        signInUserSession: {
+            idToken: {
+                payload: {
+                    exp: number;
+                };
+                jwtToken: string;
+            };
+            refreshToken: {
+                token: string;
+            };
+            accessToken: {
+                jwtToken: string;
+            };
+        };
     },
-});
-
-const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: typeof streakoidSDK) => {
+    signUp: ({  }: { username: string; password: string; attributes: { email: string } }) => Promise<void>,
+    confirmSignUp: (username: string, verificationCode: string, {  }: { forceAliasCreation: boolean }) => Promise<void>,
+    resendSignUp: (username: string) => Promise<void>,
+    authForgotPassword: (emailOrUsername: string) => Promise<{ CodeDeliveryDetails: { Destination: string } }>,
+    forgotPasswordSubmit: (emailOrUsername: string, code: string, newPassword: string) => Promise<void>,
+) => {
     const loginUser = ({ emailOrUsername, password }: { emailOrUsername: string; password: string }) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
         try {
             dispatch({ type: LOGIN_IS_LOADING });
 
-            const cognitoUser = await Auth.signIn(emailOrUsername.toLowerCase(), password);
-
+            const cognitoUser = await signIn(emailOrUsername.toLowerCase(), password);
             const { idToken, refreshToken, accessToken } = cognitoUser.signInUserSession;
             const idTokenJwt = idToken.jwtToken;
             const idTokenExpiryTime = idToken.payload.exp;
@@ -106,7 +123,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
         try {
             dispatch({ type: REGISTER_IS_LOADING });
             const lowercaseUsername = username.toLowerCase();
-            await Auth.signUp({ username: lowercaseUsername, password, attributes: { email } });
+            await signUp({ username: lowercaseUsername, password, attributes: { email } });
             const user = await streakoidRegistration.users.create({ username: lowercaseUsername, email });
             dispatch({ type: UPDATE_CURRENT_USER, user });
             dispatch({ type: PASSWORD_STORE, password });
@@ -135,12 +152,12 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             let { username } = getState().users.currentUser;
             const { password } = getState().auth;
 
-            await Auth.confirmSignUp(username, verificationCode, {
+            await confirmSignUp(username, verificationCode, {
                 forceAliasCreation: true,
             });
             if (password) {
                 username = username.toLowerCase();
-                const cognitoUser = await Auth.signIn(username, password);
+                const cognitoUser = await signIn(username, password);
                 const { idToken, refreshToken, accessToken } = cognitoUser.signInUserSession;
                 const idTokenJwt = idToken.jwtToken;
                 const idTokenExpiryTime = idToken.payload.exp;
@@ -184,7 +201,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
         try {
             const { username, email } = getState().users.currentUser;
             const successMessage = `Code was resent to: ${email}`;
-            await Auth.resendSignUp(username);
+            await resendSignUp(username);
             dispatch({ type: RESEND_CODE_SUCCESS, successMessage });
         } catch (err) {
             if (err.response) {
@@ -206,7 +223,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
     const forgotPassword = (emailOrUsername: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: FORGOT_PASSWORD_IS_LOADING });
-            const { CodeDeliveryDetails } = await Auth.forgotPassword(emailOrUsername.toLowerCase());
+            const { CodeDeliveryDetails } = await authForgotPassword(emailOrUsername.toLowerCase());
             const { Destination } = CodeDeliveryDetails;
             const payload = { forgotPasswordEmailDesitnation: Destination, username: emailOrUsername };
             dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload });
@@ -231,7 +248,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
     ): Promise<void> => {
         try {
             dispatch({ type: UPDATE_PASSWORD_IS_LOADING });
-            await Auth.forgotPasswordSubmit(emailOrUsername, code, newPassword);
+            await forgotPasswordSubmit(emailOrUsername, code, newPassword);
             dispatch({ type: UPDATE_PASSWORD_SUCCESS, successMessage: 'Updated password' });
             dispatch({ type: NAVIGATE_TO_LOGIN });
             dispatch({ type: UPDATE_PASSWORD_IS_LOADED });
