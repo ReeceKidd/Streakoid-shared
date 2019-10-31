@@ -9,9 +9,8 @@ import { userReducer } from './reducers/userReducer';
 import { AppActions } from './actions/types';
 import { getSharedActions } from './actions/getSharedActions';
 import CognitoPayload from './cognitoPayload';
-import { combineReducers } from 'redux';
 
-const sharedReducer = combineReducers({
+const sharedReducers = {
     auth: authReducer,
     feedback: feedbackReducer,
     friends: friendReducer,
@@ -19,10 +18,11 @@ const sharedReducer = combineReducers({
     soloStreaks: soloStreakReducer,
     teamStreaks: teamStreakReducer,
     users: userReducer,
-});
+};
 
 export {
     types,
+    sharedReducers,
     authReducer,
     feedbackReducer,
     friendReducer,
@@ -30,7 +30,6 @@ export {
     soloStreakReducer,
     teamStreakReducer,
     userReducer,
-    sharedReducer,
     AppActions,
     CognitoPayload,
     getSharedActions,
