@@ -68,6 +68,10 @@ const initialState: UserReducerInitialState = {
     currentUser: {
         _id: '',
         username: '',
+        membershipInformation: {
+            isPayingMember: false,
+            pastMemberships: [],
+        },
         email: '',
         createdAt: '',
         updatedAt: '',
@@ -84,6 +88,10 @@ const initialState: UserReducerInitialState = {
     },
     selectedUser: {
         _id: '',
+        membershipInformation: {
+            isPayingMember: false,
+            pastMemberships: [],
+        },
         username: '',
         email: '',
         createdAt: '',
