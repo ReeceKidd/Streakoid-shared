@@ -17,7 +17,6 @@ import {
     VERIFY_USER_IS_LOADED,
     VERIFY_USER_FAIL,
     PASSWORD_STORE,
-    PASSWORD_CLEAR,
     RESEND_CODE_SUCCESS,
     RESEND_CODE_FAIL,
     CLEAR_RESEND_CODE_ERROR_MESSAGE,
@@ -38,6 +37,7 @@ import {
     NAVIGATE_TO_VERIFY_USER,
     NAVIGATE_TO_LOGIN,
     NAVIGATE_TO_UPDATE_PASSWORD,
+    NAVIGATE_TO_PAYMENT,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -131,39 +131,13 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
     ): Promise<void> => {
         try {
             dispatch({ type: VERIFY_USER_IS_LOADING });
-            let { username } = getState().users.currentUser;
-            const { password } = getState().auth;
+            const { username } = getState().users.currentUser;
 
             await Auth.confirmSignUp(username, verificationCode, {
                 forceAliasCreation: true,
             });
-            if (password) {
-                username = username.toLowerCase();
-                const cognitoUser = await Auth.signIn(username, password);
-                const { idToken, refreshToken, accessToken } = cognitoUser.signInUserSession;
-                const idTokenJwt = idToken.jwtToken;
-                const idTokenExpiryTime = idToken.payload.exp;
-                const refreshTokenJwt = refreshToken.token;
-                const accessTokenJwt = accessToken.jwtToken;
-                const cognitoPayload: CognitoPayload = {
-                    idToken: idTokenJwt,
-                    idTokenExpiryTime,
-                    refreshToken: refreshTokenJwt,
-                    accessToken: accessTokenJwt,
-                    username,
-                };
 
-                dispatch({ type: LOGIN_SUCCESS, payload: cognitoPayload });
-                const users = await streakoid.users.getAll({ username });
-                const user = users[0];
-
-                dispatch({ type: UPDATE_CURRENT_USER, user });
-                dispatch({ type: NAVIGATE_TO_HOME });
-
-                dispatch({ type: PASSWORD_CLEAR });
-            } else {
-                dispatch({ type: NAVIGATE_TO_LOGIN });
-            }
+            dispatch({ type: NAVIGATE_TO_PAYMENT });
             dispatch({ type: VERIFY_USER_IS_LOADED });
         } catch (err) {
             dispatch({ type: VERIFY_USER_IS_LOADED });

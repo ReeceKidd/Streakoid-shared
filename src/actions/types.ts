@@ -15,6 +15,7 @@ export const NAVIGATE_TO_SPECIFIC_SOLO_STREAK = 'NAVIGATE_TO_SPECIFIC_SOLO_STREA
 export const NAVIGATE_TO_THANK_YOU = 'NAVIGATE_TO_THANK_YOU';
 export const NAVIGATE_TO_TEAM_STREAKS = 'NAVIGATE_TO_TEAM_STREAKS';
 export const NAVIGATE_TO_SPECIFIC_TEAM_STREAK = 'NAVIGATE_TO_SPECIFIC_TEAM_STREAK';
+export const NAVIGATE_TO_PAYMENT = 'NAVIGATE_TO_PAYMENT';
 
 export interface NavigateToHomeAction {
     type: typeof NAVIGATE_TO_HOME;
@@ -54,6 +55,10 @@ export interface NavigateToSpecificTeamStreakAction {
     payload: string;
 }
 
+export interface NavigateToPaymentAction {
+    type: typeof NAVIGATE_TO_PAYMENT;
+}
+
 export type NavigationActionTypes =
     | NavigateToHomeAction
     | NavigateToVerifyUserAction
@@ -63,7 +68,8 @@ export type NavigationActionTypes =
     | NavigateToSpecificSoloStreakAction
     | NavigateToThankYouAction
     | NavigateToTeamStreakAction
-    | NavigateToSpecificTeamStreakAction;
+    | NavigateToSpecificTeamStreakAction
+    | NavigateToPaymentAction;
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
