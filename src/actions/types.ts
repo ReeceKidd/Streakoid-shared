@@ -16,6 +16,7 @@ export const NAVIGATE_TO_THANK_YOU = 'NAVIGATE_TO_THANK_YOU';
 export const NAVIGATE_TO_TEAM_STREAKS = 'NAVIGATE_TO_TEAM_STREAKS';
 export const NAVIGATE_TO_SPECIFIC_TEAM_STREAK = 'NAVIGATE_TO_SPECIFIC_TEAM_STREAK';
 export const NAVIGATE_TO_PAYMENT = 'NAVIGATE_TO_PAYMENT';
+export const NAVIGATE_TO_REGISTERED_USER_HAS_TO_PAY = 'NAVIGATE_TO_REGISTERED_USER_HAS_TO_PAY';
 
 export interface NavigateToHomeAction {
     type: typeof NAVIGATE_TO_HOME;
@@ -59,6 +60,10 @@ export interface NavigateToPaymentAction {
     type: typeof NAVIGATE_TO_PAYMENT;
 }
 
+export interface NavigateToRegisteredUserHasToPayAction {
+    type: typeof NAVIGATE_TO_REGISTERED_USER_HAS_TO_PAY;
+}
+
 export type NavigationActionTypes =
     | NavigateToHomeAction
     | NavigateToVerifyUserAction
@@ -69,7 +74,8 @@ export type NavigationActionTypes =
     | NavigateToThankYouAction
     | NavigateToTeamStreakAction
     | NavigateToSpecificTeamStreakAction
-    | NavigateToPaymentAction;
+    | NavigateToPaymentAction
+    | NavigateToRegisteredUserHasToPayAction;
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
