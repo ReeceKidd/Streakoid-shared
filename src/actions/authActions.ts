@@ -36,6 +36,8 @@ import {
     NAVIGATE_TO_LOGIN,
     NAVIGATE_TO_UPDATE_PASSWORD,
     NAVIGATE_TO_PAYMENT,
+    NAVIGATE_TO_VERIFY_USER,
+    PASSWORD_STORE,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
