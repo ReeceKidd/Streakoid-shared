@@ -78,6 +78,10 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             const users = await streakoid.users.getAll({ username: cognitoUser.username });
             const user = users[0];
 
+            if (!user) {
+                throw Error('User does not exist in database');
+            }
+
             dispatch({ type: UPDATE_CURRENT_USER, user });
             dispatch({ type: NAVIGATE_TO_HOME });
             dispatch({ type: LOGIN_IS_LOADED });
