@@ -109,6 +109,8 @@ export const FORGOT_PASSWORD_IS_LOADING = 'FORGOT_PASSWORD_IS_LOADING';
 export const FORGOT_PASSWORD_IS_LOADED = 'FORGOT_PASSWORD_IS_LOADED';
 export const UPDATE_PASSWORD_IS_LOADING = 'UPDATE_PASSWORD_IS_LOADING';
 export const UPDATE_PASSWORD_IS_LOADED = 'UPDATE_PASSWORD_IS_LOADED';
+export const PASSWORD_STORE = 'PASSWORD_STORE';
+export const PASSWORD_CLEAR = 'PASSWORD_CLEAR';
 
 export interface LoginSuccessAction {
     type: typeof LOGIN_SUCCESS;
@@ -249,6 +251,15 @@ export interface NewPasswordIsLoadedAction {
     type: typeof UPDATE_PASSWORD_IS_LOADED;
 }
 
+export interface PasswordStoreAction {
+    type: typeof PASSWORD_STORE;
+    password: string;
+}
+
+export interface PasswordClearAction {
+    type: typeof PASSWORD_CLEAR;
+}
+
 export type AuthActionTypes =
     | LoginSuccessAction
     | LoginFailAction
@@ -280,7 +291,9 @@ export type AuthActionTypes =
     | ForgotPasswordIsLoadingAction
     | ForgotPasswordIsLoadedAction
     | NewPasswordIsLoadingAction
-    | NewPasswordIsLoadedAction;
+    | NewPasswordIsLoadedAction
+    | PasswordStoreAction
+    | PasswordClearAction;
 
 export const GET_LIVE_SOLO_STREAKS = 'GET_LIVE_SOLO_STREAKS';
 export const GET_LIVE_SOLO_STREAKS_FAIL = 'GET_LIVE_SOLO_STREAKS_FAIL';

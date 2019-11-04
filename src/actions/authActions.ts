@@ -108,34 +108,11 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             dispatch({ type: REGISTER_IS_LOADING });
             const lowercaseUsername = username.toLowerCase();
             await Auth.signUp({ username: lowercaseUsername, password, attributes: { email } });
-            await streakoidRegistration.users.create({ username: lowercaseUsername, email });
-
-            const cognitoUser = await Auth.signIn(lowercaseUsername, password);
-            const { idToken, refreshToken, accessToken } = cognitoUser.signInUserSession;
-            const idTokenJwt = idToken.jwtToken;
-            const idTokenExpiryTime = idToken.payload.exp;
-            const refreshTokenJwt = refreshToken.token;
-            const accessTokenJwt = accessToken.jwtToken;
-            const cognitoPayload: CognitoPayload = {
-                idToken: idTokenJwt,
-                idTokenExpiryTime,
-                refreshToken: refreshTokenJwt,
-                accessToken: accessTokenJwt,
-                username: cognitoUser.username,
-            };
-
-            dispatch({ type: LOGIN_SUCCESS, payload: cognitoPayload });
-
-            const users = await streakoid.users.getAll({ username: cognitoUser.username });
-            const user = users[0];
-
-            if (!user) {
-                throw Error('User does not exist in database');
-            }
-
+            const user = await streakoidRegistration.users.create({ username: lowercaseUsername, email });
             dispatch({ type: UPDATE_CURRENT_USER, user });
+            dispatch({ type: PASSWORD_STORE, password });
             dispatch({ type: REGISTER_IS_LOADED });
-            dispatch({ type: NAVIGATE_TO_PAYMENT });
+            dispatch({ type: NAVIGATE_TO_VERIFY_USER });
         } catch (err) {
             dispatch({ type: REGISTER_IS_LOADED });
             if (err.response) {

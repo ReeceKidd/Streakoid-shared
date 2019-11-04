@@ -30,6 +30,8 @@ import {
     FORGOT_PASSWORD_IS_LOADED,
     UPDATE_PASSWORD_IS_LOADING,
     UPDATE_PASSWORD_IS_LOADED,
+    PASSWORD_STORE,
+    PASSWORD_CLEAR,
 } from '../actions/types';
 
 export interface AuthState {
@@ -266,6 +268,18 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
             return {
                 ...state,
                 updatePasswordIsLoading: false,
+            };
+
+        case PASSWORD_STORE:
+            return {
+                ...state,
+                password: action.password,
+            };
+
+        case PASSWORD_CLEAR:
+            return {
+                ...state,
+                password: '',
             };
 
         default:
