@@ -88,8 +88,6 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const CLEAR_REGISTRATION_ERROR_MESSAGE = 'CLEAR_REGISTRATION_ERROR_MESSAGE';
 export const VERIFY_USER_FAIL = 'VERIFY_USER_FAIL';
 export const CLEAR_VERIFY_USER_ERROR_MESSAGE = 'CLEAR_VERIFY_USER_ERROR_MESSAGE';
-export const PASSWORD_STORE = 'PASSWORD_STORE';
-export const PASSWORD_CLEAR = 'PASSWORD_CLEAR';
 export const RESEND_CODE_SUCCESS = 'RESEND_CODE_SUCCESS';
 export const RESEND_CODE_FAIL = 'RESEND_CODE_FAIL';
 export const CLEAR_RESEND_CODE_SUCCESS_MESSAGE = 'CLEAR_RESEND_CODE_SUCCESS_MESSAGE';
@@ -159,15 +157,6 @@ export interface VerifyUserFailAction {
 
 export interface ClearVerifyUserErrorMessageAction {
     type: typeof CLEAR_VERIFY_USER_ERROR_MESSAGE;
-}
-
-export interface PasswordStoreAction {
-    type: typeof PASSWORD_STORE;
-    password: string;
-}
-
-export interface PasswordClearAction {
-    type: typeof PASSWORD_CLEAR;
 }
 
 export interface ResendCodeSuccessAction {
@@ -271,8 +260,6 @@ export type AuthActionTypes =
     | ClearRegistrationErrorMessageAction
     | VerifyUserFailAction
     | ClearVerifyUserErrorMessageAction
-    | PasswordStoreAction
-    | PasswordClearAction
     | ResendCodeSuccessAction
     | ResendCodeFailAction
     | ClearResendCodeSuccessMessage

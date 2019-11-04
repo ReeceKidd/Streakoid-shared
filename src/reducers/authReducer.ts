@@ -7,8 +7,6 @@ import {
     CLEAR_LOG_IN_ERROR_MESSAGE,
     CLEAR_REGISTRATION_ERROR_MESSAGE,
     AuthActionTypes,
-    PASSWORD_STORE,
-    PASSWORD_CLEAR,
     RESEND_CODE_SUCCESS,
     RESEND_CODE_FAIL,
     CLEAR_RESEND_CODE_SUCCESS_MESSAGE,
@@ -129,18 +127,6 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
 
         case LOGOUT_SUCCESS:
             return initialState;
-
-        case PASSWORD_STORE:
-            return {
-                ...state,
-                password: action.password,
-            };
-
-        case PASSWORD_CLEAR:
-            return {
-                ...state,
-                password: '',
-            };
 
         case VERIFY_USER_FAIL:
             return {
