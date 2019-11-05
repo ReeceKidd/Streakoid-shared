@@ -85,7 +85,7 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const CLEAR_LOG_IN_ERROR_MESSAGE = 'CLEAR_LOGIN_ERROR_MESSAGE';
 export const SESSION_EXPIRED = 'SESSION_EXPIRED';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
-export const CLEAR_REGISTRATION_ERROR = 'CLEAR_REGISTRATION_ERROR';
+export const CLEAR_REGISTRATION_ERROR_MESSAGE = 'CLEAR_REGISTRATION_ERROR_MESSAGE';
 export const VERIFY_USER_FAIL = 'VERIFY_USER_FAIL';
 export const CLEAR_VERIFY_USER_ERROR_MESSAGE = 'CLEAR_VERIFY_USER_ERROR_MESSAGE';
 export const RESEND_CODE_SUCCESS = 'RESEND_CODE_SUCCESS';
@@ -145,11 +145,11 @@ export interface SessionExpiredAction {
 
 export interface RegisterFailAction {
     type: typeof REGISTER_FAIL;
-    payload: Error;
+    errorMessage: string;
 }
 
-export interface ClearRegistrationErrorAction {
-    type: typeof CLEAR_REGISTRATION_ERROR;
+export interface ClearRegistrationErrorMessageAction {
+    type: typeof CLEAR_REGISTRATION_ERROR_MESSAGE;
 }
 
 export interface VerifyUserFailAction {
@@ -268,7 +268,7 @@ export type AuthActionTypes =
     | ClearLogInErrorMessageAction
     | SessionExpiredAction
     | RegisterFailAction
-    | ClearRegistrationErrorAction
+    | ClearRegistrationErrorMessageAction
     | VerifyUserFailAction
     | ClearVerifyUserErrorMessageAction
     | ResendCodeSuccessAction

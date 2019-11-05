@@ -7,7 +7,7 @@ import {
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     CLEAR_LOG_IN_ERROR_MESSAGE,
-    CLEAR_REGISTRATION_ERROR,
+    CLEAR_REGISTRATION_ERROR_MESSAGE,
     UPDATE_CURRENT_USER,
     REGISTER_IS_LOADING,
     REGISTER_IS_LOADED,
@@ -119,15 +119,15 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
         } catch (err) {
             dispatch({ type: REGISTER_IS_LOADED });
             if (err.response) {
-                dispatch({ type: REGISTER_FAIL, payload: err });
+                dispatch({ type: REGISTER_FAIL, errorMessage: err.response.data.message });
             } else {
-                dispatch({ type: REGISTER_FAIL, payload: err });
+                dispatch({ type: REGISTER_FAIL, errorMessage: err.message });
             }
         }
     };
 
-    const clearRegisterError = (): AppActions => ({
-        type: CLEAR_REGISTRATION_ERROR,
+    const clearRegisterErrorMessage = (): AppActions => ({
+        type: CLEAR_REGISTRATION_ERROR_MESSAGE,
     });
 
     const verifyUser = (verificationCode: string) => async (
@@ -264,7 +264,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
         loginUser,
         clearLoginErrorMessage,
         registerUser,
-        clearRegisterError,
+        clearRegisterErrorMessage,
         verifyUser,
         clearVerifyUserErrorMessage,
         resendCode,

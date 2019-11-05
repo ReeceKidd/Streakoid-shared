@@ -5,7 +5,7 @@ import {
     SESSION_EXPIRED,
     REGISTER_FAIL,
     CLEAR_LOG_IN_ERROR_MESSAGE,
-    CLEAR_REGISTRATION_ERROR,
+    CLEAR_REGISTRATION_ERROR_MESSAGE,
     AuthActionTypes,
     RESEND_CODE_SUCCESS,
     RESEND_CODE_FAIL,
@@ -41,7 +41,7 @@ export interface AuthState {
     username: string;
     refreshToken: string;
     loginErrorMessage: string;
-    registerError: Error | null;
+    registerErrorMessage: string;
     idTokenExpiryTime?: number;
     password: string;
     verifyUserErrorMessage: string;
@@ -65,7 +65,7 @@ const initialState: AuthState = {
     username: '',
     refreshToken: '',
     loginErrorMessage: '',
-    registerError: null,
+    registerErrorMessage: '',
     password: '',
     verifyUserErrorMessage: '',
     resendCodeSuccessMessage: '',
@@ -110,14 +110,14 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
         case REGISTER_FAIL: {
             return {
                 ...state,
-                registerError: action.payload,
+                registerErrorMessage: action.errorMessage,
             };
         }
 
-        case CLEAR_REGISTRATION_ERROR: {
+        case CLEAR_REGISTRATION_ERROR_MESSAGE: {
             return {
                 ...state,
-                registerError: null,
+                registerErrorMessage: '',
             };
         }
 
