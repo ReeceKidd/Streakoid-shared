@@ -183,9 +183,12 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
         type: CLEAR_VERIFY_USER_ERROR_MESSAGE,
     });
 
-    const resendCode = () => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
+    const resendCode = ({ email }: { email: string }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
         try {
-            const { username, email } = getState().users.currentUser;
+            const { username } = getState().users.currentUser;
             const successMessage = `Code was resent to: ${email}`;
             await Auth.resendSignUp(username);
             dispatch({ type: RESEND_CODE_SUCCESS, successMessage });

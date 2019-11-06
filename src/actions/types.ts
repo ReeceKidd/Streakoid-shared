@@ -1,5 +1,4 @@
 import {
-    User,
     PopulatedFriendRequest,
     SoloStreak,
     TeamStreak,
@@ -950,7 +949,7 @@ export interface UpdateCurrentUserFailAction {
 
 export interface GetCurrentUserAction {
     type: typeof GET_CURRENT_USER;
-    payload: User;
+    payload: FormattedUser;
 }
 
 export interface GetCurrentUserFailAction {
@@ -1024,7 +1023,7 @@ export interface SendFriendRequestLoadedAction {
 
 export interface CreateStripeSubscriptionAction {
     type: typeof CREATE_STRIPE_SUBSCRIPTION;
-    payload: User;
+    payload: FormattedUser;
 }
 
 export interface CreateStripeSubscriptionActionFail {

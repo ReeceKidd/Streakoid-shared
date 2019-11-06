@@ -31,22 +31,22 @@ import {
     GET_FRIENDS_IS_LOADING,
     GET_FRIENDS_IS_LOADED,
 } from '../actions/types';
-import { User, SoloStreak, PopulatedTeamStreak } from '@streakoid/streakoid-sdk';
+import { SoloStreak, PopulatedTeamStreak, FormattedUser } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 
-export interface UserWithClientData extends User {
+export interface UserWithClientData extends FormattedUser {
     sendFriendRequestIsLoading: boolean;
     sendFriendRequestErrorMessage: string;
 }
 
-export interface SelectedUser extends User {
+export interface SelectedUser extends FormattedUser {
     soloStreaks: SoloStreak[];
     teamStreaks: PopulatedTeamStreak[];
 }
 
 export interface UserReducerInitialState {
     usersList: UserWithClientData[];
-    currentUser: User;
+    currentUser: FormattedUser;
     selectedUser: SelectedUser;
     getUsersIsLoading: boolean;
     getUsersErrorMessage: string;
@@ -68,11 +68,7 @@ const initialState: UserReducerInitialState = {
     currentUser: {
         _id: '',
         username: '',
-        membershipInformation: {
-            isPayingMember: false,
-            pastMemberships: [],
-        },
-        email: '',
+        isPayingMember: false,
         createdAt: '',
         updatedAt: '',
         timezone: '',
@@ -81,19 +77,12 @@ const initialState: UserReducerInitialState = {
         profileImages: {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         },
-        stripe: {
-            customer: '',
-            subscription: '',
-        },
+        endpointArn: '',
     },
     selectedUser: {
         _id: '',
-        membershipInformation: {
-            isPayingMember: false,
-            pastMemberships: [],
-        },
+        isPayingMember: false,
         username: '',
-        email: '',
         createdAt: '',
         updatedAt: '',
         timezone: '',
@@ -102,10 +91,7 @@ const initialState: UserReducerInitialState = {
         profileImages: {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         },
-        stripe: {
-            customer: '',
-            subscription: '',
-        },
+        endpointArn: '',
         soloStreaks: [],
         teamStreaks: [],
     },
