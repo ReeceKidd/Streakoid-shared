@@ -1,4 +1,11 @@
-import { User, PopulatedFriendRequest, SoloStreak, TeamStreak, ProfileImages } from '@streakoid/streakoid-sdk/lib';
+import {
+    User,
+    PopulatedFriendRequest,
+    SoloStreak,
+    TeamStreak,
+    ProfileImages,
+    FormattedUser,
+} from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates } from '../reducers/teamStreakReducer';
 import { LiveSoloStreakWithClientData, ArchivedSoloStreakWithClientData } from '../reducers/soloStreakReducer';
 import { FriendRequestStateWithClientData } from '../reducers/friendRequestReducer';
@@ -933,7 +940,7 @@ export interface GetUserIsLoadedAction {
 
 export interface UpdateCurrentUserAction {
     type: typeof UPDATE_CURRENT_USER;
-    user: User;
+    user: FormattedUser;
 }
 
 export interface UpdateCurrentUserFailAction {
