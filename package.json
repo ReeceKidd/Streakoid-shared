@@ -32,7 +32,7 @@
         "typescript": "^3.6.3"
     },
     "dependencies": {
-        "@streakoid/streakoid-sdk": "^1.0.191",
+        "@streakoid/streakoid-sdk": "^1.0.197",
         "@types/form-data": "^2.5.0",
         "@types/node-fetch": "^2.5.2",
         "@types/react": "^16.9.9",
