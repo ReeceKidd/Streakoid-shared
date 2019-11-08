@@ -44,7 +44,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getUser = (username: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getUser = ({ username }: { username: string }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_USER_IS_LOADING });
             const users = await streakoid.users.getAll({ username });
