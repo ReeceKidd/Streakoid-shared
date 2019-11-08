@@ -77,7 +77,7 @@ const initialState: UserReducerInitialState = {
         profileImages: {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         },
-        endpointArn: '',
+        pushNotificationToken: '',
     },
     selectedUser: {
         _id: '',
@@ -91,7 +91,7 @@ const initialState: UserReducerInitialState = {
         profileImages: {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         },
-        endpointArn: '',
+        pushNotificationToken: '',
         soloStreaks: [],
         teamStreaks: [],
     },
