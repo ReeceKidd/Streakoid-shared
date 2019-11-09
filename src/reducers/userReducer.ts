@@ -30,6 +30,12 @@ import {
     CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES,
     GET_FRIENDS_IS_LOADING,
     GET_FRIENDS_IS_LOADED,
+    UPDATE_CURRENT_USER_IS_LOADING,
+    UPDATE_CURRENT_USER_IS_LOADED,
+    GET_CURRENT_USER_IS_LOADING,
+    GET_CURRENT_USER_IS_LOADED,
+    GET_CURRENT_USER_FAIL,
+    UPDATE_CURRENT_USER_FAIL,
 } from '../actions/types';
 import { SoloStreak, PopulatedTeamStreak, FormattedUser, CurrentUser } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
@@ -52,6 +58,10 @@ export interface UserReducerInitialState {
     getUsersErrorMessage: string;
     getUserIsLoading: boolean;
     getUserErrorMessage: string;
+    getCurrentUserIsLoading: boolean;
+    getCurrentUserErrorMessage: string;
+    updateCurrentUserIsLoading: boolean;
+    updateCurrentUserErrorMessage: string;
     createStripeSubscriptionErrorMessage: string;
     createStripeSubscriptionIsLoading: boolean;
     sendContactUsEmailSuccessMessage: string;
@@ -110,6 +120,10 @@ const initialState: UserReducerInitialState = {
     getUsersErrorMessage: '',
     getUserIsLoading: false,
     getUserErrorMessage: '',
+    getCurrentUserIsLoading: false,
+    getCurrentUserErrorMessage: '',
+    updateCurrentUserIsLoading: false,
+    updateCurrentUserErrorMessage: '',
     createStripeSubscriptionErrorMessage: '',
     createStripeSubscriptionIsLoading: false,
     sendContactUsEmailSuccessMessage: '',
@@ -177,10 +191,48 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 currentUser: action.payload,
             };
 
+        case GET_CURRENT_USER_FAIL:
+            return {
+                ...state,
+                getCurrentUserErrorMessage: action.errorMessage,
+            };
+
+        case GET_CURRENT_USER_IS_LOADING: {
+            return {
+                ...state,
+                getCurrentUserIsLoading: true,
+            };
+        }
+
+        case GET_CURRENT_USER_IS_LOADED: {
+            return {
+                ...state,
+                getCurrentUserIsLoading: false,
+            };
+        }
+
         case UPDATE_CURRENT_USER:
             return {
                 ...state,
                 currentUser: action.user,
+            };
+
+        case UPDATE_CURRENT_USER_FAIL:
+            return {
+                ...state,
+                updateCurrentUserErrorMessage: action.errorMessage,
+            };
+
+        case UPDATE_CURRENT_USER_IS_LOADING:
+            return {
+                ...state,
+                updateCurrentUserIsLoading: true,
+            };
+
+        case UPDATE_CURRENT_USER_IS_LOADED:
+            return {
+                ...state,
+                updateCurrentUserIsLoading: false,
             };
 
         case SEND_FRIEND_REQUEST_FAIL:

@@ -18,6 +18,10 @@ import {
     GET_USER,
     GET_USER_IS_LOADED,
     GET_USER_FAIL,
+    GET_CURRENT_USER_IS_LOADING,
+    GET_CURRENT_USER_IS_LOADED,
+    UPDATE_CURRENT_USER_IS_LOADING,
+    UPDATE_CURRENT_USER_IS_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -70,8 +74,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
 
     const getCurrentUser = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
+            dispatch({ type: GET_CURRENT_USER_IS_LOADING });
             const user = await streakoid.user.getCurrentUser();
             dispatch({ type: GET_CURRENT_USER, payload: user });
+            dispatch({ type: GET_CURRENT_USER_IS_LOADED });
         } catch (err) {
             if (err.response) {
                 dispatch({ type: GET_CURRENT_USER_FAIL, errorMessage: err.response.data.message });
@@ -94,8 +100,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         pushNotificationToken?: string;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
+            dispatch({ type: UPDATE_CURRENT_USER_IS_LOADING });
             const updatedUser = await streakoid.user.updateCurrentUser({ updateData });
             dispatch({ type: UPDATE_CURRENT_USER, user: updatedUser });
+            dispatch({ type: UPDATE_CURRENT_USER_IS_LOADED });
         } catch (err) {
             if (err.response) {
                 dispatch({ type: UPDATE_CURRENT_USER_FAIL, errorMessage: err.response.data.message });

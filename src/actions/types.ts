@@ -869,8 +869,12 @@ export const GET_USER_IS_LOADING = 'GET_USER_IS_LOADING';
 export const GET_USER_IS_LOADED = 'GET_USER_IS_LOADED';
 export const UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER';
 export const UPDATE_CURRENT_USER_FAIL = 'UPDATE_CURRENT_USER_FAIL';
+export const UPDATE_CURRENT_USER_IS_LOADING = 'UPDATE_CURRENT_USER_IS_LOADING';
+export const UPDATE_CURRENT_USER_IS_LOADED = 'UPDATE_CURRENT_USER_IS_LOADED';
 export const GET_CURRENT_USER = 'GET_CURRENT_USER';
 export const GET_CURRENT_USER_FAIL = 'GET_CURRENT_USER_FAIL';
+export const GET_CURRENT_USER_IS_LOADING = 'GET_CURRENT_USER_IS_LOADING';
+export const GET_CURRENT_USER_IS_LOADED = 'GET_CURRENT_USER_IS_LOADED';
 export const GET_FRIENDS = 'GET_FRIENDS';
 export const GET_FRIENDS_FAIL = 'GET_FRIENDS_FAIL';
 export const DELETE_FRIEND = 'DELTE_FRIEND';
@@ -948,6 +952,14 @@ export interface UpdateCurrentUserFailAction {
     errorMessage: string;
 }
 
+export interface UpdateCurrentUserIsLoadingAction {
+    type: typeof UPDATE_CURRENT_USER_IS_LOADING;
+}
+
+export interface UpdateCurrentUserIsLoadedAction {
+    type: typeof UPDATE_CURRENT_USER_IS_LOADED;
+}
+
 export interface GetCurrentUserAction {
     type: typeof GET_CURRENT_USER;
     payload: CurrentUser;
@@ -956,6 +968,14 @@ export interface GetCurrentUserAction {
 export interface GetCurrentUserFailAction {
     type: typeof GET_CURRENT_USER_FAIL;
     errorMessage: string;
+}
+
+export interface GetCurrentUserIsLoadingAction {
+    type: typeof GET_CURRENT_USER_IS_LOADING;
+}
+
+export interface GetCurrentUserIsLoadedAction {
+    type: typeof GET_CURRENT_USER_IS_LOADED;
 }
 
 export interface GetFriendsAction {
@@ -1107,8 +1127,12 @@ export type UserActionTypes =
     | GetUserIsLoadedAction
     | UpdateCurrentUserAction
     | UpdateCurrentUserFailAction
+    | UpdateCurrentUserIsLoadingAction
+    | UpdateCurrentUserIsLoadedAction
     | GetCurrentUserAction
     | GetCurrentUserFailAction
+    | GetCurrentUserIsLoadingAction
+    | GetCurrentUserIsLoadedAction
     | GetFriendsAction
     | GetFriendsFailAction
     | DeleteFriendAction
