@@ -31,7 +31,7 @@ import {
     GET_FRIENDS_IS_LOADING,
     GET_FRIENDS_IS_LOADED,
 } from '../actions/types';
-import { SoloStreak, PopulatedTeamStreak, FormattedUser, User } from '@streakoid/streakoid-sdk';
+import { SoloStreak, PopulatedTeamStreak, FormattedUser, CurrentUser } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 
 export interface UserWithClientData extends FormattedUser {
@@ -46,7 +46,7 @@ export interface SelectedUser extends FormattedUser {
 
 export interface UserReducerInitialState {
     usersList: UserWithClientData[];
-    currentUser: User;
+    currentUser: CurrentUser;
     selectedUser: SelectedUser;
     getUsersIsLoading: boolean;
     getUsersErrorMessage: string;
@@ -74,13 +74,8 @@ const initialState: UserReducerInitialState = {
             pastMemberships: [],
             currentMembershipStartDate: null,
         },
-        stripe: {
-            subscription: '',
-            customer: '',
-        },
         timezone: '',
         userType: UserTypes.basic,
-        friends: [],
         profileImages: {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         },
