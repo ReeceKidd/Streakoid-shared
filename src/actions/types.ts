@@ -4,7 +4,7 @@ import {
     TeamStreak,
     ProfileImages,
     FormattedUser,
-    User,
+    CurrentUser,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates } from '../reducers/teamStreakReducer';
 import { LiveSoloStreakWithClientData, ArchivedSoloStreakWithClientData } from '../reducers/soloStreakReducer';
@@ -940,7 +940,7 @@ export interface GetUserIsLoadedAction {
 
 export interface UpdateCurrentUserAction {
     type: typeof UPDATE_CURRENT_USER;
-    user: User;
+    user: CurrentUser;
 }
 
 export interface UpdateCurrentUserFailAction {
@@ -950,7 +950,7 @@ export interface UpdateCurrentUserFailAction {
 
 export interface GetCurrentUserAction {
     type: typeof GET_CURRENT_USER;
-    payload: User;
+    payload: CurrentUser;
 }
 
 export interface GetCurrentUserFailAction {

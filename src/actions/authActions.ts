@@ -76,12 +76,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
 
             dispatch({ type: LOGIN_SUCCESS, payload: cognitoPayload });
 
-            const users = await streakoid.users.getAll({ username: cognitoUser.username });
-            const user = users[0];
-
-            if (!user) {
-                throw Error('User does not exist in database');
-            }
+            const user = await streakoid.user.getCurrentUser();
 
             dispatch({ type: UPDATE_CURRENT_USER, user });
             dispatch({ type: NAVIGATE_TO_HOME });
@@ -111,7 +106,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             dispatch({ type: REGISTER_IS_LOADING });
             const lowercaseUsername = username.toLowerCase();
             await Auth.signUp({ username: lowercaseUsername, password, attributes: { email } });
-            const user = await streakoidRegistration.users.create({ username: lowercaseUsername, email });
+            const user = await streakoidRegistration.user.create({ username: lowercaseUsername, email });
             dispatch({ type: UPDATE_CURRENT_USER, user });
             dispatch({ type: PASSWORD_STORE, password });
             dispatch({ type: REGISTER_IS_LOADED });
@@ -159,8 +154,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
                 };
 
                 dispatch({ type: LOGIN_SUCCESS, payload: cognitoPayload });
-                const users = await streakoid.users.getAll({ username });
-                const user = users[0];
+                const user = await streakoid.user.getCurrentUser();
 
                 dispatch({ type: UPDATE_CURRENT_USER, user });
                 dispatch({ type: NAVIGATE_TO_PAYMENT });

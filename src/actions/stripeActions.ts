@@ -2,7 +2,6 @@ import { Token } from 'react-stripe-checkout';
 import { Dispatch } from 'redux';
 import {
     CREATE_STRIPE_SUBSCRIPTION,
-    UPDATE_CURRENT_USER,
     CREATE_STRIPE_SUBSCRIPTION_FAIL,
     CLEAR_STRIPE_SUBSCRIPTION_ERROR_MESSAGE,
     CREATE_STRIPE_SUBSCRIPTION_LOADING,
@@ -22,7 +21,6 @@ const stripeActions = (streakoid: typeof streakoidSDK) => {
             const userId = getState().users.currentUser._id;
             const user = await streakoid.stripe.createSubscription({ token, userId });
             dispatch({ type: CREATE_STRIPE_SUBSCRIPTION, payload: user });
-            dispatch({ type: UPDATE_CURRENT_USER, user });
             dispatch({ type: NAVIGATE_TO_THANK_YOU });
             dispatch({ type: CREATE_STRIPE_SUBSCRIPTION_LOADED });
         } catch (err) {
