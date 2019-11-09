@@ -68,10 +68,9 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getCurrentUser = () => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
+    const getCurrentUser = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
-            const userId = getState().users.currentUser._id;
-            const user = await streakoid.users.getOne(userId);
+            const user = await streakoid.user.getCurrentUser();
             dispatch({ type: GET_CURRENT_USER, payload: user });
         } catch (err) {
             if (err.response) {
@@ -82,13 +81,20 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const updateCurrentUser = (timezone: string) => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
+    const updateCurrentUser = (updateData: {
+        email?: string;
+        notifications?: {
+            completeSoloStreaksReminder?: {
+                emailNotification: boolean;
+                pushNotification: boolean;
+                reminderTime: string;
+            };
+        };
+        timezone?: string;
+        pushNotificationToken?: string;
+    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
-            const userId = getState().users.currentUser._id;
-            const updatedUser = await streakoid.users.update({ userId, updateData: { timezone } });
+            const updatedUser = await streakoid.user.updateCurrentUser({ updateData });
             dispatch({ type: UPDATE_CURRENT_USER, user: updatedUser });
         } catch (err) {
             if (err.response) {
