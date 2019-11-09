@@ -85,9 +85,9 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         email?: string;
         notifications?: {
             completeSoloStreaksReminder?: {
-                emailNotification: boolean;
-                pushNotification: boolean;
-                reminderTime: string;
+                emailNotification?: boolean;
+                pushNotification?: boolean;
+                reminderTime?: string;
             };
         };
         timezone?: string;
