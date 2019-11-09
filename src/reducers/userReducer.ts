@@ -31,7 +31,7 @@ import {
     GET_FRIENDS_IS_LOADING,
     GET_FRIENDS_IS_LOADED,
 } from '../actions/types';
-import { SoloStreak, PopulatedTeamStreak, FormattedUser } from '@streakoid/streakoid-sdk';
+import { SoloStreak, PopulatedTeamStreak, FormattedUser, User } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 
 export interface UserWithClientData extends FormattedUser {
@@ -46,7 +46,7 @@ export interface SelectedUser extends FormattedUser {
 
 export interface UserReducerInitialState {
     usersList: UserWithClientData[];
-    currentUser: FormattedUser;
+    currentUser: User;
     selectedUser: SelectedUser;
     getUsersIsLoading: boolean;
     getUsersErrorMessage: string;
@@ -67,17 +67,33 @@ const initialState: UserReducerInitialState = {
     usersList: [],
     currentUser: {
         _id: '',
+        email: '',
         username: '',
-        isPayingMember: false,
-        createdAt: '',
-        updatedAt: '',
+        membershipInformation: {
+            isPayingMember: false,
+            pastMemberships: [],
+            currentMembershipStartDate: null,
+        },
+        stripe: {
+            subscription: '',
+            customer: '',
+        },
         timezone: '',
         userType: UserTypes.basic,
         friends: [],
         profileImages: {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         },
+        notifications: {
+            completeSoloStreaksReminder: {
+                pushNotification: false,
+                emailNotification: false,
+                reminderTime: '',
+            },
+        },
         pushNotificationToken: '',
+        createdAt: '',
+        updatedAt: '',
     },
     selectedUser: {
         _id: '',
