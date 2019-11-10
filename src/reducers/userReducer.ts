@@ -93,7 +93,11 @@ const initialState: UserReducerInitialState = {
             completeSoloStreaksReminder: {
                 pushNotification: false,
                 emailNotification: false,
-                reminderTime: '',
+                reminderTime: 21,
+            },
+            friendRequest: {
+                pushNotification: false,
+                emailNotification: false,
             },
         },
         pushNotificationToken: '',
