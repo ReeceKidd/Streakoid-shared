@@ -25,6 +25,7 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import Notifications from '@streakoid/streakoid-sdk/lib/models/Notifications';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -89,13 +90,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
 
     const updateCurrentUser = (updateData: {
         email?: string;
-        notifications?: {
-            completeSoloStreaksReminder?: {
-                emailNotification?: boolean;
-                pushNotification?: boolean;
-                reminderTime?: string;
-            };
-        };
+        notifications?: Notifications;
         timezone?: string;
         pushNotificationToken?: string;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
