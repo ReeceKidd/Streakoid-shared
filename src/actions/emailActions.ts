@@ -41,19 +41,14 @@ const emailActions = (streakoid: typeof streakoidSDK) => {
         type: CLEAR_SEND_CONTACT_US_EMAIL_MESSAGES,
     });
 
-    const sendCancelMembershipEmail = ({
-        name,
-        email,
-        message,
-    }: {
-        name: string;
-        email: string;
-        message: string;
-    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
+    const sendCancelMembershipEmail = ({ name, message }: { name: string; message: string }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
         try {
             dispatch({ type: SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING });
             const subject = 'Cancel membership';
-            const { _id, username } = getState().users.currentUser;
+            const { _id, username, email } = getState().users.currentUser;
             await streakoid.emails.create({ name, email, subject, message, userId: _id, username });
             dispatch({ type: SEND_CANCEL_MEMBERSHIP_EMAIL, payload: 'Message sent' });
             dispatch({ type: SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED });
