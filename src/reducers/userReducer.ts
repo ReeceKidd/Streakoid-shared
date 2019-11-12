@@ -73,7 +73,7 @@ export interface UserReducerInitialState {
     sendContactUsEmailIsLoading: boolean;
     sendCancelMembershipEmailSuccessMessage: string;
     sendCancelMembershipEmailErrorMessage: string;
-    sendCancelMemberhsipEmailIsLoading: boolean;
+    sendCancelMembershipEmailIsLoading: boolean;
     uploadProfileImageIsLoading: boolean;
     uploadProfileImageErrorMessage: string;
     uploadProfileImageSuccessMessage: string;
@@ -142,7 +142,7 @@ const initialState: UserReducerInitialState = {
     sendContactUsEmailIsLoading: false,
     sendCancelMembershipEmailSuccessMessage: '',
     sendCancelMembershipEmailErrorMessage: '',
-    sendCancelMemberhsipEmailIsLoading: false,
+    sendCancelMembershipEmailIsLoading: false,
     uploadProfileImageIsLoading: false,
     uploadProfileImageErrorMessage: '',
     uploadProfileImageSuccessMessage: '',
@@ -363,13 +363,13 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
         case SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING:
             return {
                 ...state,
-                sendCancelMemberhsipEmailIsLoading: true,
+                sendCancelMembershipEmailIsLoading: true,
             };
 
         case SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED:
             return {
                 ...state,
-                sendCancelMemberhsipEmailIsLoading: false,
+                sendCancelMembershipEmailIsLoading: false,
             };
 
         case CLEAR_SEND_CONTACT_US_EMAIL_MESSAGES:
