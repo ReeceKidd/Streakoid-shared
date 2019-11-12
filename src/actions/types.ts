@@ -898,6 +898,11 @@ export const SEND_CONTACT_US_EMAIL_FAIL = 'SEND_CONTACT_US_EMAIL_FAIL';
 export const SEND_CONTACT_US_EMAIL_LOADING = 'SEND_CONTACT_US_EMAIL_LOADING';
 export const SEND_CONTACT_US_EMAIL_LOADED = 'SEND_CONTACT_US_EMAIL_LOADED';
 export const CLEAR_SEND_CONTACT_US_EMAIL_MESSAGES = 'CLEAR_SEND_CONTACT_US_EMAIL_MESSAGES';
+export const SEND_CANCEL_MEMBERSHIP_EMAIL = 'SEND_CANCEL_MEMBERSHIP_EMAIL';
+export const SEND_CANCEL_MEMBERSHIP_EMAIL_FAIL = 'SEND_CANCEL_MEMBERSHIP_EMAIL_FAIL';
+export const SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING = 'SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING';
+export const SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED = 'SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED';
+export const CLEAR_SEND_CANCEL_MEMBERSHIP_EMAIL_MESSAGES = 'CLEAR_SEND_CANCEL_MEMBERSHIP_EMAIL_MESSAGES';
 export const UPLOAD_PROFILE_IMAGE = 'UPLOAD_PROFILE_IMAGE';
 export const UPLOAD_PROFILE_IMAGE_FAIL = 'UPLOAD_PROFILE_IMAGE_FAIL';
 export const UPLOAD_PROFILE_IMAGE_IS_LOADING = 'UPLOAD_PROFILE_IMAGE_IS_LOADING';
@@ -1086,6 +1091,28 @@ export interface ClearSendContactUsEmailMessagesAction {
     type: typeof CLEAR_SEND_CONTACT_US_EMAIL_MESSAGES;
 }
 
+export interface SendCancelMembershipEmailAction {
+    type: typeof SEND_CANCEL_MEMBERSHIP_EMAIL;
+    payload: string;
+}
+
+export interface SendCancelMembershipEmailFailAction {
+    type: typeof SEND_CANCEL_MEMBERSHIP_EMAIL_FAIL;
+    payload: string;
+}
+
+export interface SendCancelMembershipEmailLoadingAction {
+    type: typeof SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING;
+}
+
+export interface SendCancelMembershipEmailLoadedAction {
+    type: typeof SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED;
+}
+
+export interface ClearSendCancelMembershipEmailMessagesAction {
+    type: typeof CLEAR_SEND_CANCEL_MEMBERSHIP_EMAIL_MESSAGES;
+}
+
 export interface UploadProfileImageAction {
     type: typeof UPLOAD_PROFILE_IMAGE;
     payload: ProfileImages;
@@ -1161,6 +1188,11 @@ export type UserActionTypes =
     | SendContactUsEmailLoadingAction
     | SendContactUsEmailLoadedAction
     | ClearSendContactUsEmailMessagesAction
+    | SendCancelMembershipEmailAction
+    | SendCancelMembershipEmailFailAction
+    | SendCancelMembershipEmailLoadingAction
+    | SendCancelMembershipEmailLoadedAction
+    | ClearSendCancelMembershipEmailMessagesAction
     | UploadProfileImageAction
     | UploadProfileImageFailAction
     | UploadProfileIsLoadingAction

@@ -36,6 +36,10 @@ import {
     GET_CURRENT_USER_IS_LOADED,
     GET_CURRENT_USER_FAIL,
     UPDATE_CURRENT_USER_FAIL,
+    SEND_CANCEL_MEMBERSHIP_EMAIL,
+    SEND_CANCEL_MEMBERSHIP_EMAIL_FAIL,
+    SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING,
+    SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED,
 } from '../actions/types';
 import { SoloStreak, PopulatedTeamStreak, FormattedUser, CurrentUser } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
@@ -67,6 +71,9 @@ export interface UserReducerInitialState {
     sendContactUsEmailSuccessMessage: string;
     sendContactUsEmailErrorMessage: string;
     sendContactUsEmailIsLoading: boolean;
+    sendCancelMembershipEmailSuccessMessage: string;
+    sendCancelMembershipEmailErrorMessage: string;
+    sendCancelMemberhsipEmailIsLoading: boolean;
     uploadProfileImageIsLoading: boolean;
     uploadProfileImageErrorMessage: string;
     uploadProfileImageSuccessMessage: string;
@@ -133,6 +140,9 @@ const initialState: UserReducerInitialState = {
     sendContactUsEmailSuccessMessage: '',
     sendContactUsEmailErrorMessage: '',
     sendContactUsEmailIsLoading: false,
+    sendCancelMembershipEmailSuccessMessage: '',
+    sendCancelMembershipEmailErrorMessage: '',
+    sendCancelMemberhsipEmailIsLoading: false,
     uploadProfileImageIsLoading: false,
     uploadProfileImageErrorMessage: '',
     uploadProfileImageSuccessMessage: '',
@@ -319,13 +329,6 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 sendContactUsEmailErrorMessage: action.payload,
             };
 
-        case CLEAR_SEND_CONTACT_US_EMAIL_MESSAGES:
-            return {
-                ...state,
-                sendContactUsEmailSuccessMessage: '',
-                sendContactUsEmailErrorMessage: '',
-            };
-
         case SEND_CONTACT_US_EMAIL_LOADING:
             return {
                 ...state,
@@ -336,6 +339,44 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
             return {
                 ...state,
                 sendContactUsEmailIsLoading: false,
+            };
+
+        case CLEAR_SEND_CONTACT_US_EMAIL_MESSAGES:
+            return {
+                ...state,
+                sendContactUsEmailSuccessMessage: '',
+                sendContactUsEmailErrorMessage: '',
+            };
+
+        case SEND_CANCEL_MEMBERSHIP_EMAIL:
+            return {
+                ...state,
+                sendCancelMembershipEmailSuccessMessage: action.payload,
+            };
+
+        case SEND_CANCEL_MEMBERSHIP_EMAIL_FAIL:
+            return {
+                ...state,
+                sendCancelMembershipEmailErrorMessage: action.payload,
+            };
+
+        case SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING:
+            return {
+                ...state,
+                sendCancelMemberhsipEmailIsLoading: true,
+            };
+
+        case SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED:
+            return {
+                ...state,
+                sendCancelMemberhsipEmailIsLoading: false,
+            };
+
+        case CLEAR_SEND_CONTACT_US_EMAIL_MESSAGES:
+            return {
+                ...state,
+                sendContactUsEmailSuccessMessage: '',
+                sendContactUsEmailErrorMessage: '',
             };
 
         case UPLOAD_PROFILE_IMAGE:
