@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+
 import * as types from './actions/types';
 import { authReducer } from './reducers/authReducer';
 import { friendReducer } from './reducers/friendReducer';
@@ -8,7 +10,7 @@ import { userReducer } from './reducers/userReducer';
 import { AppActions } from './actions/types';
 import { getSharedActions } from './actions/getSharedActions';
 import CognitoPayload from './cognitoPayload';
-import { combineReducers } from 'redux';
+import { getCountdownString } from './helpers/countdown/getCountdownString';
 
 const sharedReducers = {
     auth: authReducer,
@@ -37,4 +39,5 @@ export {
     AppActions,
     CognitoPayload,
     getSharedActions,
+    getCountdownString,
 };
