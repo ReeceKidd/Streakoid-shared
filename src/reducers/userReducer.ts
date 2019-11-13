@@ -106,6 +106,10 @@ const initialState: UserReducerInitialState = {
                 pushNotification: false,
                 emailNotification: false,
             },
+            teamStreakUpdates: {
+                pushNotification: false,
+                emailNotification: false,
+            },
         },
         pushNotificationToken: '',
         createdAt: '',
