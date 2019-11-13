@@ -12,7 +12,7 @@ import { authActions } from './authActions';
 
 export const getSharedActions = (streakoid: typeof streakoidSDK) => {
     return {
-        authActions: authActions(streakoid),
+        authActions,
         emailActions: emailActions(streakoid),
         friendActions: friendActions(streakoid),
         friendRequestActions: friendRequestActions(streakoid),

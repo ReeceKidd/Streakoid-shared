@@ -53,7 +53,7 @@ Amplify.configure({
     },
 });
 
-const authActions = (streakoid: typeof streakoidSDK) => {
+const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: typeof streakoidSDK) => {
     const loginUser = ({ emailOrUsername, password }: { emailOrUsername: string; password: string }) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
@@ -106,7 +106,7 @@ const authActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: REGISTER_IS_LOADING });
             const lowercaseUsername = username.toLowerCase();
             await Auth.signUp({ username: lowercaseUsername, password, attributes: { email } });
-            const user = await streakoid.user.create({ username: lowercaseUsername, email });
+            const user = await streakoidRegistration.users.create({ username: lowercaseUsername, email });
             dispatch({ type: UPDATE_CURRENT_USER, user });
             dispatch({ type: PASSWORD_STORE, password });
             dispatch({ type: REGISTER_IS_LOADED });
