@@ -19,7 +19,5 @@ export const getCountdownString = (timezone: string) => {
         timeString += `${minutesDifference} minute`;
     }
 
-    timeString += ` left to finish your tasks`;
-
     return timeString;
 };
