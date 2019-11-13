@@ -34,6 +34,7 @@
     "dependencies": {
         "@streakoid/streakoid-sdk": "^1.0.219",
         "@types/form-data": "^2.5.0",
+        "@types/moment-timezone": "^0.5.12",
         "@types/node-fetch": "^2.5.2",
         "@types/react": "^16.9.9",
         "@typescript-eslint/eslint-plugin": "^2.3.2",
@@ -45,6 +46,7 @@
         "eslint-plugin-prettier": "^3.1.1",
         "form-data": "^2.5.1",
         "graphql": "^14.5.8",
+        "moment-timezone": "^0.5.27",
         "react": "^16.10.2",
         "react-stripe-checkout": "^2.6.3",
         "redux": "^4.0.4"
