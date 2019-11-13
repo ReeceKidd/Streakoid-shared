@@ -53,7 +53,7 @@ Amplify.configure({
     },
 });
 
-const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: typeof streakoidSDK) => {
+const authActions = (streakoid: typeof streakoidSDK) => {
     const loginUser = ({ emailOrUsername, password }: { emailOrUsername: string; password: string }) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
@@ -106,12 +106,13 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             dispatch({ type: REGISTER_IS_LOADING });
             const lowercaseUsername = username.toLowerCase();
             await Auth.signUp({ username: lowercaseUsername, password, attributes: { email } });
-            const user = await streakoidRegistration.user.create({ username: lowercaseUsername, email });
+            const user = await streakoid.user.create({ username: lowercaseUsername, email });
             dispatch({ type: UPDATE_CURRENT_USER, user });
             dispatch({ type: PASSWORD_STORE, password });
             dispatch({ type: REGISTER_IS_LOADED });
             dispatch({ type: NAVIGATE_TO_VERIFY_USER });
         } catch (err) {
+            console.log(err.response);
             dispatch({ type: REGISTER_IS_LOADED });
             if (err.response) {
                 dispatch({ type: REGISTER_FAIL, errorMessage: err.response.data.message });
