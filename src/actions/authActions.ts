@@ -112,7 +112,6 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             dispatch({ type: REGISTER_IS_LOADED });
             dispatch({ type: NAVIGATE_TO_VERIFY_USER });
         } catch (err) {
-            console.log(err.response);
             dispatch({ type: REGISTER_IS_LOADED });
             if (err.response) {
                 dispatch({ type: REGISTER_FAIL, errorMessage: err.response.data.message });
