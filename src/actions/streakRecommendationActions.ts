@@ -11,7 +11,7 @@ import {
     SELECT_STREAK_RECOMMENDATION_IS_LOADING,
     SELECT_STREAK_RECOMMENDATION_IS_LOADED,
 } from './types';
-import { AppActions } from '..';
+import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 
@@ -40,12 +40,22 @@ const streakRecommendationActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const selectStreakRecommendation = ({ streakRecommendationId }: { streakRecommendationId: string }) => async (
-        dispatch: Dispatch<AppActions>,
-    ): Promise<void> => {
+    const selectStreakRecommendation = ({
+        streakRecommendationId,
+        streakName,
+        streakDescription,
+        numberOfMinutes,
+    }: {
+        streakRecommendationId: string;
+        streakName: string;
+        streakDescription: string;
+        numberOfMinutes: number;
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
+            const userId = getState().users.currentUser._id;
             dispatch({ type: SELECT_STREAK_RECOMMENDATION_IS_LOADING, payload: { streakRecommendationId } });
             dispatch({ type: SELECT_STREAK_RECOMMENDATION, payload: streakRecommendationId });
+            await streakoid.soloStreaks.create({ userId, streakName, streakDescription, numberOfMinutes });
             dispatch({ type: SELECT_STREAK_RECOMMENDATION_IS_LOADED, payload: { streakRecommendationId } });
         } catch (err) {
             dispatch({ type: SELECT_STREAK_RECOMMENDATION_IS_LOADED, payload: { streakRecommendationId } });
