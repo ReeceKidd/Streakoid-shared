@@ -48,8 +48,8 @@ const streakRecommendationActions = (streakoid: typeof streakoidSDK) => {
     }: {
         streakRecommendationId: string;
         streakName: string;
-        streakDescription: string;
-        numberOfMinutes: number;
+        streakDescription?: string;
+        numberOfMinutes?: number;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             const userId = getState().users.currentUser._id;
