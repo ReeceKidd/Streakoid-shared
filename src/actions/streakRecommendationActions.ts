@@ -7,7 +7,6 @@ import {
     GET_STREAK_RECOMMENDATIONS_FAIL,
     CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE,
     SELECT_STREAK_RECOMMENDATION,
-    UNSELECT_STREAK_RECOMMENDATION,
 } from './types';
 import { AppActions } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -45,15 +44,6 @@ const streakRecommendationActions = (streakoid: typeof streakoidSDK) => {
         payload: streakRecommendationId,
     });
 
-    const unselectStreakRecommendation = ({
-        streakRecommendationId,
-    }: {
-        streakRecommendationId: string;
-    }): AppActions => ({
-        type: UNSELECT_STREAK_RECOMMENDATION,
-        payload: streakRecommendationId,
-    });
-
     const clearGetStreakRecommendationsErrorMessage = (): AppActions => ({
         type: CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE,
     });
@@ -61,7 +51,6 @@ const streakRecommendationActions = (streakoid: typeof streakoidSDK) => {
     return {
         getStreakRecommendations,
         selectStreakRecommendation,
-        unselectStreakRecommendation,
         clearGetStreakRecommendationsErrorMessage,
     };
 };

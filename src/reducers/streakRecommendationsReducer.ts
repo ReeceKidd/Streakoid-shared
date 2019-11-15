@@ -8,7 +8,6 @@ import {
     GET_STREAK_RECOMMENDATIONS_IS_LOADED,
     CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE,
     SELECT_STREAK_RECOMMENDATION,
-    UNSELECT_STREAK_RECOMMENDATION,
 } from '../actions/types';
 
 export interface StreakRecommendationReducerState {
@@ -57,15 +56,6 @@ const streakRecommendationReducer = (
                 streakRecommendations: state.streakRecommendations.map(streakRecommendation => ({
                     ...streakRecommendation,
                     hasBeenSelected: true,
-                })),
-            };
-
-        case UNSELECT_STREAK_RECOMMENDATION:
-            return {
-                ...state,
-                streakRecommendations: state.streakRecommendations.map(streakRecommendation => ({
-                    ...streakRecommendation,
-                    hasBeenSelected: false,
                 })),
             };
 
