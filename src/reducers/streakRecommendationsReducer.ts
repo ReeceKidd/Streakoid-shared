@@ -8,6 +8,9 @@ import {
     GET_STREAK_RECOMMENDATIONS_IS_LOADED,
     CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE,
     SELECT_STREAK_RECOMMENDATION,
+    SELECT_STREAK_RECOMMENDATION_FAIL,
+    SELECT_STREAK_RECOMMENDATION_IS_LOADING,
+    SELECT_STREAK_RECOMMENDATION_IS_LOADED,
 } from '../actions/types';
 
 export interface StreakRecommendationReducerState {
@@ -23,7 +26,9 @@ const initialState: StreakRecommendationReducerState = {
 };
 
 export interface StreakRecommendationWithClientData extends StreakRecommendation {
+    apiErrorMessage: string;
     hasBeenSelected: boolean;
+    isLoading: boolean;
 }
 
 const streakRecommendationReducer = (
@@ -43,6 +48,20 @@ const streakRecommendationReducer = (
                 getStreakRecommendationsErrorMessage: action.payload,
             };
 
+        case GET_STREAK_RECOMMENDATIONS_IS_LOADING: {
+            return {
+                ...state,
+                getStreakRecommendationsIsLoading: true,
+            };
+        }
+
+        case GET_STREAK_RECOMMENDATIONS_IS_LOADED: {
+            return {
+                ...state,
+                getStreakRecommendationsIsLoading: false,
+            };
+        }
+
         case CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE: {
             return {
                 ...state,
@@ -59,19 +78,47 @@ const streakRecommendationReducer = (
                 })),
             };
 
-        case GET_STREAK_RECOMMENDATIONS_IS_LOADING: {
+        case SELECT_STREAK_RECOMMENDATION_FAIL:
             return {
                 ...state,
-                getStreakRecommendationsIsLoading: true,
+                streakRecommendations: state.streakRecommendations.map(streakRecommendation => {
+                    if (streakRecommendation._id === action.payload.streakRecommendationId) {
+                        return {
+                            ...streakRecommendation,
+                            apiError: action.payload.errorMessage,
+                        };
+                    }
+                    return streakRecommendation;
+                }),
             };
-        }
 
-        case GET_STREAK_RECOMMENDATIONS_IS_LOADED: {
+        case SELECT_STREAK_RECOMMENDATION_IS_LOADING:
             return {
                 ...state,
-                getStreakRecommendationsIsLoading: false,
+                streakRecommendations: state.streakRecommendations.map(streakRecommendation => {
+                    if (streakRecommendation._id === action.payload.streakRecommendationId) {
+                        return {
+                            ...streakRecommendation,
+                            isLoading: true,
+                        };
+                    }
+                    return streakRecommendation;
+                }),
             };
-        }
+
+        case SELECT_STREAK_RECOMMENDATION_IS_LOADED:
+            return {
+                ...state,
+                streakRecommendations: state.streakRecommendations.map(streakRecommendation => {
+                    if (streakRecommendation._id === action.payload.streakRecommendationId) {
+                        return {
+                            ...streakRecommendation,
+                            isLoading: false,
+                        };
+                    }
+                    return streakRecommendation;
+                }),
+            };
 
         default:
             return state;

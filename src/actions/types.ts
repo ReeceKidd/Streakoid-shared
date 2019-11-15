@@ -645,6 +645,9 @@ export const GET_STREAK_RECOMMENDATIONS_FAIL = 'GET_STREAK_RECOMMENDATIONS_FAIL'
 export const GET_STREAK_RECOMMENDATIONS_IS_LOADING = 'GET_STREAK_RECOMMENDATIONS_IS_LOADING';
 export const GET_STREAK_RECOMMENDATIONS_IS_LOADED = 'GET_STREAK_RECOMMENDATIONS_IS_LOADED';
 export const SELECT_STREAK_RECOMMENDATION = 'SELECT_STREAK_RECOMMENDATION';
+export const SELECT_STREAK_RECOMMENDATION_FAIL = 'SELECT_STREAK_RECOMMENDATION_FAIL';
+export const SELECT_STREAK_RECOMMENDATION_IS_LOADING = 'SELECT_STREAK_RECOMMENDATION_IS_LOADING';
+export const SELECT_STREAK_RECOMMENDATION_IS_LOADED = 'SELECT_STREAK_RECOMMENDATION_IS_LOADED';
 export const CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE = 'CLEAR_STREAK_RECOMMENDATIONS_ERROR_MESSAGE';
 
 export interface GetStreakRecommendationsAction {
@@ -670,6 +673,21 @@ export interface SelectStreakRecommendationAction {
     payload: string;
 }
 
+export interface SelectStreakRecommendationFailAction {
+    type: typeof SELECT_STREAK_RECOMMENDATION_FAIL;
+    payload: { errorMessage: string; streakRecommendationId: string };
+}
+
+export interface SelectStreakRecommendationIsLoading {
+    type: typeof SELECT_STREAK_RECOMMENDATION_IS_LOADING;
+    payload: { streakRecommendationId: string };
+}
+
+export interface SelectStreakRecommendationIsLoaded {
+    type: typeof SELECT_STREAK_RECOMMENDATION_IS_LOADED;
+    payload: { streakRecommendationId: string };
+}
+
 export interface ClearGetStreakRecommendationsErrorMessageAction {
     type: typeof CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE;
 }
@@ -680,6 +698,9 @@ export type StreakRecommendationsActionTypes =
     | GetStreakRecommendationsIsLoadingAction
     | GetStreakRecommendationsIsLoadedAction
     | SelectStreakRecommendationAction
+    | SelectStreakRecommendationFailAction
+    | SelectStreakRecommendationIsLoading
+    | SelectStreakRecommendationIsLoaded
     | ClearGetStreakRecommendationsErrorMessageAction;
 
 export const GET_LIVE_TEAM_STREAKS = 'GET_LIVE_TEAM_STREAKS';

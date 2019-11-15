@@ -7,6 +7,9 @@ import {
     GET_STREAK_RECOMMENDATIONS_FAIL,
     CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE,
     SELECT_STREAK_RECOMMENDATION,
+    SELECT_STREAK_RECOMMENDATION_FAIL,
+    SELECT_STREAK_RECOMMENDATION_IS_LOADING,
+    SELECT_STREAK_RECOMMENDATION_IS_LOADED,
 } from './types';
 import { AppActions } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -20,7 +23,9 @@ const streakRecommendationActions = (streakoid: typeof streakoidSDK) => {
             const streakRecommendationsWithClientData: StreakRecommendationWithClientData[] = streakRecommendations.map(
                 streakRecommendation => ({
                     ...streakRecommendation,
+                    apiErrorMessage: '',
                     hasBeenSelected: true,
+                    isLoading: false,
                 }),
             );
             dispatch({ type: GET_STREAK_RECOMMENDATIONS, payload: streakRecommendationsWithClientData });
@@ -35,14 +40,28 @@ const streakRecommendationActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const selectStreakRecommendation = ({
-        streakRecommendationId,
-    }: {
-        streakRecommendationId: string;
-    }): AppActions => ({
-        type: SELECT_STREAK_RECOMMENDATION,
-        payload: streakRecommendationId,
-    });
+    const selectStreakRecommendation = ({ streakRecommendationId }: { streakRecommendationId: string }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: SELECT_STREAK_RECOMMENDATION_IS_LOADING, payload: { streakRecommendationId } });
+            dispatch({ type: SELECT_STREAK_RECOMMENDATION, payload: streakRecommendationId });
+            dispatch({ type: SELECT_STREAK_RECOMMENDATION_IS_LOADED, payload: { streakRecommendationId } });
+        } catch (err) {
+            dispatch({ type: SELECT_STREAK_RECOMMENDATION_IS_LOADED, payload: { streakRecommendationId } });
+            if (err.response) {
+                dispatch({
+                    type: SELECT_STREAK_RECOMMENDATION_FAIL,
+                    payload: { streakRecommendationId, errorMessage: err.response.message },
+                });
+            } else {
+                dispatch({
+                    type: SELECT_STREAK_RECOMMENDATION_FAIL,
+                    payload: { streakRecommendationId, errorMessage: err.message },
+                });
+            }
+        }
+    };
 
     const clearGetStreakRecommendationsErrorMessage = (): AppActions => ({
         type: CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE,
