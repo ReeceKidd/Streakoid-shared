@@ -644,6 +644,8 @@ export const GET_STREAK_RECOMMENDATIONS = 'GET_STREAK_RECOMMENDATIONS';
 export const GET_STREAK_RECOMMENDATIONS_FAIL = 'GET_STREAK_RECOMMENDATIONS_FAIL';
 export const GET_STREAK_RECOMMENDATIONS_IS_LOADING = 'GET_STREAK_RECOMMENDATIONS_IS_LOADING';
 export const GET_STREAK_RECOMMENDATIONS_IS_LOADED = 'GET_STREAK_RECOMMENDATIONS_IS_LOADED';
+export const SELECT_STREAK_RECOMMENDATION = 'SELECT_STREAK_RECOMMENDATION';
+export const UNSELECT_STREAK_RECOMMENDATION = 'UNSELECT_STREAK_RECOMMENDATION';
 export const CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE = 'CLEAR_STREAK_RECOMMENDATIONS_ERROR_MESSAGE';
 
 export interface GetStreakRecommendationsAction {
@@ -664,6 +666,16 @@ export interface GetStreakRecommendationsIsLoadedAction {
     type: typeof GET_STREAK_RECOMMENDATIONS_IS_LOADED;
 }
 
+export interface SelectStreakRecommendationAction {
+    type: typeof SELECT_STREAK_RECOMMENDATION;
+    payload: string;
+}
+
+export interface UnselectStreakRecommendationAction {
+    type: typeof UNSELECT_STREAK_RECOMMENDATION;
+    payload: string;
+}
+
 export interface ClearGetStreakRecommendationsErrorMessageAction {
     type: typeof CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE;
 }
@@ -673,6 +685,8 @@ export type StreakRecommendationsActionTypes =
     | GetStreakRecommendationsFailAction
     | GetStreakRecommendationsIsLoadingAction
     | GetStreakRecommendationsIsLoadedAction
+    | SelectStreakRecommendationAction
+    | UnselectStreakRecommendationAction
     | ClearGetStreakRecommendationsErrorMessageAction;
 
 export const GET_LIVE_TEAM_STREAKS = 'GET_LIVE_TEAM_STREAKS';
