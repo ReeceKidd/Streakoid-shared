@@ -5,6 +5,7 @@ import {
     ProfileImages,
     FormattedUser,
     CurrentUser,
+    StreakRecommendation,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates } from '../reducers/teamStreakReducer';
 import { LiveSoloStreakWithClientData, ArchivedSoloStreakWithClientData } from '../reducers/soloStreakReducer';
@@ -304,6 +305,8 @@ export type AuthActionTypes =
 
 export const GET_LIVE_SOLO_STREAKS = 'GET_LIVE_SOLO_STREAKS';
 export const GET_LIVE_SOLO_STREAKS_FAIL = 'GET_LIVE_SOLO_STREAKS_FAIL';
+export const GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING = 'GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING';
+export const GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED = 'GET_MULTIPLE_SOLO_STREAKS_IS_LOADED';
 export const GET_ARCHIVED_SOLO_STREAKS = 'GET_ARCHIVED_SOLO_STREAKS';
 export const GET_ARCHIVED_SOLO_STREAKS_FAIL = 'GET_ARCHIVED_SOLO_STREAKS_FAIL';
 export const GET_LIVE_SOLO_STREAK = 'GET_LIVE_SOLO_STREAK';
@@ -333,8 +336,6 @@ export const CLEAR_RESTORE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE = 'CLEAR_RESTORE_A
 export const DELETE_ARCHIVED_SOLO_STREAK = 'DELETE_ARCHIVED_SOLO_STREAK';
 export const DELETE_ARCHIVED_SOLO_STREAK_FAIL = 'DELETE_ARCHIVED_SOLO_STREAK_FAIL';
 export const CLEAR_DELETE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE = 'DELETE_ACHIVED_SOLO_STREAK_ERROR_MESSAGE';
-export const GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING = 'GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING';
-export const GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED = 'GET_MULTIPLE_SOLO_STREAKS_IS_LOADED';
 export const GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING = 'GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING';
 export const GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED = 'GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED';
 export const GET_LIVE_SOLO_STREAK_IS_LOADING = 'GET_LIVE_SOLO_STREAK_IS_LOADING';
@@ -638,6 +639,41 @@ export type SoloStreakActionTypes =
     | EditSoloStreakIsLoadedAction
     | CreateSoloStreakErrorAction
     | ClearCreateSoloStreakErrorAction;
+
+export const GET_STREAK_RECOMMENDATIONS = 'GET_STREAK_RECOMMENDATIONS';
+export const GET_STREAK_RECOMMENDATIONS_FAIL = 'GET_STREAK_RECOMMENDATIONS_FAIL';
+export const GET_STREAK_RECOMMENDATIONS_IS_LOADING = 'GET_STREAK_RECOMMENDATIONS_IS_LOADING';
+export const GET_STREAK_RECOMMENDATIONS_IS_LOADED = 'GET_STREAK_RECOMMENDATIONS_IS_LOADED';
+export const CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE = 'CLEAR_STREAK_RECOMMENDATIONS_ERROR_MESSAGE';
+
+export interface GetStreakRecommendationsAction {
+    type: typeof GET_STREAK_RECOMMENDATIONS;
+    payload: StreakRecommendation[];
+}
+
+export interface GetStreakRecommendationsFailAction {
+    type: typeof GET_STREAK_RECOMMENDATIONS_FAIL;
+    payload: string;
+}
+
+export interface GetStreakRecommendationsIsLoadingAction {
+    type: typeof GET_STREAK_RECOMMENDATIONS_IS_LOADING;
+}
+
+export interface GetStreakRecommendationsIsLoadedAction {
+    type: typeof GET_STREAK_RECOMMENDATIONS_IS_LOADED;
+}
+
+export interface ClearGetStreakRecommendationsErrorMessageAction {
+    type: typeof CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE;
+}
+
+export type StreakRecommendationsActionTypes =
+    | GetStreakRecommendationsAction
+    | GetStreakRecommendationsFailAction
+    | GetStreakRecommendationsIsLoadingAction
+    | GetStreakRecommendationsIsLoadedAction
+    | ClearGetStreakRecommendationsErrorMessageAction;
 
 export const GET_LIVE_TEAM_STREAKS = 'GET_LIVE_TEAM_STREAKS';
 export const GET_LIVE_TEAM_STREAKS_FAIL = 'GET_LIVE_TEAM_STREAKS_FAIL';
@@ -1337,6 +1373,7 @@ export type AppActions =
     | NavigationActionTypes
     | AuthActionTypes
     | SoloStreakActionTypes
+    | StreakRecommendationsActionTypes
     | TeamStreakActionTypes
     | UserActionTypes
     | FriendRequestActionTypes;
