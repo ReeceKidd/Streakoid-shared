@@ -10,7 +10,7 @@ import {
 } from '../actions/types';
 
 export interface StreakRecommendationReducerState {
-    streakRecommendations: StreakRecommendation[];
+    streakRecommendations: StreakRecommendationWithClientData[];
     getStreakRecommendationsErrorMessage: string;
     getStreakRecommendationsIsLoading: boolean;
 }
@@ -20,6 +20,10 @@ const initialState: StreakRecommendationReducerState = {
     getStreakRecommendationsErrorMessage: '',
     getStreakRecommendationsIsLoading: false,
 };
+
+export interface StreakRecommendationWithClientData extends StreakRecommendation {
+    hasBeenSelected: boolean;
+}
 
 const streakRecommendationReducer = (
     state = initialState,

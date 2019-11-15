@@ -5,7 +5,6 @@ import {
     ProfileImages,
     FormattedUser,
     CurrentUser,
-    StreakRecommendation,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates } from '../reducers/teamStreakReducer';
 import { LiveSoloStreakWithClientData, ArchivedSoloStreakWithClientData } from '../reducers/soloStreakReducer';
@@ -13,6 +12,7 @@ import { FriendRequestStateWithClientData } from '../reducers/friendRequestReduc
 import { UserWithClientData, SelectedUser } from '../reducers/userReducer';
 import { FriendStateWithClientData } from '../reducers/friendReducer';
 import CognitoPayload from '../cognitoPayload';
+import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -648,7 +648,7 @@ export const CLEAR_GET_STREAK_RECOMMENDATIONS_ERROR_MESSAGE = 'CLEAR_STREAK_RECO
 
 export interface GetStreakRecommendationsAction {
     type: typeof GET_STREAK_RECOMMENDATIONS;
-    payload: StreakRecommendation[];
+    payload: StreakRecommendationWithClientData[];
 }
 
 export interface GetStreakRecommendationsFailAction {

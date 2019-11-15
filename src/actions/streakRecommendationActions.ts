@@ -9,13 +9,20 @@ import {
 } from './types';
 import { AppActions } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 
 const streakRecommendationActions = (streakoid: typeof streakoidSDK) => {
     const getStreakRecommendations = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_STREAK_RECOMMENDATIONS_IS_LOADING });
             const streakRecommendations = await streakoid.streakRecommendations.getAll({});
-            dispatch({ type: GET_STREAK_RECOMMENDATIONS, payload: streakRecommendations });
+            const streakRecommendationsWithClientData: StreakRecommendationWithClientData[] = streakRecommendations.map(
+                streakRecommendation => ({
+                    ...streakRecommendation,
+                    hasBeenSelected: true,
+                }),
+            );
+            dispatch({ type: GET_STREAK_RECOMMENDATIONS, payload: streakRecommendationsWithClientData });
             dispatch({ type: GET_STREAK_RECOMMENDATIONS_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_STREAK_RECOMMENDATIONS_IS_LOADED });
