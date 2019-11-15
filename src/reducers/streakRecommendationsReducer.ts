@@ -21,7 +21,7 @@ const initialState: StreakRecommendationReducerState = {
     getStreakRecommendationsIsLoading: false,
 };
 
-const soloStreakReducer = (
+const streakRecommendationReducer = (
     state = initialState,
     action: StreakRecommendationsActionTypes,
 ): StreakRecommendationReducerState => {
@@ -64,4 +64,4 @@ const soloStreakReducer = (
     }
 };
 
-export { soloStreakReducer };
+export { streakRecommendationReducer };

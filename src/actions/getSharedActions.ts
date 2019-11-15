@@ -9,10 +9,12 @@ import { teamStreakActions } from './teamStreakActions';
 import { userActions } from './userActions';
 import { profilePictureActions } from './profilePictureActions';
 import { authActions } from './authActions';
+import { streakRecommendationActions } from './streakRecommendationActions';
 
 export const getSharedActions = (streakoid: typeof streakoidSDK) => {
     return {
         authActions,
+        profilePictureActions,
         emailActions: emailActions(streakoid),
         friendActions: friendActions(streakoid),
         friendRequestActions: friendRequestActions(streakoid),
@@ -21,6 +23,6 @@ export const getSharedActions = (streakoid: typeof streakoidSDK) => {
         teamMemberStreakTaskActions: teamMemberStreakTaskActions(streakoid),
         teamStreakActions: teamStreakActions(streakoid),
         userActions: userActions(streakoid),
-        profilePictureActions,
+        streakRecommendationActions: streakRecommendationActions(streakoid),
     };
 };

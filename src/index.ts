@@ -7,6 +7,7 @@ import { friendRequestReducer } from './reducers/friendRequestReducer';
 import { soloStreakReducer } from './reducers/soloStreakReducer';
 import { teamStreakReducer } from './reducers/teamStreakReducer';
 import { userReducer } from './reducers/userReducer';
+import { streakRecommendationReducer } from './reducers/streakRecommendationsReducer';
 import { AppActions } from './actions/types';
 import { getSharedActions } from './actions/getSharedActions';
 import CognitoPayload from './cognitoPayload';
@@ -19,6 +20,7 @@ const sharedReducers = {
     soloStreaks: soloStreakReducer,
     teamStreaks: teamStreakReducer,
     users: userReducer,
+    streakRecommendations: streakRecommendationReducer,
 };
 
 const sharedReducer = combineReducers({
