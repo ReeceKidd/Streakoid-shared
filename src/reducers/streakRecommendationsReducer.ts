@@ -72,10 +72,15 @@ const streakRecommendationReducer = (
         case SELECT_STREAK_RECOMMENDATION:
             return {
                 ...state,
-                streakRecommendations: state.streakRecommendations.map(streakRecommendation => ({
-                    ...streakRecommendation,
-                    hasBeenSelected: true,
-                })),
+                streakRecommendations: state.streakRecommendations.map(streakRecommendation => {
+                    if (streakRecommendation._id === action.payload) {
+                        return {
+                            ...streakRecommendation,
+                            hasBeenSelected: true,
+                        };
+                    }
+                    return streakRecommendation;
+                }),
             };
 
         case SELECT_STREAK_RECOMMENDATION_FAIL:
