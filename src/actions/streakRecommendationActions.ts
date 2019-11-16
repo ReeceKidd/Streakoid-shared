@@ -24,7 +24,7 @@ const streakRecommendationActions = (streakoid: typeof streakoidSDK) => {
                 streakRecommendation => ({
                     ...streakRecommendation,
                     apiErrorMessage: '',
-                    hasBeenSelected: true,
+                    hasBeenSelected: false,
                     isLoading: false,
                 }),
             );
