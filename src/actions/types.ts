@@ -88,7 +88,8 @@ export type NavigationActionTypes =
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
-export const REFRESH_SESSION = 'REFRESH_SESSION';
+export const REFRESH_TOKEN = 'REFRESH_TOKEN';
+export const REFRESH_TOKEN_FAIL = 'REFRESH_TOKEN_FAIL';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const CLEAR_LOG_IN_ERROR_MESSAGE = 'CLEAR_LOGIN_ERROR_MESSAGE';
 export const SESSION_EXPIRED = 'SESSION_EXPIRED';
@@ -134,9 +135,14 @@ export interface LoginSuccessAction {
     type: typeof LOGIN_SUCCESS;
 }
 
-export interface RefreshSession {
-    type: typeof REFRESH_SESSION;
+export interface RefreshTokenAction {
+    type: typeof REFRESH_TOKEN;
     payload: CognitoPayload;
+}
+
+export interface RefreshTokenFailAction {
+    type: typeof REFRESH_TOKEN_FAIL;
+    payload: string;
 }
 
 export interface LogoutSuccessAction {
@@ -271,7 +277,8 @@ export interface PasswordClearAction {
 export type AuthActionTypes =
     | LoginSuccessAction
     | LoginFailAction
-    | RefreshSession
+    | RefreshTokenAction
+    | RefreshTokenFailAction
     | LogoutSuccessAction
     | ClearLogInErrorMessageAction
     | SessionExpiredAction

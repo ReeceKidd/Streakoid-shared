@@ -39,6 +39,8 @@ import {
     NAVIGATE_TO_VERIFY_USER,
     PASSWORD_STORE,
     PASSWORD_CLEAR,
+    REFRESH_TOKEN,
+    REFRESH_TOKEN_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -92,6 +94,26 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
     };
 
     const clearLoginErrorMessage = (): AppActions => ({ type: CLEAR_LOG_IN_ERROR_MESSAGE });
+
+    const refreshToken = () => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
+        try {
+            const session = await Auth.currentSession();
+            const cognitoPayload: CognitoPayload = {
+                idToken: session.getIdToken().getJwtToken(),
+                idTokenExpiryTime: session.getIdToken().getExpiration(),
+                accessToken: session.getAccessToken().getJwtToken(),
+                refreshToken: session.getRefreshToken().getToken(),
+                username: getState().users.currentUser.username,
+            };
+            dispatch({ type: REFRESH_TOKEN, payload: cognitoPayload });
+        } catch (err) {
+            if (err.response) {
+                dispatch({ type: REFRESH_TOKEN_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: REFRESH_TOKEN_FAIL, payload: err.message });
+            }
+        }
+    };
 
     const registerUser = ({
         username,
@@ -260,6 +282,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
     return {
         loginUser,
         clearLoginErrorMessage,
+        refreshToken,
         registerUser,
         clearRegisterErrorMessage,
         verifyUser,

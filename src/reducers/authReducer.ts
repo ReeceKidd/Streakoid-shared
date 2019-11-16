@@ -32,6 +32,8 @@ import {
     UPDATE_PASSWORD_IS_LOADED,
     PASSWORD_STORE,
     PASSWORD_CLEAR,
+    REFRESH_TOKEN,
+    REFRESH_TOKEN_FAIL,
 } from '../actions/types';
 
 export interface AuthState {
@@ -44,6 +46,7 @@ export interface AuthState {
     registerErrorMessage: string;
     idTokenExpiryTime?: number;
     password: string;
+    refreshTokenErrorMessage: string;
     verifyUserErrorMessage: string;
     resendCodeSuccessMessage: string;
     resendCodeErrorMessage: string;
@@ -67,6 +70,7 @@ const initialState: AuthState = {
     loginErrorMessage: '',
     registerErrorMessage: '',
     password: '',
+    refreshTokenErrorMessage: '',
     verifyUserErrorMessage: '',
     resendCodeSuccessMessage: '',
     resendCodeErrorMessage: '',
@@ -84,14 +88,13 @@ const initialState: AuthState = {
 const authReducer = (state: AuthState = initialState, action: AuthActionTypes): AuthState => {
     switch (action.type) {
         case LOGIN_SUCCESS:
-            const { idToken, idTokenExpiryTime, accessToken, refreshToken, username } = action.payload;
             return {
                 ...state,
-                idToken,
-                idTokenExpiryTime,
-                accessToken,
-                username,
-                refreshToken,
+                idToken: action.payload.idToken,
+                idTokenExpiryTime: action.payload.idTokenExpiryTime,
+                accessToken: action.payload.accessToken,
+                username: action.payload.username,
+                refreshToken: action.payload.refreshToken,
                 isAuthenticated: true,
             };
 
@@ -106,6 +109,25 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
                 ...state,
                 loginErrorMessage: '',
             };
+
+        case REFRESH_TOKEN: {
+            return {
+                ...state,
+                idToken: action.payload.idToken,
+                idTokenExpiryTime: action.payload.idTokenExpiryTime,
+                accessToken: action.payload.accessToken,
+                username: action.payload.username,
+                refreshToken: action.payload.refreshToken,
+                isAuthenticated: true,
+            };
+        }
+
+        case REFRESH_TOKEN_FAIL: {
+            return {
+                ...state,
+                refreshTokenErrorMessage: action.payload,
+            };
+        }
 
         case REGISTER_FAIL: {
             return {
