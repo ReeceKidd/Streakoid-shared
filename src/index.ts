@@ -12,6 +12,7 @@ import { AppActions } from './actions/types';
 import { getSharedActions } from './actions/getSharedActions';
 import CognitoPayload from './cognitoPayload';
 import { getCountdownString } from './helpers/countdown/getCountdownString';
+import { getIdToken } from './helpers/auth/getIdToken';
 
 const sharedReducers = {
     auth: authReducer,
@@ -42,4 +43,5 @@ export {
     CognitoPayload,
     getSharedActions,
     getCountdownString,
+    getIdToken,
 };
