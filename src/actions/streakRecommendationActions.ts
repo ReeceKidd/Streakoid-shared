@@ -16,10 +16,10 @@ import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoi
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 
 const streakRecommendationActions = (streakoid: typeof streakoidSDK) => {
-    const getStreakRecommendations = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getRandomStreakRecommendations = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_STREAK_RECOMMENDATIONS_IS_LOADING });
-            const streakRecommendations = await streakoid.streakRecommendations.getAll({});
+            const streakRecommendations = await streakoid.streakRecommendations.getAll({ random: true, limit: 5 });
             const streakRecommendationsWithClientData: StreakRecommendationWithClientData[] = streakRecommendations.map(
                 streakRecommendation => ({
                     ...streakRecommendation,
@@ -78,7 +78,7 @@ const streakRecommendationActions = (streakoid: typeof streakoidSDK) => {
     });
 
     return {
-        getStreakRecommendations,
+        getRandomStreakRecommendations,
         selectStreakRecommendation,
         clearGetStreakRecommendationsErrorMessage,
     };
