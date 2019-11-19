@@ -10,9 +10,10 @@ Amplify.configure({
 });
 
 export const getIdToken = async () => {
-    const session = await Auth.currentSession();
-    if (session) {
+    try {
+        const session = await Auth.currentSession();
         return session.getIdToken().getJwtToken();
+    } catch (err) {
+        return null;
     }
-    return null;
 };
