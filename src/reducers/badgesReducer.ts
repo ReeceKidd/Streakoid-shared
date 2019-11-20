@@ -8,13 +8,13 @@ import {
 import { Badge } from '@streakoid/streakoid-sdk/lib';
 
 export interface BadgeReducerState {
-    badges: Badge[];
+    badgeList: Badge[];
     getAllBadgesIsLoading: boolean;
     getAllBadgesErrorMessage: string;
 }
 
 const initialState: BadgeReducerState = {
-    badges: [],
+    badgeList: [],
     getAllBadgesIsLoading: false,
     getAllBadgesErrorMessage: '',
 };
@@ -24,7 +24,7 @@ const badgeReducer = (state = initialState, action: BadgesActionTypes): BadgeRed
         case GET_BADGES:
             return {
                 ...state,
-                badges: action.payload,
+                badgeList: action.payload,
             };
 
         case GET_BADGES_FAIL:

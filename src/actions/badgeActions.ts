@@ -4,7 +4,7 @@ import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoi
 import { GET_BADGES, GET_BADGES_FAIL, GET_BADGES_IS_LOADING, GET_BADGES_IS_LOADED } from './types';
 import { AppActions } from '..';
 
-const friendActions = (streakoid: typeof streakoidSDK) => {
+const badgeActions = (streakoid: typeof streakoidSDK) => {
     const getBadges = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_BADGES_IS_LOADING });
@@ -26,4 +26,4 @@ const friendActions = (streakoid: typeof streakoidSDK) => {
     };
 };
 
-export { friendActions };
+export { badgeActions };
