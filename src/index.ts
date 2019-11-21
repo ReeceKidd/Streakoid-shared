@@ -9,6 +9,7 @@ import { teamStreakReducer } from './reducers/teamStreakReducer';
 import { userReducer } from './reducers/userReducer';
 import { streakRecommendationReducer } from './reducers/streakRecommendationsReducer';
 import { badgeReducer } from './reducers/badgesReducer';
+import { challengeReducer } from './reducers/challengesReducer';
 
 import { AppActions } from './actions/types';
 import { getSharedActions } from './actions/getSharedActions';
@@ -25,6 +26,7 @@ const sharedReducers = {
     users: userReducer,
     streakRecommendations: streakRecommendationReducer,
     badges: badgeReducer,
+    challenges: challengeReducer,
 };
 
 const sharedReducer = combineReducers({
@@ -43,6 +45,7 @@ export {
     teamStreakReducer,
     userReducer,
     badgeReducer,
+    challengeReducer,
     AppActions,
     CognitoPayload,
     getSharedActions,

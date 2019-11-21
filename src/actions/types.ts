@@ -6,6 +6,7 @@ import {
     FormattedUser,
     CurrentUser,
     Badge,
+    Challenge,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates } from '../reducers/teamStreakReducer';
 import { LiveSoloStreakWithClientData, ArchivedSoloStreakWithClientData } from '../reducers/soloStreakReducer';
@@ -1434,6 +1435,35 @@ export type BadgesActionTypes =
     | GetBadgesIsLoadingAction
     | GetBadgesIsLoadedAction;
 
+export const GET_CHALLENGES = 'GET_CHALLENGES';
+export const GET_CHALLENGES_FAIL = 'GET_CHALLENGES_FAIL';
+export const GET_CHALLENGES_IS_LOADING = 'GET_CHALLENGES_IS_LOADING';
+export const GET_CHALLENGES_IS_LOADED = 'GET_CHALLENGES_IS_LOADED';
+
+export interface GetChallengesAction {
+    type: typeof GET_CHALLENGES;
+    payload: Challenge[];
+}
+
+export interface GetChallengesFailAction {
+    type: typeof GET_CHALLENGES_FAIL;
+    payload: string;
+}
+
+export interface GetChallengesIsLoadingAction {
+    type: typeof GET_CHALLENGES_IS_LOADING;
+}
+
+export interface GetChallengesIsLoadedAction {
+    type: typeof GET_CHALLENGES_IS_LOADED;
+}
+
+export type ChallengeActionTypes =
+    | GetChallengesAction
+    | GetChallengesFailAction
+    | GetChallengesIsLoadingAction
+    | GetChallengesIsLoadedAction;
+
 export type AppActions =
     | NavigationActionTypes
     | AuthActionTypes
@@ -1442,4 +1472,5 @@ export type AppActions =
     | TeamStreakActionTypes
     | UserActionTypes
     | FriendRequestActionTypes
-    | BadgesActionTypes;
+    | BadgesActionTypes
+    | ChallengeActionTypes;
