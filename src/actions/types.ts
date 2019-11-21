@@ -1439,6 +1439,10 @@ export const GET_CHALLENGES = 'GET_CHALLENGES';
 export const GET_CHALLENGES_FAIL = 'GET_CHALLENGES_FAIL';
 export const GET_CHALLENGES_IS_LOADING = 'GET_CHALLENGES_IS_LOADING';
 export const GET_CHALLENGES_IS_LOADED = 'GET_CHALLENGES_IS_LOADED';
+export const GET_CHALLENGE = 'GET_CHALLENGE';
+export const GET_CHALLENGE_FAIL = 'GET_CHALLENGE_FAIL';
+export const GET_CHALLENGE_IS_LOADING = 'GET_CHALLENGE_IS_LOADING';
+export const GET_CHALLENGE_IS_LOADED = 'GET_CHALLENGE_IS_LOADED';
 
 export interface GetChallengesAction {
     type: typeof GET_CHALLENGES;
@@ -1458,11 +1462,33 @@ export interface GetChallengesIsLoadedAction {
     type: typeof GET_CHALLENGES_IS_LOADED;
 }
 
+export interface GetChallengeAction {
+    type: typeof GET_CHALLENGE;
+    payload: Challenge;
+}
+
+export interface GetChallengeFailAction {
+    type: typeof GET_CHALLENGE_FAIL;
+    payload: string;
+}
+
+export interface GetChallengeIsLoadingAction {
+    type: typeof GET_CHALLENGE_IS_LOADING;
+}
+
+export interface GetChallengeIsLoadedAction {
+    type: typeof GET_CHALLENGE_IS_LOADED;
+}
+
 export type ChallengeActionTypes =
     | GetChallengesAction
     | GetChallengesFailAction
     | GetChallengesIsLoadingAction
-    | GetChallengesIsLoadedAction;
+    | GetChallengesIsLoadedAction
+    | GetChallengeAction
+    | GetChallengeFailAction
+    | GetChallengeIsLoadingAction
+    | GetChallengeIsLoadedAction;
 
 export type AppActions =
     | NavigationActionTypes
