@@ -15,6 +15,7 @@ import { UserWithClientData, SelectedUser } from '../reducers/userReducer';
 import { FriendStateWithClientData } from '../reducers/friendReducer';
 import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
+import { ChallengeStreakWithClientData } from '../reducers/challengeStreakReducer';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -1490,6 +1491,119 @@ export type ChallengeActionTypes =
     | GetChallengeIsLoadingAction
     | GetChallengeIsLoadedAction;
 
+export const JOIN_CHALLENGE_STREAK = 'JOIN_CHALLENGE_STREAK';
+export const JOIN_CHALLENGE_STREAK_FAIL = 'JOIN_CHALLENGE_STREAK_FAIL';
+export const JOIN_CHALLENGE_STREAK_LOADING = 'JOIN_CHALLENGE_STREAK_LOADING';
+export const JOIN_CHALLENGE_STREAK_LOADED = 'JOIN_CHALLENGE_STREAK_LOADED';
+export const GET_CHALLENGE_STREAKS = 'GET_CHALLENGE_STREAKS';
+export const GET_CHALLENGE_STREAKS_FAIL = 'GET_CHALLENGE_STREAKS_FAIL';
+export const GET_CHALLENGE_STREAKS_LOADING = 'GET_CHALLENGE_STREAKS_LOADING';
+export const GET_CHALLENGE_STREAKS_LOADED = 'GET_CHALLENGE_STREAKS_LOADED';
+export const CREATE_COMPLETE_CHALLENGE_STREAK_TASK = 'CREATE_COMPLETE_CHALLENGE_STREAK_TASK ';
+export const CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL = 'CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL';
+export const CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING = 'CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING';
+export const CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED = 'CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED';
+export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK';
+export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL';
+export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING';
+export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED';
+
+export interface JoinChallengeStreakAction {
+    type: typeof JOIN_CHALLENGE_STREAK;
+    payload: ChallengeStreakWithClientData;
+}
+
+export interface JoinChallengeStreakFailAction {
+    type: typeof JOIN_CHALLENGE_STREAK_FAIL;
+    payload: { errorMessage: string; challengeId: string };
+}
+
+export interface JoinChallengeStreakIsLoadingAction {
+    type: typeof JOIN_CHALLENGE_STREAK_LOADING;
+    payload: string;
+}
+
+export interface JoinChallengeStreakIsLoadedAction {
+    type: typeof JOIN_CHALLENGE_STREAK_LOADED;
+    payload: string;
+}
+
+export interface GetChallengeStreaksAction {
+    type: typeof GET_CHALLENGE_STREAKS;
+    payload: ChallengeStreakWithClientData[];
+}
+
+export interface GetChallengeStreaksFailAction {
+    type: typeof GET_CHALLENGE_STREAKS_FAIL;
+    payload: string;
+}
+
+export interface GetChallengeStreaksIsLoadingAction {
+    type: typeof GET_CHALLENGE_STREAKS_LOADING;
+}
+
+export interface GetChallengeStreaksIsLoadedAction {
+    type: typeof GET_CHALLENGE_STREAKS_LOADED;
+}
+
+export interface CreateCompleteChallengeStreakTaskAction {
+    type: typeof CREATE_COMPLETE_CHALLENGE_STREAK_TASK;
+    payload: string;
+}
+
+export interface CreateCompleteChallengeStreakTaskFailAction {
+    type: typeof CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL;
+    payload: { challengeStreakId: string; errorMessage: string };
+}
+
+export interface CreateCompleteChallengeStreakTaskLoadingAction {
+    type: typeof CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING;
+    challengeStreakId: string;
+}
+
+export interface CreateCompleteChallengeStreakTaskLoadedAction {
+    type: typeof CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED;
+    challengeStreakId: string;
+}
+
+export interface CreateIncompleteChallengeStreakTaskAction {
+    type: typeof CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK;
+    payload: string;
+}
+
+export interface CreateIncompleteChallengeStreakTaskFailAction {
+    type: typeof CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL;
+    payload: { challengeStreakId: string; errorMessage: string };
+}
+
+export interface CreateIncompleteChallengeStreakTaskLoadingAction {
+    type: typeof CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING;
+    challengeStreakId: string;
+}
+
+export interface CreateIncompleteChallengeStreakTaskLoadedAction {
+    type: typeof CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED;
+    challengeStreakId: string;
+}
+
+export type ChallengeStreakActionTypes =
+    | JoinChallengeStreakAction
+    | JoinChallengeStreakFailAction
+    | JoinChallengeStreakIsLoadingAction
+    | JoinChallengeStreakIsLoadedAction
+    | GetChallengeStreaksAction
+    | GetChallengeStreaksFailAction
+    | GetChallengeStreaksIsLoadingAction
+    | GetChallengeStreaksIsLoadedAction
+    | CreateCompleteChallengeStreakTaskAction
+    | CreateCompleteChallengeStreakTaskFailAction
+    | CreateCompleteChallengeStreakTaskLoadingAction
+    | CreateCompleteChallengeStreakTaskLoadedAction
+    | CreateIncompleteChallengeStreakTaskAction
+    | CreateIncompleteChallengeStreakTaskFailAction
+    | CreateIncompleteChallengeStreakTaskLoadingAction
+    | CreateIncompleteChallengeStreakTaskLoadedAction;
+
 export type AppActions =
     | NavigationActionTypes
     | AuthActionTypes
@@ -1499,4 +1613,5 @@ export type AppActions =
     | UserActionTypes
     | FriendRequestActionTypes
     | BadgesActionTypes
-    | ChallengeActionTypes;
+    | ChallengeActionTypes
+    | ChallengeStreakActionTypes;

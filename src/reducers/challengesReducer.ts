@@ -28,6 +28,7 @@ const initialState: ChallengeReducerState = {
         description: '',
         icon: '',
         color: '',
+        badgeId: '',
         members: [],
         levels: [],
         createdAt: '',
