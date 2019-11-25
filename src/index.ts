@@ -16,6 +16,7 @@ import { getSharedActions } from './actions/getSharedActions';
 import CognitoPayload from './cognitoPayload';
 import { getCountdownString } from './helpers/countdown/getCountdownString';
 import { getIdToken } from './helpers/auth/getIdToken';
+import { challengeStreakReducer } from './reducers/challengeStreakReducer';
 
 const sharedReducers = {
     auth: authReducer,
@@ -27,6 +28,7 @@ const sharedReducers = {
     streakRecommendations: streakRecommendationReducer,
     badges: badgeReducer,
     challenges: challengeReducer,
+    challengeStreak: challengeStreakReducer,
 };
 
 const sharedReducer = combineReducers({
@@ -46,6 +48,7 @@ export {
     userReducer,
     badgeReducer,
     challengeReducer,
+    challengeStreakReducer,
     AppActions,
     CognitoPayload,
     getSharedActions,

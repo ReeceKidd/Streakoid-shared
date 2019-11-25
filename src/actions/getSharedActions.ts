@@ -12,6 +12,7 @@ import { authActions } from './authActions';
 import { streakRecommendationActions } from './streakRecommendationActions';
 import { badgeActions } from './badgeActions';
 import { challengeActions } from './challengeActions';
+import { challengeStreakActions } from './challengeStreakActions';
 
 export const getSharedActions = (streakoid: typeof streakoidSDK) => {
     return {
@@ -28,5 +29,6 @@ export const getSharedActions = (streakoid: typeof streakoidSDK) => {
         streakRecommendationActions: streakRecommendationActions(streakoid),
         badgeActions: badgeActions(streakoid),
         challengeActions: challengeActions(streakoid),
+        challengeStreakActions: challengeStreakActions(streakoid),
     };
 };
