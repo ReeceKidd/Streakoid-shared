@@ -1499,6 +1499,10 @@ export const GET_CHALLENGE_STREAKS = 'GET_CHALLENGE_STREAKS';
 export const GET_CHALLENGE_STREAKS_FAIL = 'GET_CHALLENGE_STREAKS_FAIL';
 export const GET_CHALLENGE_STREAKS_LOADING = 'GET_CHALLENGE_STREAKS_LOADING';
 export const GET_CHALLENGE_STREAKS_LOADED = 'GET_CHALLENGE_STREAKS_LOADED';
+export const GET_ONE_CHALLENGE_STREAK = 'GET_ONE_CHALLENGE_STREAK';
+export const GET_ONE_CHALLENGE_STREAK_FAIL = 'GET_ONE_CHALLENGE_STREAK_FAIL';
+export const GET_ONE_CHALLENGE_STREAK_LOADING = 'GET_ONE_CHALLENGE_STREAK_LOADING';
+export const GET_ONE_CHALLENGE_STREAK_LOADED = 'GET_ONE_CHALLENGE_STREAK_LOADED';
 export const CREATE_COMPLETE_CHALLENGE_STREAK_TASK = 'CREATE_COMPLETE_CHALLENGE_STREAK_TASK ';
 export const CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL = 'CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL';
 export const CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING = 'CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING';
@@ -1544,6 +1548,24 @@ export interface GetChallengeStreaksIsLoadingAction {
 
 export interface GetChallengeStreaksIsLoadedAction {
     type: typeof GET_CHALLENGE_STREAKS_LOADED;
+}
+
+export interface GetOneChallengeStreakAction {
+    type: typeof GET_ONE_CHALLENGE_STREAK;
+    payload: ChallengeStreakWithClientData;
+}
+
+export interface GetOneChallengeStreakFailAction {
+    type: typeof GET_ONE_CHALLENGE_STREAK_FAIL;
+    payload: string;
+}
+
+export interface GetOneChallengeStreakIsLoadingAction {
+    type: typeof GET_ONE_CHALLENGE_STREAK_LOADING;
+}
+
+export interface GetOneChallengeStreakIsLoadedAction {
+    type: typeof GET_ONE_CHALLENGE_STREAK_LOADED;
 }
 
 export interface CreateCompleteChallengeStreakTaskAction {
@@ -1595,6 +1617,10 @@ export type ChallengeStreakActionTypes =
     | GetChallengeStreaksFailAction
     | GetChallengeStreaksIsLoadingAction
     | GetChallengeStreaksIsLoadedAction
+    | GetOneChallengeStreakAction
+    | GetOneChallengeStreakFailAction
+    | GetOneChallengeStreakIsLoadingAction
+    | GetOneChallengeStreakIsLoadedAction
     | CreateCompleteChallengeStreakTaskAction
     | CreateCompleteChallengeStreakTaskFailAction
     | CreateCompleteChallengeStreakTaskLoadingAction

@@ -20,6 +20,10 @@ import {
     CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK,
     CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED,
     CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL,
+    GET_ONE_CHALLENGE_STREAK_LOADED,
+    GET_ONE_CHALLENGE_STREAK,
+    GET_ONE_CHALLENGE_STREAK_LOADING,
+    GET_ONE_CHALLENGE_STREAK_FAIL,
 } from './types';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
@@ -31,17 +35,22 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: GET_CHALLENGE_STREAKS_LOADING });
             const userId = getState().users.currentUser._id;
             const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId, status: StreakStatus.live });
-            const challengeStreaksWithLoadingStates = challengeStreaks.map(challengeStreak => {
-                return {
-                    ...challengeStreak,
-                    joinChallengeStreakTaskIsLoading: false,
-                    joinChallengeStreakTaskErrorMessage: '',
-                    completeChallengeStreakTaskIsLoading: false,
-                    completeChallengeStreakTaskErrorMessage: '',
-                    incompleteChallengeStreakTaskIsLoading: false,
-                    incompleteChallengeStreakTaskErrorMessage: '',
-                };
-            });
+            const challengeStreaksWithLoadingStates = await Promise.all(
+                challengeStreaks.map(async challengeStreak => {
+                    const challenge = await streakoid.challenges.getOne(challengeStreak.challengeId);
+                    return {
+                        ...challengeStreak,
+                        challengeName: challenge.name,
+                        challengeDescription: challenge.description,
+                        joinChallengeStreakTaskIsLoading: false,
+                        joinChallengeStreakTaskErrorMessage: '',
+                        completeChallengeStreakTaskIsLoading: false,
+                        completeChallengeStreakTaskErrorMessage: '',
+                        incompleteChallengeStreakTaskIsLoading: false,
+                        incompleteChallengeStreakTaskErrorMessage: '',
+                    };
+                }),
+            );
             dispatch({ type: GET_CHALLENGE_STREAKS, payload: challengeStreaksWithLoadingStates });
             dispatch({ type: GET_CHALLENGE_STREAKS_LOADED });
         } catch (err) {
@@ -50,6 +59,36 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 dispatch({ type: GET_CHALLENGE_STREAKS_FAIL, payload: err.response.data.message });
             } else {
                 dispatch({ type: GET_CHALLENGE_STREAKS_FAIL, payload: err.message });
+            }
+        }
+    };
+
+    const getOneChallengeStreak = (challengeStreakId: string) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: GET_ONE_CHALLENGE_STREAK_LOADING });
+            const challengeStreak = await streakoid.challengeStreaks.getOne(challengeStreakId);
+            const challenge = await streakoid.challenges.getOne(challengeStreak.challengeId);
+            const challengeStreakWithLoadingStates = {
+                ...challengeStreak,
+                challengeName: challenge.name,
+                challengeDescription: challenge.description,
+                joinChallengeStreakTaskIsLoading: false,
+                joinChallengeStreakTaskErrorMessage: '',
+                completeChallengeStreakTaskIsLoading: false,
+                completeChallengeStreakTaskErrorMessage: '',
+                incompleteChallengeStreakTaskIsLoading: false,
+                incompleteChallengeStreakTaskErrorMessage: '',
+            };
+            dispatch({ type: GET_ONE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingStates });
+            dispatch({ type: GET_ONE_CHALLENGE_STREAK_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_ONE_CHALLENGE_STREAK_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_ONE_CHALLENGE_STREAK_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: GET_ONE_CHALLENGE_STREAK_FAIL, payload: err.message });
             }
         }
     };
@@ -65,8 +104,11 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 userId,
                 challengeId,
             });
+            const challenge = await streakoid.challenges.getOne(challengeStreak._id);
             const challengeStreakWithLoadingState = {
                 ...challengeStreak,
+                challengeName: challenge.name,
+                challengeDescription: challenge.description,
                 joinChallengeStreakTaskIsLoading: false,
                 joinChallengeStreakTaskErrorMessage: '',
                 completeChallengeStreakTaskIsLoading: false,
@@ -149,6 +191,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
 
     return {
         getChallengeStreaks,
+        getOneChallengeStreak,
         joinChallengeStreak,
         completeChallengeStreakTask,
         incompleteChallengeStreakTask,

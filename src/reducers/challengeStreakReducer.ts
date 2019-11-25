@@ -1,4 +1,4 @@
-import { ChallengeStreak } from '@streakoid/streakoid-sdk/lib';
+import { ChallengeStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
 import {
     CREATE_COMPLETE_CHALLENGE_STREAK_TASK,
@@ -15,19 +15,52 @@ import {
     GET_CHALLENGE_STREAKS,
     JOIN_CHALLENGE_STREAK,
     JOIN_CHALLENGE_STREAK_FAIL,
+    GET_ONE_CHALLENGE_STREAK,
+    GET_CHALLENGE_STREAKS_LOADING,
+    GET_CHALLENGE_STREAKS_LOADED,
+    GET_CHALLENGE_STREAKS_FAIL,
 } from '../actions/types';
 
 export interface ChallengeStreakReducerState {
     challengeStreaks: ChallengeStreakWithClientData[];
+    selectedChallengeStreak: ChallengeStreakWithClientData;
     getChallengeStreaksIsLoading: boolean;
+    getChallengeStreaksErrorMessage: string;
 }
 
 const initialState: ChallengeStreakReducerState = {
     challengeStreaks: [],
+    selectedChallengeStreak: {
+        _id: '',
+        challengeId: '',
+        userId: '',
+        status: StreakStatus.archived,
+        completedToday: false,
+        active: false,
+        currentStreak: {
+            numberOfDaysInARow: 0,
+            startDate: new Date().toString(),
+        },
+        pastStreaks: [],
+        timezone: '',
+        updatedAt: '',
+        createdAt: '',
+        challengeName: '',
+        challengeDescription: '',
+        joinChallengeStreakTaskIsLoading: false,
+        joinChallengeStreakTaskErrorMessage: '',
+        completeChallengeStreakTaskIsLoading: false,
+        completeChallengeStreakTaskErrorMessage: '',
+        incompleteChallengeStreakTaskIsLoading: false,
+        incompleteChallengeStreakTaskErrorMessage: '',
+    },
     getChallengeStreaksIsLoading: false,
+    getChallengeStreaksErrorMessage: '',
 };
 
 export interface ChallengeStreakWithClientData extends ChallengeStreak {
+    challengeName: string;
+    challengeDescription: string;
     joinChallengeStreakTaskIsLoading: boolean;
     joinChallengeStreakTaskErrorMessage: string;
     completeChallengeStreakTaskIsLoading: boolean;
@@ -45,6 +78,30 @@ const challengeStreakReducer = (
             return {
                 ...state,
                 challengeStreaks: action.payload,
+            };
+
+        case GET_CHALLENGE_STREAKS_LOADING:
+            return {
+                ...state,
+                getChallengeStreaksIsLoading: true,
+            };
+
+        case GET_CHALLENGE_STREAKS_LOADED:
+            return {
+                ...state,
+                getChallengeStreaksIsLoading: false,
+            };
+
+        case GET_CHALLENGE_STREAKS_FAIL:
+            return {
+                ...state,
+                getChallengeStreaksErrorMessage: action.payload,
+            };
+
+        case GET_ONE_CHALLENGE_STREAK:
+            return {
+                ...state,
+                selectedChallengeStreak: action.payload,
             };
 
         case JOIN_CHALLENGE_STREAK:
