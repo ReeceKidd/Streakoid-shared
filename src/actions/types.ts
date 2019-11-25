@@ -1444,6 +1444,10 @@ export const GET_CHALLENGE = 'GET_CHALLENGE';
 export const GET_CHALLENGE_FAIL = 'GET_CHALLENGE_FAIL';
 export const GET_CHALLENGE_IS_LOADING = 'GET_CHALLENGE_IS_LOADING';
 export const GET_CHALLENGE_IS_LOADED = 'GET_CHALLENGE_IS_LOADED';
+export const JOIN_CHALLENGE_STREAK = 'JOIN_CHALLENGE_STREAK';
+export const JOIN_CHALLENGE_STREAK_FAIL = 'JOIN_CHALLENGE_STREAK_FAIL';
+export const JOIN_CHALLENGE_STREAK_LOADING = 'JOIN_CHALLENGE_STREAK_LOADING';
+export const JOIN_CHALLENGE_STREAK_LOADED = 'JOIN_CHALLENGE_STREAK_LOADED';
 
 export interface GetChallengesAction {
     type: typeof GET_CHALLENGES;
@@ -1481,6 +1485,24 @@ export interface GetChallengeIsLoadedAction {
     type: typeof GET_CHALLENGE_IS_LOADED;
 }
 
+export interface JoinChallengeStreakAction {
+    type: typeof JOIN_CHALLENGE_STREAK;
+    payload: ChallengeStreakWithClientData;
+}
+
+export interface JoinChallengeStreakFailAction {
+    type: typeof JOIN_CHALLENGE_STREAK_FAIL;
+    payload: string;
+}
+
+export interface JoinChallengeStreakIsLoadingAction {
+    type: typeof JOIN_CHALLENGE_STREAK_LOADING;
+}
+
+export interface JoinChallengeStreakIsLoadedAction {
+    type: typeof JOIN_CHALLENGE_STREAK_LOADED;
+}
+
 export type ChallengeActionTypes =
     | GetChallengesAction
     | GetChallengesFailAction
@@ -1489,12 +1511,12 @@ export type ChallengeActionTypes =
     | GetChallengeAction
     | GetChallengeFailAction
     | GetChallengeIsLoadingAction
-    | GetChallengeIsLoadedAction;
+    | GetChallengeIsLoadedAction
+    | JoinChallengeStreakAction
+    | JoinChallengeStreakFailAction
+    | JoinChallengeStreakIsLoadingAction
+    | JoinChallengeStreakIsLoadedAction;
 
-export const JOIN_CHALLENGE_STREAK = 'JOIN_CHALLENGE_STREAK';
-export const JOIN_CHALLENGE_STREAK_FAIL = 'JOIN_CHALLENGE_STREAK_FAIL';
-export const JOIN_CHALLENGE_STREAK_LOADING = 'JOIN_CHALLENGE_STREAK_LOADING';
-export const JOIN_CHALLENGE_STREAK_LOADED = 'JOIN_CHALLENGE_STREAK_LOADED';
 export const GET_CHALLENGE_STREAKS = 'GET_CHALLENGE_STREAKS';
 export const GET_CHALLENGE_STREAKS_FAIL = 'GET_CHALLENGE_STREAKS_FAIL';
 export const GET_CHALLENGE_STREAKS_LOADING = 'GET_CHALLENGE_STREAKS_LOADING';
@@ -1511,26 +1533,6 @@ export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK = 'CREATE_INCOMPLETE_CHALLE
 export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL';
 export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING';
 export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED';
-
-export interface JoinChallengeStreakAction {
-    type: typeof JOIN_CHALLENGE_STREAK;
-    payload: ChallengeStreakWithClientData;
-}
-
-export interface JoinChallengeStreakFailAction {
-    type: typeof JOIN_CHALLENGE_STREAK_FAIL;
-    payload: { errorMessage: string; challengeId: string };
-}
-
-export interface JoinChallengeStreakIsLoadingAction {
-    type: typeof JOIN_CHALLENGE_STREAK_LOADING;
-    payload: string;
-}
-
-export interface JoinChallengeStreakIsLoadedAction {
-    type: typeof JOIN_CHALLENGE_STREAK_LOADED;
-    payload: string;
-}
 
 export interface GetChallengeStreaksAction {
     type: typeof GET_CHALLENGE_STREAKS;
@@ -1609,10 +1611,6 @@ export interface CreateIncompleteChallengeStreakTaskLoadedAction {
 }
 
 export type ChallengeStreakActionTypes =
-    | JoinChallengeStreakAction
-    | JoinChallengeStreakFailAction
-    | JoinChallengeStreakIsLoadingAction
-    | JoinChallengeStreakIsLoadedAction
     | GetChallengeStreaksAction
     | GetChallengeStreaksFailAction
     | GetChallengeStreaksIsLoadingAction

@@ -8,10 +8,6 @@ import {
     GET_CHALLENGE_STREAKS_LOADED,
     GET_CHALLENGE_STREAKS,
     GET_CHALLENGE_STREAKS_FAIL,
-    JOIN_CHALLENGE_STREAK,
-    JOIN_CHALLENGE_STREAK_LOADING,
-    JOIN_CHALLENGE_STREAK_LOADED,
-    JOIN_CHALLENGE_STREAK_FAIL,
     CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING,
     CREATE_COMPLETE_CHALLENGE_STREAK_TASK,
     CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED,
@@ -93,41 +89,6 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const joinChallengeStreak = ({ challengeId }: { challengeId: string }) => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
-        try {
-            dispatch({ type: JOIN_CHALLENGE_STREAK_LOADING, payload: challengeId });
-            const userId = getState().users.currentUser._id;
-            const challengeStreak = await streakoid.challengeStreaks.create({
-                userId,
-                challengeId,
-            });
-            const challenge = await streakoid.challenges.getOne(challengeStreak._id);
-            const challengeStreakWithLoadingState = {
-                ...challengeStreak,
-                challengeName: challenge.name,
-                challengeDescription: challenge.description,
-                joinChallengeStreakTaskIsLoading: false,
-                joinChallengeStreakTaskErrorMessage: '',
-                completeChallengeStreakTaskIsLoading: false,
-                completeChallengeStreakTaskErrorMessage: '',
-                incompleteChallengeStreakTaskIsLoading: false,
-                incompleteChallengeStreakTaskErrorMessage: '',
-            };
-            dispatch({ type: JOIN_CHALLENGE_STREAK_LOADED, payload: challengeId });
-            dispatch({ type: JOIN_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
-        } catch (err) {
-            dispatch({ type: JOIN_CHALLENGE_STREAK_LOADED, payload: challengeId });
-            if (err.response) {
-                dispatch({ type: JOIN_CHALLENGE_STREAK_FAIL, payload: err.response.data.message });
-            } else {
-                dispatch({ type: JOIN_CHALLENGE_STREAK_FAIL, payload: err.message });
-            }
-        }
-    };
-
     const completeChallengeStreakTask = (challengeStreakId: string) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
@@ -192,7 +153,6 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     return {
         getChallengeStreaks,
         getOneChallengeStreak,
-        joinChallengeStreak,
         completeChallengeStreakTask,
         incompleteChallengeStreakTask,
     };
