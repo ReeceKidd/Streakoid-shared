@@ -10,10 +10,11 @@ import {
     GET_CHALLENGE,
     GET_CHALLENGE_IS_LOADED,
     GET_CHALLENGE_FAIL,
-    JOIN_CHALLENGE_STREAK_LOADING,
-    JOIN_CHALLENGE_STREAK_LOADED,
-    JOIN_CHALLENGE_STREAK,
-    JOIN_CHALLENGE_STREAK_FAIL,
+    JOIN_CHALLENGE_LOADING,
+    JOIN_CHALLENGE_LOADED,
+    JOIN_CHALLENGE,
+    JOIN_CHALLENGE_FAIL,
+    CREATE_CHALLENGE_STREAK,
 } from './types';
 import { AppActions, AppState } from '..';
 
@@ -55,7 +56,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: JOIN_CHALLENGE_STREAK_LOADING });
+            dispatch({ type: JOIN_CHALLENGE_LOADING });
             const userId = getState().users.currentUser._id;
             const challengeStreak = await streakoid.challengeStreaks.create({
                 userId,
@@ -73,14 +74,15 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 incompleteChallengeStreakTaskIsLoading: false,
                 incompleteChallengeStreakTaskErrorMessage: '',
             };
-            dispatch({ type: JOIN_CHALLENGE_STREAK_LOADED });
-            dispatch({ type: JOIN_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
+            dispatch({ type: CREATE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
+            dispatch({ type: JOIN_CHALLENGE_LOADED });
+            dispatch({ type: JOIN_CHALLENGE, payload: challengeStreakWithLoadingState });
         } catch (err) {
-            dispatch({ type: JOIN_CHALLENGE_STREAK_LOADED });
+            dispatch({ type: JOIN_CHALLENGE_LOADED });
             if (err.response) {
-                dispatch({ type: JOIN_CHALLENGE_STREAK_FAIL, payload: err.response.data.message });
+                dispatch({ type: JOIN_CHALLENGE_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: JOIN_CHALLENGE_STREAK_FAIL, payload: err.message });
+                dispatch({ type: JOIN_CHALLENGE_FAIL, payload: err.message });
             }
         }
     };

@@ -10,15 +10,13 @@ import {
     CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL,
     CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING,
     CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED,
-    JOIN_CHALLENGE_STREAK_LOADING,
-    JOIN_CHALLENGE_STREAK_LOADED,
     GET_CHALLENGE_STREAKS,
-    JOIN_CHALLENGE_STREAK,
-    JOIN_CHALLENGE_STREAK_FAIL,
     GET_ONE_CHALLENGE_STREAK,
     GET_CHALLENGE_STREAKS_LOADING,
     GET_CHALLENGE_STREAKS_LOADED,
     GET_CHALLENGE_STREAKS_FAIL,
+    CREATE_CHALLENGE_STREAK,
+    CREATE_CHALLENGE_STREAK_FAIL,
 } from '../actions/types';
 
 export interface ChallengeStreakReducerState {
@@ -26,6 +24,7 @@ export interface ChallengeStreakReducerState {
     selectedChallengeStreak: ChallengeStreakWithClientData;
     getChallengeStreaksIsLoading: boolean;
     getChallengeStreaksErrorMessage: string;
+    createChallengeStreakErrorMessge: string;
 }
 
 const initialState: ChallengeStreakReducerState = {
@@ -47,8 +46,6 @@ const initialState: ChallengeStreakReducerState = {
         createdAt: '',
         challengeName: '',
         challengeDescription: '',
-        joinChallengeStreakTaskIsLoading: false,
-        joinChallengeStreakTaskErrorMessage: '',
         completeChallengeStreakTaskIsLoading: false,
         completeChallengeStreakTaskErrorMessage: '',
         incompleteChallengeStreakTaskIsLoading: false,
@@ -56,13 +53,12 @@ const initialState: ChallengeStreakReducerState = {
     },
     getChallengeStreaksIsLoading: false,
     getChallengeStreaksErrorMessage: '',
+    createChallengeStreakErrorMessge: '',
 };
 
 export interface ChallengeStreakWithClientData extends ChallengeStreak {
     challengeName: string;
     challengeDescription: string;
-    joinChallengeStreakTaskIsLoading: boolean;
-    joinChallengeStreakTaskErrorMessage: string;
     completeChallengeStreakTaskIsLoading: boolean;
     completeChallengeStreakTaskErrorMessage: string;
     incompleteChallengeStreakTaskIsLoading: boolean;
@@ -104,11 +100,18 @@ const challengeStreakReducer = (
                 selectedChallengeStreak: action.payload,
             };
 
-        case JOIN_CHALLENGE_STREAK:
+        case CREATE_CHALLENGE_STREAK:
             return {
                 ...state,
                 challengeStreaks: [...state.challengeStreaks, action.payload],
             };
+
+        case CREATE_CHALLENGE_STREAK_FAIL: {
+            return {
+                ...state,
+                createChallengeStreakErrorMessge: '',
+            };
+        }
 
         case CREATE_COMPLETE_CHALLENGE_STREAK_TASK:
             return {
@@ -227,51 +230,6 @@ const challengeStreakReducer = (
                         const challengeStreakWithClientData: ChallengeStreakWithClientData = {
                             ...challengeStreak,
                             incompleteChallengeStreakTaskIsLoading: false,
-                        };
-                        return challengeStreakWithClientData;
-                    }
-                    return challengeStreak;
-                }),
-            };
-
-        case JOIN_CHALLENGE_STREAK_LOADING:
-            return {
-                ...state,
-                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
-                    if (challengeStreak._id === action.payload) {
-                        const challengeStreakWithClientData: ChallengeStreakWithClientData = {
-                            ...challengeStreak,
-                            joinChallengeStreakTaskIsLoading: true,
-                        };
-                        return challengeStreakWithClientData;
-                    }
-                    return challengeStreak;
-                }),
-            };
-
-        case JOIN_CHALLENGE_STREAK_LOADED:
-            return {
-                ...state,
-                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
-                    if (challengeStreak._id === action.payload) {
-                        const challengeStreakWithClientData: ChallengeStreakWithClientData = {
-                            ...challengeStreak,
-                            joinChallengeStreakTaskIsLoading: false,
-                        };
-                        return challengeStreakWithClientData;
-                    }
-                    return challengeStreak;
-                }),
-            };
-
-        case JOIN_CHALLENGE_STREAK_FAIL:
-            return {
-                ...state,
-                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
-                    if (challengeStreak.challengeId === action.payload.challengeId) {
-                        const challengeStreakWithClientData: ChallengeStreakWithClientData = {
-                            ...challengeStreak,
-                            joinChallengeStreakTaskErrorMessage: action.payload.errorMessage,
                         };
                         return challengeStreakWithClientData;
                     }

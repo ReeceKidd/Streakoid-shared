@@ -6,6 +6,9 @@ import {
     ChallengeActionTypes,
     GET_CHALLENGE,
     GET_CHALLENGE_FAIL,
+    JOIN_CHALLENGE_LOADING,
+    JOIN_CHALLENGE_LOADED,
+    JOIN_CHALLENGE_FAIL,
 } from '../actions/types';
 import { Challenge } from '@streakoid/streakoid-sdk/lib';
 
@@ -16,6 +19,8 @@ export interface ChallengeReducerState {
     selectedChallenge: Challenge;
     getSelectedChallengeIsLoading: boolean;
     getSelectedChallengesErrorMessage: string;
+    joinChallengeIsLoading: boolean;
+    joinChallengeErrorMessage: string;
 }
 
 const initialState: ChallengeReducerState = {
@@ -36,6 +41,8 @@ const initialState: ChallengeReducerState = {
     },
     getSelectedChallengeIsLoading: false,
     getSelectedChallengesErrorMessage: '',
+    joinChallengeIsLoading: false,
+    joinChallengeErrorMessage: '',
 };
 
 const challengeReducer = (state = initialState, action: ChallengeActionTypes): ChallengeReducerState => {
@@ -89,6 +96,24 @@ const challengeReducer = (state = initialState, action: ChallengeActionTypes): C
                 getSelectedChallengeIsLoading: false,
             };
         }
+
+        case JOIN_CHALLENGE_LOADING:
+            return {
+                ...state,
+                joinChallengeIsLoading: true,
+            };
+
+        case JOIN_CHALLENGE_LOADED:
+            return {
+                ...state,
+                joinChallengeIsLoading: false,
+            };
+
+        case JOIN_CHALLENGE_FAIL:
+            return {
+                ...state,
+                joinChallengeErrorMessage: action.payload,
+            };
 
         default:
             return state;
