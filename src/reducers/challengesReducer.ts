@@ -9,6 +9,8 @@ import {
     JOIN_CHALLENGE_LOADING,
     JOIN_CHALLENGE_LOADED,
     JOIN_CHALLENGE_FAIL,
+    GET_CHALLENGE_IS_LOADING,
+    GET_CHALLENGE_IS_LOADED,
 } from '../actions/types';
 import { Challenge } from '@streakoid/streakoid-sdk/lib';
 
@@ -83,14 +85,14 @@ const challengeReducer = (state = initialState, action: ChallengeActionTypes): C
                 getChallengesErrorMessage: action.payload,
             };
 
-        case GET_CHALLENGES_IS_LOADING: {
+        case GET_CHALLENGE_IS_LOADING: {
             return {
                 ...state,
                 getChallengeIsLoading: true,
             };
         }
 
-        case GET_CHALLENGES_IS_LOADING: {
+        case GET_CHALLENGE_IS_LOADED: {
             return {
                 ...state,
                 getChallengeIsLoading: false,
