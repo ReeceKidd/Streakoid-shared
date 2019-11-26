@@ -17,8 +17,8 @@ export interface ChallengeReducerState {
     getAllChallengesIsLoading: boolean;
     getAllChallengesErrorMessage: string;
     selectedChallenge: Challenge;
-    getSelectedChallengeIsLoading: boolean;
-    getSelectedChallengesErrorMessage: string;
+    getChallengeIsLoading: boolean;
+    getChallengesErrorMessage: string;
     joinChallengeIsLoading: boolean;
     joinChallengeErrorMessage: string;
 }
@@ -39,8 +39,8 @@ const initialState: ChallengeReducerState = {
         createdAt: '',
         updatedAt: '',
     },
-    getSelectedChallengeIsLoading: false,
-    getSelectedChallengesErrorMessage: '',
+    getChallengeIsLoading: false,
+    getChallengesErrorMessage: '',
     joinChallengeIsLoading: false,
     joinChallengeErrorMessage: '',
 };
@@ -80,20 +80,20 @@ const challengeReducer = (state = initialState, action: ChallengeActionTypes): C
         case GET_CHALLENGE_FAIL:
             return {
                 ...state,
-                getSelectedChallengesErrorMessage: action.payload,
+                getChallengesErrorMessage: action.payload,
             };
 
         case GET_CHALLENGES_IS_LOADING: {
             return {
                 ...state,
-                getSelectedChallengeIsLoading: true,
+                getChallengeIsLoading: true,
             };
         }
 
         case GET_CHALLENGES_IS_LOADING: {
             return {
                 ...state,
-                getSelectedChallengeIsLoading: false,
+                getChallengeIsLoading: false,
             };
         }
 
