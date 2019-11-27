@@ -96,6 +96,7 @@ const initialState: UserReducerInitialState = {
         profileImages: {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         },
+        badges: [],
         notifications: {
             completeStreaksReminder: {
                 pushNotification: false,
@@ -124,6 +125,7 @@ const initialState: UserReducerInitialState = {
         timezone: '',
         userType: UserTypes.basic,
         friends: [],
+        badges: [],
         profileImages: {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         },
