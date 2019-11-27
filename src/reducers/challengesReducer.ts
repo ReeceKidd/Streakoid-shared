@@ -12,13 +12,13 @@ import {
     GET_CHALLENGE_IS_LOADING,
     GET_CHALLENGE_IS_LOADED,
 } from '../actions/types';
-import { Challenge } from '@streakoid/streakoid-sdk/lib';
+import { Challenge, PopulatedChallenge } from '@streakoid/streakoid-sdk/lib';
 
 export interface ChallengeReducerState {
     challengeList: Challenge[];
     getAllChallengesIsLoading: boolean;
     getAllChallengesErrorMessage: string;
-    selectedChallenge: Challenge;
+    selectedChallenge: PopulatedChallenge;
     getChallengeIsLoading: boolean;
     getChallengesErrorMessage: string;
     joinChallengeIsLoading: boolean;

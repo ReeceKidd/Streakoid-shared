@@ -17,6 +17,7 @@ import {
     CREATE_CHALLENGE_STREAK,
 } from './types';
 import { AppActions, AppState } from '..';
+import { ChallengeMember, PopulatedChallenge } from '@streakoid/streakoid-sdk/lib';
 
 const challengeActions = (streakoid: typeof streakoidSDK) => {
     const getChallenges = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -39,7 +40,22 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: GET_CHALLENGE_IS_LOADING });
             const challenge = await streakoid.challenges.getOne(challengeId);
-            dispatch({ type: GET_CHALLENGE, payload: challenge });
+            const challengeMembers = await Promise.all(
+                challenge.members.map(async member => {
+                    const user = await streakoid.users.getOne(member.userId);
+                    const challengeMember: ChallengeMember = {
+                        username: user.username,
+                        userId: user._id,
+                        profileImage: user.profileImages.originalImageUrl,
+                    };
+                    return challengeMember;
+                }),
+            );
+            const populatedChallenge: PopulatedChallenge = {
+                ...challenge,
+                members: challengeMembers,
+            };
+            dispatch({ type: GET_CHALLENGE, payload: populatedChallenge });
             dispatch({ type: GET_CHALLENGE_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_CHALLENGES_IS_LOADED });

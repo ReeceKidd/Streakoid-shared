@@ -7,6 +7,7 @@ import {
     CurrentUser,
     Badge,
     Challenge,
+    PopulatedChallenge,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates } from '../reducers/teamStreakReducer';
 import { LiveSoloStreakWithClientData, ArchivedSoloStreakWithClientData } from '../reducers/soloStreakReducer';
@@ -1469,7 +1470,7 @@ export interface GetChallengesIsLoadedAction {
 
 export interface GetChallengeAction {
     type: typeof GET_CHALLENGE;
-    payload: Challenge;
+    payload: PopulatedChallenge;
 }
 
 export interface GetChallengeFailAction {
