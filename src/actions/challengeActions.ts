@@ -76,6 +76,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: JOIN_CHALLENGE_LOADING });
             const userId = getState().users.currentUser._id;
+            console.log(userId);
             const challengeStreak = await streakoid.challengeStreaks.create({
                 userId,
                 challengeId,

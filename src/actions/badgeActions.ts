@@ -45,17 +45,25 @@ const badgeActions = (streakoid: typeof streakoidSDK) => {
                         if (!associatedChallengeStreak) {
                             return {
                                 ...badge,
-                                numberOfDaysInARow: 0,
+                                longestStreak: 0,
                             };
                         }
+                        const { pastStreaks, currentStreak } = associatedChallengeStreak;
+                        const pastStreakLengths = pastStreaks.map(pastStreak => pastStreak.numberOfDaysInARow);
+                        const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
+                        const longestStreak =
+                            currentStreak.numberOfDaysInARow >= longestPastStreakNumberOfDays
+                                ? currentStreak.numberOfDaysInARow
+                                : longestPastStreakNumberOfDays;
+
                         return {
                             ...badge,
-                            numberOfDaysInARow: associatedChallengeStreak.currentStreak.numberOfDaysInARow,
+                            longestStreak,
                         };
                     }
                     return {
                         ...badge,
-                        numberOfDaysInARow: 0,
+                        longestStreak: 0,
                     };
                 }),
             );

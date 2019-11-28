@@ -28,7 +28,7 @@ const initialState: BadgeReducerState = {
 };
 
 export interface UserBadge extends Badge {
-    numberOfDaysInARow: number;
+    longestStreak: number;
 }
 
 const badgeReducer = (state = initialState, action: BadgesActionTypes): BadgeReducerState => {
