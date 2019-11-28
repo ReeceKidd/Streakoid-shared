@@ -36,10 +36,12 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getChallenge = (challengeId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getChallenge = ({ challengeId }: { challengeId: string }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
         try {
             dispatch({ type: GET_CHALLENGE_IS_LOADING });
-            const challenge = await streakoid.challenges.getOne(challengeId);
+            const challenge = await streakoid.challenges.getOne({ challengeId });
             const challengeMembers = await Promise.all(
                 challenge.members.map(async member => {
                     const user = await streakoid.users.getOne(member.userId);
@@ -78,7 +80,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 userId,
                 challengeId,
             });
-            const challenge = await streakoid.challenges.getOne(challengeStreak._id);
+            const challenge = await streakoid.challenges.getOne({ challengeId });
             const challengeStreakWithLoadingState = {
                 ...challengeStreak,
                 challengeName: challenge.name,
