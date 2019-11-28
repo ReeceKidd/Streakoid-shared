@@ -32,6 +32,7 @@ const initialState: ChallengeStreakReducerState = {
     selectedChallengeStreak: {
         _id: '',
         challengeId: '',
+        badgeId: '',
         userId: '',
         status: StreakStatus.archived,
         completedToday: false,
