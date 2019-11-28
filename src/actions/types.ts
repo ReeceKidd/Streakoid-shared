@@ -17,6 +17,7 @@ import { FriendStateWithClientData } from '../reducers/friendReducer';
 import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 import { ChallengeStreakWithClientData } from '../reducers/challengeStreakReducer';
+import { UserBadge } from '../reducers/badgesReducer';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -1412,6 +1413,10 @@ export const GET_BADGES = 'GET_BADGES';
 export const GET_BADGES_FAIL = 'GET_BADGES_FAIL';
 export const GET_BADGES_IS_LOADING = 'GET_BADGES_IS_LOADING';
 export const GET_BADGES_IS_LOADED = 'GET_BADGES_IS_LOADED';
+export const GET_USER_BADGES = 'GET_USER_BADGES';
+export const GET_USER_BADGES_FAIL = 'GET_USER_BADGES_FAIL';
+export const GET_USER_BADGES_IS_LOADING = 'GET_USER_BADGES_IS_LOADING';
+export const GET_USER_BADGES_IS_LOADED = 'GET_USER_BADGES_IS_LOADED';
 
 export interface GetBadgesAction {
     type: typeof GET_BADGES;
@@ -1431,11 +1436,33 @@ export interface GetBadgesIsLoadedAction {
     type: typeof GET_BADGES_IS_LOADED;
 }
 
+export interface GetUserBadgesAction {
+    type: typeof GET_USER_BADGES;
+    payload: UserBadge[];
+}
+
+export interface GetUserBadgesFailAction {
+    type: typeof GET_USER_BADGES_FAIL;
+    payload: string;
+}
+
+export interface GetUserBadgesIsLoadingAction {
+    type: typeof GET_USER_BADGES_IS_LOADING;
+}
+
+export interface GetUserBadgesIsLoadedAction {
+    type: typeof GET_USER_BADGES_IS_LOADED;
+}
+
 export type BadgesActionTypes =
     | GetBadgesAction
     | GetBadgesFailAction
     | GetBadgesIsLoadingAction
-    | GetBadgesIsLoadedAction;
+    | GetBadgesIsLoadedAction
+    | GetUserBadgesAction
+    | GetUserBadgesFailAction
+    | GetUserBadgesIsLoadingAction
+    | GetUserBadgesIsLoadedAction;
 
 export const GET_CHALLENGES = 'GET_CHALLENGES';
 export const GET_CHALLENGES_FAIL = 'GET_CHALLENGES_FAIL';

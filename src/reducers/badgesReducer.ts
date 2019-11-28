@@ -4,6 +4,8 @@ import {
     GET_BADGES_IS_LOADING,
     GET_BADGES_IS_LOADED,
     BadgesActionTypes,
+    GET_USER_BADGES,
+    GET_USER_BADGES_FAIL,
 } from '../actions/types';
 import { Badge } from '@streakoid/streakoid-sdk/lib';
 
@@ -11,13 +13,23 @@ export interface BadgeReducerState {
     badgeList: Badge[];
     getAllBadgesIsLoading: boolean;
     getAllBadgesErrorMessage: string;
+    userBadges: UserBadge[];
+    getUserBadgesIsLoading: boolean;
+    getUserBadgesErrorMessage: string;
 }
 
 const initialState: BadgeReducerState = {
     badgeList: [],
     getAllBadgesIsLoading: false,
     getAllBadgesErrorMessage: '',
+    userBadges: [],
+    getUserBadgesIsLoading: false,
+    getUserBadgesErrorMessage: '',
 };
+
+export interface UserBadge extends Badge {
+    numberOfDaysInARow: number;
+}
 
 const badgeReducer = (state = initialState, action: BadgesActionTypes): BadgeReducerState => {
     switch (action.type) {
@@ -43,6 +55,30 @@ const badgeReducer = (state = initialState, action: BadgesActionTypes): BadgeRed
             return {
                 ...state,
                 getAllBadgesIsLoading: false,
+            };
+
+        case GET_USER_BADGES:
+            return {
+                ...state,
+                userBadges: action.payload,
+            };
+
+        case GET_USER_BADGES_FAIL:
+            return {
+                ...state,
+                getUserBadgesErrorMessage: action.payload,
+            };
+
+        case GET_BADGES_IS_LOADING:
+            return {
+                ...state,
+                getUserBadgesIsLoading: true,
+            };
+
+        case GET_BADGES_IS_LOADED:
+            return {
+                ...state,
+                getUserBadgesIsLoading: false,
             };
 
         default:
