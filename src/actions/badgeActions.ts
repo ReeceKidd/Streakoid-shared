@@ -11,7 +11,7 @@ import {
     GET_USER_BADGES_FAIL,
     GET_USER_BADGES,
 } from './types';
-import { AppActions, AppState } from '..';
+import { AppActions } from '..';
 import { BadgeTypes } from '@streakoid/streakoid-sdk/lib';
 
 const badgeActions = (streakoid: typeof streakoidSDK) => {
@@ -31,11 +31,12 @@ const badgeActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getUserBadges = () => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
+    const getUserBadges = ({ userId }: { userId: string }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_USER_BADGES_IS_LOADING });
-            const { badges, _id } = getState().users.currentUser;
-            const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId: _id });
+            const user = await streakoid.users.getOne(userId);
+            const { badges } = user;
+            const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId });
             const populatedBadges = await Promise.all(
                 badges.map(badge => {
                     if (badge.badgeType === BadgeTypes.challenge) {
