@@ -23,7 +23,7 @@ import {
 } from './types';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
-    const getChallengeStreaks = ({ completedToday }: { completedToday: boolean }) => async (
+    const getChallengeStreaks = ({ completedToday }: { completedToday?: boolean }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {

@@ -35,7 +35,7 @@ import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoi
 import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
 export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
-    const getLiveTeamStreaks = ({ completedToday }: { completedToday: boolean }) => async (
+    const getLiveTeamStreaks = ({ completedToday }: { completedToday?: boolean }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
