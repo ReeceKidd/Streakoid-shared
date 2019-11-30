@@ -59,14 +59,18 @@ import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
 const soloStreakActions = (streakoid: typeof streakoidSDK) => {
-    const getLiveSoloStreaks = () => async (
+    const getLiveSoloStreaks = ({ completedToday }: { completedToday?: boolean }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING });
             const userId = getState().users.currentUser._id;
-            const soloStreaks = await streakoid.soloStreaks.getAll({ userId, status: StreakStatus.live });
+            const soloStreaks = await streakoid.soloStreaks.getAll({
+                userId,
+                status: StreakStatus.live,
+                completedToday,
+            });
             const soloStreaksWithLoadingStates = soloStreaks.map(soloStreak => {
                 return {
                     ...soloStreak,
