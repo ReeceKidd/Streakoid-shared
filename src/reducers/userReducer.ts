@@ -41,7 +41,13 @@ import {
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING,
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED,
 } from '../actions/types';
-import { SoloStreak, PopulatedTeamStreak, FormattedUser, PopulatedCurrentUser } from '@streakoid/streakoid-sdk';
+import {
+    SoloStreak,
+    PopulatedTeamStreak,
+    FormattedUser,
+    PopulatedCurrentUser,
+    ChallengeStreak,
+} from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 
 export interface UserWithClientData extends FormattedUser {
@@ -52,6 +58,7 @@ export interface UserWithClientData extends FormattedUser {
 export interface SelectedUser extends FormattedUser {
     soloStreaks: SoloStreak[];
     teamStreaks: PopulatedTeamStreak[];
+    challengeStreaks: ChallengeStreak[];
 }
 
 export interface UserReducerInitialState {
@@ -132,6 +139,7 @@ const initialState: UserReducerInitialState = {
         pushNotificationToken: '',
         soloStreaks: [],
         teamStreaks: [],
+        challengeStreaks: [],
     },
     getUsersIsLoading: false,
     getUsersErrorMessage: '',
