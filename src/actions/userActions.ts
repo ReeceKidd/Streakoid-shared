@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
+import { StreakStatus, BadgeTypes } from '@streakoid/streakoid-sdk/lib';
 
 import {
     GET_USERS,
@@ -54,11 +54,44 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: GET_USER_IS_LOADING });
             const users = await streakoid.users.getAll({ username });
             const user = await streakoid.users.getOne(users[0]._id);
+            const { badges } = user;
             const soloStreaks = await streakoid.soloStreaks.getAll({ userId: user._id, status: StreakStatus.live });
             const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: user._id, status: StreakStatus.live });
             const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId: user._id });
+            const populatedBadges = await Promise.all(
+                badges.map(badge => {
+                    if (badge.badgeType === BadgeTypes.challenge) {
+                        const associatedChallengeStreak = challengeStreaks.find(
+                            challengeStreak => challengeStreak.badgeId === badge._id,
+                        );
+                        if (!associatedChallengeStreak) {
+                            return {
+                                ...badge,
+                                longestStreak: 0,
+                            };
+                        }
+                        const { pastStreaks, currentStreak } = associatedChallengeStreak;
+                        const pastStreakLengths = pastStreaks.map(pastStreak => pastStreak.numberOfDaysInARow);
+                        const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
+                        const longestStreak =
+                            currentStreak.numberOfDaysInARow >= longestPastStreakNumberOfDays
+                                ? currentStreak.numberOfDaysInARow
+                                : longestPastStreakNumberOfDays;
+
+                        return {
+                            ...badge,
+                            longestStreak,
+                        };
+                    }
+                    return {
+                        ...badge,
+                        longestStreak: 0,
+                    };
+                }),
+            );
             const selectedUser = {
                 ...user,
+                badges: populatedBadges,
                 soloStreaks,
                 teamStreaks,
                 challengeStreaks,
