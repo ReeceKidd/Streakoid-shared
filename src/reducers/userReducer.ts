@@ -50,6 +50,7 @@ import {
     PopulatedUser,
 } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
+import { UserBadge } from './badgesReducer';
 
 export interface UserWithClientData extends FormattedUser {
     sendFriendRequestIsLoading: boolean;
@@ -60,6 +61,7 @@ export interface SelectedUser extends PopulatedUser {
     soloStreaks: SoloStreak[];
     teamStreaks: PopulatedTeamStreak[];
     challengeStreaks: ChallengeStreak[];
+    userBadges: UserBadge[];
 }
 
 export interface UserReducerInitialState {
@@ -141,6 +143,7 @@ const initialState: UserReducerInitialState = {
         soloStreaks: [],
         teamStreaks: [],
         challengeStreaks: [],
+        userBadges: [],
     },
     getUsersIsLoading: false,
     getUsersErrorMessage: '',

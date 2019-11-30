@@ -58,7 +58,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             const soloStreaks = await streakoid.soloStreaks.getAll({ userId: user._id, status: StreakStatus.live });
             const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: user._id, status: StreakStatus.live });
             const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId: user._id });
-            const populatedBadges = await Promise.all(
+            const userBadges = await Promise.all(
                 badges.map(badge => {
                     if (badge.badgeType === BadgeTypes.challenge) {
                         const associatedChallengeStreak = challengeStreaks.find(
@@ -91,7 +91,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             );
             const selectedUser = {
                 ...user,
-                badges: populatedBadges,
+                userBadges,
                 soloStreaks,
                 teamStreaks,
                 challengeStreaks,
