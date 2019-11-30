@@ -23,14 +23,18 @@ import {
 } from './types';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
-    const getChallengeStreaks = () => async (
+    const getChallengeStreaks = ({ completedToday }: { completedToday: boolean }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_CHALLENGE_STREAKS_LOADING });
             const userId = getState().users.currentUser._id;
-            const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId, status: StreakStatus.live });
+            const challengeStreaks = await streakoid.challengeStreaks.getAll({
+                userId,
+                status: StreakStatus.live,
+                completedToday,
+            });
             const challengeStreaksWithLoadingStates = await Promise.all(
                 challengeStreaks.map(async challengeStreak => {
                     const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
