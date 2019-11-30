@@ -53,7 +53,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: GET_USER_IS_LOADING });
             const users = await streakoid.users.getAll({ username });
-            const user = users[0];
+            const user = await streakoid.users.getOne(users[0]._id);
             const soloStreaks = await streakoid.soloStreaks.getAll({ userId: user._id, status: StreakStatus.live });
             const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: user._id, status: StreakStatus.live });
             const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId: user._id });

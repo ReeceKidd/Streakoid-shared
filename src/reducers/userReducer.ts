@@ -47,6 +47,7 @@ import {
     FormattedUser,
     PopulatedCurrentUser,
     ChallengeStreak,
+    PopulatedUser,
 } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 
@@ -55,7 +56,7 @@ export interface UserWithClientData extends FormattedUser {
     sendFriendRequestErrorMessage: string;
 }
 
-export interface SelectedUser extends FormattedUser {
+export interface SelectedUser extends PopulatedUser {
     soloStreaks: SoloStreak[];
     teamStreaks: PopulatedTeamStreak[];
     challengeStreaks: ChallengeStreak[];
