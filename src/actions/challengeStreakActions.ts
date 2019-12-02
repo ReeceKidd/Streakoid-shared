@@ -23,7 +23,7 @@ import {
 } from './types';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
-    const getChallengeStreaks = ({ completedToday }: { completedToday?: boolean }) => async (
+    const getLiveChallengeStreaks = () => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
@@ -33,7 +33,6 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
             const challengeStreaks = await streakoid.challengeStreaks.getAll({
                 userId,
                 status: StreakStatus.live,
-                completedToday,
             });
             const challengeStreaksWithLoadingStates = await Promise.all(
                 challengeStreaks.map(async challengeStreak => {
@@ -155,7 +154,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     };
 
     return {
-        getChallengeStreaks,
+        getLiveChallengeStreaks,
         getOneChallengeStreak,
         completeChallengeStreakTask,
         incompleteChallengeStreakTask,
