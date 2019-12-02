@@ -35,7 +35,7 @@ import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoi
 import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
 export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
-    const getLiveTeamStreaks = ({ completedToday }: { completedToday?: boolean }) => async (
+    const getTeamStreaks = ({ completedToday, status }: { completedToday?: boolean; status?: StreakStatus }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
@@ -44,7 +44,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const userId = getState().users.currentUser._id;
             const teamStreaks = await streakoid.teamStreaks.getAll({
                 memberId: userId,
-                status: StreakStatus.live,
+                status,
                 completedToday,
             });
             const teamStreaksWithLoadingStates = teamStreaks.map(teamStreak => {
@@ -243,7 +243,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     });
 
     return {
-        getLiveTeamStreaks,
+        getTeamStreaks,
         getTeamStreak,
         createTeamStreak,
         clearCreateTeamStreakError,
