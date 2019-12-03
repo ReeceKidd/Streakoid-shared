@@ -12,6 +12,7 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
 export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
     const completeTeamMemberStreakTask = ({
@@ -35,7 +36,7 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
                 type: COMPLETE_TEAM_MEMBER_STREAK_TASK,
                 teamMemberStreakId,
             });
-            const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId });
+            const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
             const teamStreaksWithLoadingStates = teamStreaks.map(teamStreak => {
                 const members = teamStreak.members.map(member => {
                     return {
@@ -92,7 +93,7 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
                 teamMemberStreakId,
             });
 
-            const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId });
+            const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
             const teamStreaksWithLoadingStates = teamStreaks.map(teamStreak => {
                 const members = teamStreak.members.map(member => {
                     return {
