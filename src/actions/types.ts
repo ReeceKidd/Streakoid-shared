@@ -1564,6 +1564,8 @@ export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK = 'CREATE_INCOMPLETE_CHALLE
 export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL';
 export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING';
 export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED';
+export const UPDATE_CHALLENGE_STREAK_TIMEZONES = 'UPDATE_CHALLENGE_STREAK_TIMEZONES';
+export const UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL = 'UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL';
 
 export interface GetChallengeStreaksAction {
     type: typeof GET_CHALLENGE_STREAKS;
@@ -1659,6 +1661,16 @@ export interface CreateIncompleteChallengeStreakTaskLoadedAction {
     challengeStreakId: string;
 }
 
+export interface UpdateChallengeStreaksTimezoneAction {
+    type: typeof UPDATE_CHALLENGE_STREAK_TIMEZONES;
+    payload: string;
+}
+
+export interface UpdateChallengeStreaksTimezoneActionFail {
+    type: typeof UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL;
+    payload: string;
+}
+
 export type ChallengeStreakActionTypes =
     | GetChallengeStreaksAction
     | GetChallengeStreaksFailAction
@@ -1679,7 +1691,9 @@ export type ChallengeStreakActionTypes =
     | CreateIncompleteChallengeStreakTaskAction
     | CreateIncompleteChallengeStreakTaskFailAction
     | CreateIncompleteChallengeStreakTaskLoadingAction
-    | CreateIncompleteChallengeStreakTaskLoadedAction;
+    | CreateIncompleteChallengeStreakTaskLoadedAction
+    | UpdateChallengeStreaksTimezoneAction
+    | UpdateChallengeStreaksTimezoneActionFail;
 
 export type AppActions =
     | NavigationActionTypes

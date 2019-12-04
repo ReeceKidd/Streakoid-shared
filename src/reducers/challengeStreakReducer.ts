@@ -17,6 +17,7 @@ import {
     GET_CHALLENGE_STREAKS_FAIL,
     CREATE_CHALLENGE_STREAK,
     CREATE_CHALLENGE_STREAK_FAIL,
+    UPDATE_CHALLENGE_STREAK_TIMEZONES,
 } from '../actions/types';
 
 export interface ChallengeStreakReducerState {
@@ -235,6 +236,17 @@ const challengeStreakReducer = (
                         return challengeStreakWithClientData;
                     }
                     return challengeStreak;
+                }),
+            };
+
+        case UPDATE_CHALLENGE_STREAK_TIMEZONES:
+            return {
+                ...state,
+                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
+                    return {
+                        ...challengeStreak,
+                        timezone: action.payload,
+                    };
                 }),
             };
 

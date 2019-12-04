@@ -20,6 +20,8 @@ import {
     GET_ONE_CHALLENGE_STREAK,
     GET_ONE_CHALLENGE_STREAK_LOADING,
     GET_ONE_CHALLENGE_STREAK_FAIL,
+    UPDATE_CHALLENGE_STREAK_TIMEZONES,
+    UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL,
 } from './types';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
@@ -153,11 +155,37 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const updateChallengeStreakTimezones = (timezone: string) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            const userId = getState().users.currentUser._id;
+            const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId });
+            await Promise.all(
+                challengeStreaks.map(challengeStreak => {
+                    return streakoid.challengeStreaks.update({
+                        challengeStreakId: challengeStreak._id,
+                        updateData: { timezone },
+                    });
+                }),
+            );
+            dispatch({ type: UPDATE_CHALLENGE_STREAK_TIMEZONES, payload: timezone });
+        } catch (err) {
+            if (err.response) {
+                dispatch({ type: UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL, payload: err.message });
+            }
+        }
+    };
+
     return {
         getLiveChallengeStreaks,
         getOneChallengeStreak,
         completeChallengeStreakTask,
         incompleteChallengeStreakTask,
+        updateChallengeStreakTimezones,
     };
 };
 
