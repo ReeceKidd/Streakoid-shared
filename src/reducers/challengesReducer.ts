@@ -40,6 +40,7 @@ const initialState: ChallengeReducerState = {
         levels: [],
         createdAt: '',
         updatedAt: '',
+        longestStreakForChallenge: 0,
     },
     getChallengeIsLoading: false,
     getChallengesErrorMessage: '',

@@ -121,6 +121,10 @@ const initialState: UserReducerInitialState = {
                 pushNotification: false,
                 emailNotification: false,
             },
+            badgeUpdates: {
+                pushNotification: false,
+                emailNotification: false,
+            },
         },
         pushNotificationToken: '',
         createdAt: '',
