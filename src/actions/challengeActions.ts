@@ -53,9 +53,15 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                     return challengeMember;
                 }),
             );
+            const challengeStreaks = await streakoid.challengeStreaks.getAll({ challengeId });
+            const currentStreaks = challengeStreaks.map(
+                challengeStreak => challengeStreak.currentStreak.numberOfDaysInARow,
+            );
+            const longestStreakForChallenge = Math.max(...currentStreaks);
             const populatedChallenge: PopulatedChallenge = {
                 ...challenge,
                 members: challengeMembers,
+                longestStreakForChallenge,
             };
             dispatch({ type: GET_CHALLENGE, payload: populatedChallenge });
             dispatch({ type: GET_CHALLENGE_IS_LOADED });
