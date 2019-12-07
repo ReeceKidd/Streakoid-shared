@@ -57,7 +57,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
             const currentStreaks = challengeStreaks.map(
                 challengeStreak => challengeStreak.currentStreak.numberOfDaysInARow,
             );
-            const longestStreakForChallenge = Math.max(...currentStreaks);
+            const longestStreakForChallenge = Math.max(...currentStreaks) || 0;
             const populatedChallenge: PopulatedChallenge = {
                 ...challenge,
                 members: challengeMembers,
