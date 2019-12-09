@@ -136,7 +136,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: UPDATE_CURRENT_USER, user: updatedUser });
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADED });
         } catch (err) {
-            console.log(err.response);
+            console.log(err.response.data);
             if (err.response) {
                 dispatch({ type: UPDATE_CURRENT_USER_FAIL, errorMessage: err.response.data.message });
             } else {
