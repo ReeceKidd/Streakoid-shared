@@ -28,6 +28,8 @@ export const NAVIGATE_TO_SPECIFIC_SOLO_STREAK = 'NAVIGATE_TO_SPECIFIC_SOLO_STREA
 export const NAVIGATE_TO_THANK_YOU = 'NAVIGATE_TO_THANK_YOU';
 export const NAVIGATE_TO_TEAM_STREAKS = 'NAVIGATE_TO_TEAM_STREAKS';
 export const NAVIGATE_TO_SPECIFIC_TEAM_STREAK = 'NAVIGATE_TO_SPECIFIC_TEAM_STREAK';
+export const NAVIGATE_TO_CHALLENGE_STREAKS = 'NAVIGATE_TO_CHALLENGE_STREAKS';
+export const NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK = 'NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK';
 export const NAVIGATE_TO_PAYMENT = 'NAVIGATE_TO_PAYMENT';
 export const NAVIGATE_TO_REGISTERED_USER_HAS_TO_PAY = 'NAVIGATE_TO_REGISTERED_USER_HAS_TO_PAY';
 
@@ -77,6 +79,15 @@ export interface NavigateToRegisteredUserHasToPayAction {
     type: typeof NAVIGATE_TO_REGISTERED_USER_HAS_TO_PAY;
 }
 
+export interface NavigateToChallengeStreakAction {
+    type: typeof NAVIGATE_TO_CHALLENGE_STREAKS;
+}
+
+export interface NavigateToSpecificChallengeStreakAction {
+    type: typeof NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK;
+    payload: string;
+}
+
 export type NavigationActionTypes =
     | NavigateToHomeAction
     | NavigateToVerifyUserAction
@@ -88,7 +99,9 @@ export type NavigationActionTypes =
     | NavigateToTeamStreakAction
     | NavigateToSpecificTeamStreakAction
     | NavigateToPaymentAction
-    | NavigateToRegisteredUserHasToPayAction;
+    | NavigateToRegisteredUserHasToPayAction
+    | NavigateToChallengeStreakAction
+    | NavigateToSpecificChallengeStreakAction;
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -506,7 +519,7 @@ export interface ClearRestoreArchivedSoloStreakErrorMessageAction {
 
 export interface DeleteArchivedSoloStreakAction {
     type: typeof DELETE_ARCHIVED_SOLO_STREAK;
-    soloStreakId: string;
+    payload: string;
 }
 
 export interface DeleteArchivedSoloStreakFailAction {
@@ -1544,14 +1557,44 @@ export type ChallengeActionTypes =
     | JoinChallengeIsLoadingAction
     | JoinChallengeIsLoadedAction;
 
-export const GET_CHALLENGE_STREAKS = 'GET_CHALLENGE_STREAKS';
-export const GET_CHALLENGE_STREAKS_FAIL = 'GET_CHALLENGE_STREAKS_FAIL';
-export const GET_CHALLENGE_STREAKS_LOADING = 'GET_CHALLENGE_STREAKS_LOADING';
-export const GET_CHALLENGE_STREAKS_LOADED = 'GET_CHALLENGE_STREAKS_LOADED';
-export const GET_ONE_CHALLENGE_STREAK = 'GET_ONE_CHALLENGE_STREAK';
-export const GET_ONE_CHALLENGE_STREAK_FAIL = 'GET_ONE_CHALLENGE_STREAK_FAIL';
-export const GET_ONE_CHALLENGE_STREAK_LOADING = 'GET_ONE_CHALLENGE_STREAK_LOADING';
-export const GET_ONE_CHALLENGE_STREAK_LOADED = 'GET_ONE_CHALLENGE_STREAK_LOADED';
+export const GET_LIVE_CHALLENGE_STREAKS = 'GET_CHALLENGE_STREAKS';
+export const GET_LIVE_CHALLENGE_STREAKS_FAIL = 'GET_CHALLENGE_STREAKS_FAIL';
+export const GET_LIVE_CHALLENGE_STREAKS_LOADING = 'GET_CHALLENGE_STREAKS_LOADING';
+export const GET_LIVE_CHALLENGE_STREAKS_LOADED = 'GET_CHALLENGE_STREAKS_LOADED';
+
+export const GET_ARCHIVED_CHALLENGE_STREAKS = 'GET_ARCHIVED_CHALLENGE_STREAKS';
+export const GET_ARCHIVED_CHALLENGE_STREAKS_FAIL = 'GET_ARCHIVED_CHALLENGE_STREAKS_FAIL';
+export const GET_ARCHIVED_CHALLENGE_STREAKS_LOADING = 'GET_ARCHIVED_CHALLENGE_STREAKS_LOADING';
+export const GET_ARCHIVED_CHALLENGE_STREAKS_LOADED = 'GET_ARCHIVED_CHALLENGE_STREAKS_LOADED';
+
+export const GET_SELECTED_LIVE_CHALLENGE_STREAK = 'GET_SELECTED_LIVE_CHALLENGE_STREAK';
+export const GET_SELECTED_LIVE_CHALLENGE_STREAK_FAIL = 'GET_SELECTED_LIVE_CHALLENGE_STREAK_FAIL';
+export const GET_SELECTED_LIVE_CHALLENGE_STREAK_LOADING = 'GET_SELECTED_LIVE_CHALLENGE_STREAK_LOADING';
+export const GET_SELECTED_LIVE_CHALLENGE_STREAK_LOADED = 'GET_SELECTED_LIVE_CHALLENGE_STREAK_LOADED';
+
+export const GET_SELECTED_ARCHIVED_CHALLENGE_STREAK = 'GET_SELECTED_ARCHIVED_CHALLENGE_STREAK';
+export const GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_FAIL = 'GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_FAIL';
+export const GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_LOADING = 'GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_LOADING';
+export const GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_LOADED = 'GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_LOADED';
+
+export const ARCHIVE_CHALLENGE_STREAK = 'ARCHIVE_CHALLENGE_STREAK';
+export const ARCHIVE_CHALLENGE_STREAK_FAIL = 'ARCHIVE_CHALLENGE_STREAK_FAIL';
+export const ARCHIVE_CHALLENGE_STREAK_LOADING = 'ARCHIVE_CHALLENGE_STREAK_LOADING';
+export const ARCHIVE_CHALLENGE_STREAK_LOADED = 'ARCHIVE_CHALLENGE_STREAK_LOADED';
+export const CLEAR_ARCHIVE_CHALLENGE_STREAK_ERROR_MESSAGE = 'CLEAR_ARCHIVE_CHALLENGE_STREAK_ERROR_MESSAGE';
+
+export const RESTORE_ARCHIVED_CHALLENGE_STREAK = 'RESTORE_ARCHIVED_CHALLENGE_STREAK';
+export const RESTORE_ARCHIVED_CHALLENGE_STREAK_FAIL = 'RESTORE_ARCHIVED_CHALLENGE_STREAK_FAIL';
+export const RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADING = 'RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADING';
+export const RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED = 'RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED';
+export const CLEAR_RESTORE_ARCHIVED_CHALLENGE_STREAK_ERROR_MESSAGE =
+    'CLEAR_RESTORE_ARCHIVED_CHALLENGE_STREAK_ERROR_MESSAGE';
+
+export const DELETE_ARCHIVED_CHALLENGE_STREAK = 'DELETE_ARCHIVED_CHALLENGE_STREAK';
+export const DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL = 'DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL';
+export const DELETE_ARCHIVED_CHALLENGE_STREAK_LOADING = 'DELETE_ARCHIVED_CHALLENGE_STREAK_LOADING';
+export const DELETE_ARCHIVED_CHALLENGE_STREAK_LOADED = 'DELETE_ARCHIVED_CHALLENGE_STREAK_LOADED';
+
 export const CREATE_CHALLENGE_STREAK = 'CREATE_CHALLENGE_STREAK';
 export const CREATE_CHALLENGE_STREAK_FAIL = 'CREATE_CHALLENGE_STREAK_FAIL';
 export const CREATE_CHALLENGE_STREAK_LOADING = 'CREATE_CHALLENGE_STREAK_LOADING';
@@ -1567,40 +1610,135 @@ export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED = 'CREATE_INCOMPLETE
 export const UPDATE_CHALLENGE_STREAK_TIMEZONES = 'UPDATE_CHALLENGE_STREAK_TIMEZONES';
 export const UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL = 'UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL';
 
-export interface GetChallengeStreaksAction {
-    type: typeof GET_CHALLENGE_STREAKS;
+export interface GetLiveChallengeStreaksAction {
+    type: typeof GET_LIVE_CHALLENGE_STREAKS;
     payload: ChallengeStreakWithClientData[];
 }
 
-export interface GetChallengeStreaksFailAction {
-    type: typeof GET_CHALLENGE_STREAKS_FAIL;
+export interface GetLiveChallengeStreaksFailAction {
+    type: typeof GET_LIVE_CHALLENGE_STREAKS_FAIL;
     payload: string;
 }
 
-export interface GetChallengeStreaksIsLoadingAction {
-    type: typeof GET_CHALLENGE_STREAKS_LOADING;
+export interface GetLiveChallengeStreaksIsLoadingAction {
+    type: typeof GET_LIVE_CHALLENGE_STREAKS_LOADING;
 }
 
-export interface GetChallengeStreaksIsLoadedAction {
-    type: typeof GET_CHALLENGE_STREAKS_LOADED;
+export interface GetLiveChallengeStreaksIsLoadedAction {
+    type: typeof GET_LIVE_CHALLENGE_STREAKS_LOADED;
 }
 
-export interface GetOneChallengeStreakAction {
-    type: typeof GET_ONE_CHALLENGE_STREAK;
+export interface GetArchivedChallengeStreaksAction {
+    type: typeof GET_ARCHIVED_CHALLENGE_STREAKS;
+    payload: ChallengeStreakWithClientData[];
+}
+
+export interface GetArchivedChallengeStreaksFailAction {
+    type: typeof GET_ARCHIVED_CHALLENGE_STREAKS_FAIL;
+    payload: string;
+}
+
+export interface GetArchivedChallengeStreaksIsLoadingAction {
+    type: typeof GET_ARCHIVED_CHALLENGE_STREAKS_LOADING;
+}
+
+export interface GetArchivedChallengeStreaksIsLoadedAction {
+    type: typeof GET_ARCHIVED_CHALLENGE_STREAKS_LOADED;
+}
+
+export interface GetSelectedLiveChallengeStreakAction {
+    type: typeof GET_SELECTED_LIVE_CHALLENGE_STREAK;
     payload: ChallengeStreakWithClientData;
 }
 
-export interface GetOneChallengeStreakFailAction {
-    type: typeof GET_ONE_CHALLENGE_STREAK_FAIL;
+export interface GetSelectedLiveChallengeStreakFailAction {
+    type: typeof GET_SELECTED_LIVE_CHALLENGE_STREAK_FAIL;
     payload: string;
 }
 
-export interface GetOneChallengeStreakIsLoadingAction {
-    type: typeof GET_ONE_CHALLENGE_STREAK_LOADING;
+export interface GetSelectedLiveChallengeStreakIsLoadingAction {
+    type: typeof GET_SELECTED_LIVE_CHALLENGE_STREAK_LOADING;
 }
 
-export interface GetOneChallengeStreakIsLoadedAction {
-    type: typeof GET_ONE_CHALLENGE_STREAK_LOADED;
+export interface GetSelectedLiveChallengeStreakIsLoadedAction {
+    type: typeof GET_SELECTED_LIVE_CHALLENGE_STREAK_LOADED;
+}
+
+export interface GetSelectedArchivedChallengeStreakAction {
+    type: typeof GET_SELECTED_ARCHIVED_CHALLENGE_STREAK;
+    payload: ChallengeStreakWithClientData;
+}
+
+export interface GetSelectedArchivedChallengeStreakFailAction {
+    type: typeof GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_FAIL;
+    payload: string;
+}
+
+export interface GetSelectedArchivedChallengeStreakIsLoadingAction {
+    type: typeof GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_LOADING;
+}
+
+export interface GetSelectedArchivedChallengeStreakIsLoadedAction {
+    type: typeof GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_LOADED;
+}
+
+export interface ArchiveChallengeStreakAction {
+    type: typeof ARCHIVE_CHALLENGE_STREAK;
+    payload: ChallengeStreakWithClientData;
+}
+
+export interface ArchiveChallengeStreakFailAction {
+    type: typeof ARCHIVE_CHALLENGE_STREAK_FAIL;
+}
+
+export interface ArchiveChallengeStreakIsLoadingAction {
+    type: typeof ARCHIVE_CHALLENGE_STREAK_LOADING;
+}
+
+export interface ClearArchiveChallengeStreakErrorMessageAction {
+    type: typeof CLEAR_ARCHIVE_CHALLENGE_STREAK_ERROR_MESSAGE;
+}
+
+export interface ArchiveChallengeStreakIsLoadedAction {
+    type: typeof ARCHIVE_CHALLENGE_STREAK_LOADED;
+}
+
+export interface RestoreArchivedChallengeStreakAction {
+    type: typeof RESTORE_ARCHIVED_CHALLENGE_STREAK;
+    payload: ChallengeStreakWithClientData;
+}
+
+export interface RestoreArchivedChallengeStreakFailAction {
+    type: typeof RESTORE_ARCHIVED_CHALLENGE_STREAK_FAIL;
+}
+
+export interface RestoreArchivedChallengeStreakIsLoadingAction {
+    type: typeof RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADING;
+}
+
+export interface RestoreArchivedChallengeStreakIsLoadedAction {
+    type: typeof RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED;
+}
+
+export interface ClearRestoreArchivedChallengeStreakErrorMessageAction {
+    type: typeof CLEAR_RESTORE_ARCHIVED_CHALLENGE_STREAK_ERROR_MESSAGE;
+}
+
+export interface DeleteArchivedChallengeStreakAction {
+    type: typeof DELETE_ARCHIVED_CHALLENGE_STREAK;
+    payload: string;
+}
+
+export interface DeleteArchivedChallengeStreakFailAction {
+    type: typeof DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL;
+}
+
+export interface DeleteArchivedChallengeStreakIsLoadingAction {
+    type: typeof DELETE_ARCHIVED_CHALLENGE_STREAK_LOADING;
+}
+
+export interface DeleteArchivedChallengeStreakIsLoadedAction {
+    type: typeof DELETE_ARCHIVED_CHALLENGE_STREAK_LOADED;
 }
 
 export interface CreateChallengeStreakAction {
@@ -1672,14 +1810,36 @@ export interface UpdateChallengeStreaksTimezoneActionFail {
 }
 
 export type ChallengeStreakActionTypes =
-    | GetChallengeStreaksAction
-    | GetChallengeStreaksFailAction
-    | GetChallengeStreaksIsLoadingAction
-    | GetChallengeStreaksIsLoadedAction
-    | GetOneChallengeStreakAction
-    | GetOneChallengeStreakFailAction
-    | GetOneChallengeStreakIsLoadingAction
-    | GetOneChallengeStreakIsLoadedAction
+    | GetLiveChallengeStreaksAction
+    | GetLiveChallengeStreaksFailAction
+    | GetLiveChallengeStreaksIsLoadingAction
+    | GetLiveChallengeStreaksIsLoadedAction
+    | GetArchivedChallengeStreaksAction
+    | GetArchivedChallengeStreaksFailAction
+    | GetArchivedChallengeStreaksIsLoadingAction
+    | GetArchivedChallengeStreaksIsLoadedAction
+    | GetSelectedLiveChallengeStreakAction
+    | GetSelectedLiveChallengeStreakFailAction
+    | GetSelectedLiveChallengeStreakIsLoadingAction
+    | GetSelectedLiveChallengeStreakIsLoadedAction
+    | GetSelectedArchivedChallengeStreakAction
+    | GetSelectedArchivedChallengeStreakFailAction
+    | GetSelectedArchivedChallengeStreakIsLoadingAction
+    | GetSelectedArchivedChallengeStreakIsLoadedAction
+    | ArchiveChallengeStreakAction
+    | ArchiveChallengeStreakFailAction
+    | ArchiveChallengeStreakIsLoadingAction
+    | ArchiveChallengeStreakIsLoadedAction
+    | ClearArchiveChallengeStreakErrorMessageAction
+    | RestoreArchivedChallengeStreakAction
+    | RestoreArchivedChallengeStreakFailAction
+    | RestoreArchivedChallengeStreakIsLoadingAction
+    | RestoreArchivedChallengeStreakIsLoadedAction
+    | ClearRestoreArchivedChallengeStreakErrorMessageAction
+    | DeleteArchivedChallengeStreakAction
+    | DeleteArchivedChallengeStreakFailAction
+    | DeleteArchivedChallengeStreakIsLoadingAction
+    | DeleteArchivedChallengeStreakIsLoadedAction
     | CreateChallengeStreakAction
     | CreateChallengeStreakFailAction
     | CreateChallengeStreakIsLoadingAction

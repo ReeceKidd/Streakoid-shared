@@ -342,7 +342,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             return {
                 ...state,
                 archivedSoloStreaks: [
-                    ...state.archivedSoloStreaks.filter(soloStreak => soloStreak._id !== action.soloStreakId),
+                    ...state.archivedSoloStreaks.filter(soloStreak => soloStreak._id !== action.payload),
                 ],
             };
 

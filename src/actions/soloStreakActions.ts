@@ -303,7 +303,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: DELETE_ARCHIVED_SOLO_STREAK_IS_LOADING });
             await streakoid.soloStreaks.update({ soloStreakId, updateData: { status: StreakStatus.deleted } });
-            dispatch({ type: DELETE_ARCHIVED_SOLO_STREAK, soloStreakId });
+            dispatch({ type: DELETE_ARCHIVED_SOLO_STREAK, payload: soloStreakId });
             dispatch({ type: DELETE_ARCHIVED_SOLO_STREAK_IS_LOADED });
             dispatch({ type: NAVIGATE_TO_SOLO_STREAKS });
         } catch (err) {

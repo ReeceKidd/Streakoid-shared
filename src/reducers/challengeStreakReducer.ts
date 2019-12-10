@@ -10,27 +10,57 @@ import {
     CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL,
     CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING,
     CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED,
-    GET_CHALLENGE_STREAKS,
-    GET_ONE_CHALLENGE_STREAK,
-    GET_CHALLENGE_STREAKS_LOADING,
-    GET_CHALLENGE_STREAKS_LOADED,
-    GET_CHALLENGE_STREAKS_FAIL,
+    GET_LIVE_CHALLENGE_STREAKS,
+    GET_LIVE_CHALLENGE_STREAKS_LOADING,
+    GET_LIVE_CHALLENGE_STREAKS_LOADED,
+    GET_LIVE_CHALLENGE_STREAKS_FAIL,
+    GET_ARCHIVED_CHALLENGE_STREAKS,
+    GET_ARCHIVED_CHALLENGE_STREAKS_LOADING,
+    GET_ARCHIVED_CHALLENGE_STREAKS_LOADED,
+    GET_ARCHIVED_CHALLENGE_STREAKS_FAIL,
     CREATE_CHALLENGE_STREAK,
     CREATE_CHALLENGE_STREAK_FAIL,
     UPDATE_CHALLENGE_STREAK_TIMEZONES,
+    GET_SELECTED_LIVE_CHALLENGE_STREAK,
+    GET_SELECTED_LIVE_CHALLENGE_STREAK_FAIL,
+    GET_SELECTED_LIVE_CHALLENGE_STREAK_LOADING,
+    GET_SELECTED_LIVE_CHALLENGE_STREAK_LOADED,
+    GET_SELECTED_ARCHIVED_CHALLENGE_STREAK,
+    GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_FAIL,
+    GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_LOADING,
+    GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_LOADED,
+    RESTORE_ARCHIVED_CHALLENGE_STREAK,
+    RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADING,
+    RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED,
+    ARCHIVE_CHALLENGE_STREAK,
+    DELETE_ARCHIVED_CHALLENGE_STREAK,
+    DELETE_ARCHIVED_CHALLENGE_STREAK_LOADING,
+    DELETE_ARCHIVED_CHALLENGE_STREAK_LOADED,
 } from '../actions/types';
 
 export interface ChallengeStreakReducerState {
-    challengeStreaks: ChallengeStreakWithClientData[];
-    selectedChallengeStreak: ChallengeStreakWithClientData;
-    getChallengeStreaksIsLoading: boolean;
-    getChallengeStreaksErrorMessage: string;
+    liveChallengeStreaks: ChallengeStreakWithClientData[];
+    getLiveChallengeStreaksIsLoading: boolean;
+    getLiveChallengeStreaksErrorMessage: string;
+    selectedLiveChallengeStreak: ChallengeStreakWithClientData;
+    getSelectedLiveChallengeStreakIsLoading: boolean;
+    getSelectedLiveChallengeStreakErrorMessage: string;
+    archivedChallengeStreaks: ChallengeStreakWithClientData[];
+    getArchivedChallengeStreaksIsLoading: boolean;
+    getArchivedChallengeStreaksErrorMessage: string;
+    selectedArchivedChallengeStreak: ChallengeStreakWithClientData;
+    getSelectedArchivedChallengeStreakIsLoading: boolean;
+    getSelectedArchivedChallengeStreakErrorMessage: string;
     createChallengeStreakErrorMessge: string;
+    restoreArchivedChallengeStreakIsLoading: boolean;
+    deleteArchivedChallengeStreakIsLoading: boolean;
 }
 
 const initialState: ChallengeStreakReducerState = {
-    challengeStreaks: [],
-    selectedChallengeStreak: {
+    liveChallengeStreaks: [],
+    getLiveChallengeStreaksIsLoading: false,
+    getLiveChallengeStreaksErrorMessage: '',
+    selectedLiveChallengeStreak: {
         _id: '',
         challengeId: '',
         badgeId: '',
@@ -53,9 +83,39 @@ const initialState: ChallengeStreakReducerState = {
         incompleteChallengeStreakTaskIsLoading: false,
         incompleteChallengeStreakTaskErrorMessage: '',
     },
-    getChallengeStreaksIsLoading: false,
-    getChallengeStreaksErrorMessage: '',
+    getSelectedLiveChallengeStreakIsLoading: false,
+    getSelectedLiveChallengeStreakErrorMessage: '',
+    archivedChallengeStreaks: [],
+    getArchivedChallengeStreaksIsLoading: false,
+    getArchivedChallengeStreaksErrorMessage: '',
+    selectedArchivedChallengeStreak: {
+        _id: '',
+        challengeId: '',
+        badgeId: '',
+        userId: '',
+        status: StreakStatus.archived,
+        completedToday: false,
+        active: false,
+        currentStreak: {
+            numberOfDaysInARow: 0,
+            startDate: new Date().toString(),
+        },
+        pastStreaks: [],
+        timezone: '',
+        updatedAt: '',
+        createdAt: '',
+        challengeName: '',
+        challengeDescription: '',
+        completeChallengeStreakTaskIsLoading: false,
+        completeChallengeStreakTaskErrorMessage: '',
+        incompleteChallengeStreakTaskIsLoading: false,
+        incompleteChallengeStreakTaskErrorMessage: '',
+    },
+    getSelectedArchivedChallengeStreakIsLoading: false,
+    getSelectedArchivedChallengeStreakErrorMessage: '',
     createChallengeStreakErrorMessge: '',
+    restoreArchivedChallengeStreakIsLoading: false,
+    deleteArchivedChallengeStreakIsLoading: false,
 };
 
 export interface ChallengeStreakWithClientData extends ChallengeStreak {
@@ -72,40 +132,106 @@ const challengeStreakReducer = (
     action: ChallengeStreakActionTypes,
 ): ChallengeStreakReducerState => {
     switch (action.type) {
-        case GET_CHALLENGE_STREAKS:
+        case GET_LIVE_CHALLENGE_STREAKS:
             return {
                 ...state,
-                challengeStreaks: action.payload,
+                liveChallengeStreaks: action.payload,
             };
 
-        case GET_CHALLENGE_STREAKS_LOADING:
+        case GET_LIVE_CHALLENGE_STREAKS_LOADING:
             return {
                 ...state,
-                getChallengeStreaksIsLoading: true,
+                getLiveChallengeStreaksIsLoading: true,
             };
 
-        case GET_CHALLENGE_STREAKS_LOADED:
+        case GET_LIVE_CHALLENGE_STREAKS_LOADED:
             return {
                 ...state,
-                getChallengeStreaksIsLoading: false,
+                getLiveChallengeStreaksIsLoading: false,
             };
 
-        case GET_CHALLENGE_STREAKS_FAIL:
+        case GET_LIVE_CHALLENGE_STREAKS_FAIL:
             return {
                 ...state,
-                getChallengeStreaksErrorMessage: action.payload,
+                getLiveChallengeStreaksErrorMessage: action.payload,
             };
 
-        case GET_ONE_CHALLENGE_STREAK:
+        case GET_SELECTED_LIVE_CHALLENGE_STREAK:
             return {
                 ...state,
-                selectedChallengeStreak: action.payload,
+                selectedLiveChallengeStreak: action.payload,
+            };
+
+        case GET_SELECTED_LIVE_CHALLENGE_STREAK_FAIL:
+            return {
+                ...state,
+                getSelectedLiveChallengeStreakErrorMessage: action.payload,
+            };
+
+        case GET_SELECTED_LIVE_CHALLENGE_STREAK_LOADING:
+            return {
+                ...state,
+                getSelectedLiveChallengeStreakIsLoading: true,
+            };
+
+        case GET_SELECTED_LIVE_CHALLENGE_STREAK_LOADED:
+            return {
+                ...state,
+                getSelectedLiveChallengeStreakIsLoading: false,
+            };
+
+        case GET_ARCHIVED_CHALLENGE_STREAKS:
+            return {
+                ...state,
+                archivedChallengeStreaks: action.payload,
+            };
+
+        case GET_ARCHIVED_CHALLENGE_STREAKS_FAIL:
+            return {
+                ...state,
+                getArchivedChallengeStreaksErrorMessage: action.payload,
+            };
+
+        case GET_ARCHIVED_CHALLENGE_STREAKS_LOADING:
+            return {
+                ...state,
+                getArchivedChallengeStreaksIsLoading: true,
+            };
+
+        case GET_ARCHIVED_CHALLENGE_STREAKS_LOADED:
+            return {
+                ...state,
+                getArchivedChallengeStreaksIsLoading: false,
+            };
+
+        case GET_SELECTED_ARCHIVED_CHALLENGE_STREAK:
+            return {
+                ...state,
+                selectedArchivedChallengeStreak: action.payload,
+            };
+
+        case GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_FAIL:
+            return {
+                ...state,
+                getSelectedArchivedChallengeStreakErrorMessage: action.payload,
+            };
+
+        case GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_LOADING:
+            return {
+                ...state,
+                getSelectedArchivedChallengeStreakIsLoading: true,
+            };
+
+        case GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_LOADED:
+            return {
+                ...state,
+                getSelectedArchivedChallengeStreakIsLoading: false,
             };
 
         case CREATE_CHALLENGE_STREAK:
             return {
                 ...state,
-                challengeStreaks: [...state.challengeStreaks, action.payload],
+                liveChallengeStreaks: [...state.liveChallengeStreaks, action.payload],
             };
 
         case CREATE_CHALLENGE_STREAK_FAIL: {
@@ -115,10 +241,60 @@ const challengeStreakReducer = (
             };
         }
 
+        case ARCHIVE_CHALLENGE_STREAK:
+            return {
+                ...state,
+                liveChallengeStreaks: [
+                    ...state.liveChallengeStreaks.filter(challengeStreak => challengeStreak._id !== action.payload._id),
+                ],
+                archivedChallengeStreaks: [...state.archivedChallengeStreaks, action.payload],
+            };
+
+        case RESTORE_ARCHIVED_CHALLENGE_STREAK:
+            return {
+                ...state,
+                liveChallengeStreaks: [...state.liveChallengeStreaks, action.payload],
+                archivedChallengeStreaks: state.archivedChallengeStreaks.filter(
+                    challengeStreak => challengeStreak._id !== action.payload._id,
+                ),
+            };
+
+        case RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADING:
+            return {
+                ...state,
+                restoreArchivedChallengeStreakIsLoading: true,
+            };
+
+        case RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED:
+            return {
+                ...state,
+                restoreArchivedChallengeStreakIsLoading: false,
+            };
+
+        case DELETE_ARCHIVED_CHALLENGE_STREAK:
+            return {
+                ...state,
+                archivedChallengeStreaks: [
+                    ...state.archivedChallengeStreaks.filter(challengeStreak => challengeStreak._id !== action.payload),
+                ],
+            };
+
+        case DELETE_ARCHIVED_CHALLENGE_STREAK_LOADING:
+            return {
+                ...state,
+                deleteArchivedChallengeStreakIsLoading: true,
+            };
+
+        case DELETE_ARCHIVED_CHALLENGE_STREAK_LOADED:
+            return {
+                ...state,
+                deleteArchivedChallengeStreakIsLoading: false,
+            };
+
         case CREATE_COMPLETE_CHALLENGE_STREAK_TASK:
             return {
                 ...state,
-                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.payload) {
                         return {
                             ...challengeStreak,
@@ -136,7 +312,7 @@ const challengeStreakReducer = (
         case CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL:
             return {
                 ...state,
-                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.payload.challengeStreakId) {
                         return {
                             ...challengeStreak,
@@ -150,7 +326,7 @@ const challengeStreakReducer = (
         case CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING:
             return {
                 ...state,
-                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.challengeStreakId) {
                         const challengeStreakWithClientData: ChallengeStreakWithClientData = {
                             ...challengeStreak,
@@ -165,7 +341,7 @@ const challengeStreakReducer = (
         case CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED:
             return {
                 ...state,
-                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.challengeStreakId) {
                         const challengeStreakWithClientData: ChallengeStreakWithClientData = {
                             ...challengeStreak,
@@ -180,7 +356,7 @@ const challengeStreakReducer = (
         case CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK:
             return {
                 ...state,
-                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.payload) {
                         return {
                             ...challengeStreak,
@@ -198,7 +374,7 @@ const challengeStreakReducer = (
         case CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL:
             return {
                 ...state,
-                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.payload.challengeStreakId) {
                         return {
                             ...challengeStreak,
@@ -212,7 +388,7 @@ const challengeStreakReducer = (
         case CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING:
             return {
                 ...state,
-                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.challengeStreakId) {
                         const challengeStreakWithClientData: ChallengeStreakWithClientData = {
                             ...challengeStreak,
@@ -227,7 +403,7 @@ const challengeStreakReducer = (
         case CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED:
             return {
                 ...state,
-                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.challengeStreakId) {
                         const challengeStreakWithClientData: ChallengeStreakWithClientData = {
                             ...challengeStreak,
@@ -242,7 +418,7 @@ const challengeStreakReducer = (
         case UPDATE_CHALLENGE_STREAK_TIMEZONES:
             return {
                 ...state,
-                challengeStreaks: state.challengeStreaks.map(challengeStreak => {
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     return {
                         ...challengeStreak,
                         timezone: action.payload,
