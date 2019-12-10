@@ -1689,6 +1689,7 @@ export interface ArchiveChallengeStreakAction {
 
 export interface ArchiveChallengeStreakFailAction {
     type: typeof ARCHIVE_CHALLENGE_STREAK_FAIL;
+    payload: string;
 }
 
 export interface ArchiveChallengeStreakIsLoadingAction {

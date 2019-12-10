@@ -36,6 +36,9 @@ import {
     DELETE_ARCHIVED_CHALLENGE_STREAK,
     DELETE_ARCHIVED_CHALLENGE_STREAK_LOADING,
     DELETE_ARCHIVED_CHALLENGE_STREAK_LOADED,
+    ARCHIVE_CHALLENGE_STREAK_LOADING,
+    ARCHIVE_CHALLENGE_STREAK_LOADED,
+    ARCHIVE_CHALLENGE_STREAK_FAIL,
 } from '../actions/types';
 
 export interface ChallengeStreakReducerState {
@@ -51,6 +54,8 @@ export interface ChallengeStreakReducerState {
     selectedArchivedChallengeStreak: ChallengeStreakWithClientData;
     getSelectedArchivedChallengeStreakIsLoading: boolean;
     getSelectedArchivedChallengeStreakErrorMessage: string;
+    archiveChallengeStreakIsLoading: boolean;
+    archiveChallengeStreakErrorMessage: string;
     createChallengeStreakErrorMessge: string;
     restoreArchivedChallengeStreakIsLoading: boolean;
     deleteArchivedChallengeStreakIsLoading: boolean;
@@ -113,6 +118,8 @@ const initialState: ChallengeStreakReducerState = {
     },
     getSelectedArchivedChallengeStreakIsLoading: false,
     getSelectedArchivedChallengeStreakErrorMessage: '',
+    archiveChallengeStreakIsLoading: false,
+    archiveChallengeStreakErrorMessage: '',
     createChallengeStreakErrorMessge: '',
     restoreArchivedChallengeStreakIsLoading: false,
     deleteArchivedChallengeStreakIsLoading: false,
@@ -248,6 +255,24 @@ const challengeStreakReducer = (
                     ...state.liveChallengeStreaks.filter(challengeStreak => challengeStreak._id !== action.payload._id),
                 ],
                 archivedChallengeStreaks: [...state.archivedChallengeStreaks, action.payload],
+            };
+
+        case ARCHIVE_CHALLENGE_STREAK_FAIL:
+            return {
+                ...state,
+                archiveChallengeStreakErrorMessage: action.payload,
+            };
+
+        case ARCHIVE_CHALLENGE_STREAK_LOADING:
+            return {
+                ...state,
+                archiveChallengeStreakIsLoading: true,
+            };
+
+        case ARCHIVE_CHALLENGE_STREAK_LOADED:
+            return {
+                ...state,
+                archiveChallengeStreakIsLoading: false,
             };
 
         case RESTORE_ARCHIVED_CHALLENGE_STREAK:
