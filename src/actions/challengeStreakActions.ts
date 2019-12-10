@@ -213,9 +213,9 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         } catch (err) {
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK_LOADED });
             if (err.response) {
-                dispatch({ type: ARCHIVE_CHALLENGE_STREAK_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: ARCHIVE_CHALLENGE_STREAK_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: ARCHIVE_CHALLENGE_STREAK_FAIL, errorMessage: err.message });
+                dispatch({ type: ARCHIVE_CHALLENGE_STREAK_FAIL, payload: err.message });
             }
         }
     };
