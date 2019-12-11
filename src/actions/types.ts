@@ -1711,6 +1711,7 @@ export interface RestoreArchivedChallengeStreakAction {
 
 export interface RestoreArchivedChallengeStreakFailAction {
     type: typeof RESTORE_ARCHIVED_CHALLENGE_STREAK_FAIL;
+    payload: string;
 }
 
 export interface RestoreArchivedChallengeStreakIsLoadingAction {
@@ -1732,6 +1733,7 @@ export interface DeleteArchivedChallengeStreakAction {
 
 export interface DeleteArchivedChallengeStreakFailAction {
     type: typeof DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL;
+    payload: string;
 }
 
 export interface DeleteArchivedChallengeStreakIsLoadingAction {
