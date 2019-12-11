@@ -39,6 +39,8 @@ import {
     ARCHIVE_CHALLENGE_STREAK_LOADING,
     ARCHIVE_CHALLENGE_STREAK_LOADED,
     ARCHIVE_CHALLENGE_STREAK_FAIL,
+    RESTORE_ARCHIVED_CHALLENGE_STREAK_FAIL,
+    DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL,
 } from '../actions/types';
 
 export interface ChallengeStreakReducerState {
@@ -58,7 +60,9 @@ export interface ChallengeStreakReducerState {
     archiveChallengeStreakErrorMessage: string;
     createChallengeStreakErrorMessge: string;
     restoreArchivedChallengeStreakIsLoading: boolean;
+    restoreArchivedChallengeStreakErrorMessage: string;
     deleteArchivedChallengeStreakIsLoading: boolean;
+    deleteArchivedChallengeStreakErrorMessage: string;
 }
 
 const initialState: ChallengeStreakReducerState = {
@@ -122,7 +126,9 @@ const initialState: ChallengeStreakReducerState = {
     archiveChallengeStreakErrorMessage: '',
     createChallengeStreakErrorMessge: '',
     restoreArchivedChallengeStreakIsLoading: false,
+    restoreArchivedChallengeStreakErrorMessage: '',
     deleteArchivedChallengeStreakIsLoading: false,
+    deleteArchivedChallengeStreakErrorMessage: '',
 };
 
 export interface ChallengeStreakWithClientData extends ChallengeStreak {
@@ -284,6 +290,12 @@ const challengeStreakReducer = (
                 ),
             };
 
+        case RESTORE_ARCHIVED_CHALLENGE_STREAK_FAIL:
+            return {
+                ...state,
+                restoreArchivedChallengeStreakErrorMessage: action.payload,
+            };
+
         case RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADING:
             return {
                 ...state,
@@ -302,6 +314,12 @@ const challengeStreakReducer = (
                 archivedChallengeStreaks: [
                     ...state.archivedChallengeStreaks.filter(challengeStreak => challengeStreak._id !== action.payload),
                 ],
+            };
+
+        case DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL:
+            return {
+                ...state,
+                deleteArchivedChallengeStreakErrorMessage: action.payload,
             };
 
         case DELETE_ARCHIVED_CHALLENGE_STREAK_LOADING:

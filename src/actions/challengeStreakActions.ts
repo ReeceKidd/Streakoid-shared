@@ -251,9 +251,9 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         } catch (err) {
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED });
             if (err.response) {
-                dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_FAIL, errorMessage: err.message });
+                dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_FAIL, payload: err.message });
             }
         }
     };
@@ -277,9 +277,9 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         } catch (err) {
             dispatch({ type: DELETE_ARCHIVED_CHALLENGE_STREAK_LOADED });
             if (err.response) {
-                dispatch({ type: DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL, errorMessage: err.message });
+                dispatch({ type: DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL, payload: err.message });
             }
         }
     };
