@@ -1,5 +1,3 @@
-import { StreakRecommendation } from '@streakoid/streakoid-sdk/lib';
-
 import {
     StreakRecommendationsActionTypes,
     GET_STREAK_RECOMMENDATIONS,
@@ -12,6 +10,7 @@ import {
     SELECT_STREAK_RECOMMENDATION_IS_LOADING,
     SELECT_STREAK_RECOMMENDATION_IS_LOADED,
 } from '../actions/types';
+import { Challenge } from '@streakoid/streakoid-sdk/lib';
 
 export interface StreakRecommendationReducerState {
     streakRecommendations: StreakRecommendationWithClientData[];
@@ -25,7 +24,7 @@ const initialState: StreakRecommendationReducerState = {
     getStreakRecommendationsIsLoading: false,
 };
 
-export interface StreakRecommendationWithClientData extends StreakRecommendation {
+export interface StreakRecommendationWithClientData extends Challenge {
     apiErrorMessage: string;
     hasBeenSelected: boolean;
     isLoading: boolean;
