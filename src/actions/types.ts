@@ -700,17 +700,17 @@ export interface SelectStreakRecommendationAction {
 
 export interface SelectStreakRecommendationFailAction {
     type: typeof SELECT_STREAK_RECOMMENDATION_FAIL;
-    payload: { errorMessage: string; streakRecommendationId: string };
+    payload: { errorMessage: string; challengeId: string };
 }
 
 export interface SelectStreakRecommendationIsLoading {
     type: typeof SELECT_STREAK_RECOMMENDATION_IS_LOADING;
-    payload: { streakRecommendationId: string };
+    payload: { challengeId: string };
 }
 
 export interface SelectStreakRecommendationIsLoaded {
     type: typeof SELECT_STREAK_RECOMMENDATION_IS_LOADED;
-    payload: { streakRecommendationId: string };
+    payload: { challengeId: string };
 }
 
 export interface ClearGetStreakRecommendationsErrorMessageAction {

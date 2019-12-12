@@ -40,34 +40,27 @@ const streakRecommendationActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const selectStreakRecommendation = ({
-        streakRecommendationId,
-        streakName,
-        streakDescription,
-        numberOfMinutes,
-    }: {
-        streakRecommendationId: string;
-        streakName: string;
-        streakDescription?: string;
-        numberOfMinutes?: number;
-    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
+    const selectStreakRecommendation = ({ challengeId }: { challengeId: string }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
         try {
             const userId = getState().users.currentUser._id;
-            dispatch({ type: SELECT_STREAK_RECOMMENDATION_IS_LOADING, payload: { streakRecommendationId } });
-            dispatch({ type: SELECT_STREAK_RECOMMENDATION, payload: streakRecommendationId });
-            await streakoid.soloStreaks.create({ userId, streakName, streakDescription, numberOfMinutes });
-            dispatch({ type: SELECT_STREAK_RECOMMENDATION_IS_LOADED, payload: { streakRecommendationId } });
+            dispatch({ type: SELECT_STREAK_RECOMMENDATION_IS_LOADING, payload: { challengeId } });
+            dispatch({ type: SELECT_STREAK_RECOMMENDATION, payload: challengeId });
+            await streakoid.challengeStreaks.create({ userId, challengeId });
+            dispatch({ type: SELECT_STREAK_RECOMMENDATION_IS_LOADED, payload: { challengeId } });
         } catch (err) {
-            dispatch({ type: SELECT_STREAK_RECOMMENDATION_IS_LOADED, payload: { streakRecommendationId } });
+            dispatch({ type: SELECT_STREAK_RECOMMENDATION_IS_LOADED, payload: { challengeId } });
             if (err.response) {
                 dispatch({
                     type: SELECT_STREAK_RECOMMENDATION_FAIL,
-                    payload: { streakRecommendationId, errorMessage: err.response.message },
+                    payload: { challengeId, errorMessage: err.response.message },
                 });
             } else {
                 dispatch({
                     type: SELECT_STREAK_RECOMMENDATION_FAIL,
-                    payload: { streakRecommendationId, errorMessage: err.message },
+                    payload: { challengeId, errorMessage: err.message },
                 });
             }
         }

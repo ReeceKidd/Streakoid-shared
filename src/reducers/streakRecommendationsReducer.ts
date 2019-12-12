@@ -86,7 +86,7 @@ const streakRecommendationReducer = (
             return {
                 ...state,
                 streakRecommendations: state.streakRecommendations.map(streakRecommendation => {
-                    if (streakRecommendation._id === action.payload.streakRecommendationId) {
+                    if (streakRecommendation._id === action.payload.challengeId) {
                         return {
                             ...streakRecommendation,
                             apiError: action.payload.errorMessage,
@@ -100,7 +100,7 @@ const streakRecommendationReducer = (
             return {
                 ...state,
                 streakRecommendations: state.streakRecommendations.map(streakRecommendation => {
-                    if (streakRecommendation._id === action.payload.streakRecommendationId) {
+                    if (streakRecommendation._id === action.payload.challengeId) {
                         return {
                             ...streakRecommendation,
                             isLoading: true,
@@ -114,7 +114,7 @@ const streakRecommendationReducer = (
             return {
                 ...state,
                 streakRecommendations: state.streakRecommendations.map(streakRecommendation => {
-                    if (streakRecommendation._id === action.payload.streakRecommendationId) {
+                    if (streakRecommendation._id === action.payload.challengeId) {
                         return {
                             ...streakRecommendation,
                             isLoading: false,
