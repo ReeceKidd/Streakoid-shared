@@ -9,7 +9,7 @@ import {
     PopulatedChallenge,
     PopulatedCurrentUser,
 } from '@streakoid/streakoid-sdk/lib';
-import { PopulatedTeamStreakWithLoadingStates } from '../reducers/teamStreakReducer';
+import { PopulatedTeamStreakWithLoadingStates, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
 import {
     LiveSoloStreakWithClientData,
     ArchivedSoloStreakWithClientData,
@@ -778,7 +778,7 @@ export interface GetLiveTeamStreaksFailAction {
 
 export interface GetTeamStreakAction {
     type: typeof GET_TEAM_STREAK;
-    payload: PopulatedTeamStreakWithLoadingStates;
+    payload: PopulatedTeamStreakWithTaskDates;
 }
 
 export interface GetTeamStreakFailAction {

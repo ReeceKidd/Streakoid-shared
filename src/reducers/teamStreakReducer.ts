@@ -41,6 +41,11 @@ export interface PopulatedTeamStreakWithLoadingStates extends PopulatedTeamStrea
     members: PopulatedTeamMemberWithLoadingStates[];
 }
 
+export interface PopulatedTeamStreakWithTaskDates extends PopulatedTeamStreak {
+    members: PopulatedTeamMemberWithLoadingStates[];
+    completedTeamMemberStreakTaskDatesWithCounts: { date: Date; count: number }[];
+}
+
 export interface PopulatedTeamMemberWithLoadingStates extends PopulatedTeamMember {
     teamMemberStreak: TeamMemberStreakWithLoadingStates;
 }
@@ -55,7 +60,7 @@ interface TeamMemberStreakWithLoadingStates extends TeamMemberStreak {
 export interface TeamStreakReducerState {
     liveTeamStreaks: PopulatedTeamStreakWithLoadingStates[];
     archivedTeamStreaks: TeamStreak[];
-    selectedTeamStreak: PopulatedTeamStreak;
+    selectedTeamStreak: PopulatedTeamStreakWithTaskDates;
     selectedArchivedTeamStreak: PopulatedTeamStreak;
     getTeamStreakIsLoading: boolean;
     editTeamStreakIsLoading: boolean;
@@ -95,6 +100,7 @@ const initialState: TeamStreakReducerState = {
         active: false,
         createdAt: '',
         updatedAt: '',
+        completedTeamMemberStreakTaskDatesWithCounts: [],
     },
     selectedArchivedTeamStreak: {
         _id: '',

@@ -92,9 +92,27 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                     },
                 };
             });
+            const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
+                teamStreakId,
+            });
+            const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(
+                completeTask => new Date(completeTask.createdAt),
+            );
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const counts: any = {};
+            for (let i = 0; i < completedTeamMemberStreakTaskDates.length; i++) {
+                const date = completedTeamMemberStreakTaskDates[i];
+                const key = date.toString();
+                counts[key] = counts[key] ? counts[key] + 1 : 1;
+            }
+            const completedTeamMemberStreakTaskDatesWithCounts = completedTeamMemberStreakTaskDates.map(taskDate => ({
+                date: taskDate,
+                count: counts[taskDate.toString()],
+            }));
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members,
+                completedTeamMemberStreakTaskDatesWithCounts,
             };
             dispatch({ type: GET_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: GET_TEAM_STREAK_IS_LOADED });
