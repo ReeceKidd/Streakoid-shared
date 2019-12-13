@@ -43,7 +43,7 @@ export interface PopulatedTeamStreakWithLoadingStates extends PopulatedTeamStrea
 
 export interface PopulatedTeamStreakWithTaskDates extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithLoadingStates[];
-    completedTeamMemberStreakTaskDatesWithCounts: { date: string; count: number }[];
+    completedTeamMemberStreakTaskDatesWithCounts: { date: Date; count: number }[];
 }
 
 export interface PopulatedTeamMemberWithLoadingStates extends PopulatedTeamMember {
