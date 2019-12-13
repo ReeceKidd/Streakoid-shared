@@ -91,6 +91,7 @@ const initialState: ChallengeStreakReducerState = {
         completeChallengeStreakTaskErrorMessage: '',
         incompleteChallengeStreakTaskIsLoading: false,
         incompleteChallengeStreakTaskErrorMessage: '',
+        completedChallengeStreakTaskDates: [],
     },
     getSelectedLiveChallengeStreakIsLoading: false,
     getSelectedLiveChallengeStreakErrorMessage: '',
@@ -119,6 +120,7 @@ const initialState: ChallengeStreakReducerState = {
         completeChallengeStreakTaskErrorMessage: '',
         incompleteChallengeStreakTaskIsLoading: false,
         incompleteChallengeStreakTaskErrorMessage: '',
+        completedChallengeStreakTaskDates: [],
     },
     getSelectedArchivedChallengeStreakIsLoading: false,
     getSelectedArchivedChallengeStreakErrorMessage: '',
@@ -138,6 +140,7 @@ export interface ChallengeStreakWithClientData extends ChallengeStreak {
     completeChallengeStreakTaskErrorMessage: string;
     incompleteChallengeStreakTaskIsLoading: boolean;
     incompleteChallengeStreakTaskErrorMessage: string;
+    completedChallengeStreakTaskDates: Date[];
 }
 
 const challengeStreakReducer = (

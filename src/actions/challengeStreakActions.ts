@@ -72,6 +72,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                         completeChallengeStreakTaskErrorMessage: '',
                         incompleteChallengeStreakTaskIsLoading: false,
                         incompleteChallengeStreakTaskErrorMessage: '',
+                        completedChallengeStreakTaskDates: [],
                     };
                 }),
             );
@@ -111,6 +112,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                         completeChallengeStreakTaskErrorMessage: '',
                         incompleteChallengeStreakTaskIsLoading: false,
                         incompleteChallengeStreakTaskErrorMessage: '',
+                        completedChallengeStreakTaskDates: [],
                     };
                 }),
             );
@@ -133,6 +135,12 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: GET_SELECTED_LIVE_CHALLENGE_STREAK_LOADING });
             const challengeStreak = await streakoid.challengeStreaks.getOne({ challengeStreakId });
             const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
+            const completeChallengeStreakTasks = await streakoid.completeChallengeStreakTasks.getAll({
+                challengeStreakId,
+            });
+            const completedChallengeStreakTaskDates = completeChallengeStreakTasks.map(
+                completeTask => new Date(completeTask.createdAt),
+            );
             const challengeStreakWithLoadingStates = {
                 ...challengeStreak,
                 challengeName: challenge.name,
@@ -143,6 +151,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 completeChallengeStreakTaskErrorMessage: '',
                 incompleteChallengeStreakTaskIsLoading: false,
                 incompleteChallengeStreakTaskErrorMessage: '',
+                completedChallengeStreakTaskDates,
             };
             dispatch({ type: GET_SELECTED_LIVE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingStates });
             dispatch({ type: GET_SELECTED_LIVE_CHALLENGE_STREAK_LOADED });
@@ -173,6 +182,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 completeChallengeStreakTaskErrorMessage: '',
                 incompleteChallengeStreakTaskIsLoading: false,
                 incompleteChallengeStreakTaskErrorMessage: '',
+                completedChallengeStreakTaskDates: [],
             };
             dispatch({ type: GET_SELECTED_ARCHIVED_CHALLENGE_STREAK, payload: challengeStreakWithLoadingStates });
             dispatch({ type: GET_SELECTED_ARCHIVED_CHALLENGE_STREAK_LOADED });
@@ -206,6 +216,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 completeChallengeStreakTaskErrorMessage: '',
                 incompleteChallengeStreakTaskIsLoading: false,
                 incompleteChallengeStreakTaskErrorMessage: '',
+                completedChallengeStreakTaskDates: [],
             };
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK_LOADED });
@@ -244,6 +255,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 completeChallengeStreakTaskErrorMessage: '',
                 incompleteChallengeStreakTaskIsLoading: false,
                 incompleteChallengeStreakTaskErrorMessage: '',
+                completedChallengeStreakTaskDates: [],
             };
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED });
