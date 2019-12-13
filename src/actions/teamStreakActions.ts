@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import moment from 'moment-timezone';
 
 import {
     GET_LIVE_TEAM_STREAKS,
@@ -95,8 +96,8 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
                 teamStreakId,
             });
-            const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(
-                completeTask => completeTask.createdAt,
+            const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(completeTask =>
+                moment(new Date(completeTask.createdAt), 'YYYY/MM/DD').toString(),
             );
             console.log(`Total completed teamMemberStreakTask dates: ${completedTeamMemberStreakTaskDates.length}`);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -105,11 +106,9 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 const key = completedTeamMemberStreakTaskDates[i];
                 counts[key] = counts[key] ? counts[key] + 1 : 1;
             }
-            console.log(counts);
             const uniqueDates = completedTeamMemberStreakTaskDates.filter(
                 (item, index) => completedTeamMemberStreakTaskDates.indexOf(item) === index,
             );
-            console.log(`Unique dates: ${uniqueDates.length}`);
             const completedTeamMemberStreakTaskDatesWithCounts = uniqueDates.map(taskDate => ({
                 date: new Date(taskDate),
                 count: counts[taskDate],
