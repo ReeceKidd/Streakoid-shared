@@ -97,6 +97,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 completeChallengeStreakTaskErrorMessage: '',
                 incompleteChallengeStreakTaskIsLoading: false,
                 incompleteChallengeStreakTaskErrorMessage: '',
+                completedChallengeStreakTaskDates: [],
             };
             dispatch({ type: CREATE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: JOIN_CHALLENGE_LOADED });
