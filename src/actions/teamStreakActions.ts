@@ -96,8 +96,8 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 teamStreakId,
             });
             console.log(`Number of complete team member streak tasks: ${completeTeamMemberStreakTasks.length}`);
-            const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(completeTask =>
-                new Date(completeTask.createdAt).toISOString(),
+            const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(
+                completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
             );
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const counts: any = {};
