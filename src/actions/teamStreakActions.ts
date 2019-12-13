@@ -96,23 +96,27 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
                 teamStreakId,
             });
+            console.log(`Number of complete team member streak tasks: ${completedTeamMemberStreakTaskDates.length}`);
             const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(completeTask =>
                 moment(new Date(completeTask.createdAt), 'YYYY/MM/DD').toString(),
             );
-            console.log(`Total completed teamMemberStreakTask dates: ${completedTeamMemberStreakTaskDates.length}`);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const counts: any = {};
             for (let i = 0; i < completedTeamMemberStreakTaskDates.length; i++) {
                 const key = completedTeamMemberStreakTaskDates[i];
                 counts[key] = counts[key] ? counts[key] + 1 : 1;
             }
+            console.log(counts);
             const uniqueDates = completedTeamMemberStreakTaskDates.filter(
                 (item, index) => completedTeamMemberStreakTaskDates.indexOf(item) === index,
             );
+            console.log(`Number of unique dates: ${uniqueDates.length}`);
             const completedTeamMemberStreakTaskDatesWithCounts = uniqueDates.map(taskDate => ({
                 date: new Date(taskDate),
                 count: counts[taskDate],
             }));
+            console.log('Complete dates with counts');
+            console.log(completedTeamMemberStreakTaskDatesWithCounts);
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members,
