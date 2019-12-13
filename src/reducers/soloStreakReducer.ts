@@ -52,7 +52,7 @@ import {
 
 export interface SoloStreakReducerState {
     liveSoloStreaks: LiveSoloStreakWithClientData[];
-    selectedLiveSoloStreak: SoloStreak;
+    selectedLiveSoloStreak: SoloStreakWithTaskCompletedDates;
     archivedSoloStreaks: ArchivedSoloStreakWithClientData[];
     selectedArchivedSoloStreak: SoloStreak;
     getMultipleLiveSoloStreaksIsLoading: boolean;
@@ -87,6 +87,7 @@ const initialState: SoloStreakReducerState = {
         timezone: '',
         createdAt: '',
         updatedAt: '',
+        completedSoloStreakTaskDates: [],
     },
     archivedSoloStreaks: [],
     selectedArchivedSoloStreak: {
@@ -119,6 +120,10 @@ const initialState: SoloStreakReducerState = {
     restoreArchivedSoloStreakErrorMessage: '',
     deleteArchivedSoloStreakErrorMessage: '',
 };
+
+export interface SoloStreakWithTaskCompletedDates extends SoloStreak {
+    completedSoloStreakTaskDates: Date[];
+}
 
 export interface LiveSoloStreakWithClientData extends SoloStreak {
     completeSoloStreakTaskIsLoading: boolean;

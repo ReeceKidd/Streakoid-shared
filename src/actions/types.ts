@@ -10,7 +10,11 @@ import {
     PopulatedCurrentUser,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates } from '../reducers/teamStreakReducer';
-import { LiveSoloStreakWithClientData, ArchivedSoloStreakWithClientData } from '../reducers/soloStreakReducer';
+import {
+    LiveSoloStreakWithClientData,
+    ArchivedSoloStreakWithClientData,
+    SoloStreakWithTaskCompletedDates,
+} from '../reducers/soloStreakReducer';
 import { FriendRequestStateWithClientData } from '../reducers/friendRequestReducer';
 import { UserWithClientData, SelectedUser } from '../reducers/userReducer';
 import { FriendStateWithClientData } from '../reducers/friendReducer';
@@ -402,7 +406,7 @@ export interface GetArchivedSoloStreaksFailAction {
 
 export interface GetLiveSoloStreakAction {
     type: typeof GET_LIVE_SOLO_STREAK;
-    payload: SoloStreak;
+    payload: SoloStreakWithTaskCompletedDates;
 }
 
 export interface GetLiveSoloStreakFailAction {

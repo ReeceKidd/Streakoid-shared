@@ -122,7 +122,11 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: GET_LIVE_SOLO_STREAK_IS_LOADING });
             const soloStreak = await streakoid.soloStreaks.getOne(soloStreakId);
-            dispatch({ type: GET_LIVE_SOLO_STREAK, payload: soloStreak });
+            const completeSoloStreakTasks = await streakoid.completeSoloStreakTasks.getAll({ streakId: soloStreakId });
+            const completedSoloStreakTaskDates = completeSoloStreakTasks.map(
+                completeTask => new Date(completeTask.createdAt),
+            );
+            dispatch({ type: GET_LIVE_SOLO_STREAK, payload: { ...soloStreak, completedSoloStreakTaskDates } });
             dispatch({ type: GET_LIVE_SOLO_STREAK_IS_LOADED });
         } catch (err) {
             dispatch({ type: NAVIGATE_TO_SOLO_STREAKS });
