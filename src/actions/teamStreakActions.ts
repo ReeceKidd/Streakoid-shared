@@ -1,5 +1,4 @@
 import { Dispatch } from 'redux';
-import moment from 'moment-timezone';
 
 import {
     GET_LIVE_TEAM_STREAKS,
@@ -98,7 +97,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             });
             console.log(`Number of complete team member streak tasks: ${completeTeamMemberStreakTasks.length}`);
             const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(completeTask =>
-                moment(new Date(completeTask.createdAt), 'YYYY/MM/DD').toString(),
+                new Date(completeTask.createdAt).toISOString(),
             );
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const counts: any = {};
