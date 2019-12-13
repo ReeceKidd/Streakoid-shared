@@ -96,7 +96,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
                 teamStreakId,
             });
-            console.log(`Number of complete team member streak tasks: ${completedTeamMemberStreakTaskDates.length}`);
+            console.log(`Number of complete team member streak tasks: ${completeTeamMemberStreakTasks.length}`);
             const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(completeTask =>
                 moment(new Date(completeTask.createdAt), 'YYYY/MM/DD').toString(),
             );
