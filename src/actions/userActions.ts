@@ -22,6 +22,10 @@ import {
     GET_CURRENT_USER_IS_LOADED,
     UPDATE_CURRENT_USER_IS_LOADING,
     UPDATE_CURRENT_USER_IS_LOADED,
+    GET_CURRENT_USER_STREAK_COMPLETE_INFO,
+    GET_CURRENT_USER_STREAK_COMPLETE_INFO_FAIL,
+    GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING,
+    GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -115,6 +119,23 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: GET_CURRENT_USER, payload: user });
             dispatch({ type: GET_CURRENT_USER_IS_LOADED });
         } catch (err) {
+            dispatch({ type: GET_CURRENT_USER_IS_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_CURRENT_USER_FAIL, errorMessage: err.response.data.message });
+            } else {
+                dispatch({ type: GET_CURRENT_USER_FAIL, errorMessage: err.message });
+            }
+        }
+    };
+
+    const getCurrentUserStreakCompleteDates = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+        try {
+            dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING });
+            const user = await streakoid.user.getCurrentUser();
+            dispatch({ type: GET_CURRENT_USER, payload: user });
+            dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED });
             if (err.response) {
                 dispatch({ type: GET_CURRENT_USER_FAIL, errorMessage: err.response.data.message });
             } else {
@@ -170,6 +191,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         getUsers,
         getUser,
         getCurrentUser,
+        getCurrentUserStreakCompleteDates,
         updateCurrentUser,
         sendFriendRequest,
     };
