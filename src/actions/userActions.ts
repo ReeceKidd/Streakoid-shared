@@ -128,21 +128,21 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getCurrentUserStreakCompleteDates = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
-        try {
-            dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING });
-            const user = await streakoid.user.getCurrentUser();
-            dispatch({ type: GET_CURRENT_USER, payload: user });
-            dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED });
-        } catch (err) {
-            dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED });
-            if (err.response) {
-                dispatch({ type: GET_CURRENT_USER_FAIL, errorMessage: err.response.data.message });
-            } else {
-                dispatch({ type: GET_CURRENT_USER_FAIL, errorMessage: err.message });
-            }
-        }
-    };
+    // const getCurrentUserStreakCompleteDates = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    //     try {
+    //         dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING });
+    //         const user = await streakoid.user.getCurrentUser();
+    //         dispatch({ type: GET_CURRENT_USER, payload: user });
+    //         dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED });
+    //     } catch (err) {
+    //         dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED });
+    //         if (err.response) {
+    //             dispatch({ type: GET_CURRENT_USER_FAIL, errorMessage: err.response.data.message });
+    //         } else {
+    //             dispatch({ type: GET_CURRENT_USER_FAIL, errorMessage: err.message });
+    //         }
+    //     }
+    // };
 
     const updateCurrentUser = (updateData: {
         email?: string;
@@ -191,7 +191,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         getUsers,
         getUser,
         getCurrentUser,
-        getCurrentUserStreakCompleteDates,
+        // getCurrentUserStreakCompleteDates,
         updateCurrentUser,
         sendFriendRequest,
     };
