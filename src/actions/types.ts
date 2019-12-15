@@ -1083,6 +1083,10 @@ export interface GetCurrentUserIsLoadedAction {
     type: typeof GET_CURRENT_USER_IS_LOADED;
 }
 
+export interface GetCurrentUserStreakCompleteInfoAction {
+    type: typeof GET_CURRENT_USER_STREAK_COMPLETE_INFO;
+}
+
 export interface GetFriendsAction {
     type: typeof GET_FRIENDS;
     friends: FriendStateWithClientData[];

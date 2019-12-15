@@ -191,7 +191,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         getUsers,
         getUser,
         getCurrentUser,
-        // getCurrentUserStreakCompleteDates,
+        //getCurrentUserStreakCompleteDates,
         updateCurrentUser,
         sendFriendRequest,
     };
