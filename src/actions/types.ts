@@ -1087,6 +1087,18 @@ export interface GetCurrentUserStreakCompleteInfoAction {
     type: typeof GET_CURRENT_USER_STREAK_COMPLETE_INFO;
 }
 
+export interface GetCurrentUserStreakCompleteInfoFailAction {
+    type: typeof GET_CURRENT_USER_STREAK_COMPLETE_INFO_FAIL;
+}
+
+export interface GetCurrentUserStreakCompleteInfoLoadingAction {
+    type: typeof GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING;
+}
+
+export interface GetCurrentUserStreakCompleteInfoLoadedAction {
+    type: typeof GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED;
+}
+
 export interface GetFriendsAction {
     type: typeof GET_FRIENDS;
     friends: FriendStateWithClientData[];
@@ -1264,6 +1276,10 @@ export type UserActionTypes =
     | GetCurrentUserFailAction
     | GetCurrentUserIsLoadingAction
     | GetCurrentUserIsLoadedAction
+    | GetCurrentUserStreakCompleteInfoAction
+    | GetCurrentUserStreakCompleteInfoFailAction
+    | GetCurrentUserStreakCompleteInfoLoadingAction
+    | GetCurrentUserStreakCompleteInfoLoadedAction
     | GetFriendsAction
     | GetFriendsFailAction
     | DeleteFriendAction
