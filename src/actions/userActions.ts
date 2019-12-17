@@ -77,8 +77,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             const key = combinedCompletedTasks[i];
             counts[key] = counts[key] ? counts[key] + 1 : 1;
         }
-        const uniqueDates = completedTeamMemberStreakTaskDates.filter(
-            (item, index) => completedTeamMemberStreakTaskDates.indexOf(item) === index,
+        const uniqueDates = combinedCompletedTasks.filter(
+            (item, index) => combinedCompletedTasks.indexOf(item) === index,
         );
         const completedStreakTaskDatesWithCounts = uniqueDates.map(taskDate => ({
             date: new Date(taskDate),
