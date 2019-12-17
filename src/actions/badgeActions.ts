@@ -13,6 +13,7 @@ import {
 } from './types';
 import { AppActions } from '..';
 import { BadgeTypes } from '@streakoid/streakoid-sdk/lib';
+import { UserBadge } from '../reducers/badgesReducer';
 
 const badgeActions = (streakoid: typeof streakoidSDK) => {
     const getBadges = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -29,6 +30,16 @@ const badgeActions = (streakoid: typeof streakoidSDK) => {
                 dispatch({ type: GET_BADGES_FAIL, payload: err.message });
             }
         }
+    };
+
+    const sortBadgesByLongestStreak = (badgeA: UserBadge, badgeB: UserBadge) => {
+        let comparison = 0;
+        if (badgeA.longestStreak > badgeB.longestStreak) {
+            comparison = 1;
+        } else if (badgeA.longestStreak < badgeB.longestStreak) {
+            comparison = -1;
+        }
+        return comparison;
     };
 
     const getUserBadges = ({ userId }: { userId: string }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -69,7 +80,7 @@ const badgeActions = (streakoid: typeof streakoidSDK) => {
                 }),
             );
 
-            dispatch({ type: GET_USER_BADGES, payload: populatedBadges });
+            dispatch({ type: GET_USER_BADGES, payload: populatedBadges.sort(sortBadgesByLongestStreak) });
             dispatch({ type: GET_USER_BADGES_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_USER_BADGES_IS_LOADED });
