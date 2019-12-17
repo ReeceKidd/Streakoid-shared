@@ -59,7 +59,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 userId,
                 status: StreakStatus.live,
             });
-            const challengeStreaksWithLoadingStates = await Promise.all(
+            const challengeStreaksWithClientData = await Promise.all(
                 challengeStreaks.map(async challengeStreak => {
                     const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
                     return {
@@ -76,7 +76,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                     };
                 }),
             );
-            dispatch({ type: GET_LIVE_CHALLENGE_STREAKS, payload: challengeStreaksWithLoadingStates });
+            dispatch({ type: GET_LIVE_CHALLENGE_STREAKS, payload: challengeStreaksWithClientData });
             dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_LOADED });
         } catch (err) {
             dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_LOADED });

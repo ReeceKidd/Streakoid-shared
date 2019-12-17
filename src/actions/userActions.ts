@@ -62,6 +62,23 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             const soloStreaks = await streakoid.soloStreaks.getAll({ userId: user._id, status: StreakStatus.live });
             const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: user._id, status: StreakStatus.live });
             const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId: user._id });
+            const challengeStreaksWithClientData = await Promise.all(
+                challengeStreaks.map(async challengeStreak => {
+                    const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
+                    return {
+                        ...challengeStreak,
+                        challengeName: challenge.name,
+                        challengeDescription: challenge.description,
+                        joinChallengeStreakTaskIsLoading: false,
+                        joinChallengeStreakTaskErrorMessage: '',
+                        completeChallengeStreakTaskIsLoading: false,
+                        completeChallengeStreakTaskErrorMessage: '',
+                        incompleteChallengeStreakTaskIsLoading: false,
+                        incompleteChallengeStreakTaskErrorMessage: '',
+                        completedChallengeStreakTaskDates: [],
+                    };
+                }),
+            );
             const userBadges = await Promise.all(
                 badges.map(badge => {
                     if (badge.badgeType === BadgeTypes.challenge) {
@@ -98,7 +115,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 userBadges,
                 soloStreaks,
                 teamStreaks,
-                challengeStreaks,
+                challengeStreaks: challengeStreaksWithClientData,
             };
             dispatch({ type: GET_USER, payload: selectedUser });
             dispatch({ type: GET_USER_IS_LOADED });
