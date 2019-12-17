@@ -55,38 +55,28 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         userId: string;
     }): Promise<{ date: Date; count: number }[]> => {
         const completeSoloStreakTasks = await streakoid.completeSoloStreakTasks.getAll({ userId });
-        console.log(completeSoloStreakTasks);
-        console.log('complete solo streak tasks', completeSoloStreakTasks.length);
         const completeSoloStreakTaskDates = completeSoloStreakTasks.map(
             completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
         );
-        console.log('complete solo streak task dates', completeSoloStreakTaskDates.length);
         const completeChallengeStreakTasks = await streakoid.completeChallengeStreakTasks.getAll({ userId });
         const completeChallengeStreakTaskDates = completeChallengeStreakTasks.map(
             completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
         );
-        console.log('complete challenge streak tasks', completeChallengeStreakTasks.length);
-        console.log('complete challenge streak task dates', completeChallengeStreakTaskDates.length);
         const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({ userId });
         const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(
             completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
         );
-        console.log('complete team member streak tasks', completeTeamMemberStreakTasks.length);
-        console.log('complete team member streak task dates', completedTeamMemberStreakTaskDates.length);
         const combinedCompletedTasks = [
             ...completeSoloStreakTaskDates,
             ...completeChallengeStreakTaskDates,
             ...completedTeamMemberStreakTaskDates,
         ];
-        console.log('combined length', combinedCompletedTasks.length);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const counts: any = {};
         for (let i = 0; i < combinedCompletedTasks.length; i++) {
             const key = combinedCompletedTasks[i];
             counts[key] = counts[key] ? counts[key] + 1 : 1;
         }
-        console.log(Object.keys(counts).length);
-        console.log(counts);
         const completedStreakTaskDatesWithCounts = Object.keys(counts).map(taskDate => ({
             date: new Date(taskDate),
             count: counts[taskDate],
