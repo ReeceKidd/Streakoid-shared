@@ -7,7 +7,6 @@ import {
     Badge,
     Challenge,
     PopulatedChallenge,
-    PopulatedCurrentUser,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
 import {
@@ -16,7 +15,7 @@ import {
     SoloStreakWithTaskCompletedDates,
 } from '../reducers/soloStreakReducer';
 import { FriendRequestStateWithClientData } from '../reducers/friendRequestReducer';
-import { UserWithClientData, SelectedUser } from '../reducers/userReducer';
+import { UserWithClientData, SelectedUser, PopulatedCurrentUserWithStreakCompleteInfo } from '../reducers/userReducer';
 import { FriendStateWithClientData } from '../reducers/friendReducer';
 import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
@@ -970,11 +969,6 @@ export const GET_CURRENT_USER_FAIL = 'GET_CURRENT_USER_FAIL';
 export const GET_CURRENT_USER_IS_LOADING = 'GET_CURRENT_USER_IS_LOADING';
 export const GET_CURRENT_USER_IS_LOADED = 'GET_CURRENT_USER_IS_LOADED';
 
-export const GET_CURRENT_USER_STREAK_COMPLETE_INFO = 'GET_CURRENT_USER_STREAK_COMPLETE_INFO';
-export const GET_CURRENT_USER_STREAK_COMPLETE_INFO_FAIL = 'GET_CURRENT_USER_STREAK_COMPLETE_INFO_FAIL';
-export const GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING = 'GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING';
-export const GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED = 'GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED';
-
 export const GET_FRIENDS = 'GET_FRIENDS';
 export const GET_FRIENDS_FAIL = 'GET_FRIENDS_FAIL';
 export const DELETE_FRIEND = 'DELTE_FRIEND';
@@ -1049,7 +1043,7 @@ export interface GetUserIsLoadedAction {
 
 export interface UpdateCurrentUserAction {
     type: typeof UPDATE_CURRENT_USER;
-    user: PopulatedCurrentUser;
+    user: PopulatedCurrentUserWithStreakCompleteInfo;
 }
 
 export interface UpdateCurrentUserFailAction {
@@ -1067,7 +1061,7 @@ export interface UpdateCurrentUserIsLoadedAction {
 
 export interface GetCurrentUserAction {
     type: typeof GET_CURRENT_USER;
-    payload: PopulatedCurrentUser;
+    payload: PopulatedCurrentUserWithStreakCompleteInfo;
 }
 
 export interface GetCurrentUserFailAction {
@@ -1081,24 +1075,6 @@ export interface GetCurrentUserIsLoadingAction {
 
 export interface GetCurrentUserIsLoadedAction {
     type: typeof GET_CURRENT_USER_IS_LOADED;
-}
-
-export interface GetCurrentUserStreakCompleteInfoAction {
-    type: typeof GET_CURRENT_USER_STREAK_COMPLETE_INFO;
-    payload: { date: Date; count: number }[];
-}
-
-export interface GetCurrentUserStreakCompleteInfoFailAction {
-    type: typeof GET_CURRENT_USER_STREAK_COMPLETE_INFO_FAIL;
-    payload: string;
-}
-
-export interface GetCurrentUserStreakCompleteInfoLoadingAction {
-    type: typeof GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING;
-}
-
-export interface GetCurrentUserStreakCompleteInfoLoadedAction {
-    type: typeof GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED;
 }
 
 export interface GetFriendsAction {
@@ -1278,10 +1254,6 @@ export type UserActionTypes =
     | GetCurrentUserFailAction
     | GetCurrentUserIsLoadingAction
     | GetCurrentUserIsLoadedAction
-    | GetCurrentUserStreakCompleteInfoAction
-    | GetCurrentUserStreakCompleteInfoFailAction
-    | GetCurrentUserStreakCompleteInfoLoadingAction
-    | GetCurrentUserStreakCompleteInfoLoadedAction
     | GetFriendsAction
     | GetFriendsFailAction
     | DeleteFriendAction

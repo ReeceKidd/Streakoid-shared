@@ -40,10 +40,6 @@ import {
     SEND_CANCEL_MEMBERSHIP_EMAIL_FAIL,
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING,
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED,
-    GET_CURRENT_USER_STREAK_COMPLETE_INFO,
-    GET_CURRENT_USER_STREAK_COMPLETE_INFO_FAIL,
-    GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING,
-    GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED,
 } from '../actions/types';
 import {
     SoloStreak,
@@ -66,12 +62,16 @@ export interface SelectedUser extends PopulatedUser {
     teamStreaks: PopulatedTeamStreak[];
     challengeStreaks: ChallengeStreakWithClientData[];
     userBadges: UserBadge[];
+    userStreakCompleteInfo: { date: Date; count: number }[];
+}
+
+export interface PopulatedCurrentUserWithStreakCompleteInfo extends PopulatedCurrentUser {
+    userStreakCompleteInfo: { date: Date; count: number }[];
 }
 
 export interface UserReducerInitialState {
     usersList: UserWithClientData[];
-    currentUser: PopulatedCurrentUser;
-    userStreakCompleteInfo: { date: Date; count: number }[];
+    currentUser: PopulatedCurrentUserWithStreakCompleteInfo;
     getUserStreakCompleteInfoFail: string;
     getUserStreakCompleteInfoIsLoading: boolean;
     selectedUser: SelectedUser;
@@ -133,11 +133,11 @@ const initialState: UserReducerInitialState = {
                 emailNotification: false,
             },
         },
+        userStreakCompleteInfo: [],
         pushNotificationToken: '',
         createdAt: '',
         updatedAt: '',
     },
-    userStreakCompleteInfo: [],
     getUserStreakCompleteInfoFail: '',
     getUserStreakCompleteInfoIsLoading: false,
     selectedUser: {
@@ -158,6 +158,7 @@ const initialState: UserReducerInitialState = {
         teamStreaks: [],
         challengeStreaks: [],
         userBadges: [],
+        userStreakCompleteInfo: [],
     },
     getUsersIsLoading: false,
     getUsersErrorMessage: '',
@@ -251,34 +252,6 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
         }
 
         case GET_CURRENT_USER_IS_LOADED: {
-            return {
-                ...state,
-                getCurrentUserIsLoading: false,
-            };
-        }
-
-        case GET_CURRENT_USER_STREAK_COMPLETE_INFO: {
-            return {
-                ...state,
-                userStreakCompleteInfo: action.payload,
-            };
-        }
-
-        case GET_CURRENT_USER_STREAK_COMPLETE_INFO_FAIL: {
-            return {
-                ...state,
-                getUserStreakCompleteInfoFail: action.payload,
-            };
-        }
-
-        case GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING: {
-            return {
-                ...state,
-                getCurrentUserIsLoading: true,
-            };
-        }
-
-        case GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED: {
             return {
                 ...state,
                 getCurrentUserIsLoading: false,
