@@ -128,11 +128,11 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getCurrentUserStreakCompleteInfo = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getUserStreakCompleteInfo = ({ userId }: { userId: string }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
         try {
             dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING });
-            const user = await streakoid.user.getCurrentUser();
-            const userId = user._id;
             const completeSoloStreakTasks = await streakoid.soloStreaks.getAll({ userId });
             const completeSoloStreakTaskDates = completeSoloStreakTasks.map(
                 completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
@@ -222,7 +222,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         getUsers,
         getUser,
         getCurrentUser,
-        getCurrentUserStreakCompleteInfo,
+        getUserStreakCompleteInfo,
         updateCurrentUser,
         sendFriendRequest,
     };
