@@ -72,8 +72,6 @@ export interface PopulatedCurrentUserWithStreakCompleteInfo extends PopulatedCur
 export interface UserReducerInitialState {
     usersList: UserWithClientData[];
     currentUser: PopulatedCurrentUserWithStreakCompleteInfo;
-    getUserStreakCompleteInfoFail: string;
-    getUserStreakCompleteInfoIsLoading: boolean;
     selectedUser: SelectedUser;
     getUsersIsLoading: boolean;
     getUsersErrorMessage: string;
@@ -138,8 +136,6 @@ const initialState: UserReducerInitialState = {
         createdAt: '',
         updatedAt: '',
     },
-    getUserStreakCompleteInfoFail: '',
-    getUserStreakCompleteInfoIsLoading: false,
     selectedUser: {
         _id: '',
         isPayingMember: false,
