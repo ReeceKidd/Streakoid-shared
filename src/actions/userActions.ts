@@ -54,14 +54,14 @@ const userActions = (streakoid: typeof streakoidSDK) => {
     }: {
         userId: string;
     }): Promise<{ date: Date; count: number }[]> => {
-        const completeSoloStreakTasks = await streakoid.soloStreaks.getAll({ userId });
+        const completeSoloStreakTasks = await streakoid.completeSoloStreakTasks.getAll({ userId });
         console.log(completeSoloStreakTasks);
         console.log('complete solo streak tasks', completeSoloStreakTasks.length);
         const completeSoloStreakTaskDates = completeSoloStreakTasks.map(
             completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
         );
         console.log('complete solo streak task dates', completeSoloStreakTaskDates.length);
-        const completeChallengeStreakTasks = await streakoid.challengeStreaks.getAll({ userId });
+        const completeChallengeStreakTasks = await streakoid.completeChallengeStreakTasks.getAll({ userId });
         const completeChallengeStreakTaskDates = completeChallengeStreakTasks.map(
             completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
         );
