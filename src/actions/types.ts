@@ -1085,10 +1085,12 @@ export interface GetCurrentUserIsLoadedAction {
 
 export interface GetCurrentUserStreakCompleteInfoAction {
     type: typeof GET_CURRENT_USER_STREAK_COMPLETE_INFO;
+    payload: { date: Date; count: number }[];
 }
 
 export interface GetCurrentUserStreakCompleteInfoFailAction {
     type: typeof GET_CURRENT_USER_STREAK_COMPLETE_INFO_FAIL;
+    payload: string;
 }
 
 export interface GetCurrentUserStreakCompleteInfoLoadingAction {

@@ -128,21 +128,52 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    // const getCurrentUserStreakCompleteDates = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
-    //     try {
-    //         dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING });
-    //         const user = await streakoid.user.getCurrentUser();
-    //         dispatch({ type: GET_CURRENT_USER, payload: user });
-    //         dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED });
-    //     } catch (err) {
-    //         dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED });
-    //         if (err.response) {
-    //             dispatch({ type: GET_CURRENT_USER_FAIL, errorMessage: err.response.data.message });
-    //         } else {
-    //             dispatch({ type: GET_CURRENT_USER_FAIL, errorMessage: err.message });
-    //         }
-    //     }
-    // };
+    const getCurrentUserStreakCompleteDates = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+        try {
+            dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING });
+            const user = await streakoid.user.getCurrentUser();
+            const userId = user._id;
+            const completeSoloStreakTasks = await streakoid.soloStreaks.getAll({ userId });
+            const completeSoloStreakTaskDates = completeSoloStreakTasks.map(
+                completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
+            );
+            const completeChallengeStreakTasks = await streakoid.challengeStreaks.getAll({ userId });
+            const completeChallengeStreakTaskDates = completeChallengeStreakTasks.map(
+                completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
+            );
+            const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({ userId });
+            const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(
+                completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
+            );
+            const combinedCompletedTasks = [
+                ...completeSoloStreakTaskDates,
+                ...completeChallengeStreakTaskDates,
+                ...completedTeamMemberStreakTaskDates,
+            ];
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const counts: any = {};
+            for (let i = 0; i < combinedCompletedTasks.length; i++) {
+                const key = combinedCompletedTasks[i];
+                counts[key] = counts[key] ? counts[key] + 1 : 1;
+            }
+            const uniqueDates = completedTeamMemberStreakTaskDates.filter(
+                (item, index) => completedTeamMemberStreakTaskDates.indexOf(item) === index,
+            );
+            const completedStreakTaskDatesWithCounts = uniqueDates.map(taskDate => ({
+                date: new Date(taskDate),
+                count: counts[taskDate],
+            }));
+            dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO, payload: completedStreakTaskDatesWithCounts });
+            dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_FAIL, payload: err.message });
+            }
+        }
+    };
 
     const updateCurrentUser = (updateData: {
         email?: string;
@@ -191,7 +222,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         getUsers,
         getUser,
         getCurrentUser,
-        //getCurrentUserStreakCompleteDates,
+        getCurrentUserStreakCompleteDates,
         updateCurrentUser,
         sendFriendRequest,
     };
