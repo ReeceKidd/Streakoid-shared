@@ -35,9 +35,9 @@ const badgeActions = (streakoid: typeof streakoidSDK) => {
     const sortBadgesByLongestStreak = (badgeA: UserBadge, badgeB: UserBadge) => {
         let comparison = 0;
         if (badgeA.longestStreak > badgeB.longestStreak) {
-            comparison = 1;
-        } else if (badgeA.longestStreak < badgeB.longestStreak) {
             comparison = -1;
+        } else if (badgeA.longestStreak < badgeB.longestStreak) {
+            comparison = 1;
         }
         return comparison;
     };
