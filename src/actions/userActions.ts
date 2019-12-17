@@ -128,7 +128,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getCurrentUserStreakCompleteDates = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getCurrentUserStreakCompleteInfo = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_CURRENT_USER_STREAK_COMPLETE_INFO_IS_LOADING });
             const user = await streakoid.user.getCurrentUser();
@@ -222,7 +222,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         getUsers,
         getUser,
         getCurrentUser,
-        getCurrentUserStreakCompleteDates,
+        getCurrentUserStreakCompleteInfo,
         updateCurrentUser,
         sendFriendRequest,
     };
