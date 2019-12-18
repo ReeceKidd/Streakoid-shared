@@ -394,7 +394,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK_LOADING });
             const teamStreak = await streakoid.teamStreaks.update({
                 teamStreakId,
-                updateData: { status: StreakStatus.archived },
+                updateData: { status: StreakStatus.live },
             });
             dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK, payload: teamStreak });
             dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK_LOADED });
@@ -420,7 +420,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: DELETE_ARCHIVED_TEAM_STREAK_LOADING });
             await streakoid.teamStreaks.update({
                 teamStreakId,
-                updateData: { status: StreakStatus.archived },
+                updateData: { status: StreakStatus.deleted },
             });
             dispatch({ type: DELETE_ARCHIVED_TEAM_STREAK, payload: teamStreakId });
             dispatch({ type: DELETE_ARCHIVED_TEAM_STREAK_LOADED });
