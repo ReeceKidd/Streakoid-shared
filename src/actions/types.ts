@@ -979,7 +979,7 @@ export interface ArchiveTeamStreakIsLoadedAction {
 
 export interface RestoreArchivedTeamStreakAction {
     type: typeof RESTORE_ARCHIVED_TEAM_STREAK;
-    payload: TeamStreak;
+    payload: PopulatedTeamStreakWithLoadingStates;
 }
 
 export interface RestoreArchivedTeamStreakFailAction {

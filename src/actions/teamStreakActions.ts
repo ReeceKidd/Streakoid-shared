@@ -392,11 +392,28 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK_LOADING });
-            const teamStreak = await streakoid.teamStreaks.update({
+            await streakoid.teamStreaks.update({
                 teamStreakId,
                 updateData: { status: StreakStatus.live },
             });
-            dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK, payload: teamStreak });
+            const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
+            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
+                return {
+                    ...member,
+                    teamMemberStreak: {
+                        ...member.teamMemberStreak,
+                        completeTeamMemberStreakTaskIsLoading: false,
+                        completeTeamMemberStreakTaskErrorMessage: '',
+                        incompleteTeamMemberStreakTaskIsLoading: false,
+                        incompleteTeamMemberStreakTaskErrorMessage: '',
+                    },
+                };
+            });
+            const teamStreakWithLoadingState = {
+                ...teamStreak,
+                members: teamStreakMembersWithLoadingStates,
+            };
+            dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK_LOADED });
             dispatch({ type: NAVIGATE_TO_TEAM_STREAKS });
         } catch (err) {
