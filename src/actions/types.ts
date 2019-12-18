@@ -945,7 +945,7 @@ export interface ClearCreateTeamStreakErrorAction {
 
 export interface ArchiveTeamStreakAction {
     type: typeof ARCHIVE_TEAM_STREAK;
-    payload: TeamStreak;
+    payload: PopulatedTeamStreakWithLoadingStates;
 }
 
 export interface ArchiveTeamStreakFailAction {

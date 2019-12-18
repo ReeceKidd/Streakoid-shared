@@ -11,9 +11,9 @@ import {
     INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING,
     INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED,
     CREATE_TEAM_STREAK,
-    GET_TEAM_STREAK,
-    GET_TEAM_STREAK_IS_LOADING,
-    GET_TEAM_STREAK_IS_LOADED,
+    GET_LIVE_TEAM_STREAK,
+    GET_LIVE_TEAM_STREAK_IS_LOADING,
+    GET_LIVE_TEAM_STREAK_IS_LOADED,
     EDIT_TEAM_STREAK_FAIL,
     EDIT_TEAM_STREAK_LOADING,
     EDIT_TEAM_STREAK_LOADED,
@@ -28,14 +28,12 @@ import {
     ARCHIVE_TEAM_STREAK_IS_LOADED,
     ARCHIVE_TEAM_STREAK_FAIL,
     CLEAR_ARCHIVE_TEAM_STREAK_ERROR_MESSAGE,
+    GET_ARCHIVED_TEAM_STREAKS,
+    GET_ARCHIVED_TEAM_STREAK_LOADING,
+    GET_ARCHIVED_TEAM_STREAK_LOADED,
+    GET_ARCHIVED_TEAM_STREAK,
 } from '../actions/types';
-import {
-    PopulatedTeamStreak,
-    PopulatedTeamMember,
-    TeamMemberStreak,
-    StreakStatus,
-    TeamStreak,
-} from '@streakoid/streakoid-sdk/lib';
+import { PopulatedTeamStreak, PopulatedTeamMember, TeamMemberStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
 export interface PopulatedTeamStreakWithLoadingStates extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithLoadingStates[];
@@ -59,17 +57,17 @@ interface TeamMemberStreakWithLoadingStates extends TeamMemberStreak {
 
 export interface TeamStreakReducerState {
     liveTeamStreaks: PopulatedTeamStreakWithLoadingStates[];
-    archivedTeamStreaks: TeamStreak[];
-    selectedTeamStreak: PopulatedTeamStreakWithTaskDates;
-    selectedArchivedTeamStreak: PopulatedTeamStreak;
-    getTeamStreakIsLoading: boolean;
+    archivedTeamStreaks: PopulatedTeamStreakWithLoadingStates[];
+    selectedLiveTeamStreak: PopulatedTeamStreakWithTaskDates;
+    selectedArchivedTeamStreak: PopulatedTeamStreakWithTaskDates;
+    getMultipleArchivedTeamStreaksIsLoading: boolean;
+    getMultipleLiveTeamStreaksIsLoading: boolean;
+    getLiveTeamStreakIsLoading: boolean;
+    getArchivedTeamStreakIsLoading: boolean;
     editTeamStreakIsLoading: boolean;
     editTeamStreakErrorMessage: string;
-    getLiveTeamStreaksIsLoading: boolean;
     createTeamStreakIsLoading: boolean;
     createTeamStreakErrorMessage: string;
-    getMultipleArchivedTeamStreaksIsLoading: boolean;
-    getArchivedTeamStreakIsLoading: boolean;
     archiveTeamStreakIsLoading: boolean;
     restoreArchivedTeamStreakIsLoading: boolean;
     deleteArchivedTeamStreakIsLoading: boolean;
@@ -81,7 +79,7 @@ export interface TeamStreakReducerState {
 const initialState: TeamStreakReducerState = {
     liveTeamStreaks: [],
     archivedTeamStreaks: [],
-    selectedTeamStreak: {
+    selectedLiveTeamStreak: {
         _id: '',
         status: StreakStatus.live,
         creatorId: '',
@@ -121,15 +119,16 @@ const initialState: TeamStreakReducerState = {
         active: false,
         createdAt: '',
         updatedAt: '',
+        completedTeamMemberStreakTaskDatesWithCounts: [],
     },
-    getTeamStreakIsLoading: false,
+    getMultipleLiveTeamStreaksIsLoading: false,
+    getMultipleArchivedTeamStreaksIsLoading: false,
+    getLiveTeamStreakIsLoading: false,
+    getArchivedTeamStreakIsLoading: false,
     editTeamStreakIsLoading: false,
     editTeamStreakErrorMessage: '',
-    getLiveTeamStreaksIsLoading: false,
     createTeamStreakIsLoading: false,
     createTeamStreakErrorMessage: '',
-    getMultipleArchivedTeamStreaksIsLoading: false,
-    getArchivedTeamStreakIsLoading: false,
     archiveTeamStreakIsLoading: false,
     restoreArchivedTeamStreakIsLoading: false,
     deleteArchivedTeamStreakIsLoading: false,
@@ -146,23 +145,72 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 liveTeamStreaks: action.payload,
             };
 
-        case GET_TEAM_STREAK:
+        case GET_LIVE_TEAM_STREAKS_IS_LOADING:
             return {
                 ...state,
-                selectedTeamStreak: action.payload,
+                getMultipleLiveTeamStreaksIsLoading: true,
             };
 
-        case GET_TEAM_STREAK_IS_LOADING:
+        case GET_LIVE_TEAM_STREAKS_IS_LOADED:
             return {
                 ...state,
-                getTeamStreakIsLoading: true,
+                getMultipleLiveTeamStreaksIsLoading: false,
             };
 
-        case GET_TEAM_STREAK_IS_LOADED:
+        case GET_ARCHIVED_TEAM_STREAKS:
             return {
                 ...state,
-                getTeamStreakIsLoading: false,
+                archivedTeamStreaks: action.payload,
             };
+
+        case GET_ARCHIVED_TEAM_STREAK_LOADING:
+            return {
+                ...state,
+                getMultipleArchivedTeamStreaksIsLoading: true,
+            };
+
+        case GET_ARCHIVED_TEAM_STREAK_LOADED:
+            return {
+                ...state,
+                getMultipleArchivedTeamStreaksIsLoading: false,
+            };
+
+        case GET_LIVE_TEAM_STREAK:
+            return {
+                ...state,
+                selectedLiveTeamStreak: action.payload,
+            };
+
+        case GET_LIVE_TEAM_STREAK_IS_LOADING:
+            return {
+                ...state,
+                getLiveTeamStreakIsLoading: true,
+            };
+
+        case GET_LIVE_TEAM_STREAK_IS_LOADED:
+            return {
+                ...state,
+                getLiveTeamStreakIsLoading: false,
+            };
+
+        case GET_ARCHIVED_TEAM_STREAK:
+            return {
+                ...state,
+                selectedArchivedTeamStreak: action.payload,
+            };
+
+        case GET_ARCHIVED_TEAM_STREAK_LOADING:
+            return {
+                ...state,
+                getArchivedTeamStreakIsLoading: true,
+            };
+
+        case GET_ARCHIVED_TEAM_STREAK_LOADED: {
+            return {
+                ...state,
+                getArchivedTeamStreakIsLoading: false,
+            };
+        }
 
         case CREATE_TEAM_STREAK:
             return {
@@ -389,18 +437,6 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         members,
                     };
                 }),
-            };
-
-        case GET_LIVE_TEAM_STREAKS_IS_LOADING:
-            return {
-                ...state,
-                getLiveTeamStreaksIsLoading: true,
-            };
-
-        case GET_LIVE_TEAM_STREAKS_IS_LOADED:
-            return {
-                ...state,
-                getLiveTeamStreaksIsLoading: false,
             };
 
         case CREATE_TEAM_STREAK_IS_LOADING:

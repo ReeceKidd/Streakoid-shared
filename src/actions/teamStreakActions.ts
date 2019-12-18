@@ -250,7 +250,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 numberOfMinutes,
                 members,
             });
-            const teamStreakMembersWitLoadingStates = teamStreak.members.map(member => {
+            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
                 return {
                     ...member,
                     teamMemberStreak: {
@@ -264,7 +264,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             });
             const teamStreakWithLoadingState = {
                 ...teamStreak,
-                members: teamStreakMembersWitLoadingStates,
+                members: teamStreakMembersWithLoadingStates,
             };
             dispatch({ type: CREATE_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: CLEAR_SELECTED_FRIENDS });
@@ -340,11 +340,28 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     const archiveTeamStreak = (teamStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: ARCHIVE_TEAM_STREAK_IS_LOADING });
-            const updatedTeamStreak = await streakoid.teamStreaks.update({
+            await streakoid.teamStreaks.update({
                 teamStreakId,
                 updateData: { status: StreakStatus.archived },
             });
-            dispatch({ type: ARCHIVE_TEAM_STREAK, payload: updatedTeamStreak });
+            const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
+            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
+                return {
+                    ...member,
+                    teamMemberStreak: {
+                        ...member.teamMemberStreak,
+                        completeTeamMemberStreakTaskIsLoading: false,
+                        completeTeamMemberStreakTaskErrorMessage: '',
+                        incompleteTeamMemberStreakTaskIsLoading: false,
+                        incompleteTeamMemberStreakTaskErrorMessage: '',
+                    },
+                };
+            });
+            const teamStreakWithLoadingState = {
+                ...teamStreak,
+                members: teamStreakMembersWithLoadingStates,
+            };
+            dispatch({ type: ARCHIVE_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: ARCHIVE_TEAM_STREAK_IS_LOADED });
             dispatch({ type: NAVIGATE_TO_TEAM_STREAKS });
         } catch (err) {
