@@ -790,6 +790,9 @@ export const DELETE_ARCHIVED_TEAM_STREAK_FAIL = 'DELETE_ARCHIVED_TEAM_STREAK_FAI
 export const DELETE_ARCHIVED_TEAM_STREAK_LOADING = 'DELETE_ARCHIVED_TEAM_STREAK_LOADING';
 export const DELETE_ARCHIVED_TEAM_STREAK_LOADED = 'DELETE_ARCHIVED_TEAM_STREAK_LOADED';
 
+export const UPDATE_TEAM_STREAK_TIMEZONE = 'UPDATE_TEAM_STREAK_TIMEZONE';
+export const UPDATE_TEAM_STREAK_TIMEZONE_FAIL = 'UPDATE_TEAM_STREAK_TIMEZONE_FAIL';
+
 export interface GetLiveTeamStreaksAction {
     type: typeof GET_LIVE_TEAM_STREAKS;
     payload: PopulatedTeamStreakWithLoadingStates[];
@@ -1017,6 +1020,16 @@ export interface DeleteArchivedTeamStreakLoadedAction {
     type: typeof DELETE_ARCHIVED_TEAM_STREAK_LOADED;
 }
 
+export interface UpdateTimezoneAction {
+    type: typeof UPDATE_TEAM_STREAK_TIMEZONE;
+    payload: PopulatedTeamStreakWithTaskDates;
+}
+
+export interface UpdateTimezoneFailAction {
+    type: typeof UPDATE_TEAM_STREAK_TIMEZONE_FAIL;
+    payload: string;
+}
+
 export type TeamStreakActionTypes =
     | GetLiveTeamStreaksAction
     | GetLiveTeamStreaksFailAction
@@ -1067,7 +1080,9 @@ export type TeamStreakActionTypes =
     | DeleteArchivedTeamStreakAction
     | DeleteArchivedTeamStreakFailAction
     | DeleteArchivedTeamStreakLoadingAction
-    | DeleteArchivedTeamStreakLoadedAction;
+    | DeleteArchivedTeamStreakLoadedAction
+    | UpdateTimezoneAction
+    | UpdateTimezoneFailAction;
 
 export const GET_USERS = 'GET_USERS';
 export const GET_USERS_FAIL = 'GET_USERS_FAIL';

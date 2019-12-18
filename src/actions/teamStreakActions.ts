@@ -45,6 +45,8 @@ import {
     DELETE_ARCHIVED_TEAM_STREAK,
     DELETE_ARCHIVED_TEAM_STREAK_LOADED,
     DELETE_ARCHIVED_TEAM_STREAK_FAIL,
+    UPDATE_TEAM_STREAK_TIMEZONE,
+    UPDATE_TEAM_STREAK_TIMEZONE_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -452,6 +454,61 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const updateTeamStreakTimezone = ({ teamStreakId, timezone }: { teamStreakId: string; timezone: string }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
+        try {
+            await streakoid.teamStreaks.update({
+                teamStreakId,
+                updateData: { timezone },
+            });
+            const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
+            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
+                return {
+                    ...member,
+                    teamMemberStreak: {
+                        ...member.teamMemberStreak,
+                        completeTeamMemberStreakTaskIsLoading: false,
+                        completeTeamMemberStreakTaskErrorMessage: '',
+                        incompleteTeamMemberStreakTaskIsLoading: false,
+                        incompleteTeamMemberStreakTaskErrorMessage: '',
+                    },
+                };
+            });
+            const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
+                teamStreakId,
+            });
+            const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(
+                completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
+            );
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const counts: any = {};
+            for (let i = 0; i < completedTeamMemberStreakTaskDates.length; i++) {
+                const key = completedTeamMemberStreakTaskDates[i];
+                counts[key] = counts[key] ? counts[key] + 1 : 1;
+            }
+            const uniqueDates = completedTeamMemberStreakTaskDates.filter(
+                (item, index) => completedTeamMemberStreakTaskDates.indexOf(item) === index,
+            );
+            const completedTeamMemberStreakTaskDatesWithCounts = uniqueDates.map(taskDate => ({
+                date: new Date(taskDate),
+                count: counts[taskDate],
+            }));
+            const teamStreakWithLoadingState = {
+                ...teamStreak,
+                members: teamStreakMembersWithLoadingStates,
+                completedTeamMemberStreakTaskDatesWithCounts,
+            };
+            dispatch({ type: UPDATE_TEAM_STREAK_TIMEZONE, payload: teamStreakWithLoadingState });
+        } catch (err) {
+            if (err.response) {
+                dispatch({ type: UPDATE_TEAM_STREAK_TIMEZONE_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: UPDATE_TEAM_STREAK_TIMEZONE_FAIL, payload: err.message });
+            }
+        }
+    };
+
     return {
         getLiveTeamStreaks,
         getArchivedTeamStreaks,
@@ -467,5 +524,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         restoreArchivedTeamStreak,
         clearRestoreArchivedTeamStreakErrorMessage,
         deleteArchivedTeamStreak,
+        updateTeamStreakTimezone,
     };
 };

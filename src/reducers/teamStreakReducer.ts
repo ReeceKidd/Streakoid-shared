@@ -40,6 +40,7 @@ import {
     DELETE_ARCHIVED_TEAM_STREAK_LOADING,
     DELETE_ARCHIVED_TEAM_STREAK_LOADED,
     DELETE_ARCHIVED_TEAM_STREAK_FAIL,
+    UPDATE_TEAM_STREAK_TIMEZONE,
 } from '../actions/types';
 import { PopulatedTeamStreak, PopulatedTeamMember, TeamMemberStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
@@ -556,6 +557,13 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
             return {
                 ...state,
                 deleteArchivedTeamStreakErrorMessage: action.payload,
+            };
+        }
+
+        case UPDATE_TEAM_STREAK_TIMEZONE: {
+            return {
+                ...state,
+                selectedLiveTeamStreak: action.payload,
             };
         }
 
