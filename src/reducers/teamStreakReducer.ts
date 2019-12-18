@@ -505,7 +505,6 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
         case RESTORE_ARCHIVED_TEAM_STREAK:
             return {
                 ...state,
-                liveTeamStreaks: [...state.liveTeamStreaks, action.payload],
                 archivedTeamStreaks: state.archivedTeamStreaks.filter(
                     archivedTeamStreak => archivedTeamStreak._id !== action.payload._id,
                 ),
