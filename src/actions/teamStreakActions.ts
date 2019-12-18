@@ -426,7 +426,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const clearRestoreArchivedChallengeStreakErrorMessage = (): AppActions => ({
+    const clearRestoreArchivedTeamStreakErrorMessage = (): AppActions => ({
         type: CLEAR_RESTORE_TEAM_STREAK_ERROR_MESSAGE,
     });
 
@@ -465,7 +465,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         archiveTeamStreak,
         clearArchiveTeamStreakErrorMessage,
         restoreArchivedTeamStreak,
-        clearRestoreArchivedChallengeStreakErrorMessage,
+        clearRestoreArchivedTeamStreakErrorMessage,
         deleteArchivedTeamStreak,
     };
 };
