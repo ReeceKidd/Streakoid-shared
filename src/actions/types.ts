@@ -772,11 +772,23 @@ export const CREATE_TEAM_STREAK_IS_LOADING = 'CREATE_TEAM_STREAK_IS_LOADING';
 export const CREATE_TEAM_STREAK_IS_LOADED = 'CREATE_TEAM_STREAK_IS_LOADED';
 export const CREATE_TEAM_STREAK_ERROR = 'CREATE_TEAM_STREAK_ERROR';
 export const CLEAR_CREATE_TEAM_STREAK_ERROR = 'CLEAR_CREATE_TEAM_STREAK_ERROR';
+
 export const ARCHIVE_TEAM_STREAK = 'ARCHIVE_TEAM_STREAK';
 export const ARCHIVE_TEAM_STREAK_FAIL = 'ARCHIVE_TEAM_STREAK_FAIL';
-export const CLEAR_ARCHIVE_TEAM_STREAK_ERROR_MESSAGE = 'CLEAR_ARCHIVE_TEAM_STREAK_ERROR_MESSAGE';
 export const ARCHIVE_TEAM_STREAK_IS_LOADING = 'ARCHIVE_TEAM_STREAK_IS_LOADING';
 export const ARCHIVE_TEAM_STREAK_IS_LOADED = 'ARCHIVE_TEAM_STREAK_IS_LOADED';
+export const CLEAR_ARCHIVE_TEAM_STREAK_ERROR_MESSAGE = 'CLEAR_ARCHIVE_TEAM_STREAK_ERROR_MESSAGE';
+
+export const RESTORE_ARCHIVED_TEAM_STREAK = 'RESTORE_ARCHIVED_TEAM_STREAK';
+export const RESTORE_ARCHIVED_TEAM_STREAK_FAIL = 'RESTORE_ARCHIVED_TEAM_STREAK_FAIL';
+export const RESTORE_ARCHIVED_TEAM_STREAK_LOADING = 'RESTORE_ARCHIVED_TEAM_STREAK_LOADING';
+export const RESTORE_ARCHIVED_TEAM_STREAK_LOADED = 'RESTORE_ARCHIVED_TEAM_STREAK_LOADED';
+export const CLEAR_RESTORE_TEAM_STREAK_ERROR_MESSAGE = 'CLEAR_RESTORE_TEAM_STREAK_ERROR_MESSAGE';
+
+export const DELETE_ARCHIVED_TEAM_STREAK = 'DELETE_ARCHIVED_TEAM_STREAK';
+export const DELETE_ARCHIVED_TEAM_STREAK_FAIL = 'DELETE_ARCHIVED_TEAM_STREAK_FAIL';
+export const DELETE_ARCHIVED_TEAM_STREAK_LOADING = 'DELETE_ARCHIVED_TEAM_STREAK_LOADING';
+export const DELETE_ARCHIVED_TEAM_STREAK_LOADED = 'DELETE_ARCHIVED_TEAM_STREAK_LOADED';
 
 export interface GetLiveTeamStreaksAction {
     type: typeof GET_LIVE_TEAM_STREAKS;
@@ -965,6 +977,46 @@ export interface ArchiveTeamStreakIsLoadedAction {
     type: typeof ARCHIVE_TEAM_STREAK_IS_LOADED;
 }
 
+export interface RestoreArchivedTeamStreakAction {
+    type: typeof RESTORE_ARCHIVED_TEAM_STREAK;
+    payload: PopulatedTeamStreakWithLoadingStates;
+}
+
+export interface RestoreArchivedTeamStreakFailAction {
+    type: typeof RESTORE_ARCHIVED_TEAM_STREAK_FAIL;
+    payload: string;
+}
+
+export interface RestoreArchivedTeamStreakLoadingAction {
+    type: typeof RESTORE_ARCHIVED_TEAM_STREAK_LOADING;
+}
+
+export interface RestoreArchivedTeamStreakLoadedAction {
+    type: typeof RESTORE_ARCHIVED_TEAM_STREAK_LOADED;
+}
+
+export interface ClearRestoreTeamStreakErrorAction {
+    type: typeof CLEAR_RESTORE_TEAM_STREAK_ERROR_MESSAGE;
+}
+
+export interface DeleteArchivedTeamStreakAction {
+    type: typeof DELETE_ARCHIVED_TEAM_STREAK;
+    payload: string;
+}
+
+export interface DeleteArchivedTeamStreakFailAction {
+    type: typeof DELETE_ARCHIVED_TEAM_STREAK_FAIL;
+    payload: string;
+}
+
+export interface DeleteArchivedTeamStreakLoadingAction {
+    type: typeof DELETE_ARCHIVED_TEAM_STREAK_LOADING;
+}
+
+export interface DeleteArchivedTeamStreakLoadedAction {
+    type: typeof DELETE_ARCHIVED_TEAM_STREAK_LOADED;
+}
+
 export type TeamStreakActionTypes =
     | GetLiveTeamStreaksAction
     | GetLiveTeamStreaksFailAction
@@ -1006,7 +1058,16 @@ export type TeamStreakActionTypes =
     | ArchiveTeamStreakFailAction
     | ClearArchiveTeamStreakErrorMessageAction
     | ArchiveTeamStreakIsLoadingAction
-    | ArchiveTeamStreakIsLoadedAction;
+    | ArchiveTeamStreakIsLoadedAction
+    | RestoreArchivedTeamStreakAction
+    | RestoreArchivedTeamStreakFailAction
+    | RestoreArchivedTeamStreakLoadingAction
+    | RestoreArchivedTeamStreakLoadedAction
+    | ClearRestoreTeamStreakErrorAction
+    | DeleteArchivedTeamStreakAction
+    | DeleteArchivedTeamStreakFailAction
+    | DeleteArchivedTeamStreakLoadingAction
+    | DeleteArchivedTeamStreakLoadedAction;
 
 export const GET_USERS = 'GET_USERS';
 export const GET_USERS_FAIL = 'GET_USERS_FAIL';

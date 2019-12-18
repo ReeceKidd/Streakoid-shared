@@ -36,6 +36,15 @@ import {
     GET_ARCHIVED_TEAM_STREAK_FAIL,
     GET_ARCHIVED_TEAM_STREAK,
     GET_ARCHIVED_TEAM_STREAK_LOADED,
+    RESTORE_ARCHIVED_TEAM_STREAK,
+    RESTORE_ARCHIVED_TEAM_STREAK_FAIL,
+    RESTORE_ARCHIVED_TEAM_STREAK_LOADED,
+    RESTORE_ARCHIVED_TEAM_STREAK_LOADING,
+    CLEAR_RESTORE_TEAM_STREAK_ERROR_MESSAGE,
+    DELETE_ARCHIVED_TEAM_STREAK_LOADING,
+    DELETE_ARCHIVED_TEAM_STREAK,
+    DELETE_ARCHIVED_TEAM_STREAK_LOADED,
+    DELETE_ARCHIVED_TEAM_STREAK_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -378,6 +387,71 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         type: CLEAR_ARCHIVE_TEAM_STREAK_ERROR_MESSAGE,
     });
 
+    const restoreArchivedTeamStreak = (teamStreakId: string) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK_LOADING });
+            await streakoid.teamStreaks.update({
+                teamStreakId,
+                updateData: { status: StreakStatus.archived },
+            });
+            const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
+            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
+                return {
+                    ...member,
+                    teamMemberStreak: {
+                        ...member.teamMemberStreak,
+                        completeTeamMemberStreakTaskIsLoading: false,
+                        completeTeamMemberStreakTaskErrorMessage: '',
+                        incompleteTeamMemberStreakTaskIsLoading: false,
+                        incompleteTeamMemberStreakTaskErrorMessage: '',
+                    },
+                };
+            });
+            const teamStreakWithLoadingState = {
+                ...teamStreak,
+                members: teamStreakMembersWithLoadingStates,
+            };
+            dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK, payload: teamStreakWithLoadingState });
+            dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK_LOADED });
+            dispatch({ type: NAVIGATE_TO_TEAM_STREAKS });
+        } catch (err) {
+            dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK_LOADED });
+            if (err.response) {
+                dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK_FAIL, payload: err.message });
+            }
+        }
+    };
+
+    const clearRestoreArchivedChallengeStreakErrorMessage = (): AppActions => ({
+        type: CLEAR_RESTORE_TEAM_STREAK_ERROR_MESSAGE,
+    });
+
+    const deleteArchivedTeamStreak = (teamStreakId: string) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: DELETE_ARCHIVED_TEAM_STREAK_LOADING });
+            await streakoid.teamStreaks.update({
+                teamStreakId,
+                updateData: { status: StreakStatus.archived },
+            });
+            dispatch({ type: DELETE_ARCHIVED_TEAM_STREAK, payload: teamStreakId });
+            dispatch({ type: DELETE_ARCHIVED_TEAM_STREAK_LOADED });
+            dispatch({ type: NAVIGATE_TO_TEAM_STREAKS });
+        } catch (err) {
+            dispatch({ type: DELETE_ARCHIVED_TEAM_STREAK_LOADED });
+            if (err.response) {
+                dispatch({ type: DELETE_ARCHIVED_TEAM_STREAK_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: DELETE_ARCHIVED_TEAM_STREAK_FAIL, payload: err.message });
+            }
+        }
+    };
+
     return {
         getLiveTeamStreaks,
         getArchivedTeamStreaks,
@@ -390,5 +464,8 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         addFriendToTeamStreak,
         archiveTeamStreak,
         clearArchiveTeamStreakErrorMessage,
+        restoreArchivedTeamStreak,
+        clearRestoreArchivedChallengeStreakErrorMessage,
+        deleteArchivedTeamStreak,
     };
 };

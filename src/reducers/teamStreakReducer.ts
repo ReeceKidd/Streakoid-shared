@@ -32,6 +32,14 @@ import {
     GET_ARCHIVED_TEAM_STREAK_LOADING,
     GET_ARCHIVED_TEAM_STREAK_LOADED,
     GET_ARCHIVED_TEAM_STREAK,
+    RESTORE_ARCHIVED_TEAM_STREAK,
+    RESTORE_ARCHIVED_TEAM_STREAK_LOADING,
+    RESTORE_ARCHIVED_TEAM_STREAK_LOADED,
+    RESTORE_ARCHIVED_TEAM_STREAK_FAIL,
+    DELETE_ARCHIVED_TEAM_STREAK,
+    DELETE_ARCHIVED_TEAM_STREAK_LOADING,
+    DELETE_ARCHIVED_TEAM_STREAK_LOADED,
+    DELETE_ARCHIVED_TEAM_STREAK_FAIL,
 } from '../actions/types';
 import { PopulatedTeamStreak, PopulatedTeamMember, TeamMemberStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
@@ -131,10 +139,10 @@ const initialState: TeamStreakReducerState = {
     createTeamStreakErrorMessage: '',
     archiveTeamStreakIsLoading: false,
     restoreArchivedTeamStreakIsLoading: false,
-    deleteArchivedTeamStreakIsLoading: false,
-    archiveTeamStreakErrorMessage: '',
     restoreArchivedTeamStreakErrorMessage: '',
+    deleteArchivedTeamStreakIsLoading: false,
     deleteArchivedTeamStreakErrorMessage: '',
+    archiveTeamStreakErrorMessage: '',
 };
 
 const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes): TeamStreakReducerState => {
@@ -493,6 +501,64 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 archiveTeamStreakIsLoading: false,
             };
+
+        case RESTORE_ARCHIVED_TEAM_STREAK:
+            return {
+                ...state,
+                liveTeamStreaks: [...state.liveTeamStreaks, action.payload],
+                archivedTeamStreaks: state.archivedTeamStreaks.filter(
+                    archivedTeamStreak => archivedTeamStreak._id !== action.payload._id,
+                ),
+            };
+
+        case RESTORE_ARCHIVED_TEAM_STREAK_LOADING:
+            return {
+                ...state,
+                restoreArchivedTeamStreakIsLoading: true,
+            };
+
+        case RESTORE_ARCHIVED_TEAM_STREAK_LOADED:
+            return {
+                ...state,
+                restoreArchivedTeamStreakIsLoading: false,
+            };
+
+        case RESTORE_ARCHIVED_TEAM_STREAK_FAIL:
+            return {
+                ...state,
+                restoreArchivedTeamStreakErrorMessage: action.payload,
+            };
+
+        case DELETE_ARCHIVED_TEAM_STREAK:
+            return {
+                ...state,
+                archivedTeamStreaks: [
+                    ...state.archivedTeamStreaks.filter(
+                        archivedTeamStreak => archivedTeamStreak._id !== action.payload,
+                    ),
+                ],
+            };
+
+        case DELETE_ARCHIVED_TEAM_STREAK_LOADING: {
+            return {
+                ...state,
+                deleteArchivedTeamStreakIsLoading: true,
+            };
+        }
+
+        case DELETE_ARCHIVED_TEAM_STREAK_LOADED: {
+            return {
+                ...state,
+                deleteArchivedTeamStreakIsLoading: false,
+            };
+        }
+
+        case DELETE_ARCHIVED_TEAM_STREAK_FAIL: {
+            return {
+                ...state,
+                deleteArchivedTeamStreakErrorMessage: action.payload,
+            };
+        }
 
         default:
             return state;
