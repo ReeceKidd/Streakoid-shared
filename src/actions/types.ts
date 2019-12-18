@@ -733,10 +733,24 @@ export type StreakRecommendationsActionTypes =
 
 export const GET_LIVE_TEAM_STREAKS = 'GET_LIVE_TEAM_STREAKS';
 export const GET_LIVE_TEAM_STREAKS_FAIL = 'GET_LIVE_TEAM_STREAKS_FAIL';
-export const GET_TEAM_STREAK = 'GET_TEAM_STREAK';
-export const GET_TEAM_STREAK_FAIL = 'GET_TEAM_STREAK_FAIL';
-export const GET_TEAM_STREAK_IS_LOADING = 'GET_TEAM_STREAK_IS_LOADING';
-export const GET_TEAM_STREAK_IS_LOADED = 'GET_TEAM_STREAK_IS_LOADED';
+export const GET_LIVE_TEAM_STREAKS_IS_LOADING = 'GET_LIVE_TEAM_STREAKS_IS_LOADING';
+export const GET_LIVE_TEAM_STREAKS_IS_LOADED = 'GET_LIVE_TEAM_STREAKS_IS_LOADED';
+
+export const GET_ARCHIVED_TEAM_STREAKS = 'GET_ARCHIVED_TEAM_STREAKS';
+export const GET_ARCHIVED_TEAM_STREAKS_FAIL = 'GET_ARCHIVED_TEAM_STREAKS_FAIL';
+export const GET_ARCHIVED_TEAM_STREAKS_IS_LOADING = 'GET_ARCHIVED_TEAM_STREAKS_IS_LOADING';
+export const GET_ARCHIVED_TEAM_STREAKS_IS_LOADED = 'GET_ARCHIVED_TEAM_STREAKS_IS_LOADED';
+
+export const GET_LIVE_TEAM_STREAK = 'GET_LIVE_TEAM_STREAK';
+export const GET_LIVE_TEAM_STREAK_FAIL = 'GET_LIVE_TEAM_STREAK_FAIL';
+export const GET_LIVE_TEAM_STREAK_IS_LOADING = 'GET_LIVE_TEAM_STREAK_IS_LOADING';
+export const GET_LIVE_TEAM_STREAK_IS_LOADED = 'GET_LIVE_TEAM_STREAK_IS_LOADED';
+
+export const GET_ARCHIVED_TEAM_STREAK = 'GET_ARCHIVED_TEAM_STREAK';
+export const GET_ARCHIVED_TEAM_STREAK_FAIL = 'GET_ARCHIVED_TEAM_STREAK_FAIL';
+export const GET_ARCHIVED_TEAM_STREAK_LOADING = 'GET_ARCHIVED_TEAM_STREAK_LOADING';
+export const GET_ARCHIVED_TEAM_STREAK_LOADED = 'GET_ARCHIVED_TEAM_STREAK_LOADED';
+
 export const CREATE_TEAM_STREAK = 'CREATE_TEAM_STREAK';
 export const EDIT_TEAM_STREAK = 'EDIT_TEAM_STREAK';
 export const EDIT_TEAM_STREAK_FAIL = 'EDIT_TEAM_STREAK_FAIL';
@@ -753,8 +767,7 @@ export const INCOMPLETE_TEAM_MEMBER_STREAK_TASK = 'INCOMPLETE_TEAM_MEMBER_STREAK
 export const INCOMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL = 'INCOMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL';
 export const INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING = 'INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING';
 export const INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED = 'INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED';
-export const GET_LIVE_TEAM_STREAKS_IS_LOADING = 'GET_LIVE_TEAM_STREAKS_IS_LOADING';
-export const GET_LIVE_TEAM_STREAKS_IS_LOADED = 'GET_LIVE_TEAM_STREAKS_IS_LOADED';
+
 export const CREATE_TEAM_STREAK_IS_LOADING = 'CREATE_TEAM_STREAK_IS_LOADING';
 export const CREATE_TEAM_STREAK_IS_LOADED = 'CREATE_TEAM_STREAK_IS_LOADED';
 export const CREATE_TEAM_STREAK_ERROR = 'CREATE_TEAM_STREAK_ERROR';
@@ -775,22 +788,66 @@ export interface GetLiveTeamStreaksFailAction {
     errorMessage: string;
 }
 
-export interface GetTeamStreakAction {
-    type: typeof GET_TEAM_STREAK;
+export interface GetLiveTeamStreaksIsLoadingAction {
+    type: typeof GET_LIVE_TEAM_STREAKS_IS_LOADING;
+}
+
+export interface GetLiveTeamStreaksIsLoadedAction {
+    type: typeof GET_LIVE_TEAM_STREAKS_IS_LOADED;
+}
+
+export interface GetArchivedTeamStreaksAction {
+    type: typeof GET_ARCHIVED_TEAM_STREAKS;
+    payload: PopulatedTeamStreakWithLoadingStates[];
+}
+
+export interface GetArchivedTeamStreaksFailAction {
+    type: typeof GET_ARCHIVED_TEAM_STREAKS_FAIL;
+    payload: string;
+}
+
+export interface GetArchivedTeamStreaksLoadingAction {
+    type: typeof GET_ARCHIVED_TEAM_STREAKS_IS_LOADING;
+}
+
+export interface GetArchivedTeamStreaksLoadedAction {
+    type: typeof GET_ARCHIVED_TEAM_STREAKS_IS_LOADED;
+}
+
+export interface GetLiveTeamStreakAction {
+    type: typeof GET_LIVE_TEAM_STREAK;
     payload: PopulatedTeamStreakWithTaskDates;
 }
 
-export interface GetTeamStreakFailAction {
-    type: typeof GET_TEAM_STREAK_FAIL;
+export interface GetLiveTeamStreakFailAction {
+    type: typeof GET_LIVE_TEAM_STREAK_FAIL;
     errorMessage: string;
 }
 
-export interface GetTeamStreakLoadingAction {
-    type: typeof GET_TEAM_STREAK_IS_LOADING;
+export interface GetLiveTeamStreakLoadingAction {
+    type: typeof GET_LIVE_TEAM_STREAK_IS_LOADING;
 }
 
-export interface GetTeamStreakLoadedAction {
-    type: typeof GET_TEAM_STREAK_IS_LOADED;
+export interface GetLiveTeamStreakLoadedAction {
+    type: typeof GET_LIVE_TEAM_STREAK_IS_LOADED;
+}
+
+export interface GetArchivedTeamStreakAction {
+    type: typeof GET_ARCHIVED_TEAM_STREAK;
+    payload: PopulatedTeamStreakWithTaskDates;
+}
+
+export interface GetArchivedTeamStreakFailAction {
+    type: typeof GET_ARCHIVED_TEAM_STREAK_FAIL;
+    payload: string;
+}
+
+export interface GetArchivedTeamStreakLoadingAction {
+    type: typeof GET_ARCHIVED_TEAM_STREAK_LOADING;
+}
+
+export interface GetArchivedTeamStreakLoadedAction {
+    type: typeof GET_ARCHIVED_TEAM_STREAK_LOADED;
 }
 
 export interface CreateTeamStreakAction {
@@ -869,14 +926,6 @@ export interface IncompleteTeamMemberStreakTaskLoadedAction {
     teamMemberStreakId: string;
 }
 
-export interface GetLiveTeamStreaksIsLoadingAction {
-    type: typeof GET_LIVE_TEAM_STREAKS_IS_LOADING;
-}
-
-export interface GetLiveTeamStreaksIsLoadedAction {
-    type: typeof GET_LIVE_TEAM_STREAKS_IS_LOADED;
-}
-
 export interface CreateTeamStreakIsLoadingAction {
     type: typeof CREATE_TEAM_STREAK_IS_LOADING;
 }
@@ -919,8 +968,20 @@ export interface ArchiveTeamStreakIsLoadedAction {
 export type TeamStreakActionTypes =
     | GetLiveTeamStreaksAction
     | GetLiveTeamStreaksFailAction
-    | GetTeamStreakAction
-    | GetTeamStreakFailAction
+    | GetLiveTeamStreaksIsLoadingAction
+    | GetLiveTeamStreaksIsLoadedAction
+    | GetArchivedTeamStreaksAction
+    | GetArchivedTeamStreaksFailAction
+    | GetArchivedTeamStreaksLoadingAction
+    | GetArchivedTeamStreaksLoadedAction
+    | GetLiveTeamStreakAction
+    | GetLiveTeamStreakFailAction
+    | GetLiveTeamStreakLoadingAction
+    | GetLiveTeamStreakLoadedAction
+    | GetArchivedTeamStreakAction
+    | GetArchivedTeamStreakFailAction
+    | GetArchivedTeamStreakLoadingAction
+    | GetArchivedTeamStreakLoadedAction
     | CreateTeamStreakAction
     | EditTeamStreakAction
     | EditTeamStreakFailAction
@@ -937,10 +998,6 @@ export type TeamStreakActionTypes =
     | IncompleteTeamMemberStreakTaskFailAction
     | IncompleteTeamMemberStreakTaskLoadingAction
     | IncompleteTeamMemberStreakTaskLoadedAction
-    | GetTeamStreakLoadingAction
-    | GetTeamStreakLoadedAction
-    | GetLiveTeamStreaksIsLoadingAction
-    | GetLiveTeamStreaksIsLoadedAction
     | CreateTeamStreakIsLoadingAction
     | CreateTeamStreakIsLoadedAction
     | CreateTeamStreakErrorAction

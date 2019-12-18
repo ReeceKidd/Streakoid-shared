@@ -3,8 +3,10 @@ import { Dispatch } from 'redux';
 import {
     GET_LIVE_TEAM_STREAKS,
     GET_LIVE_TEAM_STREAKS_FAIL,
-    GET_TEAM_STREAK,
-    GET_TEAM_STREAK_FAIL,
+    GET_LIVE_TEAM_STREAK,
+    GET_LIVE_TEAM_STREAK_FAIL,
+    GET_LIVE_TEAM_STREAK_IS_LOADING,
+    GET_LIVE_TEAM_STREAK_IS_LOADED,
     ADD_FRIEND_TO_TEAM_STREAK,
     ADD_FRIEND_TO_TEAM_STREAK_FAIL,
     CREATE_TEAM_STREAK,
@@ -15,8 +17,6 @@ import {
     GET_LIVE_TEAM_STREAKS_IS_LOADING,
     GET_LIVE_TEAM_STREAKS_IS_LOADED,
     CLEAR_SELECTED_FRIENDS,
-    GET_TEAM_STREAK_IS_LOADING,
-    GET_TEAM_STREAK_IS_LOADED,
     EDIT_TEAM_STREAK,
     EDIT_TEAM_STREAK_LOADED,
     EDIT_TEAM_STREAK_FAIL,
@@ -29,6 +29,13 @@ import {
     CLEAR_ARCHIVE_TEAM_STREAK_ERROR_MESSAGE,
     NAVIGATE_TO_SPECIFIC_TEAM_STREAK,
     NAVIGATE_TO_TEAM_STREAKS,
+    GET_ARCHIVED_TEAM_STREAKS_IS_LOADING,
+    GET_ARCHIVED_TEAM_STREAKS_FAIL,
+    GET_ARCHIVED_TEAM_STREAKS,
+    GET_ARCHIVED_TEAM_STREAKS_IS_LOADED,
+    GET_ARCHIVED_TEAM_STREAK_FAIL,
+    GET_ARCHIVED_TEAM_STREAK,
+    GET_ARCHIVED_TEAM_STREAK_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -76,9 +83,50 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getTeamStreak = (teamStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getArchivedTeamStreaks = () => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
         try {
-            dispatch({ type: GET_TEAM_STREAK_IS_LOADING });
+            dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_IS_LOADING });
+            const userId = getState().users.currentUser._id;
+            const teamStreaks = await streakoid.teamStreaks.getAll({
+                memberId: userId,
+                status: StreakStatus.archived,
+            });
+            const teamStreaksWithLoadingStates = teamStreaks.map(teamStreak => {
+                const members = teamStreak.members.map(member => {
+                    return {
+                        ...member,
+                        teamMemberStreak: {
+                            ...member.teamMemberStreak,
+                            completeTeamMemberStreakTaskIsLoading: false,
+                            completeTeamMemberStreakTaskErrorMessage: '',
+                            incompleteTeamMemberStreakTaskIsLoading: false,
+                            incompleteTeamMemberStreakTaskErrorMessage: '',
+                        },
+                    };
+                });
+                return {
+                    ...teamStreak,
+                    members,
+                };
+            });
+            dispatch({ type: GET_ARCHIVED_TEAM_STREAKS, payload: teamStreaksWithLoadingStates });
+            dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_IS_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_FAIL, payload: err.message });
+            }
+        }
+    };
+
+    const getLiveTeamStreak = (teamStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+        try {
+            dispatch({ type: GET_LIVE_TEAM_STREAK_IS_LOADING });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
             const members = teamStreak.members.map(member => {
                 return {
@@ -111,20 +159,71 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 date: new Date(taskDate),
                 count: counts[taskDate],
             }));
-            console.log(completedTeamMemberStreakTaskDatesWithCounts);
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members,
                 completedTeamMemberStreakTaskDatesWithCounts,
             };
-            dispatch({ type: GET_TEAM_STREAK, payload: teamStreakWithLoadingState });
-            dispatch({ type: GET_TEAM_STREAK_IS_LOADED });
+            dispatch({ type: GET_LIVE_TEAM_STREAK, payload: teamStreakWithLoadingState });
+            dispatch({ type: GET_LIVE_TEAM_STREAK_IS_LOADED });
         } catch (err) {
-            dispatch({ type: GET_TEAM_STREAK_IS_LOADED });
+            dispatch({ type: GET_LIVE_TEAM_STREAK_IS_LOADED });
             if (err.response) {
-                dispatch({ type: GET_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: GET_LIVE_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
             } else {
-                dispatch({ type: GET_TEAM_STREAK_FAIL, errorMessage: err.message });
+                dispatch({ type: GET_LIVE_TEAM_STREAK_FAIL, errorMessage: err.message });
+            }
+        }
+    };
+
+    const getArchivedTeamStreak = (teamStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+        try {
+            dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_IS_LOADING });
+            const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
+            const members = teamStreak.members.map(member => {
+                return {
+                    ...member,
+                    teamMemberStreak: {
+                        ...member.teamMemberStreak,
+                        completeTeamMemberStreakTaskIsLoading: false,
+                        completeTeamMemberStreakTaskErrorMessage: '',
+                        incompleteTeamMemberStreakTaskIsLoading: false,
+                        incompleteTeamMemberStreakTaskErrorMessage: '',
+                    },
+                };
+            });
+            const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
+                teamStreakId,
+            });
+            const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(
+                completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
+            );
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const counts: any = {};
+            for (let i = 0; i < completedTeamMemberStreakTaskDates.length; i++) {
+                const key = completedTeamMemberStreakTaskDates[i];
+                counts[key] = counts[key] ? counts[key] + 1 : 1;
+            }
+            const uniqueDates = completedTeamMemberStreakTaskDates.filter(
+                (item, index) => completedTeamMemberStreakTaskDates.indexOf(item) === index,
+            );
+            const completedTeamMemberStreakTaskDatesWithCounts = uniqueDates.map(taskDate => ({
+                date: new Date(taskDate),
+                count: counts[taskDate],
+            }));
+            const teamStreakWithLoadingState = {
+                ...teamStreak,
+                members,
+                completedTeamMemberStreakTaskDatesWithCounts,
+            };
+            dispatch({ type: GET_ARCHIVED_TEAM_STREAK, payload: teamStreakWithLoadingState });
+            dispatch({ type: GET_ARCHIVED_TEAM_STREAK_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_IS_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_ARCHIVED_TEAM_STREAK_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: GET_ARCHIVED_TEAM_STREAK_FAIL, payload: err.message });
             }
         }
     };
@@ -264,7 +363,9 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
 
     return {
         getLiveTeamStreaks,
-        getTeamStreak,
+        getArchivedTeamStreaks,
+        getLiveTeamStreak,
+        getArchivedTeamStreak,
         createTeamStreak,
         clearCreateTeamStreakError,
         editTeamStreak,
