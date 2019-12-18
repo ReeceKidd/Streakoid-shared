@@ -1564,10 +1564,16 @@ export const GET_BADGES = 'GET_BADGES';
 export const GET_BADGES_FAIL = 'GET_BADGES_FAIL';
 export const GET_BADGES_IS_LOADING = 'GET_BADGES_IS_LOADING';
 export const GET_BADGES_IS_LOADED = 'GET_BADGES_IS_LOADED';
+
 export const GET_USER_BADGES = 'GET_USER_BADGES';
 export const GET_USER_BADGES_FAIL = 'GET_USER_BADGES_FAIL';
 export const GET_USER_BADGES_IS_LOADING = 'GET_USER_BADGES_IS_LOADING';
 export const GET_USER_BADGES_IS_LOADED = 'GET_USER_BADGES_IS_LOADED';
+
+export const GET_BADGE = 'GET_BADGE';
+export const GET_BADGE_FAIL = 'GET_BADGE_FAIL';
+export const GET_BADGE_LOADING = 'GET_BADGE_LOADING';
+export const GET_BADGE_LOADED = 'GET_BADGE_LOADED';
 
 export interface GetBadgesAction {
     type: typeof GET_BADGES;
@@ -1585,6 +1591,23 @@ export interface GetBadgesIsLoadingAction {
 
 export interface GetBadgesIsLoadedAction {
     type: typeof GET_BADGES_IS_LOADED;
+}
+
+export interface GetBadgeAction {
+    type: typeof GET_BADGE;
+    payload: UserBadge;
+}
+
+export interface GetBadgeFailAction {
+    type: typeof GET_BADGE_FAIL;
+}
+
+export interface GetBadgeLoadingAction {
+    type: typeof GET_BADGE_LOADING;
+}
+
+export interface GetBadgeLoadedAction {
+    type: typeof GET_BADGE_LOADED;
 }
 
 export interface GetUserBadgesAction {
@@ -1610,6 +1633,10 @@ export type BadgesActionTypes =
     | GetBadgesFailAction
     | GetBadgesIsLoadingAction
     | GetBadgesIsLoadedAction
+    | GetBadgeAction
+    | GetBadgeFailAction
+    | GetBadgeLoadingAction
+    | GetBadgeLoadedAction
     | GetUserBadgesAction
     | GetUserBadgesFailAction
     | GetUserBadgesIsLoadingAction

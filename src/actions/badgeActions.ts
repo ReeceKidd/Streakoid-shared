@@ -10,8 +10,12 @@ import {
     GET_USER_BADGES_IS_LOADED,
     GET_USER_BADGES_FAIL,
     GET_USER_BADGES,
+    GET_BADGE_LOADED,
+    GET_BADGE_FAIL,
+    GET_BADGE_LOADING,
+    GET_BADGE,
 } from './types';
-import { AppActions } from '..';
+import { AppActions, AppState } from '..';
 import { BadgeTypes } from '@streakoid/streakoid-sdk/lib';
 import { UserBadge } from '../reducers/badgesReducer';
 
@@ -28,6 +32,54 @@ const badgeActions = (streakoid: typeof streakoidSDK) => {
                 dispatch({ type: GET_BADGES_FAIL, payload: err.response.data.message });
             } else {
                 dispatch({ type: GET_BADGES_FAIL, payload: err.message });
+            }
+        }
+    };
+
+    const getBadge = (badgeId: string) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: GET_BADGE_LOADING });
+            const userId = getState().users.currentUser._id;
+            const badge = await streakoid.badges.getOne({ badgeId });
+            let populatedBadge;
+            if (badge.badgeType === BadgeTypes.challenge) {
+                const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId });
+                const associatedChallengeStreak = challengeStreaks.find(
+                    challengeStreak => challengeStreak.badgeId === badge._id,
+                );
+                if (!associatedChallengeStreak) {
+                    populatedBadge = {
+                        ...badge,
+                        longestStreak: 0,
+                    };
+                } else {
+                    const { pastStreaks, currentStreak } = associatedChallengeStreak;
+                    const pastStreakLengths = pastStreaks.map(pastStreak => pastStreak.numberOfDaysInARow);
+                    const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
+                    const longestStreak =
+                        currentStreak.numberOfDaysInARow >= longestPastStreakNumberOfDays
+                            ? currentStreak.numberOfDaysInARow
+                            : longestPastStreakNumberOfDays;
+
+                    populatedBadge = {
+                        ...badge,
+                        longestStreak,
+                    };
+                }
+            } else {
+                populatedBadge = { ...badge, longestStreak: 0 };
+            }
+            dispatch({ type: GET_BADGE, payload: populatedBadge });
+            dispatch({ type: GET_BADGE_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_BADGE_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_BADGE_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: GET_BADGE_FAIL, payload: err.message });
             }
         }
     };
@@ -94,6 +146,7 @@ const badgeActions = (streakoid: typeof streakoidSDK) => {
 
     return {
         getBadges,
+        getBadge,
         getUserBadges,
     };
 };
