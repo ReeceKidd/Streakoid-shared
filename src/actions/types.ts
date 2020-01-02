@@ -35,6 +35,7 @@ export const NAVIGATE_TO_CHALLENGE_STREAKS = 'NAVIGATE_TO_CHALLENGE_STREAKS';
 export const NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK = 'NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK';
 export const NAVIGATE_TO_PAYMENT = 'NAVIGATE_TO_PAYMENT';
 export const NAVIGATE_TO_UPGRADE = 'NAVIGATE_TO_UPDGRADE';
+export const NAVIGATE_TO_WELCOME = 'NAVIGATE_TO_WELCOME';
 
 export interface NavigateToHomeAction {
     type: typeof NAVIGATE_TO_HOME;
@@ -78,6 +79,10 @@ export interface NavigateToPaymentAction {
     type: typeof NAVIGATE_TO_PAYMENT;
 }
 
+export interface NavigateToWelcomeAction {
+    type: typeof NAVIGATE_TO_WELCOME;
+}
+
 export interface NavigateToUpgradeAction {
     type: typeof NAVIGATE_TO_UPGRADE;
 }
@@ -98,6 +103,7 @@ export type NavigationActionTypes =
     | NavigateToUpdatePasswordAction
     | NavigateToSoloStreaksAction
     | NavigateToSpecificSoloStreakAction
+    | NavigateToWelcomeAction
     | NavigateToThankYouAction
     | NavigateToTeamStreakAction
     | NavigateToSpecificTeamStreakAction

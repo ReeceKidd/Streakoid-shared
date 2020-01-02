@@ -40,7 +40,7 @@ import {
     PASSWORD_CLEAR,
     REFRESH_TOKEN,
     REFRESH_TOKEN_FAIL,
-    NAVIGATE_TO_THANK_YOU,
+    NAVIGATE_TO_WELCOME,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -179,7 +179,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
                 const user = await streakoid.user.getCurrentUser();
 
                 dispatch({ type: UPDATE_CURRENT_USER, user: { ...user, userStreakCompleteInfo: [] } });
-                dispatch({ type: NAVIGATE_TO_THANK_YOU });
+                dispatch({ type: NAVIGATE_TO_WELCOME });
                 dispatch({ type: PASSWORD_CLEAR });
             } else {
                 dispatch({ type: NAVIGATE_TO_LOGIN });
