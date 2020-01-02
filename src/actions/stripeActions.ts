@@ -10,16 +10,17 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { PaymentPlans } from '@streakoid/streakoid-sdk/lib';
 
 const stripeActions = (streakoid: typeof streakoidSDK) => {
-    const createStripeSubscription = ({ token }: { token: Token }) => async (
+    const createStripeSubscription = ({ token, paymentPlan }: { token: Token; paymentPlan: PaymentPlans }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: CREATE_STRIPE_SUBSCRIPTION_LOADING });
             const userId = getState().users.currentUser._id;
-            const user = await streakoid.stripe.createSubscription({ token, userId });
+            const user = await streakoid.stripe.createSubscription({ token, userId, paymentPlan });
             dispatch({ type: CREATE_STRIPE_SUBSCRIPTION, payload: user });
             dispatch({ type: NAVIGATE_TO_THANK_YOU });
             dispatch({ type: CREATE_STRIPE_SUBSCRIPTION_LOADED });
