@@ -47,6 +47,8 @@ import {
     DELETE_ARCHIVED_TEAM_STREAK_FAIL,
     UPDATE_TEAM_STREAK_TIMEZONE,
     UPDATE_TEAM_STREAK_TIMEZONE_FAIL,
+    NAVIGATE_TO_UPGRADE,
+    JOIN_CHALLENGE_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -253,6 +255,16 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: CREATE_TEAM_STREAK_IS_LOADING });
             const userId = getState().users.currentUser._id;
+            const isPayingMember = getState().users.currentUser.membershipInformation.isPayingMember;
+            if (!isPayingMember) {
+                const userTeamStreaks = await streakoid.teamMemberStreaks.getAll({ userId });
+                const teamStreaksLimitForFreeAccounts = 2;
+                if (userTeamStreaks.length >= teamStreaksLimitForFreeAccounts) {
+                    dispatch({ type: NAVIGATE_TO_UPGRADE });
+                    dispatch({ type: JOIN_CHALLENGE_LOADED });
+                    return;
+                }
+            }
             members = [{ memberId: userId }, ...members];
             const teamStreak = await streakoid.teamStreaks.create({
                 creatorId: userId,

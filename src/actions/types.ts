@@ -34,7 +34,7 @@ export const NAVIGATE_TO_SPECIFIC_TEAM_STREAK = 'NAVIGATE_TO_SPECIFIC_TEAM_STREA
 export const NAVIGATE_TO_CHALLENGE_STREAKS = 'NAVIGATE_TO_CHALLENGE_STREAKS';
 export const NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK = 'NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK';
 export const NAVIGATE_TO_PAYMENT = 'NAVIGATE_TO_PAYMENT';
-export const NAVIGATE_TO_REGISTERED_USER_HAS_TO_PAY = 'NAVIGATE_TO_REGISTERED_USER_HAS_TO_PAY';
+export const NAVIGATE_TO_UPGRADE = 'NAVIGATE_TO_UPDGRADE';
 
 export interface NavigateToHomeAction {
     type: typeof NAVIGATE_TO_HOME;
@@ -78,8 +78,8 @@ export interface NavigateToPaymentAction {
     type: typeof NAVIGATE_TO_PAYMENT;
 }
 
-export interface NavigateToRegisteredUserHasToPayAction {
-    type: typeof NAVIGATE_TO_REGISTERED_USER_HAS_TO_PAY;
+export interface NavigateToUpgradeAction {
+    type: typeof NAVIGATE_TO_UPGRADE;
 }
 
 export interface NavigateToChallengeStreakAction {
@@ -102,7 +102,7 @@ export type NavigationActionTypes =
     | NavigateToTeamStreakAction
     | NavigateToSpecificTeamStreakAction
     | NavigateToPaymentAction
-    | NavigateToRegisteredUserHasToPayAction
+    | NavigateToUpgradeAction
     | NavigateToChallengeStreakAction
     | NavigateToSpecificChallengeStreakAction;
 

@@ -15,6 +15,7 @@ import {
     JOIN_CHALLENGE,
     JOIN_CHALLENGE_FAIL,
     CREATE_CHALLENGE_STREAK,
+    NAVIGATE_TO_UPGRADE,
 } from './types';
 import { AppActions, AppState } from '..';
 import { ChallengeMember, PopulatedChallenge } from '@streakoid/streakoid-sdk/lib';
@@ -82,6 +83,16 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: JOIN_CHALLENGE_LOADING });
             const userId = getState().users.currentUser._id;
+            const isPayingMember = getState().users.currentUser.membershipInformation.isPayingMember;
+            if (!isPayingMember) {
+                const userChallengeStreaks = await streakoid.challengeStreaks.getAll({ userId });
+                const challengeLimitForFreeAccounts = 2;
+                if (userChallengeStreaks.length >= challengeLimitForFreeAccounts) {
+                    dispatch({ type: NAVIGATE_TO_UPGRADE });
+                    dispatch({ type: JOIN_CHALLENGE_LOADED });
+                    return;
+                }
+            }
             const challengeStreak = await streakoid.challengeStreaks.create({
                 userId,
                 challengeId,

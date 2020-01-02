@@ -54,6 +54,8 @@ import {
     DELETE_ARCHIVED_SOLO_STREAK_FAIL,
     NAVIGATE_TO_SOLO_STREAKS,
     NAVIGATE_TO_SPECIFIC_SOLO_STREAK,
+    NAVIGATE_TO_UPGRADE,
+    JOIN_CHALLENGE_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -168,6 +170,16 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: CREATE_SOLO_STREAK_IS_LOADING });
             dispatch({ type: CLEAR_CREATE_SOLO_STREAK_ERROR });
             const userId = getState().users.currentUser._id;
+            const isPayingMember = getState().users.currentUser.membershipInformation.isPayingMember;
+            if (!isPayingMember) {
+                const userSoloStreaks = await streakoid.soloStreaks.getAll({ userId });
+                const soloStreaksLimitForFreeAccounts = 2;
+                if (userSoloStreaks.length >= soloStreaksLimitForFreeAccounts) {
+                    dispatch({ type: NAVIGATE_TO_UPGRADE });
+                    dispatch({ type: JOIN_CHALLENGE_LOADED });
+                    return;
+                }
+            }
             const soloStreak = await streakoid.soloStreaks.create({
                 userId,
                 streakName,
