@@ -1143,6 +1143,7 @@ export const UPLOAD_PROFILE_IMAGE_IS_LOADED = 'UPLOAD_PROFILE_IMAGE_IS_LOADED';
 export const CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES = 'CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES';
 export const GET_FRIENDS_IS_LOADING = 'GET_FRIENDS_IS_LOADING';
 export const GET_FRIENDS_IS_LOADED = 'GET_FRIENDS_IS_LOADED';
+export const COMPLETED_INTRODUCTION = 'COMPLETED_INTRODUCTION';
 
 export interface GetUsersAction {
     type: typeof GET_USERS;
@@ -1376,6 +1377,10 @@ export interface GetFriendsIsLoadedAction {
     type: typeof GET_FRIENDS_IS_LOADED;
 }
 
+export interface CompletedIntroductionAction {
+    type: typeof COMPLETED_INTRODUCTION;
+}
+
 export type UserActionTypes =
     | GetUsersAction
     | GetUsersFailAction
@@ -1432,7 +1437,8 @@ export type UserActionTypes =
     | UploadProfileIsLoadedAction
     | ClearUploadProfileImageMessages
     | GetFriendsIsLoadingAction
-    | GetFriendsIsLoadedAction;
+    | GetFriendsIsLoadedAction
+    | CompletedIntroductionAction;
 
 export const GET_PENDING_FRIEND_REQUESTS = 'GET_PENDING_FRIEND_REQUESTS';
 export const GET_PENDING_FRIEND_REQUESTS_FAIL = 'GET_PENDING_FRIEND_REQUEST_FAIL';
