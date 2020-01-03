@@ -40,7 +40,6 @@ import {
     SEND_CANCEL_MEMBERSHIP_EMAIL_FAIL,
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING,
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED,
-    COMPLETED_INTRODUCTION,
 } from '../actions/types';
 import {
     SoloStreak,
@@ -74,7 +73,6 @@ export interface UserReducerInitialState {
     usersList: UserWithClientData[];
     currentUser: PopulatedCurrentUserWithStreakCompleteInfo;
     selectedUser: SelectedUser;
-    hasCompletedIntroduction: boolean;
     getUsersIsLoading: boolean;
     getUsersErrorMessage: string;
     getUserIsLoading: boolean;
@@ -135,6 +133,7 @@ const initialState: UserReducerInitialState = {
         },
         userStreakCompleteInfo: [],
         pushNotificationToken: '',
+        hasCompletedIntroduction: false,
         createdAt: '',
         updatedAt: '',
     },
@@ -158,7 +157,6 @@ const initialState: UserReducerInitialState = {
         userBadges: [],
         userStreakCompleteInfo: [],
     },
-    hasCompletedIntroduction: false,
     getUsersIsLoading: false,
     getUsersErrorMessage: '',
     getUserIsLoading: false,
@@ -459,12 +457,6 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
             return {
                 ...state,
                 getFriendsIsLoading: false,
-            };
-
-        case COMPLETED_INTRODUCTION:
-            return {
-                ...state,
-                hasCompletedIntroduction: true,
             };
 
         default:
