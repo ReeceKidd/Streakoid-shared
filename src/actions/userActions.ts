@@ -22,6 +22,7 @@ import {
     GET_CURRENT_USER_IS_LOADED,
     UPDATE_CURRENT_USER_IS_LOADING,
     UPDATE_CURRENT_USER_IS_LOADED,
+    COMPLETED_INTRODUCTION,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -223,6 +224,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const completeIntroduction = (): AppActions => ({
+        type: COMPLETED_INTRODUCTION,
+    });
+
     return {
         getUsers,
         getUser,
@@ -230,6 +235,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         getUserStreakCompleteInfo,
         updateCurrentUser,
         sendFriendRequest,
+        completeIntroduction,
     };
 };
 
