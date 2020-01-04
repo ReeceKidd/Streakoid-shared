@@ -172,7 +172,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             const userId = getState().users.currentUser._id;
             const isPayingMember = getState().users.currentUser.membershipInformation.isPayingMember;
             if (!isPayingMember) {
-                const userSoloStreaks = await streakoid.soloStreaks.getAll({ userId });
+                const userSoloStreaks = await streakoid.soloStreaks.getAll({ userId, status: StreakStatus.live });
                 const soloStreaksLimitForFreeAccounts = 2;
                 if (userSoloStreaks.length >= soloStreaksLimitForFreeAccounts) {
                     dispatch({ type: NAVIGATE_TO_UPGRADE });

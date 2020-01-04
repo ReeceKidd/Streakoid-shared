@@ -18,7 +18,7 @@ import {
     NAVIGATE_TO_UPGRADE,
 } from './types';
 import { AppActions, AppState } from '..';
-import { ChallengeMember, PopulatedChallenge } from '@streakoid/streakoid-sdk/lib';
+import { ChallengeMember, PopulatedChallenge, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
 const challengeActions = (streakoid: typeof streakoidSDK) => {
     const getChallenges = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -85,7 +85,10 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
             const userId = getState().users.currentUser._id;
             const isPayingMember = getState().users.currentUser.membershipInformation.isPayingMember;
             if (!isPayingMember) {
-                const userChallengeStreaks = await streakoid.challengeStreaks.getAll({ userId });
+                const userChallengeStreaks = await streakoid.challengeStreaks.getAll({
+                    userId,
+                    status: StreakStatus.live,
+                });
                 const challengeLimitForFreeAccounts = 2;
                 if (userChallengeStreaks.length >= challengeLimitForFreeAccounts) {
                     dispatch({ type: NAVIGATE_TO_UPGRADE });
