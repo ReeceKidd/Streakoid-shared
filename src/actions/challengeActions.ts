@@ -15,7 +15,7 @@ import {
     JOIN_CHALLENGE,
     JOIN_CHALLENGE_FAIL,
     CREATE_CHALLENGE_STREAK,
-    NAVIGATE_TO_UPGRADE,
+    NAVIGATE_TO_STREAK_LIMIT_REACHED,
 } from './types';
 import { AppActions, AppState } from '..';
 import { ChallengeMember, PopulatedChallenge, StreakStatus } from '@streakoid/streakoid-sdk/lib';
@@ -91,7 +91,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 });
                 const challengeLimitForFreeAccounts = 2;
                 if (userChallengeStreaks.length >= challengeLimitForFreeAccounts) {
-                    dispatch({ type: NAVIGATE_TO_UPGRADE });
+                    dispatch({ type: NAVIGATE_TO_STREAK_LIMIT_REACHED });
                     dispatch({ type: JOIN_CHALLENGE_LOADED });
                     return;
                 }

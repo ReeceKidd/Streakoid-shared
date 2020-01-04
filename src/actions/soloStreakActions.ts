@@ -54,7 +54,7 @@ import {
     DELETE_ARCHIVED_SOLO_STREAK_FAIL,
     NAVIGATE_TO_SOLO_STREAKS,
     NAVIGATE_TO_SPECIFIC_SOLO_STREAK,
-    NAVIGATE_TO_UPGRADE,
+    NAVIGATE_TO_STREAK_LIMIT_REACHED,
     JOIN_CHALLENGE_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
@@ -175,7 +175,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                 const userSoloStreaks = await streakoid.soloStreaks.getAll({ userId, status: StreakStatus.live });
                 const soloStreaksLimitForFreeAccounts = 2;
                 if (userSoloStreaks.length >= soloStreaksLimitForFreeAccounts) {
-                    dispatch({ type: NAVIGATE_TO_UPGRADE });
+                    dispatch({ type: NAVIGATE_TO_STREAK_LIMIT_REACHED });
                     dispatch({ type: JOIN_CHALLENGE_LOADED });
                     return;
                 }

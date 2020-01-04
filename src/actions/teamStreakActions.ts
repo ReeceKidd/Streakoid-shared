@@ -47,7 +47,7 @@ import {
     DELETE_ARCHIVED_TEAM_STREAK_FAIL,
     UPDATE_TEAM_STREAK_TIMEZONE,
     UPDATE_TEAM_STREAK_TIMEZONE_FAIL,
-    NAVIGATE_TO_UPGRADE,
+    NAVIGATE_TO_STREAK_LIMIT_REACHED,
     JOIN_CHALLENGE_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
@@ -260,7 +260,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 const userTeamStreaks = await streakoid.teamMemberStreaks.getAll({ userId });
                 const teamStreaksLimitForFreeAccounts = 2;
                 if (userTeamStreaks.length >= teamStreaksLimitForFreeAccounts) {
-                    dispatch({ type: NAVIGATE_TO_UPGRADE });
+                    dispatch({ type: NAVIGATE_TO_STREAK_LIMIT_REACHED });
                     dispatch({ type: JOIN_CHALLENGE_LOADED });
                     return;
                 }
