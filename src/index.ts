@@ -10,13 +10,14 @@ import { userReducer } from './reducers/userReducer';
 import { streakRecommendationReducer } from './reducers/streakRecommendationsReducer';
 import { badgeReducer } from './reducers/badgesReducer';
 import { challengeReducer } from './reducers/challengesReducer';
+import { challengeStreakReducer } from './reducers/challengeStreakReducer';
+import { noteReducer } from './reducers/notesReducer';
 
 import { AppActions } from './actions/types';
 import { getSharedActions } from './actions/getSharedActions';
 import CognitoPayload from './cognitoPayload';
 import { getCountdownString } from './helpers/countdown/getCountdownString';
 import { getIdToken } from './helpers/auth/getIdToken';
-import { challengeStreakReducer } from './reducers/challengeStreakReducer';
 
 const sharedReducers = {
     auth: authReducer,
@@ -29,6 +30,7 @@ const sharedReducers = {
     badges: badgeReducer,
     challenges: challengeReducer,
     challengeStreak: challengeStreakReducer,
+    notesReducer: noteReducer,
 };
 
 const sharedReducer = combineReducers({
@@ -49,6 +51,7 @@ export {
     badgeReducer,
     challengeReducer,
     challengeStreakReducer,
+    noteReducer,
     AppActions,
     CognitoPayload,
     getSharedActions,
