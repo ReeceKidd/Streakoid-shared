@@ -2063,10 +2063,12 @@ export interface GetNotesLoadedAction {
 
 export interface GetNoteAction {
     type: typeof GET_NOTE;
+    payload: Note;
 }
 
 export interface GetNoteFailAction {
     type: typeof GET_NOTE_FAIL;
+    payload: string;
 }
 
 export interface GetNoteLoadingAction {
@@ -2083,6 +2085,7 @@ export interface CreateNoteAction {
 
 export interface CreateNoteFailAction {
     type: typeof CREATE_NOTE_FAIL;
+    payload: string;
 }
 
 export interface CreateNoteLoadingAction {
@@ -2101,7 +2104,7 @@ export type NotesActionTypes =
     | GetNoteAction
     | GetNoteFailAction
     | GetNoteLoadingAction
-    | GetNotesLoadedAction
+    | GetNoteLoadedAction
     | CreateNoteAction
     | CreateNoteFailAction
     | CreateNoteLoadingAction

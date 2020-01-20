@@ -69,9 +69,9 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
         } catch (err) {
             dispatch({ type: CREATE_NOTE_LOADED });
             if (err.response) {
-                dispatch({ type: CREATE_NOTE_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: CREATE_NOTE_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: CREATE_NOTE_FAIL, errorMessage: err.message });
+                dispatch({ type: CREATE_NOTE_FAIL, payload: err.message });
             }
         }
     };
