@@ -29,8 +29,8 @@ const sharedReducers = {
     streakRecommendations: streakRecommendationReducer,
     badges: badgeReducer,
     challenges: challengeReducer,
-    challengeStreak: challengeStreakReducer,
-    notesReducer: noteReducer,
+    challengeStreaks: challengeStreakReducer,
+    notes: noteReducer,
 };
 
 const sharedReducer = combineReducers({
