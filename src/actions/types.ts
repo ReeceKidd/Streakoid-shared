@@ -7,6 +7,7 @@ import {
     Badge,
     Challenge,
     PopulatedChallenge,
+    Note,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
 import {
@@ -2029,6 +2030,83 @@ export type ChallengeStreakActionTypes =
     | UpdateChallengeStreaksTimezoneAction
     | UpdateChallengeStreaksTimezoneActionFail;
 
+export const GET_NOTES = 'GET_NOTES';
+export const GET_NOTES_FAIL = 'GET_NOTES_FAIL';
+export const GET_NOTES_LOADING = 'GET_NOTES_LOADING';
+export const GET_NOTES_LOADED = 'GET_NOTES_LOADED';
+export const GET_NOTE = 'GET_NOTE';
+export const GET_NOTE_FAIL = 'GET_NOTE_FAIL';
+export const GET_NOTE_LOADING = 'GET_NOTE_LOADING';
+export const GET_NOTE_LOADED = 'GET_NOTE_LOADED';
+export const CREATE_NOTE = 'CREATE_NOTE';
+export const CREATE_NOTE_FAIL = 'CREATE_NOTE_FAIL';
+export const CREATE_NOTE_LOADING = 'CREATE_NOTE_LOADING';
+export const CREATE_NOTE_LOADED = 'CREATE_NOTE_LOADED';
+
+export interface GetNotesAction {
+    type: typeof GET_NOTES;
+    payload: Note[];
+}
+
+export interface GetNotesFailAction {
+    type: typeof GET_NOTES_FAIL;
+    payload: string;
+}
+
+export interface GetNotesLoadingAction {
+    type: typeof GET_NOTES_LOADING;
+}
+
+export interface GetNotesLoadedAction {
+    type: typeof GET_NOTES_LOADED;
+}
+
+export interface GetNoteAction {
+    type: typeof GET_NOTE;
+}
+
+export interface GetNoteFailAction {
+    type: typeof GET_NOTE_FAIL;
+}
+
+export interface GetNoteLoadingAction {
+    type: typeof GET_NOTE_LOADING;
+}
+
+export interface GetNoteLoadedAction {
+    type: typeof GET_NOTE_LOADED;
+}
+
+export interface CreateNoteAction {
+    type: typeof CREATE_NOTE;
+}
+
+export interface CreateNoteFailAction {
+    type: typeof CREATE_NOTE_FAIL;
+}
+
+export interface CreateNoteLoadingAction {
+    type: typeof CREATE_NOTE_LOADING;
+}
+
+export interface CreateNoteLoadedAction {
+    type: typeof CREATE_NOTE_LOADED;
+}
+
+export type NotesActionTypes =
+    | GetNotesAction
+    | GetNotesFailAction
+    | GetNotesLoadingAction
+    | GetNotesLoadedAction
+    | GetNoteAction
+    | GetNoteFailAction
+    | GetNoteLoadingAction
+    | GetNotesLoadedAction
+    | CreateNoteAction
+    | CreateNoteFailAction
+    | CreateNoteLoadingAction
+    | CreateNoteLoadedAction;
+
 export type AppActions =
     | NavigationActionTypes
     | AuthActionTypes
@@ -2039,4 +2117,5 @@ export type AppActions =
     | FriendRequestActionTypes
     | BadgesActionTypes
     | ChallengeActionTypes
-    | ChallengeStreakActionTypes;
+    | ChallengeStreakActionTypes
+    | NotesActionTypes;
