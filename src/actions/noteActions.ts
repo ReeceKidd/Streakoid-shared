@@ -11,6 +11,7 @@ import {
     CREATE_NOTE,
     CREATE_NOTE_LOADED,
     CREATE_NOTE_FAIL,
+    NAVIGATE_TO_SPECIFIC_SOLO_STREAK,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -57,7 +58,7 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const createNote = ({ text, streakId }: { text: string; streakId: string }) => async (
+    const createNoteForSoloStreak = ({ text, soloStreakId }: { text: string; soloStreakId: string }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
@@ -66,10 +67,11 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
             const userId = getState().users.currentUser._id;
             const note = await streakoid.notes.create({
                 userId,
-                streakId,
+                streakId: soloStreakId,
                 text,
             });
             dispatch({ type: CREATE_NOTE, payload: note });
+            dispatch({ type: NAVIGATE_TO_SPECIFIC_SOLO_STREAK, payload: soloStreakId });
             dispatch({ type: CREATE_NOTE_LOADED });
         } catch (err) {
             dispatch({ type: CREATE_NOTE_LOADED });
@@ -84,7 +86,7 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
     return {
         getNotes,
         getNote,
-        createNote,
+        createNoteForSoloStreak,
     };
 };
 
