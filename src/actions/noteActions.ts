@@ -16,9 +16,12 @@ import {
     DELETE_NOTE,
     DELETE_NOTE_LOADED,
     DELETE_NOTE_FAIL,
+    NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK,
+    NAVIGATE_TO_SPECIFIC_TEAM_STREAK,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakTypes } from '@streakoid/streakoid-sdk/lib';
 
 const noteActions = (streakoid: typeof streakoidSDK) => {
     const getNotes = ({ streakId }: { streakId?: string }) => async (
@@ -65,20 +68,33 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const createNoteForSoloStreak = ({ text, soloStreakId }: { text: string; soloStreakId: string }) => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
+    const createNoteForStreak = ({
+        text,
+        streakId,
+        streakType,
+    }: {
+        text: string;
+        streakId: string;
+        streakType: StreakTypes;
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: CREATE_NOTE_LOADING });
             const userId = getState().users.currentUser._id;
             const note = await streakoid.notes.create({
                 userId,
-                streakId: soloStreakId,
+                streakId,
                 text,
             });
             dispatch({ type: CREATE_NOTE, payload: note });
-            dispatch({ type: NAVIGATE_TO_SPECIFIC_SOLO_STREAK, payload: soloStreakId });
+            if (streakType === StreakTypes.solo) {
+                dispatch({ type: NAVIGATE_TO_SPECIFIC_SOLO_STREAK, payload: streakId });
+            }
+            if (streakType === StreakTypes.challenge) {
+                dispatch({ type: NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK, payload: streakId });
+            }
+            if (streakType === StreakTypes.team) {
+                dispatch({ type: NAVIGATE_TO_SPECIFIC_TEAM_STREAK, payload: streakId });
+            }
             dispatch({ type: CREATE_NOTE_LOADED });
         } catch (err) {
             dispatch({ type: CREATE_NOTE_LOADED });
@@ -109,7 +125,7 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
     return {
         getNotes,
         getNote,
-        createNoteForSoloStreak,
+        createNoteForStreak,
         deleteNote,
     };
 };
