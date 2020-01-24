@@ -12,6 +12,10 @@ import {
     CREATE_NOTE_LOADED,
     CREATE_NOTE_FAIL,
     NAVIGATE_TO_SPECIFIC_SOLO_STREAK,
+    DELETE_NOTE_LOADING,
+    DELETE_NOTE,
+    DELETE_NOTE_LOADED,
+    DELETE_NOTE_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -29,8 +33,11 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
                 query = { ...query, streakId };
             }
             const notes = await streakoid.notes.getAll(query);
-
-            dispatch({ type: GET_NOTES, payload: notes });
+            const notesWithClientData = notes.map(note => ({
+                ...note,
+                deleteNoteIsLoading: false,
+            }));
+            dispatch({ type: GET_NOTES, payload: notesWithClientData });
             dispatch({ type: GET_NOTES_LOADED });
         } catch (err) {
             dispatch({ type: GET_NOTES_LOADED });
@@ -83,10 +90,27 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const deleteNote = ({ noteId }: { noteId: string }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+        try {
+            dispatch({ type: DELETE_NOTE_LOADING, payload: noteId });
+            await streakoid.notes.deleteOne({ noteId });
+            dispatch({ type: DELETE_NOTE, payload: noteId });
+            dispatch({ type: DELETE_NOTE_LOADED, payload: noteId });
+        } catch (err) {
+            dispatch({ type: DELETE_NOTE_LOADED, payload: noteId });
+            if (err.response) {
+                dispatch({ type: DELETE_NOTE_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: DELETE_NOTE_FAIL, payload: err.message });
+            }
+        }
+    };
+
     return {
         getNotes,
         getNote,
         createNoteForSoloStreak,
+        deleteNote,
     };
 };
 

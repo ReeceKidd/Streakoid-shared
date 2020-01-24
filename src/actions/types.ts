@@ -22,6 +22,7 @@ import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 import { ChallengeStreakWithClientData } from '../reducers/challengeStreakReducer';
 import { UserBadge } from '../reducers/badgesReducer';
+import { NoteWithClientData } from '../reducers/notesReducer';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -2042,10 +2043,14 @@ export const CREATE_NOTE = 'CREATE_NOTE';
 export const CREATE_NOTE_FAIL = 'CREATE_NOTE_FAIL';
 export const CREATE_NOTE_LOADING = 'CREATE_NOTE_LOADING';
 export const CREATE_NOTE_LOADED = 'CREATE_NOTE_LOADED';
+export const DELETE_NOTE = 'DELETE_NOTE';
+export const DELETE_NOTE_FAIL = 'DELETE_NOTE_FAIL';
+export const DELETE_NOTE_LOADING = 'DELETE_NOTE_LOADING';
+export const DELETE_NOTE_LOADED = 'DELETE_NOTE_LOADED';
 
 export interface GetNotesAction {
     type: typeof GET_NOTES;
-    payload: Note[];
+    payload: NoteWithClientData[];
 }
 
 export interface GetNotesFailAction {
@@ -2096,6 +2101,26 @@ export interface CreateNoteLoadedAction {
     type: typeof CREATE_NOTE_LOADED;
 }
 
+export interface DeleteNoteAction {
+    type: typeof DELETE_NOTE;
+    payload: string;
+}
+
+export interface DeleteNoteFailAction {
+    type: typeof DELETE_NOTE_FAIL;
+    payload: string;
+}
+
+export interface DeleteNoteLoadingAction {
+    type: typeof DELETE_NOTE_LOADING;
+    payload: string;
+}
+
+export interface DeleteNoteLoadedAction {
+    type: typeof DELETE_NOTE_LOADED;
+    payload: string;
+}
+
 export type NotesActionTypes =
     | GetNotesAction
     | GetNotesFailAction
@@ -2108,7 +2133,11 @@ export type NotesActionTypes =
     | CreateNoteAction
     | CreateNoteFailAction
     | CreateNoteLoadingAction
-    | CreateNoteLoadedAction;
+    | CreateNoteLoadedAction
+    | DeleteNoteAction
+    | DeleteNoteFailAction
+    | DeleteNoteLoadingAction
+    | DeleteNoteLoadedAction;
 
 export type AppActions =
     | NavigationActionTypes

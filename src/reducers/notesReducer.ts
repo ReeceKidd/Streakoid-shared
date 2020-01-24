@@ -13,10 +13,14 @@ import {
     CREATE_NOTE_LOADING,
     CREATE_NOTE_LOADED,
     NotesActionTypes,
+    DELETE_NOTE,
+    DELETE_NOTE_FAIL,
+    DELETE_NOTE_LOADING,
+    DELETE_NOTE_LOADED,
 } from '../actions/types';
 
 export interface NoteReducerState {
-    notes: Note[];
+    notes: NoteWithClientData[];
     getMultipleNotesIsLoading: boolean;
     getMultipleNotesErrorMessage: string;
     selectedNote: Note;
@@ -24,6 +28,7 @@ export interface NoteReducerState {
     getSelectedNoteErrorMessage: string;
     createNoteIsLoading: boolean;
     createNoteErrorMessage: string;
+    deleteNoteErrorMessage: string;
 }
 
 const initialState: NoteReducerState = {
@@ -35,7 +40,12 @@ const initialState: NoteReducerState = {
     getSelectedNoteErrorMessage: '',
     createNoteIsLoading: false,
     createNoteErrorMessage: '',
+    deleteNoteErrorMessage: '',
 };
+
+export interface NoteWithClientData extends Note {
+    deleteNoteIsLoading: boolean;
+}
 
 const noteReducer = (state = initialState, action: NotesActionTypes): NoteReducerState => {
     switch (action.type) {
@@ -103,6 +113,44 @@ const noteReducer = (state = initialState, action: NotesActionTypes): NoteReduce
             return {
                 ...state,
                 createNoteIsLoading: false,
+            };
+
+        case DELETE_NOTE:
+            return {
+                ...state,
+                notes: [...state.notes.filter(note => note._id !== action.payload)],
+            };
+
+        case DELETE_NOTE_FAIL:
+            return {
+                ...state,
+                deleteNoteErrorMessage: action.payload,
+            };
+
+        case DELETE_NOTE_LOADING:
+            return {
+                ...state,
+                notes: [
+                    ...state.notes.map(note => {
+                        if (note._id === action.payload) {
+                            return { ...note, deleteNoteIsLoading: true };
+                        }
+                        return note;
+                    }),
+                ],
+            };
+
+        case DELETE_NOTE_LOADED:
+            return {
+                ...state,
+                notes: [
+                    ...state.notes.map(note => {
+                        if (note._id === action.payload) {
+                            return { ...note, deleteNoteIsLoading: false };
+                        }
+                        return note;
+                    }),
+                ],
             };
 
         default:
