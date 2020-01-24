@@ -36,10 +36,17 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
                 query = { ...query, streakId };
             }
             const notes = await streakoid.notes.getAll(query);
-            const notesWithClientData = notes.map(note => ({
-                ...note,
-                deleteNoteIsLoading: false,
-            }));
+            const notesWithClientData = await Promise.all(
+                notes.map(async note => {
+                    const noteCreator = await streakoid.users.getOne(note.userId);
+                    return {
+                        ...note,
+                        deleteNoteIsLoading: false,
+                        noteCreatorProfilePicture:
+                            noteCreator && noteCreator.profileImages && noteCreator.profileImages.originalImageUrl,
+                    };
+                }),
+            );
             dispatch({ type: GET_NOTES, payload: notesWithClientData });
             dispatch({ type: GET_NOTES_LOADED });
         } catch (err) {
