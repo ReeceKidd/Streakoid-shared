@@ -90,6 +90,7 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
             const note = await streakoid.notes.create({
                 userId,
                 streakId,
+                streakType,
                 text,
             });
             dispatch({ type: CREATE_NOTE, payload: note });
