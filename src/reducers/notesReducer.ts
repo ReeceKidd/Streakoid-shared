@@ -1,4 +1,4 @@
-import { Note } from '@streakoid/streakoid-sdk/lib';
+import { Note, StreakTypes } from '@streakoid/streakoid-sdk/lib';
 
 import {
     GET_NOTES,
@@ -33,7 +33,15 @@ export interface NoteReducerState {
 
 const initialState: NoteReducerState = {
     notes: [],
-    selectedNote: { _id: '', streakId: '', text: '', userId: '', updatedAt: '', createdAt: '' },
+    selectedNote: {
+        _id: '',
+        streakId: '',
+        text: '',
+        streakType: StreakTypes.solo,
+        userId: '',
+        updatedAt: '',
+        createdAt: '',
+    },
     getMultipleNotesIsLoading: false,
     getMultipleNotesErrorMessage: '',
     getSelectedNoteIsLoading: false,
