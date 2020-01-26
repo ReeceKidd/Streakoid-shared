@@ -8,6 +8,7 @@ import {
     Challenge,
     PopulatedChallenge,
     Note,
+    Activity,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
 import {
@@ -2139,6 +2140,35 @@ export type NotesActionTypes =
     | DeleteNoteLoadingAction
     | DeleteNoteLoadedAction;
 
+export const GET_ACTIVITIES = 'GET_ACTIVITIES';
+export const GET_ACTIVITIES_FAIL = 'GET_ACTIVITIES_FAIL';
+export const GET_ACTIVITIES_LOADING = 'GET_ACTIVITIES_LOADING';
+export const GET_ACTIVITIES_LOADED = 'GET_ACTIVITIES_LOADED';
+
+export interface GetActivitiesAction {
+    type: typeof GET_ACTIVITIES;
+    payload: Activity[];
+}
+
+export interface GetActivitiesFailAction {
+    type: typeof GET_ACTIVITIES_FAIL;
+    payload: string;
+}
+
+export interface GetActivitiesLoadingAction {
+    type: typeof GET_ACTIVITIES_LOADING;
+}
+
+export interface GetActivitiesLoadedAction {
+    type: typeof GET_ACTIVITIES_LOADED;
+}
+
+export type ActivitiesActionTypes =
+    | GetActivitiesAction
+    | GetActivitiesFailAction
+    | GetActivitiesLoadingAction
+    | GetActivitiesLoadedAction;
+
 export type AppActions =
     | NavigationActionTypes
     | AuthActionTypes
@@ -2150,4 +2180,5 @@ export type AppActions =
     | BadgesActionTypes
     | ChallengeActionTypes
     | ChallengeStreakActionTypes
-    | NotesActionTypes;
+    | NotesActionTypes
+    | ActivitiesActionTypes;
