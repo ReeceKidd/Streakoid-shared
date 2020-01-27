@@ -19,7 +19,7 @@ const initialState: ActivityReducerState = {
     getAllActivityFeedItemsErrorMessage: '',
 };
 
-const activityReducer = (state = initialState, action: ActivityFeedItemsActionTypes): ActivityReducerState => {
+const activityFeedItemReducer = (state = initialState, action: ActivityFeedItemsActionTypes): ActivityReducerState => {
     switch (action.type) {
         case GET_ACTIVITY_FEED_ITEMS:
             return {
@@ -50,4 +50,4 @@ const activityReducer = (state = initialState, action: ActivityFeedItemsActionTy
     }
 };
 
-export { activityReducer };
+export { activityFeedItemReducer };

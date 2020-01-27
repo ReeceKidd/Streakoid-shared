@@ -12,7 +12,7 @@ import { badgeReducer } from './reducers/badgesReducer';
 import { challengeReducer } from './reducers/challengesReducer';
 import { challengeStreakReducer } from './reducers/challengeStreakReducer';
 import { noteReducer } from './reducers/notesReducer';
-import { activityReducer } from './reducers/activityFeedItemReducer';
+import { activityFeedItemReducer } from './reducers/activityFeedItemReducer';
 
 import { AppActions } from './actions/types';
 import { getSharedActions } from './actions/getSharedActions';
@@ -32,7 +32,7 @@ const sharedReducers = {
     challenges: challengeReducer,
     challengeStreaks: challengeStreakReducer,
     notes: noteReducer,
-    activities: activityReducer,
+    activityFeedItems: activityFeedItemReducer,
 };
 
 const sharedReducer = combineReducers({
