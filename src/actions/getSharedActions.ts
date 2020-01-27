@@ -14,7 +14,7 @@ import { badgeActions } from './badgeActions';
 import { challengeActions } from './challengeActions';
 import { challengeStreakActions } from './challengeStreakActions';
 import { noteActions } from './noteActions';
-import { activityActions } from './activityActions';
+import { activityFeedItemActions } from './activityFeedItemActions';
 
 export const getSharedActions = (streakoid: typeof streakoidSDK) => {
     return {
@@ -33,6 +33,6 @@ export const getSharedActions = (streakoid: typeof streakoidSDK) => {
         challengeActions: challengeActions(streakoid),
         challengeStreakActions: challengeStreakActions(streakoid),
         noteActions: noteActions(streakoid),
-        activityActions: activityActions(streakoid),
+        activityFeedItemActions: activityFeedItemActions(streakoid),
     };
 };

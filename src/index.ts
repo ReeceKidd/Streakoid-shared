@@ -12,7 +12,7 @@ import { badgeReducer } from './reducers/badgesReducer';
 import { challengeReducer } from './reducers/challengesReducer';
 import { challengeStreakReducer } from './reducers/challengeStreakReducer';
 import { noteReducer } from './reducers/notesReducer';
-import { activityReducer } from './reducers/activitiesReducer';
+import { activityReducer } from './reducers/activityFeedItemReducer';
 
 import { AppActions } from './actions/types';
 import { getSharedActions } from './actions/getSharedActions';

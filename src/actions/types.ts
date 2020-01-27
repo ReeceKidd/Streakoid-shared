@@ -8,7 +8,7 @@ import {
     Challenge,
     PopulatedChallenge,
     Note,
-    Activity,
+    ActivityFeedItem,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
 import {
@@ -2140,34 +2140,34 @@ export type NotesActionTypes =
     | DeleteNoteLoadingAction
     | DeleteNoteLoadedAction;
 
-export const GET_ACTIVITIES = 'GET_ACTIVITIES';
-export const GET_ACTIVITIES_FAIL = 'GET_ACTIVITIES_FAIL';
-export const GET_ACTIVITIES_LOADING = 'GET_ACTIVITIES_LOADING';
-export const GET_ACTIVITIES_LOADED = 'GET_ACTIVITIES_LOADED';
+export const GET_ACTIVITY_FEED_ITEMS = 'GET_ACTIVITY_FEED_ITEMS';
+export const GET_ACTIVITY_FEED_ITEMS_FAIL = 'GET_ACTIVITY_FEED_ITEMS_FAIL';
+export const GET_ACTIVITY_FEED_ITEMS_LOADING = 'GET_ACTIVITY_FEED_ITEMS_LOADING';
+export const GET_ACTIVITY_FEED_ITEMS_LOADED = 'GET_ACTIVITY_FEED_ITEMS_LOADED';
 
-export interface GetActivitiesAction {
-    type: typeof GET_ACTIVITIES;
-    payload: Activity[];
+export interface GetActivityFeedItemsAction {
+    type: typeof GET_ACTIVITY_FEED_ITEMS;
+    payload: ActivityFeedItem[];
 }
 
-export interface GetActivitiesFailAction {
-    type: typeof GET_ACTIVITIES_FAIL;
+export interface GetActivityFeedItemsFailAction {
+    type: typeof GET_ACTIVITY_FEED_ITEMS_FAIL;
     payload: string;
 }
 
-export interface GetActivitiesLoadingAction {
-    type: typeof GET_ACTIVITIES_LOADING;
+export interface GetActivityFeedItemsLoadingAction {
+    type: typeof GET_ACTIVITY_FEED_ITEMS_LOADING;
 }
 
-export interface GetActivitiesLoadedAction {
-    type: typeof GET_ACTIVITIES_LOADED;
+export interface GetActivityFeedItemsLoadedAction {
+    type: typeof GET_ACTIVITY_FEED_ITEMS_LOADED;
 }
 
-export type ActivitiesActionTypes =
-    | GetActivitiesAction
-    | GetActivitiesFailAction
-    | GetActivitiesLoadingAction
-    | GetActivitiesLoadedAction;
+export type ActivityFeedItemsActionTypes =
+    | GetActivityFeedItemsAction
+    | GetActivityFeedItemsFailAction
+    | GetActivityFeedItemsLoadingAction
+    | GetActivityFeedItemsLoadedAction;
 
 export type AppActions =
     | NavigationActionTypes
@@ -2181,4 +2181,4 @@ export type AppActions =
     | ChallengeActionTypes
     | ChallengeStreakActionTypes
     | NotesActionTypes
-    | ActivitiesActionTypes;
+    | ActivityFeedItemsActionTypes;
