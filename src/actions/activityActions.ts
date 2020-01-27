@@ -5,7 +5,7 @@ import { GET_ACTIVITIES, GET_ACTIVITIES_FAIL, GET_ACTIVITIES_LOADED, GET_ACTIVIT
 import { AppActions } from '..';
 
 const activityActions = (streakoid: typeof streakoidSDK) => {
-    const getActivities = ({ userId, streakId }: { userId: string; streakId: string }) => async (
+    const getActivities = ({ userId, streakId }: { userId?: string; streakId?: string }) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
         try {
