@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Dispatch } from 'redux';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
@@ -8,6 +9,7 @@ import {
     GET_ACTIVITY_FEED_ITEMS_LOADING,
 } from './types';
 import { AppActions } from '..';
+import ActivityFeedItemTypes from '@streakoid/streakoid-sdk/lib/ActivityFeedItemTypes';
 
 const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
     const getActivityFeedItems = ({ userId, streakId }: { userId?: string; streakId?: string }) => async (
@@ -23,7 +25,28 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                 query = { streakId };
             }
             const activityFeedItems = await streakoid.activityFeedItems.getAll(query);
-            dispatch({ type: GET_ACTIVITY_FEED_ITEMS, payload: activityFeedItems });
+            const populatedActivityFeedItems = await Promise.all(
+                activityFeedItems.map(async activityFeedItem => {
+                    if (activityFeedItem.activityType === ActivityFeedItemTypes.createdSoloStreak) {
+                        const userId = activityFeedItem && activityFeedItem.userId;
+                        const streakId = activityFeedItem && activityFeedItem.streakId;
+                        const user = await streakoid.users.getOne(userId!);
+                        const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
+                        const text = `${user.username} created solo streak: ${soloStreak.streakName}`;
+                        return {
+                            ...activityFeedItem,
+                            userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
+                            text,
+                        };
+                    }
+
+                    return {
+                        ...activityFeedItem,
+                        text: `Unknown activity feed item: ${activityFeedItem.activityType}`,
+                    };
+                }),
+            );
+            dispatch({ type: GET_ACTIVITY_FEED_ITEMS, payload: populatedActivityFeedItems });
             dispatch({ type: GET_ACTIVITY_FEED_ITEMS_LOADED });
         } catch (err) {
             dispatch({ type: GET_ACTIVITY_FEED_ITEMS_LOADED });

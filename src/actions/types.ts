@@ -8,7 +8,6 @@ import {
     Challenge,
     PopulatedChallenge,
     Note,
-    ActivityFeedItem,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
 import {
@@ -24,6 +23,7 @@ import { StreakRecommendationWithClientData } from '../reducers/streakRecommenda
 import { ChallengeStreakWithClientData } from '../reducers/challengeStreakReducer';
 import { UserBadge } from '../reducers/badgesReducer';
 import { NoteWithClientData } from '../reducers/notesReducer';
+import { PopulatedActivityFeedItem } from '../reducers/activityFeedItemReducer';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -2147,7 +2147,7 @@ export const GET_ACTIVITY_FEED_ITEMS_LOADED = 'GET_ACTIVITY_FEED_ITEMS_LOADED';
 
 export interface GetActivityFeedItemsAction {
     type: typeof GET_ACTIVITY_FEED_ITEMS;
-    payload: ActivityFeedItem[];
+    payload: PopulatedActivityFeedItem[];
 }
 
 export interface GetActivityFeedItemsFailAction {

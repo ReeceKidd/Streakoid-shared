@@ -7,19 +7,27 @@ import {
 } from '../actions/types';
 import { ActivityFeedItem } from '@streakoid/streakoid-sdk/lib';
 
-export interface ActivityReducerState {
-    activityFeedItems: ActivityFeedItem[];
+export interface PopulatedActivityFeedItem extends ActivityFeedItem {
+    text: string;
+    userProfileImage?: string;
+}
+
+export interface ActivityFeedItemReducerState {
+    activityFeedItems: PopulatedActivityFeedItem[];
     getAllActivityFeedItemsLoading: boolean;
     getAllActivityFeedItemsErrorMessage: string;
 }
 
-const initialState: ActivityReducerState = {
+const initialState: ActivityFeedItemReducerState = {
     activityFeedItems: [],
     getAllActivityFeedItemsLoading: false,
     getAllActivityFeedItemsErrorMessage: '',
 };
 
-const activityFeedItemReducer = (state = initialState, action: ActivityFeedItemsActionTypes): ActivityReducerState => {
+const activityFeedItemReducer = (
+    state = initialState,
+    action: ActivityFeedItemsActionTypes,
+): ActivityFeedItemReducerState => {
     switch (action.type) {
         case GET_ACTIVITY_FEED_ITEMS:
             return {
