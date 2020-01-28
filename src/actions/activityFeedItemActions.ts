@@ -28,8 +28,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
             const populatedActivityFeedItems = await Promise.all(
                 activityFeedItems.map(async activityFeedItem => {
                     if (activityFeedItem.activityType === ActivityFeedItemTypes.createdSoloStreak) {
-                        const userId = activityFeedItem && activityFeedItem.userId;
-                        const streakId = activityFeedItem && activityFeedItem.streakId;
+                        const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
                         const text = `${user.username} created Solo Streak: ${soloStreak.streakName}`;
