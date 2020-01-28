@@ -31,7 +31,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
-                        const text = `${user.username} created Solo Streak: ${soloStreak.streakName}`;
+                        const text = ` created Solo Streak: ${soloStreak.streakName}`;
                         return {
                             ...activityFeedItem,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
