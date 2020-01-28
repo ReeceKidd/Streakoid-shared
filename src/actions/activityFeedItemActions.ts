@@ -36,6 +36,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         return {
                             ...activityFeedItem,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
+                            username: user && user.username,
                             text,
                         };
                     }

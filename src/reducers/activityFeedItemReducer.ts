@@ -10,6 +10,7 @@ import { ActivityFeedItem } from '@streakoid/streakoid-sdk/lib';
 export interface PopulatedActivityFeedItem extends ActivityFeedItem {
     text: string;
     userProfileImage?: string;
+    username?: string;
 }
 
 export interface ActivityFeedItemReducerState {
