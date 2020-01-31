@@ -12,10 +12,12 @@ import { AppActions } from '..';
 import ActivityFeedItemTypes from '@streakoid/streakoid-sdk/lib/ActivityFeedItemTypes';
 
 export interface UserActivityFeedActionItem {
+    activityFeedItemType: ActivityFeedItemTypes;
     userId: string;
     userProfileImage: string;
     username: string;
     title: string;
+    createdAt: string;
     description?: string;
     subjectId?: string;
     subjectName?: string;
@@ -43,6 +45,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
                         const title = ` created Solo Streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -59,6 +62,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
                         const title = ` completed Solo Streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -75,6 +79,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
                         const title = ` incompleted Solo Streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -91,6 +96,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
                         const title = ` archived Solo Streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -107,6 +113,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
                         const title = ` deleted Solo Streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -123,6 +130,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
                         const title = ` restored Solo Streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -139,6 +147,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
                         const title = ` changed Solo Streak name to: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -155,6 +164,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
                         const title = ` changed Solo Streak description of: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -172,6 +182,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
                         const title = ` created Team Streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -188,6 +199,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
                         const title = ` joined Team Streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -204,6 +216,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
                         const title = ` completed Team Member streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -220,6 +233,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
                         const title = ` incompleted Team Member streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -236,6 +250,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
                         const title = ` archived team streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -252,6 +267,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
                         const title = ` restored team streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -268,6 +284,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
                         const title = ` deleted team streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -284,6 +301,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
                         const title = ` changed team streak name to: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -300,6 +318,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
                         const title = ` changed team streak description of: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -317,6 +336,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const challenge = await streakoid.challenges.getOne({ challengeId: challengeId! });
                         const title = ` joined challenge: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -333,6 +353,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const challenge = await streakoid.challenges.getOne({ challengeId: challengeId! });
                         const title = ` completed challenge streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -349,6 +370,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const challenge = await streakoid.challenges.getOne({ challengeId: challengeId! });
                         const title = ` incompleted challenge streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -365,6 +387,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const challenge = await streakoid.challenges.getOne({ challengeId: challengeId! });
                         const title = ` archived challenge streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -381,6 +404,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const challenge = await streakoid.challenges.getOne({ challengeId: challengeId! });
                         const title = ` restored challenge streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -397,6 +421,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                         const challenge = await streakoid.challenges.getOne({ challengeId: challengeId! });
                         const title = ` deleted challenge streak: `;
                         const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            ...activityFeedItem,
                             userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
@@ -408,6 +433,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                     }
 
                     const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                        ...activityFeedItem,
                         userId: userId!,
                         userProfileImage: 'unknown',
                         username: 'Oid',
