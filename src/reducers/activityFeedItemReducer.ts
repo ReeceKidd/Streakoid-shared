@@ -5,16 +5,10 @@ import {
     GET_ACTIVITY_FEED_ITEMS_LOADING,
     ActivityFeedItemsActionTypes,
 } from '../actions/types';
-import { ActivityFeedItem } from '@streakoid/streakoid-sdk/lib';
-
-export interface PopulatedActivityFeedItem extends ActivityFeedItem {
-    text: string;
-    userProfileImage?: string;
-    username?: string;
-}
+import { UserActivityFeedActionItem } from '../actions/activityFeedItemActions';
 
 export interface ActivityFeedItemReducerState {
-    activityFeedItems: PopulatedActivityFeedItem[];
+    activityFeedItems: UserActivityFeedActionItem[];
     getAllActivityFeedItemsLoading: boolean;
     getAllActivityFeedItemsErrorMessage: string;
 }

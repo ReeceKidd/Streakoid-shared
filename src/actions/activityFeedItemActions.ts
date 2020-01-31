@@ -11,6 +11,16 @@ import {
 import { AppActions } from '..';
 import ActivityFeedItemTypes from '@streakoid/streakoid-sdk/lib/ActivityFeedItemTypes';
 
+export interface UserActivityFeedActionItem {
+    userId: string;
+    userProfileImage: string;
+    username: string;
+    title: string;
+    description?: string;
+    subjectId?: string;
+    subjectName?: string;
+}
+
 const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
     const getActivityFeedItems = ({ userId, streakId }: { userId?: string; streakId?: string }) => async (
         dispatch: Dispatch<AppActions>,
@@ -25,311 +35,385 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                 query = { streakId };
             }
             const activityFeedItems = await streakoid.activityFeedItems.getAll(query);
-            const populatedActivityFeedItems = await Promise.all(
+            const populatedActivityFeedItems: UserActivityFeedActionItem[] = await Promise.all(
                 activityFeedItems.map(async activityFeedItem => {
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.createdSoloStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
-                        const text = ` created Solo Streak: ${soloStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` created Solo Streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: soloStreak._id,
+                            subjectName: soloStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.completedSoloStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
-                        const text = ` completed Solo Streak: ${soloStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` completed Solo Streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: soloStreak._id,
+                            subjectName: soloStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.incompletedSoloStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
-                        const text = ` incompleted Solo Streak: ${soloStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` incompleted Solo Streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: soloStreak._id,
+                            subjectName: soloStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.archivedSoloStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
-                        const text = ` archived Solo Streak: ${soloStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` archived Solo Streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: soloStreak._id,
+                            subjectName: soloStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.deletedSoloStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
-                        const text = ` deleted Solo Streak: ${soloStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` deleted Solo Streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: soloStreak._id,
+                            subjectName: soloStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.restoredSoloStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
-                        const text = ` restored Solo Streak: ${soloStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` restored Solo Streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: soloStreak._id,
+                            subjectName: soloStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.editedSoloStreakName) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
-                        const text = ` changed Solo Streak name to: ${soloStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` changed Solo Streak name to: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: soloStreak._id,
+                            subjectName: soloStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.editedSoloStreakDescription) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const soloStreak = await streakoid.soloStreaks.getOne(streakId!);
-                        const text = ` changed Solo Streak description to: ${soloStreak.streakDescription}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` changed Solo Streak description of: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            description: soloStreak.streakDescription,
+                            subjectId: soloStreak._id,
+                            subjectName: soloStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.createdTeamStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
-                        const text = ` created Team Streak: ${teamStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` created Team Streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: teamStreak._id,
+                            subjectName: teamStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.joinedTeamStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
-                        const text = ` joined Team Streak: ${teamStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` joined Team Streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: teamStreak._id,
+                            subjectName: teamStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.completedTeamMemberStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
-                        const text = ` completed Team Member streak: ${teamStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` completed Team Member streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: teamStreak._id,
+                            subjectName: teamStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.incompletedTeamMemberStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
-                        const text = ` incompleted Team Member streak: ${teamStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` incompleted Team Member streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: teamStreak._id,
+                            subjectName: teamStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.archivedTeamStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
-                        const text = ` archived team streak: ${teamStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` archived team streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: teamStreak._id,
+                            subjectName: teamStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.restoredTeamStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
-                        const text = ` restored team streak: ${teamStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` restored team streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: teamStreak._id,
+                            subjectName: teamStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.deletedTeamStreak) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
-                        const text = ` deleted team streak: ${teamStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` deleted team streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: teamStreak._id,
+                            subjectName: teamStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.editedTeamStreakName) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
-                        const text = ` changed team streak name to: ${teamStreak.streakName}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` changed team streak name to: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: teamStreak._id,
+                            subjectName: teamStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.editedTeamStreakDescription) {
                         const { userId, streakId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const teamStreak = await streakoid.teamStreaks.getOne(streakId!);
-                        const text = ` changed team streak description to: ${teamStreak.streakDescription}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` changed team streak description of: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            description: teamStreak.streakDescription,
+                            subjectId: teamStreak._id,
+                            subjectName: teamStreak.streakName,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.joinedChallenge) {
                         const { userId, challengeId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const challenge = await streakoid.challenges.getOne({ challengeId: challengeId! });
-                        const text = ` joined challenge: ${challenge.name}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` joined challenge: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: challenge._id,
+                            subjectName: challenge.name,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.completedChallengeStreak) {
                         const { userId, challengeId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const challenge = await streakoid.challenges.getOne({ challengeId: challengeId! });
-                        const text = ` completed challenge streak: ${challenge.name}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` completed challenge streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: challenge._id,
+                            subjectName: challenge.name,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.incompletedChallengeStreak) {
                         const { userId, challengeId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const challenge = await streakoid.challenges.getOne({ challengeId: challengeId! });
-                        const text = ` incompleted challenge streak: ${challenge.name}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` incompleted challenge streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: challenge._id,
+                            subjectName: challenge.name,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.archivedChallengeStreak) {
                         const { userId, challengeId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const challenge = await streakoid.challenges.getOne({ challengeId: challengeId! });
-                        const text = ` archived challenge streak: ${challenge.name}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` archived challenge streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: challenge._id,
+                            subjectName: challenge.name,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.restoredChallengeStreak) {
                         const { userId, challengeId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const challenge = await streakoid.challenges.getOne({ challengeId: challengeId! });
-                        const text = ` restored challenge streak: ${challenge.name}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` restored challenge streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: challenge._id,
+                            subjectName: challenge.name,
                         };
+                        return userActivityFeedActionItem;
                     }
 
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.deletedChallengeStreak) {
                         const { userId, challengeId } = activityFeedItem;
                         const user = await streakoid.users.getOne(userId!);
                         const challenge = await streakoid.challenges.getOne({ challengeId: challengeId! });
-                        const text = ` deleted challenge streak: ${challenge.name}`;
-                        return {
-                            ...activityFeedItem,
+                        const title = ` deleted challenge streak: `;
+                        const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                            userId: user._id,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
-                            text,
+                            title,
+                            subjectId: challenge._id,
+                            subjectName: challenge.name,
                         };
+                        return userActivityFeedActionItem;
                     }
 
-                    return {
-                        ...activityFeedItem,
-                        text: `Unknown activity feed item: ${activityFeedItem.activityFeedItemType}`,
+                    const userActivityFeedActionItem: UserActivityFeedActionItem = {
+                        userId: userId!,
+                        userProfileImage: 'unknown',
+                        username: 'Oid',
+                        title: `Unknown activity feed item: ${activityFeedItem.activityFeedItemType}`,
                     };
+                    return userActivityFeedActionItem;
                 }),
             );
             dispatch({ type: GET_ACTIVITY_FEED_ITEMS, payload: populatedActivityFeedItems });
