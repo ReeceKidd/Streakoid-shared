@@ -12,6 +12,7 @@ import { AppActions } from '..';
 import ActivityFeedItemTypes from '@streakoid/streakoid-sdk/lib/ActivityFeedItemTypes';
 
 export interface UserActivityFeedActionItem {
+    _id: string;
     activityFeedItemType: ActivityFeedItemTypes;
     userId: string;
     userProfileImage: string;
