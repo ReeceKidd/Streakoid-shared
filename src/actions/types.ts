@@ -1,6 +1,5 @@
 import {
     PopulatedFriendRequest,
-    SoloStreak,
     TeamStreak,
     ProfileImages,
     FormattedUser,
@@ -346,10 +345,8 @@ export const GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING = 'GET_MULTIPLE_LIVE_SOLO
 export const GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED = 'GET_MULTIPLE_SOLO_STREAKS_IS_LOADED';
 export const GET_ARCHIVED_SOLO_STREAKS = 'GET_ARCHIVED_SOLO_STREAKS';
 export const GET_ARCHIVED_SOLO_STREAKS_FAIL = 'GET_ARCHIVED_SOLO_STREAKS_FAIL';
-export const GET_LIVE_SOLO_STREAK = 'GET_LIVE_SOLO_STREAK';
-export const GET_LIVE_SOLO_STREAK_FAIL = 'GET__LIVE_SOLO_STREAK_FAIL';
-export const GET_ARCHIVED_SOLO_STREAK = 'GET_ARCHIVED_SOLO_STREAK';
-export const GET_ARCHIVED_SOLO_STREAK_FAIL = 'GET_ARCHIVED_SOLO_STREAK_FAIL';
+export const GET_SOLO_STREAK = 'GET_SOLO_STREAK';
+export const GET_SOLO_STREAK_FAIL = 'GET_SOLO_STREAK_FAIL';
 export const CREATE_SOLO_STREAK = 'CREATE_SOLO_STREAK';
 export const EDIT_SOLO_STREAK = 'EDIT_SOLO_STREAK';
 export const EDIT_SOLO_STREAK_FAIL = 'EDIT_SOLO_STREAK_FAIL';
@@ -375,10 +372,8 @@ export const DELETE_ARCHIVED_SOLO_STREAK_FAIL = 'DELETE_ARCHIVED_SOLO_STREAK_FAI
 export const CLEAR_DELETE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE = 'DELETE_ACHIVED_SOLO_STREAK_ERROR_MESSAGE';
 export const GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING = 'GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING';
 export const GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED = 'GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED';
-export const GET_LIVE_SOLO_STREAK_IS_LOADING = 'GET_LIVE_SOLO_STREAK_IS_LOADING';
-export const GET_LIVE_SOLO_STREAK_IS_LOADED = 'GET_LIVE_SOLO_STREAK_IS_LOADED';
-export const GET_ARCHIVED_SOLO_STREAK_IS_LOADING = 'GET_ARCHIVED_SOLO_STREAK_IS_LOADING';
-export const GET_ARCHIVED_SOLO_STREAK_IS_LOADED = 'GET_ARCHIVED_SOLO_STREAK_IS_LOADED';
+export const GET_SOLO_STREAK_IS_LOADING = 'GET_SOLO_STREAK_IS_LOADING';
+export const GET_SOLO_STREAK_IS_LOADED = 'GET_SOLO_STREAK_IS_LOADED';
 export const ARCHIVE_SOLO_STREAK_IS_LOADING = 'ARCHIVE_SOLO_STREAK_IS_LOADING';
 export const ARCHIVE_SOLO_STREAK_IS_LOADED = 'ARCHIVE_SOLO_STREAK_IS_LOADED';
 export const RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADING = 'RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADING';
@@ -412,23 +407,13 @@ export interface GetArchivedSoloStreaksFailAction {
     errorMessage: string;
 }
 
-export interface GetLiveSoloStreakAction {
-    type: typeof GET_LIVE_SOLO_STREAK;
+export interface GetSoloStreakAction {
+    type: typeof GET_SOLO_STREAK;
     payload: SoloStreakWithTaskCompletedDates;
 }
 
-export interface GetLiveSoloStreakFailAction {
-    type: typeof GET_LIVE_SOLO_STREAK_FAIL;
-    errorMessage: string;
-}
-
-export interface GetArchivedSoloStreakAction {
-    type: typeof GET_ARCHIVED_SOLO_STREAK;
-    payload: SoloStreak;
-}
-
-export interface GetArchivedSoloStreakFailAction {
-    type: typeof GET_ARCHIVED_SOLO_STREAK_FAIL;
+export interface GetSoloStreakFailAction {
+    type: typeof GET_SOLO_STREAK_FAIL;
     errorMessage: string;
 }
 
@@ -559,20 +544,12 @@ export interface GetMultipleArchivedSoloStreaksIsLoadedAction {
     type: typeof GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED;
 }
 
-export interface GetLiveSoloStreakIsLoadingAction {
-    type: typeof GET_LIVE_SOLO_STREAK_IS_LOADING;
+export interface GetSoloStreakIsLoadingAction {
+    type: typeof GET_SOLO_STREAK_IS_LOADING;
 }
 
-export interface GetLiveSoloStreakIsLoadedAction {
-    type: typeof GET_LIVE_SOLO_STREAK_IS_LOADED;
-}
-
-export interface GetArchivedSoloStreakIsLoadingAction {
-    type: typeof GET_ARCHIVED_SOLO_STREAK_IS_LOADING;
-}
-
-export interface GetArchivedSoloStreakIsLoadedAction {
-    type: typeof GET_ARCHIVED_SOLO_STREAK_IS_LOADED;
+export interface GetSoloStreakIsLoadedAction {
+    type: typeof GET_SOLO_STREAK_IS_LOADED;
 }
 
 export interface ArchiveSoloStreakIsLoadingAction {
@@ -629,10 +606,8 @@ export type SoloStreakActionTypes =
     | GetLiveSoloStreaksFailAction
     | GetArchivedSoloStreaksAction
     | GetArchivedSoloStreaksFailAction
-    | GetLiveSoloStreakAction
-    | GetLiveSoloStreakFailAction
-    | GetArchivedSoloStreakAction
-    | GetArchivedSoloStreakFailAction
+    | GetSoloStreakAction
+    | GetSoloStreakFailAction
     | CreateSoloStreakAction
     | EditSoloStreakAction
     | EditSoloStreakFailAction
@@ -660,10 +635,8 @@ export type SoloStreakActionTypes =
     | GetMultipleLiveSoloStreaksIsLoadedAction
     | GetMultipleArchivedSoloStreaksIsLoadingAction
     | GetMultipleArchivedSoloStreaksIsLoadedAction
-    | GetLiveSoloStreakIsLoadingAction
-    | GetLiveSoloStreakIsLoadedAction
-    | GetArchivedSoloStreakIsLoadingAction
-    | GetArchivedSoloStreakIsLoadedAction
+    | GetSoloStreakIsLoadingAction
+    | GetSoloStreakIsLoadedAction
     | ArchiveSoloStreakIsLoadingAction
     | ArchiveSoloStreakIsLoadedAction
     | RestoreArchivedSoloStreakIsLoadingAction

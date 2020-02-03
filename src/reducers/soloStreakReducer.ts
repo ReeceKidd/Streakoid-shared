@@ -22,12 +22,9 @@ import {
     GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED,
     GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING,
     GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED,
-    GET_ARCHIVED_SOLO_STREAK_IS_LOADED,
-    GET_ARCHIVED_SOLO_STREAK_IS_LOADING,
-    GET_LIVE_SOLO_STREAK_IS_LOADED,
-    GET_LIVE_SOLO_STREAK_IS_LOADING,
-    GET_LIVE_SOLO_STREAK,
-    GET_ARCHIVED_SOLO_STREAK,
+    GET_SOLO_STREAK_IS_LOADED,
+    GET_SOLO_STREAK_IS_LOADING,
+    GET_SOLO_STREAK,
     ARCHIVE_SOLO_STREAK_IS_LOADING,
     ARCHIVE_SOLO_STREAK_IS_LOADED,
     RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADING,
@@ -52,9 +49,8 @@ import {
 
 export interface SoloStreakReducerState {
     liveSoloStreaks: LiveSoloStreakWithClientData[];
-    selectedLiveSoloStreak: SoloStreakWithTaskCompletedDates;
+    selectedSoloStreak: SoloStreakWithTaskCompletedDates;
     archivedSoloStreaks: ArchivedSoloStreakWithClientData[];
-    selectedArchivedSoloStreak: SoloStreak;
     getMultipleLiveSoloStreaksIsLoading: boolean;
     getLiveSoloStreakIsLoading: boolean;
     getMultipleArchivedSoloStreaksIsLoading: boolean;
@@ -73,7 +69,7 @@ export interface SoloStreakReducerState {
 
 const initialState: SoloStreakReducerState = {
     liveSoloStreaks: [],
-    selectedLiveSoloStreak: {
+    selectedSoloStreak: {
         _id: '',
         currentStreak: {
             numberOfDaysInARow: 0,
@@ -90,21 +86,6 @@ const initialState: SoloStreakReducerState = {
         completedSoloStreakTaskDates: [],
     },
     archivedSoloStreaks: [],
-    selectedArchivedSoloStreak: {
-        _id: '',
-        currentStreak: {
-            numberOfDaysInARow: 0,
-        },
-        status: StreakStatus.archived,
-        active: false,
-        completedToday: false,
-        pastStreaks: [],
-        streakName: '',
-        userId: '',
-        timezone: '',
-        createdAt: '',
-        updatedAt: '',
-    },
     getMultipleLiveSoloStreaksIsLoading: false,
     getLiveSoloStreakIsLoading: false,
     getMultipleArchivedSoloStreaksIsLoading: false,
@@ -145,10 +126,10 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 liveSoloStreaks: action.payload,
             };
 
-        case GET_LIVE_SOLO_STREAK:
+        case GET_SOLO_STREAK:
             return {
                 ...state,
-                selectedLiveSoloStreak: action.payload,
+                selectedSoloStreak: action.payload,
             };
 
         case CREATE_SOLO_STREAK:
@@ -330,12 +311,6 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 archivedSoloStreaks: action.payload,
             };
 
-        case GET_ARCHIVED_SOLO_STREAK:
-            return {
-                ...state,
-                selectedArchivedSoloStreak: action.payload,
-            };
-
         case ARCHIVE_SOLO_STREAK:
             return {
                 ...state,
@@ -387,25 +362,13 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 getMultipleArchivedSoloStreaksIsLoading: false,
             };
 
-        case GET_ARCHIVED_SOLO_STREAK_IS_LOADED:
-            return {
-                ...state,
-                getArchivedSoloStreakIsLoading: false,
-            };
-
-        case GET_ARCHIVED_SOLO_STREAK_IS_LOADING:
-            return {
-                ...state,
-                getArchivedSoloStreakIsLoading: true,
-            };
-
-        case GET_LIVE_SOLO_STREAK_IS_LOADED:
+        case GET_SOLO_STREAK_IS_LOADED:
             return {
                 ...state,
                 getLiveSoloStreakIsLoading: false,
             };
 
-        case GET_LIVE_SOLO_STREAK_IS_LOADING:
+        case GET_SOLO_STREAK_IS_LOADING:
             return {
                 ...state,
                 getLiveSoloStreakIsLoading: true,

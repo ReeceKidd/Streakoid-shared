@@ -2,11 +2,11 @@ import { Dispatch } from 'redux';
 import StreakStatus from '@streakoid/streakoid-sdk/lib/StreakStatus';
 
 import {
-    GET_LIVE_SOLO_STREAK,
+    GET_SOLO_STREAK,
     GET_LIVE_SOLO_STREAKS,
     CREATE_SOLO_STREAK,
     GET_LIVE_SOLO_STREAKS_FAIL,
-    GET_LIVE_SOLO_STREAK_FAIL,
+    GET_SOLO_STREAK_FAIL,
     EDIT_SOLO_STREAK,
     EDIT_SOLO_STREAK_FAIL,
     EDIT_SOLO_STREAK_IS_LOADING,
@@ -19,16 +19,12 @@ import {
     CLEAR_CREATE_SOLO_STREAK_ERROR,
     GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING,
     GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED,
-    GET_LIVE_SOLO_STREAK_IS_LOADING,
-    GET_LIVE_SOLO_STREAK_IS_LOADED,
+    GET_SOLO_STREAK_IS_LOADING,
+    GET_SOLO_STREAK_IS_LOADED,
     GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING,
     GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED,
     GET_ARCHIVED_SOLO_STREAKS,
     GET_ARCHIVED_SOLO_STREAKS_FAIL,
-    GET_ARCHIVED_SOLO_STREAK_IS_LOADING,
-    GET_ARCHIVED_SOLO_STREAK,
-    GET_ARCHIVED_SOLO_STREAK_IS_LOADED,
-    GET_ARCHIVED_SOLO_STREAK_FAIL,
     RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADING,
     RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADED,
     RESTORE_ARCHIVED_SOLO_STREAK,
@@ -88,7 +84,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             if (err.response) {
                 dispatch({ type: GET_LIVE_SOLO_STREAKS_FAIL, errorMessage: err.response.data.message });
             } else {
-                dispatch({ type: GET_LIVE_SOLO_STREAK_FAIL, errorMessage: err.message });
+                dispatch({ type: GET_LIVE_SOLO_STREAKS_FAIL, errorMessage: err.message });
             }
         }
     };
@@ -115,44 +111,28 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             if (err.response) {
                 dispatch({ type: GET_ARCHIVED_SOLO_STREAKS_FAIL, errorMessage: err.response.data.message });
             } else {
-                dispatch({ type: GET_ARCHIVED_SOLO_STREAK_FAIL, errorMessage: err.message });
+                dispatch({ type: GET_ARCHIVED_SOLO_STREAKS_FAIL, errorMessage: err.message });
             }
         }
     };
 
-    const getLiveSoloStreak = (soloStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getSoloStreak = (soloStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
-            dispatch({ type: GET_LIVE_SOLO_STREAK_IS_LOADING });
+            dispatch({ type: GET_SOLO_STREAK_IS_LOADING });
             const soloStreak = await streakoid.soloStreaks.getOne(soloStreakId);
             const completeSoloStreakTasks = await streakoid.completeSoloStreakTasks.getAll({ streakId: soloStreakId });
             const completedSoloStreakTaskDates = completeSoloStreakTasks.map(
                 completeTask => new Date(completeTask.createdAt),
             );
-            dispatch({ type: GET_LIVE_SOLO_STREAK, payload: { ...soloStreak, completedSoloStreakTaskDates } });
-            dispatch({ type: GET_LIVE_SOLO_STREAK_IS_LOADED });
+            dispatch({ type: GET_SOLO_STREAK, payload: { ...soloStreak, completedSoloStreakTaskDates } });
+            dispatch({ type: GET_SOLO_STREAK_IS_LOADED });
         } catch (err) {
             dispatch({ type: NAVIGATE_TO_SOLO_STREAKS });
-            dispatch({ type: GET_LIVE_SOLO_STREAK_IS_LOADED });
+            dispatch({ type: GET_SOLO_STREAK_IS_LOADED });
             if (err.response) {
-                dispatch({ type: GET_LIVE_SOLO_STREAK_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: GET_SOLO_STREAK_FAIL, errorMessage: err.response.data.message });
             } else {
-                dispatch({ type: GET_LIVE_SOLO_STREAK_FAIL, errorMessage: err.message });
-            }
-        }
-    };
-
-    const getArchivedSoloStreak = (soloStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
-        try {
-            dispatch({ type: GET_ARCHIVED_SOLO_STREAK_IS_LOADING });
-            const soloStreak = await streakoid.soloStreaks.getOne(soloStreakId);
-            dispatch({ type: GET_ARCHIVED_SOLO_STREAK, payload: soloStreak });
-            dispatch({ type: GET_ARCHIVED_SOLO_STREAK_IS_LOADED });
-        } catch (err) {
-            dispatch({ type: GET_ARCHIVED_SOLO_STREAK_IS_LOADED });
-            if (err.response) {
-                dispatch({ type: GET_ARCHIVED_SOLO_STREAK_FAIL, errorMessage: err.response.data.message });
-            } else {
-                dispatch({ type: GET_ARCHIVED_SOLO_STREAK_FAIL, errorMessage: err.message });
+                dispatch({ type: GET_SOLO_STREAK_FAIL, errorMessage: err.message });
             }
         }
     };
@@ -415,8 +395,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     return {
         getLiveSoloStreaks,
         getArchivedSoloStreaks,
-        getLiveSoloStreak,
-        getArchivedSoloStreak,
+        getSoloStreak,
         createSoloStreak,
         editSoloStreak,
         clearEditSoloStreakErrorMessage,
