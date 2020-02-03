@@ -25,14 +25,14 @@ export interface UserActivityFeedActionItem {
 }
 
 const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
-    const getActivityFeedItems = ({ userId, subjectId }: { userId?: string; subjectId?: string }) => async (
+    const getActivityFeedItems = ({ userIds, subjectId }: { userIds?: string[]; subjectId?: string }) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_ACTIVITY_FEED_ITEMS_LOADING });
-            let query: { userId?: string; subjectId?: string } = {};
-            if (userId) {
-                query = { userId };
+            let query: { userIds?: string[]; subjectId?: string } = {};
+            if (userIds) {
+                query = { userIds };
             }
             if (subjectId) {
                 query = { subjectId };
@@ -465,7 +465,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
 
                     const userActivityFeedActionItem: UserActivityFeedActionItem = {
                         ...activityFeedItem,
-                        userId: userId!,
+                        userId: 'unknown',
                         userProfileImage: 'unknown',
                         username: 'Oid',
                         title: `Unknown activity feed item: ${activityFeedItem.activityFeedItemType}`,
