@@ -67,8 +67,7 @@ export interface TeamStreakReducerState {
     selectedTeamStreak: PopulatedTeamStreakWithTaskDates;
     getMultipleArchivedTeamStreaksIsLoading: boolean;
     getMultipleLiveTeamStreaksIsLoading: boolean;
-    getLiveTeamStreakIsLoading: boolean;
-    getArchivedTeamStreakIsLoading: boolean;
+    getTeamStreakIsLoading: boolean;
     editTeamStreakIsLoading: boolean;
     editTeamStreakErrorMessage: string;
     createTeamStreakIsLoading: boolean;
@@ -107,8 +106,7 @@ const initialState: TeamStreakReducerState = {
     },
     getMultipleLiveTeamStreaksIsLoading: false,
     getMultipleArchivedTeamStreaksIsLoading: false,
-    getLiveTeamStreakIsLoading: false,
-    getArchivedTeamStreakIsLoading: false,
+    getTeamStreakIsLoading: false,
     editTeamStreakIsLoading: false,
     editTeamStreakErrorMessage: '',
     createTeamStreakIsLoading: false,
@@ -156,13 +154,13 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
         case GET_TEAM_STREAK_IS_LOADING:
             return {
                 ...state,
-                getLiveTeamStreakIsLoading: true,
+                getTeamStreakIsLoading: true,
             };
 
         case GET_TEAM_STREAK_IS_LOADED:
             return {
                 ...state,
-                getLiveTeamStreakIsLoading: false,
+                getTeamStreakIsLoading: false,
             };
 
         case CREATE_TEAM_STREAK:
