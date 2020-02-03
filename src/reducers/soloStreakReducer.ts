@@ -52,7 +52,7 @@ export interface SoloStreakReducerState {
     selectedSoloStreak: SoloStreakWithTaskCompletedDates;
     archivedSoloStreaks: ArchivedSoloStreakWithClientData[];
     getMultipleLiveSoloStreaksIsLoading: boolean;
-    getLiveSoloStreakIsLoading: boolean;
+    getSoloStreakIsLoading: boolean;
     getMultipleArchivedSoloStreaksIsLoading: boolean;
     getArchivedSoloStreakIsLoading: boolean;
     archiveSoloStreakIsLoading: boolean;
@@ -87,7 +87,7 @@ const initialState: SoloStreakReducerState = {
     },
     archivedSoloStreaks: [],
     getMultipleLiveSoloStreaksIsLoading: false,
-    getLiveSoloStreakIsLoading: false,
+    getSoloStreakIsLoading: false,
     getMultipleArchivedSoloStreaksIsLoading: false,
     getArchivedSoloStreakIsLoading: false,
     archiveSoloStreakIsLoading: false,
@@ -365,13 +365,13 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
         case GET_SOLO_STREAK_IS_LOADED:
             return {
                 ...state,
-                getLiveSoloStreakIsLoading: false,
+                getSoloStreakIsLoading: false,
             };
 
         case GET_SOLO_STREAK_IS_LOADING:
             return {
                 ...state,
-                getLiveSoloStreakIsLoading: true,
+                getSoloStreakIsLoading: true,
             };
 
         case ARCHIVE_SOLO_STREAK_IS_LOADING:
