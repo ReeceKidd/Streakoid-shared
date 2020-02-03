@@ -10,7 +10,7 @@ import {
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
 import {
-    LiveSoloStreakWithClientData,
+    SoloStreakWithClientData,
     ArchivedSoloStreakWithClientData,
     SoloStreakWithTaskCompletedDates,
 } from '../reducers/soloStreakReducer';
@@ -389,7 +389,7 @@ export const CLEAR_CREATE_SOLO_STREAK_ERROR = 'CLEAR_CREATE_SOLO_STREAK_ERROR';
 
 export interface GetLiveSoloStreaksAction {
     type: typeof GET_LIVE_SOLO_STREAKS;
-    payload: LiveSoloStreakWithClientData[];
+    payload: SoloStreakWithClientData[];
 }
 
 export interface GetLiveSoloStreaksFailAction {
@@ -419,12 +419,12 @@ export interface GetSoloStreakFailAction {
 
 export interface CreateSoloStreakAction {
     type: typeof CREATE_SOLO_STREAK;
-    payload: LiveSoloStreakWithClientData;
+    payload: SoloStreakWithClientData;
 }
 
 export interface EditSoloStreakAction {
     type: typeof EDIT_SOLO_STREAK;
-    soloStreak: LiveSoloStreakWithClientData;
+    soloStreak: SoloStreakWithClientData;
 }
 
 export interface EditSoloStreakFailAction {
@@ -502,7 +502,7 @@ export interface ClearArchiveSoloStreakAction {
 
 export interface RestoreArchivedSoloStreakAction {
     type: typeof RESTORE_ARCHIVED_SOLO_STREAK;
-    payload: LiveSoloStreakWithClientData;
+    payload: SoloStreakWithClientData;
 }
 
 export interface RestoreArchivedSoloStreakFailAction {

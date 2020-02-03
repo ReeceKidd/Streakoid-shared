@@ -48,7 +48,7 @@ import {
 } from '../actions/types';
 
 export interface SoloStreakReducerState {
-    liveSoloStreaks: LiveSoloStreakWithClientData[];
+    liveSoloStreaks: SoloStreakWithClientData[];
     selectedSoloStreak: SoloStreakWithTaskCompletedDates;
     archivedSoloStreaks: ArchivedSoloStreakWithClientData[];
     getMultipleLiveSoloStreaksIsLoading: boolean;
@@ -106,7 +106,7 @@ export interface SoloStreakWithTaskCompletedDates extends SoloStreak {
     completedSoloStreakTaskDates: Date[];
 }
 
-export interface LiveSoloStreakWithClientData extends SoloStreak {
+export interface SoloStreakWithClientData extends SoloStreak {
     completeSoloStreakTaskIsLoading: boolean;
     completeSoloStreakTaskErrorMessage: string;
     incompleteSoloStreakTaskIsLoading: boolean;
@@ -218,11 +218,11 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
                     if (soloStreak._id === action.soloStreakId) {
-                        const liveSoloStreakWithClientData: LiveSoloStreakWithClientData = {
+                        const SoloStreakWithClientData: SoloStreakWithClientData = {
                             ...soloStreak,
                             completeSoloStreakTaskIsLoading: true,
                         };
-                        return liveSoloStreakWithClientData;
+                        return SoloStreakWithClientData;
                     }
                     return soloStreak;
                 }),
@@ -233,11 +233,11 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
                     if (soloStreak._id === action.soloStreakId) {
-                        const liveSoloStreakWithClientData: LiveSoloStreakWithClientData = {
+                        const SoloStreakWithClientData: SoloStreakWithClientData = {
                             ...soloStreak,
                             completeSoloStreakTaskIsLoading: false,
                         };
-                        return liveSoloStreakWithClientData;
+                        return SoloStreakWithClientData;
                     }
                     return soloStreak;
                 }),
@@ -280,11 +280,11 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
                     if (soloStreak._id === action.soloStreakId) {
-                        const liveSoloStreakWithClientData: LiveSoloStreakWithClientData = {
+                        const SoloStreakWithClientData: SoloStreakWithClientData = {
                             ...soloStreak,
                             incompleteSoloStreakTaskIsLoading: true,
                         };
-                        return liveSoloStreakWithClientData;
+                        return SoloStreakWithClientData;
                     }
                     return soloStreak;
                 }),
@@ -295,11 +295,11 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
                     if (soloStreak._id === action.soloStreakId) {
-                        const liveSoloStreakWithClientData: LiveSoloStreakWithClientData = {
+                        const SoloStreakWithClientData: SoloStreakWithClientData = {
                             ...soloStreak,
                             incompleteSoloStreakTaskIsLoading: false,
                         };
-                        return liveSoloStreakWithClientData;
+                        return SoloStreakWithClientData;
                     }
                     return soloStreak;
                 }),
