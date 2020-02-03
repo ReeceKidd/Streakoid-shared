@@ -475,6 +475,15 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 updateData: { timezone },
             });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
+            const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({ teamStreakId });
+            await Promise.all(
+                teamMemberStreaks.map(teamMemberStreak => {
+                    return streakoid.teamMemberStreaks.update({
+                        teamMemberStreakId: teamMemberStreak._id,
+                        updateData: { timezone },
+                    });
+                }),
+            );
             const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
                 return {
                     ...member,
