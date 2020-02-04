@@ -26,32 +26,25 @@ export interface UserActivityFeedActionItem {
 
 const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
     const getActivityFeedItems = ({
-        userIds,
-        subjectId,
         limit,
         skip,
+        userIds,
+        subjectId,
     }: {
+        limit: number;
+        skip: number;
         userIds?: string[];
         subjectId?: string;
-        limit?: number;
-        skip?: number;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_ACTIVITY_FEED_ITEMS_LOADING });
-            let query: { userIds?: string[]; subjectId?: string; limit?: number; skip?: number } = {};
+            let query: { limit: number; skip: number; userIds?: string[]; subjectId?: string } = { limit, skip };
             if (userIds) {
-                query = { userIds };
+                query = { ...query, userIds };
             }
             if (subjectId) {
-                query = { subjectId };
+                query = { ...query, subjectId };
             }
-            if (limit) {
-                query = { limit: Number(limit) };
-            }
-            if (skip) {
-                query = { skip: Number(skip) };
-            }
-
             const activityFeedItems = await streakoid.activityFeedItems.getAll(query);
             const populatedActivityFeedItems: UserActivityFeedActionItem[] = await Promise.all(
                 activityFeedItems.map(async activityFeedItem => {
