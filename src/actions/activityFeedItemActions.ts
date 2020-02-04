@@ -46,10 +46,10 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                 query = { subjectId };
             }
             if (limit) {
-                query = { limit };
+                query = { limit: Number(limit) };
             }
             if (skip) {
-                query = { skip };
+                query = { skip: Number(skip) };
             }
 
             const activityFeedItems = await streakoid.activityFeedItems.getAll(query);
