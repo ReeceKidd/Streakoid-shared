@@ -9,12 +9,14 @@ import { UserActivityFeedActionItem } from '../actions/activityFeedItemActions';
 
 export interface ActivityFeedItemReducerState {
     activityFeedItems: UserActivityFeedActionItem[];
+    totalCountOfActivityFeedItems: number;
     getAllActivityFeedItemsLoading: boolean;
     getAllActivityFeedItemsErrorMessage: string;
 }
 
 const initialState: ActivityFeedItemReducerState = {
     activityFeedItems: [],
+    totalCountOfActivityFeedItems: 0,
     getAllActivityFeedItemsLoading: false,
     getAllActivityFeedItemsErrorMessage: '',
 };
@@ -27,7 +29,8 @@ const activityFeedItemReducer = (
         case GET_ACTIVITY_FEED_ITEMS:
             return {
                 ...state,
-                activityFeedItems: action.payload,
+                activityFeedItems: action.payload.activityFeedItems,
+                totalCountOfActivityFeedItems: action.payload.totalCountOfActivityFeedItems,
             };
 
         case GET_ACTIVITY_FEED_ITEMS_FAIL:

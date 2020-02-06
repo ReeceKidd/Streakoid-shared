@@ -24,6 +24,11 @@ export interface UserActivityFeedActionItem {
     subjectName?: string;
 }
 
+export interface GetAllPopulatedActivityFeedItemsActionResponse {
+    activityFeedItems: UserActivityFeedActionItem[];
+    totalCountOfActivityFeedItems: number;
+}
+
 const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
     const getActivityFeedItems = ({
         limit,
@@ -45,8 +50,9 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
             if (subjectId) {
                 query = { ...query, subjectId };
             }
-            console.log('Shared query', query);
-            const activityFeedItems = await streakoid.activityFeedItems.getAll(query);
+            const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll(
+                query,
+            );
             const populatedActivityFeedItems: UserActivityFeedActionItem[] = await Promise.all(
                 activityFeedItems.map(async activityFeedItem => {
                     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.createdSoloStreak) {
@@ -482,7 +488,10 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                     return userActivityFeedActionItem;
                 }),
             );
-            dispatch({ type: GET_ACTIVITY_FEED_ITEMS, payload: populatedActivityFeedItems });
+            dispatch({
+                type: GET_ACTIVITY_FEED_ITEMS,
+                payload: { activityFeedItems: populatedActivityFeedItems, totalCountOfActivityFeedItems },
+            });
             dispatch({ type: GET_ACTIVITY_FEED_ITEMS_LOADED });
         } catch (err) {
             dispatch({ type: GET_ACTIVITY_FEED_ITEMS_LOADED });

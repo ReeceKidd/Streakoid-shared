@@ -22,7 +22,7 @@ import { StreakRecommendationWithClientData } from '../reducers/streakRecommenda
 import { ChallengeStreakWithClientData } from '../reducers/challengeStreakReducer';
 import { UserBadge } from '../reducers/badgesReducer';
 import { NoteWithClientData } from '../reducers/notesReducer';
-import { UserActivityFeedActionItem } from './activityFeedItemActions';
+import { GetAllPopulatedActivityFeedItemsActionResponse } from './activityFeedItemActions';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -2066,7 +2066,7 @@ export const GET_ACTIVITY_FEED_ITEMS_LOADED = 'GET_ACTIVITY_FEED_ITEMS_LOADED';
 
 export interface GetActivityFeedItemsAction {
     type: typeof GET_ACTIVITY_FEED_ITEMS;
-    payload: UserActivityFeedActionItem[];
+    payload: GetAllPopulatedActivityFeedItemsActionResponse;
 }
 
 export interface GetActivityFeedItemsFailAction {
