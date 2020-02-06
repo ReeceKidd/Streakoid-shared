@@ -45,6 +45,7 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
             if (subjectId) {
                 query = { ...query, subjectId };
             }
+            console.log('Shared query', query);
             const activityFeedItems = await streakoid.activityFeedItems.getAll(query);
             const populatedActivityFeedItems: UserActivityFeedActionItem[] = await Promise.all(
                 activityFeedItems.map(async activityFeedItem => {
