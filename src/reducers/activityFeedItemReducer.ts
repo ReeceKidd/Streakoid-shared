@@ -4,6 +4,7 @@ import {
     GET_ACTIVITY_FEED_ITEMS_LOADED,
     GET_ACTIVITY_FEED_ITEMS_LOADING,
     ActivityFeedItemsActionTypes,
+    CLEAR_ACTIVITY_FEED_ITEMS,
 } from '../actions/types';
 import { UserActivityFeedActionItem } from '../actions/activityFeedItemActions';
 
@@ -12,6 +13,7 @@ export interface ActivityFeedItemReducerState {
     totalCountOfActivityFeedItems: number;
     getAllActivityFeedItemsLoading: boolean;
     getAllActivityFeedItemsErrorMessage: string;
+    clearActivityFeedItemsErrorMessage: string;
 }
 
 const initialState: ActivityFeedItemReducerState = {
@@ -19,6 +21,7 @@ const initialState: ActivityFeedItemReducerState = {
     totalCountOfActivityFeedItems: 0,
     getAllActivityFeedItemsLoading: false,
     getAllActivityFeedItemsErrorMessage: '',
+    clearActivityFeedItemsErrorMessage: '',
 };
 
 const activityFeedItemReducer = (
@@ -49,6 +52,13 @@ const activityFeedItemReducer = (
             return {
                 ...state,
                 getAllActivityFeedItemsLoading: false,
+            };
+
+        case CLEAR_ACTIVITY_FEED_ITEMS:
+            return {
+                ...state,
+                activityFeedItems: [],
+                totalCountOfActivityFeedItems: 0,
             };
 
         default:

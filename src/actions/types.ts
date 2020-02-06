@@ -2064,6 +2064,8 @@ export const GET_ACTIVITY_FEED_ITEMS_FAIL = 'GET_ACTIVITY_FEED_ITEMS_FAIL';
 export const GET_ACTIVITY_FEED_ITEMS_LOADING = 'GET_ACTIVITY_FEED_ITEMS_LOADING';
 export const GET_ACTIVITY_FEED_ITEMS_LOADED = 'GET_ACTIVITY_FEED_ITEMS_LOADED';
 
+export const CLEAR_ACTIVITY_FEED_ITEMS = 'CLEAR_ACTIVITY_FEED_ITEMS';
+
 export interface GetActivityFeedItemsAction {
     type: typeof GET_ACTIVITY_FEED_ITEMS;
     payload: GetAllPopulatedActivityFeedItemsActionResponse;
@@ -2082,11 +2084,16 @@ export interface GetActivityFeedItemsLoadedAction {
     type: typeof GET_ACTIVITY_FEED_ITEMS_LOADED;
 }
 
+export interface ClearActivityFeedItemsAction {
+    type: typeof CLEAR_ACTIVITY_FEED_ITEMS;
+}
+
 export type ActivityFeedItemsActionTypes =
     | GetActivityFeedItemsAction
     | GetActivityFeedItemsFailAction
     | GetActivityFeedItemsLoadingAction
-    | GetActivityFeedItemsLoadedAction;
+    | GetActivityFeedItemsLoadedAction
+    | ClearActivityFeedItemsAction;
 
 export type AppActions =
     | NavigationActionTypes

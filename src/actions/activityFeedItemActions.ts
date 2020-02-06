@@ -7,6 +7,7 @@ import {
     GET_ACTIVITY_FEED_ITEMS_FAIL,
     GET_ACTIVITY_FEED_ITEMS_LOADED,
     GET_ACTIVITY_FEED_ITEMS_LOADING,
+    CLEAR_ACTIVITY_FEED_ITEMS,
 } from './types';
 import { AppActions } from '..';
 import ActivityFeedItemTypes from '@streakoid/streakoid-sdk/lib/ActivityFeedItemTypes';
@@ -503,8 +504,12 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const clearActivityFeedItems = (): AppActions => ({
+        type: CLEAR_ACTIVITY_FEED_ITEMS,
+    });
     return {
         getActivityFeedItems,
+        clearActivityFeedItems,
     };
 };
 
