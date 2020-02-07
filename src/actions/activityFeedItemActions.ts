@@ -33,22 +33,22 @@ export interface GetAllPopulatedActivityFeedItemsActionResponse {
 const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
     const getActivityFeedItems = ({
         limit,
-        createdOnBefore,
+        createdAtBefore,
         userIds,
         subjectId,
     }: {
         limit: number;
-        createdOnBefore?: Date;
+        createdAtBefore?: Date;
         userIds?: string[];
         subjectId?: string;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_ACTIVITY_FEED_ITEMS_LOADING });
-            let query: { limit: number; createdOnBefore?: Date; userIds?: string[]; subjectId?: string } = {
+            let query: { limit: number; createdAtBefore?: Date; userIds?: string[]; subjectId?: string } = {
                 limit,
             };
-            if (createdOnBefore) {
-                query = { ...query, createdOnBefore };
+            if (createdAtBefore) {
+                query = { ...query, createdAtBefore };
             }
             if (userIds) {
                 query = { ...query, userIds };
