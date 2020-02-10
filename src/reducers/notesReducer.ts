@@ -1,4 +1,4 @@
-import { Note, StreakTypes } from '@streakoid/streakoid-sdk/lib';
+import { Note } from '@streakoid/streakoid-sdk/lib';
 
 import {
     GET_NOTES,
@@ -35,9 +35,8 @@ const initialState: NoteReducerState = {
     notes: [],
     selectedNote: {
         _id: '',
-        streakId: '',
         text: '',
-        streakType: StreakTypes.solo,
+        subjectId: '',
         userId: '',
         updatedAt: '',
         createdAt: '',
