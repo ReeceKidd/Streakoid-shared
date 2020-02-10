@@ -21,20 +21,23 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
-import { StreakTypes } from '@streakoid/streakoid-sdk/lib';
 
 const noteActions = (streakoid: typeof streakoidSDK) => {
-    const getNotes = ({ streakId }: { streakId?: string }) => async (
+    const getNotes = ({ subjectId }: { subjectId?: string }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_NOTES_LOADING });
             const userId = getState().users.currentUser._id;
-            let query: { userId: string; streakId?: string } = { userId };
-            if (streakId) {
-                query = { ...query, streakId };
+            let query: { userId?: string; subjectId?: string } = {};
+            if (userId) {
+                query = { ...query, userId };
             }
+            if (subjectId) {
+                query = { ...query, subjectId };
+            }
+
             const notes = await streakoid.notes.getAll(query);
             const notesWithClientData = await Promise.all(
                 notes.map(async note => {
@@ -75,33 +78,30 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const createNoteForStreak = ({
-        text,
-        streakId,
-        streakType,
-    }: {
-        text: string;
-        streakId: string;
-        streakType: StreakTypes;
-    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
+    const createNoteForStreak = ({ text, subjectId }: { text: string; subjectId: string }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
         try {
             dispatch({ type: CREATE_NOTE_LOADING });
             const userId = getState().users.currentUser._id;
             const note = await streakoid.notes.create({
                 userId,
-                streakId,
-                streakType,
+                subjectId,
                 text,
             });
             dispatch({ type: CREATE_NOTE, payload: note });
-            if (streakType === StreakTypes.solo) {
-                dispatch({ type: NAVIGATE_TO_SPECIFIC_SOLO_STREAK, payload: streakId });
+            const soloStreak = await streakoid.soloStreaks.getOne(subjectId);
+            const challengeStreak = await streakoid.challengeStreaks.getOne({ challengeStreakId: subjectId });
+            const teamStreak = await streakoid.teamStreaks.getOne(subjectId);
+            if (soloStreak) {
+                dispatch({ type: NAVIGATE_TO_SPECIFIC_SOLO_STREAK, payload: subjectId });
             }
-            if (streakType === StreakTypes.challenge) {
-                dispatch({ type: NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK, payload: streakId });
+            if (challengeStreak) {
+                dispatch({ type: NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK, payload: subjectId });
             }
-            if (streakType === StreakTypes.team) {
-                dispatch({ type: NAVIGATE_TO_SPECIFIC_TEAM_STREAK, payload: streakId });
+            if (teamStreak) {
+                dispatch({ type: NAVIGATE_TO_SPECIFIC_TEAM_STREAK, payload: subjectId });
             }
             dispatch({ type: CREATE_NOTE_LOADED });
         } catch (err) {
