@@ -1057,15 +1057,6 @@ export const GET_CURRENT_USER_FAIL = 'GET_CURRENT_USER_FAIL';
 export const GET_CURRENT_USER_IS_LOADING = 'GET_CURRENT_USER_IS_LOADING';
 export const GET_CURRENT_USER_IS_LOADED = 'GET_CURRENT_USER_IS_LOADED';
 
-export const GET_FRIENDS = 'GET_FRIENDS';
-export const GET_FRIENDS_FAIL = 'GET_FRIENDS_FAIL';
-export const DELETE_FRIEND = 'DELTE_FRIEND';
-export const DELETE_FRIEND_FAIL = 'DELTE_FRIEND_FAIL';
-export const DELETE_FRIEND_IS_LOADING = 'DELETE_FRIEND_IS_LOADING';
-export const DELETE_FRIEND_IS_LOADED = 'DELETE_FRIEND_IS_LOADED';
-export const SELECT_FRIEND = 'SELECT_FRIEND';
-export const UNSELECT_FRIEND = 'UNSELECT_FRIEND';
-export const CLEAR_SELECTED_FRIENDS = 'CLEAR_SELECTED_FRIENDS';
 export const SEND_FRIEND_REQUEST_FAIL = 'SEND_FRIEND_REQUEST_FAIL';
 export const CLEAR_SEND_FRIEND_REQUEST_ERROR_MESSAGE = 'CLEAR_SEND_FRIEND_REQUEST_ERROR_MESSAGE';
 export const SEND_FRIEND_REQUEST_LOADING = 'SEND_FRIEND_REQUEST_LOADING';
@@ -1090,8 +1081,6 @@ export const UPLOAD_PROFILE_IMAGE_FAIL = 'UPLOAD_PROFILE_IMAGE_FAIL';
 export const UPLOAD_PROFILE_IMAGE_IS_LOADING = 'UPLOAD_PROFILE_IMAGE_IS_LOADING';
 export const UPLOAD_PROFILE_IMAGE_IS_LOADED = 'UPLOAD_PROFILE_IMAGE_IS_LOADED';
 export const CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES = 'CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES';
-export const GET_FRIENDS_IS_LOADING = 'GET_FRIENDS_IS_LOADING';
-export const GET_FRIENDS_IS_LOADED = 'GET_FRIENDS_IS_LOADED';
 
 export interface GetUsersAction {
     type: typeof GET_USERS;
@@ -1163,50 +1152,6 @@ export interface GetCurrentUserIsLoadingAction {
 
 export interface GetCurrentUserIsLoadedAction {
     type: typeof GET_CURRENT_USER_IS_LOADED;
-}
-
-export interface GetFriendsAction {
-    type: typeof GET_FRIENDS;
-    payload: FriendWithClientData[];
-}
-
-export interface GetFriendsFailAction {
-    type: typeof GET_FRIENDS_FAIL;
-    payload: string;
-}
-
-export interface DeleteFriendAction {
-    type: typeof DELETE_FRIEND;
-    payload: FriendWithClientData[];
-}
-
-export interface DeleteFriendFailAction {
-    type: typeof DELETE_FRIEND_FAIL;
-    payload: { errorMessage: string; friendId: string };
-}
-
-export interface DeleteFriendIsLoadingAction {
-    type: typeof DELETE_FRIEND_IS_LOADING;
-    payload: string;
-}
-
-export interface DeleteFriendIsLoadedAction {
-    type: typeof DELETE_FRIEND_IS_LOADED;
-    payload: string;
-}
-
-export interface SelectFriendAction {
-    type: typeof SELECT_FRIEND;
-    payload: string;
-}
-
-export interface UnselectFriendAction {
-    type: typeof UNSELECT_FRIEND;
-    payload: string;
-}
-
-export interface ClearSelectedFriendsAction {
-    type: typeof CLEAR_SELECTED_FRIENDS;
 }
 
 export interface SendFriendRequestFailAction {
@@ -1317,14 +1262,6 @@ export interface ClearUploadProfileImageMessages {
     type: typeof CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES;
 }
 
-export interface GetFriendsIsLoadingAction {
-    type: typeof GET_FRIENDS_IS_LOADING;
-}
-
-export interface GetFriendsIsLoadedAction {
-    type: typeof GET_FRIENDS_IS_LOADED;
-}
-
 export type UserActionTypes =
     | GetUsersAction
     | GetUsersFailAction
@@ -1342,20 +1279,11 @@ export type UserActionTypes =
     | GetCurrentUserFailAction
     | GetCurrentUserIsLoadingAction
     | GetCurrentUserIsLoadedAction
-    | GetFriendsAction
-    | GetFriendsFailAction
-    | DeleteFriendAction
-    | DeleteFriendFailAction
-    | DeleteFriendIsLoadingAction
-    | DeleteFriendIsLoadedAction
     | SendFriendRequestAction
     | SendFriendRequestFailAction
     | ClearSendFriendRequestErrorMessage
     | SendFriendRequestLoadingAction
     | SendFriendRequestLoadedAction
-    | SelectFriendAction
-    | UnselectFriendAction
-    | ClearSelectedFriendsAction
     | SendFriendRequestFailAction
     | ClearSendFriendRequestErrorMessage
     | SendFriendRequestLoadingAction
@@ -1379,9 +1307,90 @@ export type UserActionTypes =
     | UploadProfileImageFailAction
     | UploadProfileIsLoadingAction
     | UploadProfileIsLoadedAction
-    | ClearUploadProfileImageMessages
-    | GetFriendsIsLoadingAction
-    | GetFriendsIsLoadedAction;
+    | ClearUploadProfileImageMessages;
+
+export const GET_FRIEND_LIST = 'GET_FRIENDS';
+export const GET_FRIEND_LIST_FAIL = 'GET_FRIENDS_FAIL';
+export const GET_FRIEND_LIST_IS_LOADING = 'GET_FRIEND_LIST_IS_LOADING';
+export const GET_FRIEND_LIST_IS_LOADED = 'GET_FRIEND_LIST_IS_LOADED';
+export const DELETE_FRIEND = 'DELTE_FRIEND';
+export const DELETE_FRIEND_FAIL = 'DELTE_FRIEND_FAIL';
+export const DELETE_FRIEND_IS_LOADING = 'DELETE_FRIEND_IS_LOADING';
+export const DELETE_FRIEND_IS_LOADED = 'DELETE_FRIEND_IS_LOADED';
+export const SELECT_FRIEND = 'SELECT_FRIEND';
+export const UNSELECT_FRIEND = 'UNSELECT_FRIEND';
+export const CLEAR_SELECTED_FRIENDS = 'CLEAR_SELECTED_FRIENDS';
+export const CLEAR_FRIEND_LIST = 'CLEAR_FRIEND_LIST';
+
+export interface GetFriendListAction {
+    type: typeof GET_FRIEND_LIST;
+    payload: FriendWithClientData[];
+}
+
+export interface GetFriendListFailAction {
+    type: typeof GET_FRIEND_LIST_FAIL;
+    payload: string;
+}
+
+export interface GetFriendListIsLoadingAction {
+    type: typeof GET_FRIEND_LIST_IS_LOADING;
+}
+
+export interface GetFriendListIsLoadedAction {
+    type: typeof GET_FRIEND_LIST_IS_LOADED;
+}
+
+export interface DeleteFriendAction {
+    type: typeof DELETE_FRIEND;
+    payload: FriendWithClientData[];
+}
+
+export interface DeleteFriendFailAction {
+    type: typeof DELETE_FRIEND_FAIL;
+    payload: { errorMessage: string; friendId: string };
+}
+
+export interface DeleteFriendIsLoadingAction {
+    type: typeof DELETE_FRIEND_IS_LOADING;
+    payload: string;
+}
+
+export interface DeleteFriendIsLoadedAction {
+    type: typeof DELETE_FRIEND_IS_LOADED;
+    payload: string;
+}
+
+export interface SelectFriendAction {
+    type: typeof SELECT_FRIEND;
+    payload: string;
+}
+
+export interface UnselectFriendAction {
+    type: typeof UNSELECT_FRIEND;
+    payload: string;
+}
+
+export interface ClearSelectedFriendsAction {
+    type: typeof CLEAR_SELECTED_FRIENDS;
+}
+
+export interface ClearFriendList {
+    type: typeof CLEAR_FRIEND_LIST;
+}
+
+export type FriendActionTypes =
+    | GetFriendListAction
+    | GetFriendListFailAction
+    | GetFriendListIsLoadingAction
+    | GetFriendListIsLoadedAction
+    | DeleteFriendAction
+    | DeleteFriendFailAction
+    | DeleteFriendIsLoadingAction
+    | DeleteFriendIsLoadedAction
+    | SelectFriendAction
+    | UnselectFriendAction
+    | ClearSelectedFriendsAction
+    | ClearFriendList;
 
 export const GET_PENDING_FRIEND_REQUESTS = 'GET_PENDING_FRIEND_REQUESTS';
 export const GET_PENDING_FRIEND_REQUESTS_FAIL = 'GET_PENDING_FRIEND_REQUEST_FAIL';
@@ -2108,6 +2117,7 @@ export type AppActions =
     | StreakRecommendationsActionTypes
     | TeamStreakActionTypes
     | UserActionTypes
+    | FriendActionTypes
     | FriendRequestActionTypes
     | BadgesActionTypes
     | ChallengeActionTypes

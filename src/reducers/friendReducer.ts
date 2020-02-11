@@ -1,15 +1,15 @@
 import {
-    GET_FRIENDS,
     DELETE_FRIEND,
-    UserActionTypes,
     DELETE_FRIEND_IS_LOADING,
     DELETE_FRIEND_IS_LOADED,
     DELETE_FRIEND_FAIL,
     SELECT_FRIEND,
     UNSELECT_FRIEND,
     CLEAR_SELECTED_FRIENDS,
-    GET_FRIENDS_IS_LOADING,
-    GET_FRIENDS_IS_LOADED,
+    GET_FRIEND_LIST,
+    GET_FRIEND_LIST_IS_LOADING,
+    GET_FRIEND_LIST_IS_LOADED,
+    FriendActionTypes,
 } from '../actions/types';
 import { Friend } from '@streakoid/streakoid-sdk/lib';
 
@@ -29,18 +29,18 @@ const initialState: FriendStateWithClientData = {
     getFriendsIsLoading: false,
 };
 
-const friendReducer = (state = initialState, action: UserActionTypes): FriendStateWithClientData => {
+const friendReducer = (state = initialState, action: FriendActionTypes): FriendStateWithClientData => {
     switch (action.type) {
-        case GET_FRIENDS:
+        case GET_FRIEND_LIST:
             return { ...state, friendList: action.payload };
 
-        case GET_FRIENDS_IS_LOADING:
+        case GET_FRIEND_LIST_IS_LOADING:
             return {
                 ...state,
                 getFriendsIsLoading: true,
             };
 
-        case GET_FRIENDS_IS_LOADED:
+        case GET_FRIEND_LIST_IS_LOADED:
             return {
                 ...state,
                 getFriendsIsLoading: false,

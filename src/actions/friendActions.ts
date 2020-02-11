@@ -2,24 +2,25 @@ import { Dispatch } from 'redux';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
 import {
-    GET_FRIENDS,
+    GET_FRIEND_LIST,
     DELETE_FRIEND,
-    GET_FRIENDS_FAIL,
+    GET_FRIEND_LIST_FAIL,
     DELETE_FRIEND_FAIL,
-    GET_FRIENDS_IS_LOADING,
-    GET_FRIENDS_IS_LOADED,
+    GET_FRIEND_LIST_IS_LOADING,
+    GET_FRIEND_LIST_IS_LOADED,
     DELETE_FRIEND_IS_LOADING,
     DELETE_FRIEND_IS_LOADED,
     SELECT_FRIEND,
     UNSELECT_FRIEND,
     CLEAR_SELECTED_FRIENDS,
+    CLEAR_FRIEND_LIST,
 } from './types';
 import { AppActions, AppState } from '..';
 
 const friendActions = (streakoid: typeof streakoidSDK) => {
     const getFriends = ({ userId }: { userId: string }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
-            dispatch({ type: GET_FRIENDS_IS_LOADING });
+            dispatch({ type: GET_FRIEND_LIST_IS_LOADING });
             const friends = await streakoid.users.friends.getAll(userId);
             const friendsWithClientData = friends.map(friend => ({
                 ...friend,
@@ -27,14 +28,14 @@ const friendActions = (streakoid: typeof streakoidSDK) => {
                 deleteFriendErrorMessage: '',
                 isSelected: false,
             }));
-            dispatch({ type: GET_FRIENDS, payload: friendsWithClientData });
-            dispatch({ type: GET_FRIENDS_IS_LOADED });
+            dispatch({ type: GET_FRIEND_LIST, payload: friendsWithClientData });
+            dispatch({ type: GET_FRIEND_LIST_IS_LOADED });
         } catch (err) {
-            dispatch({ type: GET_FRIENDS_IS_LOADED });
+            dispatch({ type: GET_FRIEND_LIST_IS_LOADED });
             if (err.response) {
-                dispatch({ type: GET_FRIENDS_FAIL, payload: err.response.data.message });
+                dispatch({ type: GET_FRIEND_LIST_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: GET_FRIENDS_FAIL, payload: err.message });
+                dispatch({ type: GET_FRIEND_LIST_FAIL, payload: err.message });
             }
         }
     };
@@ -78,6 +79,9 @@ const friendActions = (streakoid: typeof streakoidSDK) => {
     const clearSelectedFriends = (): AppActions => ({
         type: CLEAR_SELECTED_FRIENDS,
     });
+    const clearFriendList = (): AppActions => ({
+        type: CLEAR_FRIEND_LIST,
+    });
 
     return {
         getFriends,
@@ -85,6 +89,7 @@ const friendActions = (streakoid: typeof streakoidSDK) => {
         selectFriend,
         unselectFriend,
         clearSelectedFriends,
+        clearFriendList,
     };
 };
 
