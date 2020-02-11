@@ -1967,6 +1967,7 @@ export const DELETE_NOTE = 'DELETE_NOTE';
 export const DELETE_NOTE_FAIL = 'DELETE_NOTE_FAIL';
 export const DELETE_NOTE_LOADING = 'DELETE_NOTE_LOADING';
 export const DELETE_NOTE_LOADED = 'DELETE_NOTE_LOADED';
+export const CLEAR_NOTES = 'CLEAR_NOTES';
 
 export interface GetNotesAction {
     type: typeof GET_NOTES;
@@ -2041,6 +2042,10 @@ export interface DeleteNoteLoadedAction {
     payload: string;
 }
 
+export interface ClearNotesAction {
+    type: typeof CLEAR_NOTES;
+}
+
 export type NotesActionTypes =
     | GetNotesAction
     | GetNotesFailAction
@@ -2057,7 +2062,8 @@ export type NotesActionTypes =
     | DeleteNoteAction
     | DeleteNoteFailAction
     | DeleteNoteLoadingAction
-    | DeleteNoteLoadedAction;
+    | DeleteNoteLoadedAction
+    | ClearNotesAction;
 
 export const GET_ACTIVITY_FEED_ITEMS = 'GET_ACTIVITY_FEED_ITEMS';
 export const GET_ACTIVITY_FEED_ITEMS_FAIL = 'GET_ACTIVITY_FEED_ITEMS_FAIL';

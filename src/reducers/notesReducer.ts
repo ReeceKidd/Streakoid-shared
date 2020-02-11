@@ -17,6 +17,7 @@ import {
     DELETE_NOTE_FAIL,
     DELETE_NOTE_LOADING,
     DELETE_NOTE_LOADED,
+    CLEAR_NOTES,
 } from '../actions/types';
 
 export interface NoteReducerState {
@@ -159,6 +160,12 @@ const noteReducer = (state = initialState, action: NotesActionTypes): NoteReduce
                         return note;
                     }),
                 ],
+            };
+
+        case CLEAR_NOTES:
+            return {
+                ...state,
+                notes: [],
             };
 
         default:

@@ -18,6 +18,7 @@ import {
     DELETE_NOTE_FAIL,
     NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK,
     NAVIGATE_TO_SPECIFIC_TEAM_STREAK,
+    CLEAR_NOTES,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -130,11 +131,16 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const clearNotes = (): AppActions => ({
+        type: CLEAR_NOTES,
+    });
+
     return {
         getNotes,
         getNote,
         createNoteForStreak,
         deleteNote,
+        clearNotes,
     };
 };
 
