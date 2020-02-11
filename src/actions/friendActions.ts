@@ -27,14 +27,14 @@ const friendActions = (streakoid: typeof streakoidSDK) => {
                 deleteFriendErrorMessage: '',
                 isSelected: false,
             }));
-            dispatch({ type: GET_FRIENDS, friends: friendsWithClientData });
+            dispatch({ type: GET_FRIENDS, payload: friendsWithClientData });
             dispatch({ type: GET_FRIENDS_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_FRIENDS_IS_LOADED });
             if (err.response) {
-                dispatch({ type: GET_FRIENDS_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: GET_FRIENDS_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: GET_FRIENDS_FAIL, errorMessage: err.message });
+                dispatch({ type: GET_FRIENDS_FAIL, payload: err.message });
             }
         }
     };
@@ -44,7 +44,7 @@ const friendActions = (streakoid: typeof streakoidSDK) => {
         getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: DELETE_FRIEND_IS_LOADING, friendId });
+            dispatch({ type: DELETE_FRIEND_IS_LOADING, payload: friendId });
             const userId = getState().users.currentUser._id;
             const friends = await streakoid.users.friends.deleteOne(userId, friendId);
             const friendsWithClientData = friends.map(friend => ({
@@ -53,10 +53,10 @@ const friendActions = (streakoid: typeof streakoidSDK) => {
                 deleteFriendErrorMessage: '',
                 isSelected: false,
             }));
-            dispatch({ type: DELETE_FRIEND, friends: friendsWithClientData });
-            dispatch({ type: DELETE_FRIEND_IS_LOADED, friendId });
+            dispatch({ type: DELETE_FRIEND, payload: friendsWithClientData });
+            dispatch({ type: DELETE_FRIEND_IS_LOADED, payload: friendId });
         } catch (err) {
-            dispatch({ type: DELETE_FRIEND_IS_LOADED, friendId });
+            dispatch({ type: DELETE_FRIEND_IS_LOADED, payload: friendId });
             if (err.response) {
                 dispatch({ type: DELETE_FRIEND_FAIL, payload: { friendId, errorMessage: err.response.data.message } });
             } else {
@@ -67,12 +67,12 @@ const friendActions = (streakoid: typeof streakoidSDK) => {
 
     const selectFriend = (friendId: string): AppActions => ({
         type: SELECT_FRIEND,
-        friendId,
+        payload: friendId,
     });
 
     const unselectFriend = (friendId: string): AppActions => ({
         type: UNSELECT_FRIEND,
-        friendId,
+        payload: friendId,
     });
 
     const clearSelectedFriends = (): AppActions => ({

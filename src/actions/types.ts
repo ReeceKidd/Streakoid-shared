@@ -16,7 +16,7 @@ import {
 } from '../reducers/soloStreakReducer';
 import { FriendRequestStateWithClientData } from '../reducers/friendRequestReducer';
 import { UserWithClientData, SelectedUser, PopulatedCurrentUserWithStreakCompleteInfo } from '../reducers/userReducer';
-import { FriendStateWithClientData } from '../reducers/friendReducer';
+import { FriendWithClientData } from '../reducers/friendReducer';
 import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 import { ChallengeStreakWithClientData } from '../reducers/challengeStreakReducer';
@@ -1167,17 +1167,17 @@ export interface GetCurrentUserIsLoadedAction {
 
 export interface GetFriendsAction {
     type: typeof GET_FRIENDS;
-    friends: FriendStateWithClientData[];
+    payload: FriendWithClientData[];
 }
 
 export interface GetFriendsFailAction {
     type: typeof GET_FRIENDS_FAIL;
-    errorMessage: string;
+    payload: string;
 }
 
 export interface DeleteFriendAction {
     type: typeof DELETE_FRIEND;
-    friends: FriendStateWithClientData[];
+    payload: FriendWithClientData[];
 }
 
 export interface DeleteFriendFailAction {
@@ -1187,22 +1187,22 @@ export interface DeleteFriendFailAction {
 
 export interface DeleteFriendIsLoadingAction {
     type: typeof DELETE_FRIEND_IS_LOADING;
-    friendId: string;
+    payload: string;
 }
 
 export interface DeleteFriendIsLoadedAction {
     type: typeof DELETE_FRIEND_IS_LOADED;
-    friendId: string;
+    payload: string;
 }
 
 export interface SelectFriendAction {
     type: typeof SELECT_FRIEND;
-    friendId: string;
+    payload: string;
 }
 
 export interface UnselectFriendAction {
     type: typeof UNSELECT_FRIEND;
-    friendId: string;
+    payload: string;
 }
 
 export interface ClearSelectedFriendsAction {
