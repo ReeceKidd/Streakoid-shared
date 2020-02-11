@@ -28,8 +28,6 @@ import {
     UPLOAD_PROFILE_IMAGE_IS_LOADING,
     UPLOAD_PROFILE_IMAGE_IS_LOADED,
     CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES,
-    GET_FRIENDS_IS_LOADING,
-    GET_FRIENDS_IS_LOADED,
     UPDATE_CURRENT_USER_IS_LOADING,
     UPDATE_CURRENT_USER_IS_LOADED,
     GET_CURRENT_USER_IS_LOADING,
@@ -92,7 +90,6 @@ export interface UserReducerInitialState {
     uploadProfileImageIsLoading: boolean;
     uploadProfileImageErrorMessage: string;
     uploadProfileImageSuccessMessage: string;
-    getFriendsIsLoading: boolean;
 }
 
 const initialState: UserReducerInitialState = {
@@ -176,7 +173,6 @@ const initialState: UserReducerInitialState = {
     uploadProfileImageIsLoading: false,
     uploadProfileImageErrorMessage: '',
     uploadProfileImageSuccessMessage: '',
-    getFriendsIsLoading: false,
 };
 
 const userReducer = (state = initialState, action: UserActionTypes): UserReducerInitialState => {
@@ -445,18 +441,6 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ...state,
                 uploadProfileImageErrorMessage: '',
                 uploadProfileImageSuccessMessage: '',
-            };
-
-        case GET_FRIENDS_IS_LOADING:
-            return {
-                ...state,
-                getFriendsIsLoading: true,
-            };
-
-        case GET_FRIENDS_IS_LOADED:
-            return {
-                ...state,
-                getFriendsIsLoading: false,
             };
 
         default:
