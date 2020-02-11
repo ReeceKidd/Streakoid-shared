@@ -92,18 +92,21 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
                 text,
             });
             dispatch({ type: CREATE_NOTE, payload: note });
-            const soloStreak = await streakoid.soloStreaks.getOne(subjectId);
-            const challengeStreak = await streakoid.challengeStreaks.getOne({ challengeStreakId: subjectId });
-            const teamStreak = await streakoid.teamStreaks.getOne(subjectId);
-            if (soloStreak) {
+            try {
+                await streakoid.soloStreaks.getOne(subjectId);
                 dispatch({ type: NAVIGATE_TO_SPECIFIC_SOLO_STREAK, payload: subjectId });
-            }
-            if (challengeStreak) {
+            } catch (err) {}
+
+            try {
+                await streakoid.challengeStreaks.getOne({ challengeStreakId: subjectId });
                 dispatch({ type: NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK, payload: subjectId });
-            }
-            if (teamStreak) {
+            } catch (err) {}
+
+            try {
+                await streakoid.teamStreaks.getOne(subjectId);
                 dispatch({ type: NAVIGATE_TO_SPECIFIC_TEAM_STREAK, payload: subjectId });
-            }
+            } catch (err) {}
+
             dispatch({ type: CREATE_NOTE_LOADED });
         } catch (err) {
             dispatch({ type: CREATE_NOTE_LOADED });
