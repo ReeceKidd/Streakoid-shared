@@ -79,7 +79,7 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const createNoteForStreak = ({ text, subjectId }: { text: string; subjectId: string }) => async (
+    const createNote = ({ text, subjectId }: { text: string; subjectId: string }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
@@ -138,7 +138,7 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
     return {
         getNotes,
         getNote,
-        createNoteForStreak,
+        createNote,
         deleteNote,
         clearNotes,
     };
