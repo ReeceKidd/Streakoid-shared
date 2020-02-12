@@ -46,6 +46,7 @@ import {
     UPDATE_TEAM_STREAK_TIMEZONE_FAIL,
     NAVIGATE_TO_STREAK_LIMIT_REACHED,
     JOIN_CHALLENGE_LOADED,
+    CLEAR_SELECTED_TEAM_STREAK,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -475,6 +476,10 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const clearSelectedTeamStreak = (): AppActions => ({
+        type: CLEAR_SELECTED_TEAM_STREAK,
+    });
+
     return {
         getLiveTeamStreaks,
         getArchivedTeamStreaks,
@@ -490,5 +495,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         clearRestoreArchivedTeamStreakErrorMessage,
         deleteArchivedTeamStreak,
         updateTeamStreakTimezone,
+        clearSelectedTeamStreak,
     };
 };

@@ -386,6 +386,7 @@ export const EDIT_SOLO_STREAK_IS_LOADING = 'EDIT_SOLO_STREAK_IS_LOADING';
 export const EDIT_SOLO_STREAK_IS_LOADED = 'EDIT_SOLO_STREAK_IS_LOADED';
 export const CREATE_SOLO_STREAK_ERROR = 'CREATE_SOLO_STREAK_ERROR';
 export const CLEAR_CREATE_SOLO_STREAK_ERROR = 'CLEAR_CREATE_SOLO_STREAK_ERROR';
+export const CLEAR_SELECTED_SOLO_STREAK = 'CLEAR_SELECTED_SOLO_STREAK';
 
 export interface GetLiveSoloStreaksAction {
     type: typeof GET_LIVE_SOLO_STREAKS;
@@ -601,6 +602,10 @@ export interface ClearCreateSoloStreakErrorAction {
     type: typeof CLEAR_CREATE_SOLO_STREAK_ERROR;
 }
 
+export interface ClearSelectedSoloStreakAction {
+    type: typeof CLEAR_SELECTED_SOLO_STREAK;
+}
+
 export type SoloStreakActionTypes =
     | GetLiveSoloStreaksAction
     | GetLiveSoloStreaksFailAction
@@ -648,7 +653,8 @@ export type SoloStreakActionTypes =
     | EditSoloStreakIsLoadingAction
     | EditSoloStreakIsLoadedAction
     | CreateSoloStreakErrorAction
-    | ClearCreateSoloStreakErrorAction;
+    | ClearCreateSoloStreakErrorAction
+    | ClearSelectedSoloStreakAction;
 
 export const GET_STREAK_RECOMMENDATIONS = 'GET_STREAK_RECOMMENDATIONS';
 export const GET_STREAK_RECOMMENDATIONS_FAIL = 'GET_STREAK_RECOMMENDATIONS_FAIL';
@@ -769,6 +775,8 @@ export const DELETE_ARCHIVED_TEAM_STREAK_LOADED = 'DELETE_ARCHIVED_TEAM_STREAK_L
 
 export const UPDATE_TEAM_STREAK_TIMEZONE = 'UPDATE_TEAM_STREAK_TIMEZONE';
 export const UPDATE_TEAM_STREAK_TIMEZONE_FAIL = 'UPDATE_TEAM_STREAK_TIMEZONE_FAIL';
+
+export const CLEAR_SELECTED_TEAM_STREAK = 'CLEAR_SELECTED_TEAM_STREAK';
 
 export interface GetLiveTeamStreaksAction {
     type: typeof GET_LIVE_TEAM_STREAKS;
@@ -989,6 +997,10 @@ export interface UpdateTimezoneFailAction {
     payload: string;
 }
 
+export interface ClearSelectedTeamStreakAction {
+    type: typeof CLEAR_SELECTED_TEAM_STREAK;
+}
+
 export type TeamStreakActionTypes =
     | GetLiveTeamStreaksAction
     | GetLiveTeamStreaksFailAction
@@ -1037,7 +1049,8 @@ export type TeamStreakActionTypes =
     | DeleteArchivedTeamStreakLoadingAction
     | DeleteArchivedTeamStreakLoadedAction
     | UpdateTimezoneAction
-    | UpdateTimezoneFailAction;
+    | UpdateTimezoneFailAction
+    | ClearSelectedTeamStreakAction;
 
 export const GET_USERS = 'GET_USERS';
 export const GET_USERS_FAIL = 'GET_USERS_FAIL';
@@ -1733,6 +1746,7 @@ export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING = 'CREATE_INCOMPLET
 export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED';
 export const UPDATE_CHALLENGE_STREAK_TIMEZONES = 'UPDATE_CHALLENGE_STREAK_TIMEZONES';
 export const UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL = 'UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL';
+export const CLEAR_SELECTED_CHALLENGE_STREAK = 'CLEAR_SELECTED_CHALLENGE_STREAK';
 
 export interface GetLiveChallengeStreaksAction {
     type: typeof GET_LIVE_CHALLENGE_STREAKS;
@@ -1918,6 +1932,10 @@ export interface UpdateChallengeStreaksTimezoneActionFail {
     payload: string;
 }
 
+export interface ClearSelectedChallengeStreakAction {
+    type: typeof CLEAR_SELECTED_CHALLENGE_STREAK;
+}
+
 export type ChallengeStreakActionTypes =
     | GetLiveChallengeStreaksAction
     | GetLiveChallengeStreaksFailAction
@@ -1958,7 +1976,8 @@ export type ChallengeStreakActionTypes =
     | CreateIncompleteChallengeStreakTaskLoadingAction
     | CreateIncompleteChallengeStreakTaskLoadedAction
     | UpdateChallengeStreaksTimezoneAction
-    | UpdateChallengeStreaksTimezoneActionFail;
+    | UpdateChallengeStreaksTimezoneActionFail
+    | ClearSelectedChallengeStreakAction;
 
 export const GET_NOTES = 'GET_NOTES';
 export const GET_NOTES_FAIL = 'GET_NOTES_FAIL';

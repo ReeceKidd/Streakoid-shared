@@ -41,6 +41,7 @@ import {
     DELETE_ARCHIVED_CHALLENGE_STREAK_LOADING,
     DELETE_ARCHIVED_CHALLENGE_STREAK_LOADED,
     DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL,
+    CLEAR_SELECTED_CHALLENGE_STREAK,
 } from './types';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
@@ -347,6 +348,10 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const clearSelectedChallengeStreak = (): AppActions => ({
+        type: CLEAR_SELECTED_CHALLENGE_STREAK,
+    });
+
     return {
         getLiveChallengeStreaks,
         getArchivedChallengeStreaks,
@@ -359,6 +364,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         completeChallengeStreakTask,
         incompleteChallengeStreakTask,
         updateChallengeStreakTimezones,
+        clearSelectedChallengeStreak,
     };
 };
 

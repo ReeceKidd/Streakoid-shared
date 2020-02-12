@@ -45,6 +45,7 @@ import {
     CLEAR_RESTORE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE,
     DELETE_ARCHIVED_SOLO_STREAK_FAIL,
     CLEAR_DELETE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE,
+    CLEAR_SELECTED_SOLO_STREAK,
 } from '../actions/types';
 
 export interface SoloStreakReducerState {
@@ -468,6 +469,27 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             return {
                 ...state,
                 deleteArchivedSoloStreakErrorMessage: '',
+            };
+
+        case CLEAR_SELECTED_SOLO_STREAK:
+            return {
+                ...state,
+                selectedSoloStreak: {
+                    _id: '',
+                    currentStreak: {
+                        numberOfDaysInARow: 0,
+                    },
+                    status: StreakStatus.live,
+                    active: false,
+                    completedToday: false,
+                    pastStreaks: [],
+                    streakName: '',
+                    userId: '',
+                    timezone: '',
+                    createdAt: '',
+                    updatedAt: '',
+                    completedSoloStreakTaskDates: [],
+                },
             };
 
         default:

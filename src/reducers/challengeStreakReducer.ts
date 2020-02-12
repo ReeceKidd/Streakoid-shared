@@ -37,6 +37,7 @@ import {
     ARCHIVE_CHALLENGE_STREAK_FAIL,
     RESTORE_ARCHIVED_CHALLENGE_STREAK_FAIL,
     DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL,
+    CLEAR_SELECTED_CHALLENGE_STREAK,
 } from '../actions/types';
 
 export interface ChallengeStreakReducerState {
@@ -413,6 +414,35 @@ const challengeStreakReducer = (
                         timezone: action.payload,
                     };
                 }),
+            };
+
+        case CLEAR_SELECTED_CHALLENGE_STREAK:
+            return {
+                ...state,
+                selectedChallengeStreak: {
+                    _id: '',
+                    challengeId: '',
+                    badgeId: '',
+                    userId: '',
+                    status: StreakStatus.archived,
+                    completedToday: false,
+                    active: false,
+                    currentStreak: {
+                        numberOfDaysInARow: 0,
+                        startDate: new Date().toString(),
+                    },
+                    pastStreaks: [],
+                    timezone: '',
+                    updatedAt: '',
+                    createdAt: '',
+                    challengeName: '',
+                    challengeDescription: '',
+                    completeChallengeStreakTaskIsLoading: false,
+                    completeChallengeStreakTaskErrorMessage: '',
+                    incompleteChallengeStreakTaskIsLoading: false,
+                    incompleteChallengeStreakTaskErrorMessage: '',
+                    completedChallengeStreakTaskDates: [],
+                },
             };
 
         default:

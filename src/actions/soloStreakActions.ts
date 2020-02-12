@@ -52,6 +52,7 @@ import {
     NAVIGATE_TO_SPECIFIC_SOLO_STREAK,
     NAVIGATE_TO_STREAK_LIMIT_REACHED,
     JOIN_CHALLENGE_LOADED,
+    CLEAR_SELECTED_SOLO_STREAK,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -392,6 +393,10 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const clearSelectedSoloStreak = (): AppActions => ({
+        type: CLEAR_SELECTED_SOLO_STREAK,
+    });
+
     return {
         getLiveSoloStreaks,
         getArchivedSoloStreaks,
@@ -407,6 +412,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
         updateSoloStreakTimezones,
         completeSoloStreakTask,
         incompleteSoloStreakTask,
+        clearSelectedSoloStreak,
     };
 };
 

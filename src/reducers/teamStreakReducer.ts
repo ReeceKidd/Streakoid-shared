@@ -38,6 +38,7 @@ import {
     DELETE_ARCHIVED_TEAM_STREAK_LOADED,
     DELETE_ARCHIVED_TEAM_STREAK_FAIL,
     UPDATE_TEAM_STREAK_TIMEZONE,
+    CLEAR_SELECTED_TEAM_STREAK,
 } from '../actions/types';
 import { PopulatedTeamStreak, PopulatedTeamMember, TeamMemberStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
@@ -506,6 +507,33 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
             return {
                 ...state,
                 selectedTeamStreak: action.payload,
+            };
+        }
+
+        case CLEAR_SELECTED_TEAM_STREAK: {
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    _id: '',
+                    status: StreakStatus.live,
+                    creatorId: '',
+                    creator: {
+                        _id: '',
+                        username: '',
+                    },
+                    currentStreak: {
+                        numberOfDaysInARow: 0,
+                    },
+                    pastStreaks: [],
+                    members: [],
+                    streakName: '',
+                    timezone: '',
+                    completedToday: false,
+                    active: false,
+                    createdAt: '',
+                    updatedAt: '',
+                    completedTeamMemberStreakTaskDatesWithCounts: [],
+                },
             };
         }
 
