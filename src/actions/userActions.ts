@@ -22,6 +22,7 @@ import {
     GET_CURRENT_USER_IS_LOADED,
     UPDATE_CURRENT_USER_IS_LOADING,
     UPDATE_CURRENT_USER_IS_LOADED,
+    CLEAR_SELECTED_USER,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -225,6 +226,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const clearSelectedUser = (): AppActions => ({
+        type: CLEAR_SELECTED_USER,
+    });
+
     return {
         getUsers,
         getUser,
@@ -232,6 +237,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         getUserStreakCompleteInfo,
         updateCurrentUser,
         sendFriendRequest,
+        clearSelectedUser,
     };
 };
 

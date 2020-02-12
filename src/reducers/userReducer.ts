@@ -38,6 +38,7 @@ import {
     SEND_CANCEL_MEMBERSHIP_EMAIL_FAIL,
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING,
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED,
+    CLEAR_SELECTED_USER,
 } from '../actions/types';
 import {
     SoloStreak,
@@ -441,6 +442,31 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ...state,
                 uploadProfileImageErrorMessage: '',
                 uploadProfileImageSuccessMessage: '',
+            };
+
+        case CLEAR_SELECTED_USER:
+            return {
+                ...state,
+                selectedUser: {
+                    _id: '',
+                    isPayingMember: false,
+                    username: '',
+                    createdAt: '',
+                    updatedAt: '',
+                    timezone: '',
+                    userType: UserTypes.basic,
+                    friends: [],
+                    badges: [],
+                    profileImages: {
+                        originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
+                    },
+                    pushNotificationToken: '',
+                    soloStreaks: [],
+                    teamStreaks: [],
+                    challengeStreaks: [],
+                    userBadges: [],
+                    userStreakCompleteInfo: [],
+                },
             };
 
         default:

@@ -1094,6 +1094,7 @@ export const UPLOAD_PROFILE_IMAGE_FAIL = 'UPLOAD_PROFILE_IMAGE_FAIL';
 export const UPLOAD_PROFILE_IMAGE_IS_LOADING = 'UPLOAD_PROFILE_IMAGE_IS_LOADING';
 export const UPLOAD_PROFILE_IMAGE_IS_LOADED = 'UPLOAD_PROFILE_IMAGE_IS_LOADED';
 export const CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES = 'CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES';
+export const CLEAR_SELECTED_USER = 'CLEAR_SELECTED_USER';
 
 export interface GetUsersAction {
     type: typeof GET_USERS;
@@ -1271,8 +1272,12 @@ export interface UploadProfileIsLoadedAction {
     type: typeof UPLOAD_PROFILE_IMAGE_IS_LOADED;
 }
 
-export interface ClearUploadProfileImageMessages {
+export interface ClearUploadProfileImageMessagesAction {
     type: typeof CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES;
+}
+
+export interface ClearSelectedUserAction {
+    type: typeof CLEAR_SELECTED_USER;
 }
 
 export type UserActionTypes =
@@ -1320,7 +1325,8 @@ export type UserActionTypes =
     | UploadProfileImageFailAction
     | UploadProfileIsLoadingAction
     | UploadProfileIsLoadedAction
-    | ClearUploadProfileImageMessages;
+    | ClearUploadProfileImageMessagesAction
+    | ClearSelectedUserAction;
 
 export const GET_FRIEND_LIST = 'GET_FRIENDS';
 export const GET_FRIEND_LIST_FAIL = 'GET_FRIENDS_FAIL';
