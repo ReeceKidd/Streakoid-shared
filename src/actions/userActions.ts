@@ -26,6 +26,7 @@ import {
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import Notifications from '@streakoid/streakoid-sdk/lib/models/Notifications';
+import { sortBadgesByLongestStreak } from './badgeActions';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -144,7 +145,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId: user._id });
             const selectedUser = {
                 ...user,
-                userBadges,
+                userBadges: userBadges.sort(sortBadgesByLongestStreak),
                 soloStreaks,
                 teamStreaks,
                 challengeStreaks: challengeStreaksWithClientData,
