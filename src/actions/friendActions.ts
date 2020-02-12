@@ -18,7 +18,7 @@ import {
 import { AppActions, AppState } from '..';
 
 const friendActions = (streakoid: typeof streakoidSDK) => {
-    const getFriends = ({ userId }: { userId: string }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getFriendList = ({ userId }: { userId: string }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_FRIEND_LIST_IS_LOADING });
             const friends = await streakoid.users.friends.getAll(userId);
@@ -84,7 +84,7 @@ const friendActions = (streakoid: typeof streakoidSDK) => {
     });
 
     return {
-        getFriends,
+        getFriendList,
         deleteFriend,
         selectFriend,
         unselectFriend,
