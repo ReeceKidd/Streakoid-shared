@@ -24,13 +24,11 @@ import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
 const noteActions = (streakoid: typeof streakoidSDK) => {
-    const getNotes = ({ subjectId }: { subjectId?: string }) => async (
+    const getNotes = ({ subjectId, userId }: { subjectId?: string; userId?: string }) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_NOTES_LOADING });
-            const userId = getState().users.currentUser._id;
             let query: { userId?: string; subjectId?: string } = {};
             if (userId) {
                 query = { ...query, userId };
