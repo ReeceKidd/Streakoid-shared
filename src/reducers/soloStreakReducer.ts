@@ -68,24 +68,26 @@ export interface SoloStreakReducerState {
     deleteArchivedSoloStreakErrorMessage: string;
 }
 
+const defaultSelectedSoloStreak = {
+    _id: '',
+    currentStreak: {
+        numberOfDaysInARow: 0,
+    },
+    status: StreakStatus.live,
+    active: false,
+    completedToday: false,
+    pastStreaks: [],
+    streakName: '',
+    userId: '',
+    timezone: 'Europe/London',
+    createdAt: '',
+    updatedAt: '',
+    completedSoloStreakTaskDates: [],
+};
+
 const initialState: SoloStreakReducerState = {
     liveSoloStreaks: [],
-    selectedSoloStreak: {
-        _id: '',
-        currentStreak: {
-            numberOfDaysInARow: 0,
-        },
-        status: StreakStatus.live,
-        active: false,
-        completedToday: false,
-        pastStreaks: [],
-        streakName: '',
-        userId: '',
-        timezone: '',
-        createdAt: '',
-        updatedAt: '',
-        completedSoloStreakTaskDates: [],
-    },
+    selectedSoloStreak: defaultSelectedSoloStreak,
     archivedSoloStreaks: [],
     getMultipleLiveSoloStreaksIsLoading: false,
     getSoloStreakIsLoading: false,
@@ -474,22 +476,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
         case CLEAR_SELECTED_SOLO_STREAK:
             return {
                 ...state,
-                selectedSoloStreak: {
-                    _id: '',
-                    currentStreak: {
-                        numberOfDaysInARow: 0,
-                    },
-                    status: StreakStatus.live,
-                    active: false,
-                    completedToday: false,
-                    pastStreaks: [],
-                    streakName: '',
-                    userId: '',
-                    timezone: 'Europe/London',
-                    createdAt: '',
-                    updatedAt: '',
-                    completedSoloStreakTaskDates: [],
-                },
+                selectedSoloStreak: defaultSelectedSoloStreak,
             };
 
         default:

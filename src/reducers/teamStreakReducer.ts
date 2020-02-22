@@ -81,30 +81,32 @@ export interface TeamStreakReducerState {
     deleteArchivedTeamStreakErrorMessage: string;
 }
 
+const defaultSelectedTeamStreak = {
+    _id: '',
+    status: StreakStatus.live,
+    creatorId: '',
+    creator: {
+        _id: '',
+        username: '',
+    },
+    currentStreak: {
+        numberOfDaysInARow: 0,
+    },
+    pastStreaks: [],
+    members: [],
+    streakName: '',
+    timezone: 'Europe/London',
+    completedToday: false,
+    active: false,
+    createdAt: '',
+    updatedAt: '',
+    completedTeamMemberStreakTaskDatesWithCounts: [],
+};
+
 const initialState: TeamStreakReducerState = {
     liveTeamStreaks: [],
     archivedTeamStreaks: [],
-    selectedTeamStreak: {
-        _id: '',
-        status: StreakStatus.live,
-        creatorId: '',
-        creator: {
-            _id: '',
-            username: '',
-        },
-        currentStreak: {
-            numberOfDaysInARow: 0,
-        },
-        pastStreaks: [],
-        members: [],
-        streakName: '',
-        timezone: '',
-        completedToday: false,
-        active: false,
-        createdAt: '',
-        updatedAt: '',
-        completedTeamMemberStreakTaskDatesWithCounts: [],
-    },
+    selectedTeamStreak: defaultSelectedTeamStreak,
     getMultipleLiveTeamStreaksIsLoading: false,
     getMultipleArchivedTeamStreaksIsLoading: false,
     getTeamStreakIsLoading: false,
@@ -513,27 +515,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
         case CLEAR_SELECTED_TEAM_STREAK: {
             return {
                 ...state,
-                selectedTeamStreak: {
-                    _id: '',
-                    status: StreakStatus.live,
-                    creatorId: '',
-                    creator: {
-                        _id: '',
-                        username: '',
-                    },
-                    currentStreak: {
-                        numberOfDaysInARow: 0,
-                    },
-                    pastStreaks: [],
-                    members: [],
-                    streakName: '',
-                    timezone: 'Europe/London',
-                    completedToday: false,
-                    active: false,
-                    createdAt: '',
-                    updatedAt: '',
-                    completedTeamMemberStreakTaskDatesWithCounts: [],
-                },
+                selectedTeamStreak: defaultSelectedTeamStreak,
             };
         }
 

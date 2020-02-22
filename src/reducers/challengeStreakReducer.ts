@@ -59,34 +59,36 @@ export interface ChallengeStreakReducerState {
     deleteArchivedChallengeStreakErrorMessage: string;
 }
 
+const defaultSelectedChallengeStreak = {
+    _id: '',
+    challengeId: '',
+    badgeId: '',
+    userId: '',
+    status: StreakStatus.archived,
+    completedToday: false,
+    active: false,
+    currentStreak: {
+        numberOfDaysInARow: 0,
+        startDate: new Date().toString(),
+    },
+    pastStreaks: [],
+    timezone: 'Europe/London',
+    updatedAt: '',
+    createdAt: '',
+    challengeName: '',
+    challengeDescription: '',
+    completeChallengeStreakTaskIsLoading: false,
+    completeChallengeStreakTaskErrorMessage: '',
+    incompleteChallengeStreakTaskIsLoading: false,
+    incompleteChallengeStreakTaskErrorMessage: '',
+    completedChallengeStreakTaskDates: [],
+};
+
 const initialState: ChallengeStreakReducerState = {
     liveChallengeStreaks: [],
     getLiveChallengeStreaksIsLoading: false,
     getLiveChallengeStreaksErrorMessage: '',
-    selectedChallengeStreak: {
-        _id: '',
-        challengeId: '',
-        badgeId: '',
-        userId: '',
-        status: StreakStatus.archived,
-        completedToday: false,
-        active: false,
-        currentStreak: {
-            numberOfDaysInARow: 0,
-            startDate: new Date().toString(),
-        },
-        pastStreaks: [],
-        timezone: '',
-        updatedAt: '',
-        createdAt: '',
-        challengeName: '',
-        challengeDescription: '',
-        completeChallengeStreakTaskIsLoading: false,
-        completeChallengeStreakTaskErrorMessage: '',
-        incompleteChallengeStreakTaskIsLoading: false,
-        incompleteChallengeStreakTaskErrorMessage: '',
-        completedChallengeStreakTaskDates: [],
-    },
+    selectedChallengeStreak: defaultSelectedChallengeStreak,
     getSelectedChallengeStreakIsLoading: false,
     getSelectedChallengeStreakErrorMessage: '',
     archivedChallengeStreaks: [],
@@ -419,30 +421,7 @@ const challengeStreakReducer = (
         case CLEAR_SELECTED_CHALLENGE_STREAK:
             return {
                 ...state,
-                selectedChallengeStreak: {
-                    _id: '',
-                    challengeId: '',
-                    badgeId: '',
-                    userId: '',
-                    status: StreakStatus.archived,
-                    completedToday: false,
-                    active: false,
-                    currentStreak: {
-                        numberOfDaysInARow: 0,
-                        startDate: new Date().toString(),
-                    },
-                    pastStreaks: [],
-                    timezone: 'Europe/London',
-                    updatedAt: '',
-                    createdAt: '',
-                    challengeName: '',
-                    challengeDescription: '',
-                    completeChallengeStreakTaskIsLoading: false,
-                    completeChallengeStreakTaskErrorMessage: '',
-                    incompleteChallengeStreakTaskIsLoading: false,
-                    incompleteChallengeStreakTaskErrorMessage: '',
-                    completedChallengeStreakTaskDates: [],
-                },
+                selectedChallengeStreak: defaultSelectedChallengeStreak,
             };
 
         default:
