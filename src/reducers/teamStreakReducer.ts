@@ -527,7 +527,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                     pastStreaks: [],
                     members: [],
                     streakName: '',
-                    timezone: '',
+                    timezone: 'Europe/London',
                     completedToday: false,
                     active: false,
                     createdAt: '',

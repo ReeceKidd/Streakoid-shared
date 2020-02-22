@@ -485,7 +485,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                     pastStreaks: [],
                     streakName: '',
                     userId: '',
-                    timezone: '',
+                    timezone: 'Europe/London',
                     createdAt: '',
                     updatedAt: '',
                     completedSoloStreakTaskDates: [],

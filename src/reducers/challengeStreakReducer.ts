@@ -432,7 +432,7 @@ const challengeStreakReducer = (
                         startDate: new Date().toString(),
                     },
                     pastStreaks: [],
-                    timezone: '',
+                    timezone: 'Europe/London',
                     updatedAt: '',
                     createdAt: '',
                     challengeName: '',
