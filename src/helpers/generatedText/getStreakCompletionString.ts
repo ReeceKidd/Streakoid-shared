@@ -33,5 +33,5 @@ export const getStreakCompletionString = ({
         }
     }
 
-    return { error: streakCompletionStringError, streakCompletionString };
+    return { error: streakCompletionStringError, string: streakCompletionString };
 };
