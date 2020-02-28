@@ -43,6 +43,7 @@ import {
     DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL,
     CLEAR_SELECTED_CHALLENGE_STREAK,
 } from './types';
+import { sortByCurrentStreak } from '../helpers/sorters/sortByCurrentStreak';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveChallengeStreaks = () => async (
@@ -77,11 +78,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
             );
             dispatch({
                 type: GET_LIVE_CHALLENGE_STREAKS,
-                payload: challengeStreaksWithClientData.sort(
-                    (challengeStreakA, challengeStreakB) =>
-                        challengeStreakB.currentStreak.numberOfDaysInARow -
-                        challengeStreakA.currentStreak.numberOfDaysInARow,
-                ),
+                payload: challengeStreaksWithClientData.sort(sortByCurrentStreak),
             });
             dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_LOADED });
         } catch (err) {
