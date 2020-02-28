@@ -4,10 +4,12 @@ export const getStreakCompletionString = ({
     pastStreaks,
     currentStreak,
     timezone,
+    createdAt,
 }: {
     pastStreaks: PastStreak[];
     currentStreak: CurrentStreak;
     timezone: string;
+    createdAt: Date;
 }) => {
     const currentTime = moment().tz(timezone);
     let streakCompletionString;
@@ -17,7 +19,10 @@ export const getStreakCompletionString = ({
     }
     if (currentStreak.numberOfDaysInARow === 0) {
         if (pastStreaks.length === 0) {
-            streakCompletionString = `You've never completed this streak`;
+            const howManyDaysSinceUserCreatedStreak = Math.floor(
+                moment.duration(currentTime.diff(createdAt)).asDays(),
+            ).toFixed(0);
+            streakCompletionString = `Days since creation: ${howManyDaysSinceUserCreatedStreak}`;
             streakCompletionStringError = true;
         } else {
             const mostRecentPastStreak = pastStreaks[pastStreaks.length - 1];
