@@ -7,17 +7,19 @@ export const sortByCurrentStreak = (
 ) => {
     if (streakA.currentStreak.numberOfDaysInARow === 0 && streakB.currentStreak.numberOfDaysInARow === 0) {
         if (streakA.pastStreaks.length === 0 && streakB.pastStreaks.length === 0) {
+            console.log('No past streaks.');
             return 0;
         }
-        if (streakA.pastStreaks.length > 0 && streakB.pastStreaks.length === 0) {
+        const streakAMostRecentPastStreak = streakA.pastStreaks[streakA.pastStreaks.length - 1];
+        if (!streakAMostRecentPastStreak) {
+            console.log('No past streaks for A');
             return -1;
         }
-        if (streakA.pastStreaks.length === 0 && streakB.pastStreaks.length > 0) {
+        const streakBMostRecentPastStreak = streakB.pastStreaks[streakB.pastStreaks.length - 1];
+        if (!streakBMostRecentPastStreak) {
+            console.log('No past streaks for B');
             return 1;
         }
-        const streakAMostRecentPastStreak = streakA.pastStreaks[streakA.pastStreaks.length - 1];
-
-        const streakBMostRecentPastStreak = streakB.pastStreaks[streakB.pastStreaks.length - 1];
 
         const streakACurrentTime = moment().tz(streakA.timezone);
         const streakBCurrentTime = moment().tz(streakB.timezone);
@@ -29,6 +31,8 @@ export const sortByCurrentStreak = (
         const howManyDaysSinceStreakBCompletion = Math.floor(
             moment.duration(streakBCurrentTime.diff(streakBLastTimeUserCompletedStreak)).asDays(),
         );
+        console.log('Streak B Completion', howManyDaysSinceStreakBCompletion);
+        console.log('Streak A Completion', howManyDaysSinceStreakACompletion);
         return howManyDaysSinceStreakBCompletion - howManyDaysSinceStreakACompletion;
     }
     return streakB.currentStreak.numberOfDaysInARow - streakA.currentStreak.numberOfDaysInARow;
