@@ -7,8 +7,8 @@ export const sortByCurrentStreak = (
 ) => {
     if (streakA.currentStreak.numberOfDaysInARow === 0 && streakB.currentStreak.numberOfDaysInARow === 0) {
         if (streakA.pastStreaks.length === 0 && streakB.pastStreaks.length === 0) {
-            console.log('No past streaks.');
-            return 0;
+            console.log('No past streaks for either');
+            return -1;
         }
         const streakAMostRecentPastStreak = streakA.pastStreaks[streakA.pastStreaks.length - 1];
         if (!streakAMostRecentPastStreak) {
@@ -33,7 +33,7 @@ export const sortByCurrentStreak = (
         );
         console.log('Streak B Completion', howManyDaysSinceStreakBCompletion);
         console.log('Streak A Completion', howManyDaysSinceStreakACompletion);
-        return howManyDaysSinceStreakBCompletion - howManyDaysSinceStreakACompletion;
+        return howManyDaysSinceStreakACompletion - howManyDaysSinceStreakBCompletion;
     }
-    return streakB.currentStreak.numberOfDaysInARow - streakA.currentStreak.numberOfDaysInARow;
+    return streakA.currentStreak.numberOfDaysInARow - streakB.currentStreak.numberOfDaysInARow;
 };
