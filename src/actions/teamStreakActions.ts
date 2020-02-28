@@ -64,24 +64,29 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 memberId: userId,
                 status: StreakStatus.live,
             });
-            const teamStreaksWithLoadingStates = teamStreaks.map(teamStreak => {
-                const members = teamStreak.members.map(member => {
+            const teamStreaksWithLoadingStates = teamStreaks
+                .map(teamStreak => {
+                    const members = teamStreak.members.map(member => {
+                        return {
+                            ...member,
+                            teamMemberStreak: {
+                                ...member.teamMemberStreak,
+                                completeTeamMemberStreakTaskIsLoading: false,
+                                completeTeamMemberStreakTaskErrorMessage: '',
+                                incompleteTeamMemberStreakTaskIsLoading: false,
+                                incompleteTeamMemberStreakTaskErrorMessage: '',
+                            },
+                        };
+                    });
                     return {
-                        ...member,
-                        teamMemberStreak: {
-                            ...member.teamMemberStreak,
-                            completeTeamMemberStreakTaskIsLoading: false,
-                            completeTeamMemberStreakTaskErrorMessage: '',
-                            incompleteTeamMemberStreakTaskIsLoading: false,
-                            incompleteTeamMemberStreakTaskErrorMessage: '',
-                        },
+                        ...teamStreak,
+                        members,
                     };
-                });
-                return {
-                    ...teamStreak,
-                    members,
-                };
-            });
+                })
+                .sort(
+                    (teamStreakA, teamStreakB) =>
+                        teamStreakB.currentStreak.numberOfDaysInARow - teamStreakA.currentStreak.numberOfDaysInARow,
+                );
             dispatch({ type: GET_LIVE_TEAM_STREAKS, payload: teamStreaksWithLoadingStates });
             dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADED });
         } catch (err) {

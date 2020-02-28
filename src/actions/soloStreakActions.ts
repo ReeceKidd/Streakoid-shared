@@ -69,15 +69,20 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                 userId,
                 status: StreakStatus.live,
             });
-            const soloStreaksWithLoadingStates = soloStreaks.map(soloStreak => {
-                return {
-                    ...soloStreak,
-                    completeSoloStreakTaskIsLoading: false,
-                    completeSoloStreakTaskErrorMessage: '',
-                    incompleteSoloStreakTaskIsLoading: false,
-                    incompleteSoloStreakTaskErrorMessage: '',
-                };
-            });
+            const soloStreaksWithLoadingStates = soloStreaks
+                .map(soloStreak => {
+                    return {
+                        ...soloStreak,
+                        completeSoloStreakTaskIsLoading: false,
+                        completeSoloStreakTaskErrorMessage: '',
+                        incompleteSoloStreakTaskIsLoading: false,
+                        incompleteSoloStreakTaskErrorMessage: '',
+                    };
+                })
+                .sort(
+                    (soloStreakA, soloStreakB) =>
+                        soloStreakB.currentStreak.numberOfDaysInARow - soloStreakA.currentStreak.numberOfDaysInARow,
+                );
             dispatch({ type: GET_LIVE_SOLO_STREAKS, payload: soloStreaksWithLoadingStates });
             dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED });
         } catch (err) {
