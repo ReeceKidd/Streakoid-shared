@@ -28,6 +28,7 @@ import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import Notifications from '@streakoid/streakoid-sdk/lib/models/Notifications';
 import { sortBadgesByLongestStreak } from './badgeActions';
+import { sortSoloStreaks, sortTeamStreaks, sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -93,10 +94,13 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             const user = await streakoid.users.getOne(users[0]._id);
             const { badges } = user;
             const soloStreaks = await streakoid.soloStreaks.getAll({ userId: user._id, status: StreakStatus.live });
+            const sortedSoloStreaks = sortSoloStreaks(soloStreaks);
             const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: user._id, status: StreakStatus.live });
+            const sortedTeamStreaks = await sortTeamStreaks(teamStreaks);
             const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId: user._id });
+            const sortedChallengeStreaks = sortChallengeStreaks(challengeStreaks);
             const challengeStreaksWithClientData = await Promise.all(
-                challengeStreaks.map(async challengeStreak => {
+                sortedChallengeStreaks.map(async challengeStreak => {
                     const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
                     return {
                         ...challengeStreak,
@@ -149,8 +153,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             const selectedUser = {
                 ...user,
                 userBadges: userBadges.sort(sortBadgesByLongestStreak),
-                soloStreaks,
-                teamStreaks,
+                soloStreaks: sortedSoloStreaks,
+                teamStreaks: sortedTeamStreaks,
                 challengeStreaks: challengeStreaksWithClientData,
                 userStreakCompleteInfo,
             };
