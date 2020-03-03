@@ -51,7 +51,7 @@ import {
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
-import { sortByCurrentStreak } from '../helpers/sorters/sortByCurrentStreak';
+import { sortTeamStreaks } from '../helpers/sorters/sortStreaks';
 
 export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveTeamStreaks = () => async (
@@ -65,7 +65,8 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 memberId: userId,
                 status: StreakStatus.live,
             });
-            const teamStreaksWithLoadingStates = teamStreaks.map(teamStreak => {
+            const sortedTeamStreaks = sortTeamStreaks(teamStreaks);
+            const teamStreaksWithLoadingStates = sortedTeamStreaks.map(teamStreak => {
                 const members = teamStreak.members.map(member => {
                     return {
                         ...member,
@@ -83,7 +84,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                     members,
                 };
             });
-            dispatch({ type: GET_LIVE_TEAM_STREAKS, payload: teamStreaksWithLoadingStates.sort(sortByCurrentStreak) });
+            dispatch({ type: GET_LIVE_TEAM_STREAKS, payload: teamStreaksWithLoadingStates });
             dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADED });

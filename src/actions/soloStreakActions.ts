@@ -56,7 +56,7 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
-import { sortByCurrentStreak } from '../helpers/sorters/sortByCurrentStreak';
+import { sortSoloStreaks } from '../helpers/sorters/sortStreaks';
 
 const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveSoloStreaks = () => async (
@@ -70,7 +70,8 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                 userId,
                 status: StreakStatus.live,
             });
-            const soloStreaksWithLoadingStates = soloStreaks.map(soloStreak => {
+            const sortedSoloStreaks = sortSoloStreaks(soloStreaks);
+            const soloStreaksWithLoadingStates = sortedSoloStreaks.map(soloStreak => {
                 return {
                     ...soloStreak,
                     completeSoloStreakTaskIsLoading: false,
@@ -79,7 +80,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                     incompleteSoloStreakTaskErrorMessage: '',
                 };
             });
-            dispatch({ type: GET_LIVE_SOLO_STREAKS, payload: soloStreaksWithLoadingStates.sort(sortByCurrentStreak) });
+            dispatch({ type: GET_LIVE_SOLO_STREAKS, payload: soloStreaksWithLoadingStates });
             dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED });

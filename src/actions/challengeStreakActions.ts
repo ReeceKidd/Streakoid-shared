@@ -43,7 +43,7 @@ import {
     DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL,
     CLEAR_SELECTED_CHALLENGE_STREAK,
 } from './types';
-import { sortByCurrentStreak } from '../helpers/sorters/sortByCurrentStreak';
+import { sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveChallengeStreaks = () => async (
@@ -58,8 +58,9 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 userId,
                 status: StreakStatus.live,
             });
+            const sortedChallengeStreaks = sortChallengeStreaks(challengeStreaks);
             const challengeStreaksWithClientData = await Promise.all(
-                challengeStreaks.map(async challengeStreak => {
+                sortedChallengeStreaks.map(async challengeStreak => {
                     const challenge = await streakoid.challenges.getOne({
                         challengeId: challengeStreak.challengeId,
                     });
@@ -81,7 +82,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
             );
             dispatch({
                 type: GET_LIVE_CHALLENGE_STREAKS,
-                payload: challengeStreaksWithClientData.sort(sortByCurrentStreak),
+                payload: challengeStreaksWithClientData,
             });
             dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_LOADED });
         } catch (err) {
