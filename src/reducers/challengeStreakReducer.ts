@@ -82,6 +82,8 @@ const defaultSelectedChallengeStreak = {
     incompleteChallengeStreakTaskIsLoading: false,
     incompleteChallengeStreakTaskErrorMessage: '',
     completedChallengeStreakTaskDates: [],
+    username: '',
+    userProfileImage: '',
 };
 
 const initialState: ChallengeStreakReducerState = {
@@ -111,6 +113,8 @@ export interface ChallengeStreakWithClientData extends ChallengeStreak {
     incompleteChallengeStreakTaskIsLoading: boolean;
     incompleteChallengeStreakTaskErrorMessage: string;
     completedChallengeStreakTaskDates: Date[];
+    username: string;
+    userProfileImage: string;
 }
 
 const challengeStreakReducer = (

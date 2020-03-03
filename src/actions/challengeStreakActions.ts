@@ -52,7 +52,8 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_LOADING });
-            const userId = getState().users.currentUser._id;
+            const currentUser = getState().users.currentUser;
+            const userId = currentUser._id;
             const challengeStreaks = await streakoid.challengeStreaks.getAll({
                 userId,
                 status: StreakStatus.live,
@@ -73,6 +74,8 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                         incompleteChallengeStreakTaskIsLoading: false,
                         incompleteChallengeStreakTaskErrorMessage: '',
                         completedChallengeStreakTaskDates: [],
+                        username: currentUser.username,
+                        userProfileImage: currentUser.profileImages.originalImageUrl,
                     };
                 }),
             );
@@ -97,7 +100,8 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: GET_ARCHIVED_CHALLENGE_STREAKS_LOADING });
-            const userId = getState().users.currentUser._id;
+            const currentUser = getState().users.currentUser;
+            const userId = currentUser._id;
             const challengeStreaks = await streakoid.challengeStreaks.getAll({
                 userId,
                 status: StreakStatus.archived,
@@ -116,6 +120,8 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                         incompleteChallengeStreakTaskIsLoading: false,
                         incompleteChallengeStreakTaskErrorMessage: '',
                         completedChallengeStreakTaskDates: [],
+                        username: currentUser.username,
+                        userProfileImage: currentUser.profileImages.originalImageUrl,
                     };
                 }),
             );
@@ -137,6 +143,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: GET_SELECTED_CHALLENGE_STREAK_LOADING });
             const challengeStreak = await streakoid.challengeStreaks.getOne({ challengeStreakId });
+            const challengeStreakOwner = await streakoid.users.getOne(challengeStreak.userId);
             const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
             const completeChallengeStreakTasks = await streakoid.completeChallengeStreakTasks.getAll({
                 challengeStreakId,
@@ -155,6 +162,8 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 incompleteChallengeStreakTaskIsLoading: false,
                 incompleteChallengeStreakTaskErrorMessage: '',
                 completedChallengeStreakTaskDates,
+                username: challengeStreakOwner.username,
+                userProfileImage: challengeStreakOwner.profileImages.originalImageUrl,
             };
             dispatch({ type: GET_SELECTED_CHALLENGE_STREAK, payload: challengeStreakWithLoadingStates });
             dispatch({ type: GET_SELECTED_CHALLENGE_STREAK_LOADED });
@@ -170,6 +179,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
 
     const archiveChallengeStreak = ({ challengeStreakId }: { challengeStreakId: string }) => async (
         dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK_LOADING });
@@ -177,6 +187,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 challengeStreakId,
                 updateData: { status: StreakStatus.archived },
             });
+            const currentUser = getState().users.currentUser;
             const challenge = await streakoid.challenges.getOne({ challengeId: updatedChallengeStreak.challengeId });
             const challengeStreakWithLoadingState = {
                 ...updatedChallengeStreak,
@@ -189,6 +200,8 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 incompleteChallengeStreakTaskIsLoading: false,
                 incompleteChallengeStreakTaskErrorMessage: '',
                 completedChallengeStreakTaskDates: [],
+                username: currentUser.username,
+                userProfileImage: currentUser.profileImages.originalImageUrl,
             };
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK_LOADED });
@@ -209,6 +222,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
 
     const restoreArchivedChallengeStreak = (challengeStreakId: string) => async (
         dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADING });
@@ -216,6 +230,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 challengeStreakId,
                 updateData: { status: StreakStatus.live },
             });
+            const currentUser = getState().users.currentUser;
             const challenge = await streakoid.challenges.getOne({ challengeId: updatedChallengeStreak.challengeId });
             const challengeStreakWithLoadingState = {
                 ...updatedChallengeStreak,
@@ -228,6 +243,8 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 incompleteChallengeStreakTaskIsLoading: false,
                 incompleteChallengeStreakTaskErrorMessage: '',
                 completedChallengeStreakTaskDates: [],
+                username: currentUser.username,
+                userProfileImage: currentUser.profileImages.originalImageUrl,
             };
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED });
