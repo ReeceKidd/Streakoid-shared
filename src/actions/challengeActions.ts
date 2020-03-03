@@ -82,7 +82,8 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: JOIN_CHALLENGE_LOADING });
-            const userId = getState().users.currentUser._id;
+            const currentUser = getState().users.currentUser;
+            const userId = currentUser._id;
             const isPayingMember = getState().users.currentUser.membershipInformation.isPayingMember;
             if (!isPayingMember) {
                 const userChallengeStreaks = await streakoid.challengeStreaks.getAll({
@@ -112,6 +113,8 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 incompleteChallengeStreakTaskIsLoading: false,
                 incompleteChallengeStreakTaskErrorMessage: '',
                 completedChallengeStreakTaskDates: [],
+                username: currentUser.username,
+                userProfileImage: currentUser.profileImages.originalImageUrl,
             };
             dispatch({ type: CREATE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: JOIN_CHALLENGE_LOADED });

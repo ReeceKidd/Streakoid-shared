@@ -109,6 +109,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                         incompleteChallengeStreakTaskIsLoading: false,
                         incompleteChallengeStreakTaskErrorMessage: '',
                         completedChallengeStreakTaskDates: [],
+                        username: user.username,
+                        userProfileImage: user.profileImages.originalImageUrl,
                     };
                 }),
             );
