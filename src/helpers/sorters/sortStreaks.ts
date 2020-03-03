@@ -38,11 +38,16 @@ export const sortByPastStreak = (
 };
 
 export const sortSoloStreaks = (streaks: SoloStreak[]): SoloStreak[] => {
+    const completedStreaks: SoloStreak[] = [];
     const activeStreaks: SoloStreak[] = [];
     const inactiveStreaks: SoloStreak[] = [];
     const notStartedStreaks: SoloStreak[] = [];
 
     streaks.map(streak => {
+        if (streak.completedToday) {
+            completedStreaks.push(streak);
+            return;
+        }
         if (streak.currentStreak.numberOfDaysInARow > 0) {
             activeStreaks.push(streak);
             return;
@@ -58,15 +63,21 @@ export const sortSoloStreaks = (streaks: SoloStreak[]): SoloStreak[] => {
         ...activeStreaks.sort(sortByCurrentStreak),
         ...inactiveStreaks.sort(sortByPastStreak),
         ...notStartedStreaks,
+        ...completedStreaks,
     ];
 };
 
 export const sortChallengeStreaks = (streaks: ChallengeStreak[]): ChallengeStreak[] => {
+    const completedStreaks: ChallengeStreak[] = [];
     const activeStreaks: ChallengeStreak[] = [];
     const inactiveStreaks: ChallengeStreak[] = [];
     const notStartedStreaks: ChallengeStreak[] = [];
 
     streaks.map(streak => {
+        if (streak.completedToday) {
+            completedStreaks.push(streak);
+            return;
+        }
         if (streak.currentStreak.numberOfDaysInARow > 0) {
             activeStreaks.push(streak);
             return;
@@ -82,15 +93,21 @@ export const sortChallengeStreaks = (streaks: ChallengeStreak[]): ChallengeStrea
         ...activeStreaks.sort(sortByCurrentStreak),
         ...inactiveStreaks.sort(sortByPastStreak),
         ...notStartedStreaks,
+        ...completedStreaks,
     ];
 };
 
 export const sortTeamStreaks = (streaks: PopulatedTeamStreak[]): PopulatedTeamStreak[] => {
+    const completedStreaks: PopulatedTeamStreak[] = [];
     const activeStreaks: PopulatedTeamStreak[] = [];
     const inactiveStreaks: PopulatedTeamStreak[] = [];
     const notStartedStreaks: PopulatedTeamStreak[] = [];
 
     streaks.map(streak => {
+        if (streak.completedToday) {
+            completedStreaks.push(streak);
+            return;
+        }
         if (streak.currentStreak.numberOfDaysInARow > 0) {
             activeStreaks.push(streak);
             return;
@@ -106,5 +123,6 @@ export const sortTeamStreaks = (streaks: PopulatedTeamStreak[]): PopulatedTeamSt
         ...activeStreaks.sort(sortByCurrentStreak),
         ...inactiveStreaks.sort(sortByPastStreak),
         ...notStartedStreaks,
+        ...completedStreaks,
     ];
 };
