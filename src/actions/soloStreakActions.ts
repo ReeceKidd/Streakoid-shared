@@ -123,6 +123,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: GET_SOLO_STREAK_IS_LOADING });
             const soloStreak = await streakoid.soloStreaks.getOne(soloStreakId);
             const soloStreakOwner = await streakoid.users.getOne(soloStreak.userId);
+            console.log('soloStreakOwnner', soloStreakOwner);
             const completeSoloStreakTasks = await streakoid.completeSoloStreakTasks.getAll({ streakId: soloStreakId });
             const completedSoloStreakTaskDates = completeSoloStreakTasks.map(
                 completeTask => new Date(completeTask.createdAt),
