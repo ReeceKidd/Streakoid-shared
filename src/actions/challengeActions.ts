@@ -108,11 +108,22 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
             const currentStreaks = challengeStreaks.map(
                 challengeStreak => challengeStreak.currentStreak.numberOfDaysInARow,
             );
-            const longestStreakForChallenge = currentStreaks.length === 0 ? 0 : Math.max(...currentStreaks);
+            const longestPastStreakLengths = challengeStreaks.map(challengeStreak => {
+                const pastStreakLengths = challengeStreak.pastStreaks.map(pastStreak => pastStreak.numberOfDaysInARow);
+                const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
+                return longestPastStreakNumberOfDays;
+            });
+            const longestPastStreakForChallenge = Math.max(...longestPastStreakLengths);
+            const longestCurrentStreakForChallenge = currentStreaks.length === 0 ? 0 : Math.max(...currentStreaks);
+            const longestEverStreakForChallenge =
+                longestPastStreakForChallenge >= longestCurrentStreakForChallenge
+                    ? longestPastStreakForChallenge
+                    : longestCurrentStreakForChallenge;
             const populatedChallenge: PopulatedChallenge = {
                 ...challenge,
                 members: sortedChallengeMembers,
-                longestStreakForChallenge,
+                longestCurrentStreakForChallenge,
+                longestEverStreakForChallenge,
             };
             dispatch({ type: GET_CHALLENGE, payload: populatedChallenge });
             dispatch({ type: GET_CHALLENGE_IS_LOADED });
