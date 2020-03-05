@@ -20,6 +20,16 @@ import {
 import { AppActions, AppState } from '..';
 import { ChallengeMember, PopulatedChallenge, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
+export enum GetChallengeSortFields {
+    currentStreak = 'currentStreak',
+    longestStreak = 'longestStreak',
+}
+
+export enum GetChallengeSortOrder {
+    ascending = 'ascending',
+    descinf = 'descending',
+}
+
 const challengeActions = (streakoid: typeof streakoidSDK) => {
     const getChallenges = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
@@ -42,7 +52,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         sort,
     }: {
         challengeId: string;
-        sort: { sortField: 'currentStreak' | 'longestStreak'; sortOrder: 'asc' | 'desc' };
+        sort: { sortField: GetChallengeSortFields; sortOrder: GetChallengeSortOrder };
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_CHALLENGE_IS_LOADING });
@@ -74,8 +84,8 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 }),
             );
             const sortedChallengeMembers = challengeMembers.sort((challengeMemberA, challengeMemberB) => {
-                if (sort.sortField === 'currentStreak') {
-                    if (sort.sortOrder === 'asc') {
+                if (sort.sortField === GetChallengeSortFields.currentStreak) {
+                    if (sort.sortOrder === GetChallengeSortOrder.ascending) {
                         return (
                             challengeMemberA.currentStreak.numberOfDaysInARow -
                             challengeMemberB.currentStreak.numberOfDaysInARow
@@ -86,8 +96,8 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                             challengeMemberA.currentStreak.numberOfDaysInARow
                         );
                     }
-                } else if (sort.sortField === 'longestStreak') {
-                    if (sort.sortOrder === 'asc') {
+                } else if (sort.sortField === GetChallengeSortFields.longestStreak) {
+                    if (sort.sortOrder === GetChallengeSortOrder.ascending) {
                         return challengeMemberA.longestStreak - challengeMemberB.longestStreak;
                     } else {
                         return challengeMemberB.longestStreak - challengeMemberA.longestStreak;
