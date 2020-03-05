@@ -37,9 +37,13 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getChallenge = ({ challengeId }: { challengeId: string }) => async (
-        dispatch: Dispatch<AppActions>,
-    ): Promise<void> => {
+    const getChallenge = ({
+        challengeId,
+        sort,
+    }: {
+        challengeId: string;
+        sort: { sortField: 'currentStreak' | 'longestStreak'; sortOrder: 'asc' | 'desc' };
+    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_CHALLENGE_IS_LOADING });
             const challenge = await streakoid.challenges.getOne({ challengeId });
@@ -69,6 +73,27 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                     return challengeMember;
                 }),
             );
+            const sortedChallengeMembers = challengeMembers.sort((challengeMemberA, challengeMemberB) => {
+                if (sort.sortField === 'currentStreak') {
+                    if (sort.sortOrder === 'asc') {
+                        return (
+                            challengeMemberA.currentStreak.numberOfDaysInARow -
+                            challengeMemberB.currentStreak.numberOfDaysInARow
+                        );
+                    } else {
+                        return (
+                            challengeMemberB.currentStreak.numberOfDaysInARow -
+                            challengeMemberA.currentStreak.numberOfDaysInARow
+                        );
+                    }
+                } else if (sort.sortField === 'longestStreak') {
+                    if (sort.sortOrder === 'asc') {
+                        return challengeMemberA.longestStreak - challengeMemberB.longestStreak;
+                    } else {
+                        return challengeMemberB.longestStreak - challengeMemberA.longestStreak;
+                    }
+                } else return 0;
+            });
             const challengeStreaks = await streakoid.challengeStreaks.getAll({ challengeId });
             const currentStreaks = challengeStreaks.map(
                 challengeStreak => challengeStreak.currentStreak.numberOfDaysInARow,
@@ -76,7 +101,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
             const longestStreakForChallenge = currentStreaks.length === 0 ? 0 : Math.max(...currentStreaks);
             const populatedChallenge: PopulatedChallenge = {
                 ...challenge,
-                members: challengeMembers,
+                members: sortedChallengeMembers,
                 longestStreakForChallenge,
             };
             dispatch({ type: GET_CHALLENGE, payload: populatedChallenge });
