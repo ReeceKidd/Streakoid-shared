@@ -80,6 +80,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                         currentStreak: userChallengeStreak.currentStreak,
                         longestStreak,
                         challengeStreakId: userChallengeStreak._id,
+                        joinedChallenge: new Date(userChallengeStreak.createdAt),
                     };
                     return challengeMember;
                 }),
