@@ -27,7 +27,7 @@ export enum GetChallengeSortFields {
 
 export enum GetChallengeSortOrder {
     ascending = 'ascending',
-    descinf = 'descending',
+    descending = 'descending',
 }
 
 const challengeActions = (streakoid: typeof streakoidSDK) => {
