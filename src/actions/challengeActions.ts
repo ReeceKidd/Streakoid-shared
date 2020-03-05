@@ -46,10 +46,25 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
             const challengeMembers = await Promise.all(
                 challenge.members.map(async member => {
                     const user = await streakoid.users.getOne(member.userId);
+                    const userChallengeStreaks = await streakoid.challengeStreaks.getAll({
+                        userId: user._id,
+                        challengeId: challengeId,
+                    });
+                    const userChallengeStreak = userChallengeStreaks[0];
+                    const pastStreakLengths = userChallengeStreak.pastStreaks.map(
+                        pastStreak => pastStreak.numberOfDaysInARow,
+                    );
+                    const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
+                    const longestStreak =
+                        userChallengeStreak.currentStreak.numberOfDaysInARow >= longestPastStreakNumberOfDays
+                            ? userChallengeStreak.currentStreak.numberOfDaysInARow
+                            : longestPastStreakNumberOfDays;
                     const challengeMember: ChallengeMember = {
                         username: user.username,
                         userId: user._id,
                         profileImage: user.profileImages.originalImageUrl,
+                        currentStreak: userChallengeStreak.currentStreak,
+                        longestStreak,
                     };
                     return challengeMember;
                 }),
