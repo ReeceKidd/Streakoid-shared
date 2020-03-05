@@ -79,6 +79,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                         profileImage: user.profileImages.originalImageUrl,
                         currentStreak: userChallengeStreak.currentStreak,
                         longestStreak,
+                        challengeStreakId: userChallengeStreak._id,
                     };
                     return challengeMember;
                 }),
