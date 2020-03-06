@@ -151,6 +151,12 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
             const members = teamStreak.members.map(member => {
                 const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                console.log(`Current streak for team member: ${member.username}`, currentStreak);
+                console.log(`Past streak for team member: ${member.username}`, pastStreaks);
+                const averageStreak = getAverageStreak(currentStreak, pastStreaks);
+                console.log(`Average streak for member: ${member.username}`, averageStreak);
+                const longestStreak = getLongestStreak(currentStreak, pastStreaks);
+                console.log(`Longest streak for member: ${member.username}`, longestStreak);
                 return {
                     ...member,
                     teamMemberStreak: {
@@ -159,8 +165,8 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                         completeTeamMemberStreakTaskErrorMessage: '',
                         incompleteTeamMemberStreakTaskIsLoading: false,
                         incompleteTeamMemberStreakTaskErrorMessage: '',
-                        averageStreak: getAverageStreak(currentStreak, pastStreaks),
-                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                        averageStreak,
+                        longestStreak,
                     },
                 };
             });
