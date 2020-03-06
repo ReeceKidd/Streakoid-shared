@@ -18,7 +18,8 @@ import {
     NAVIGATE_TO_STREAK_LIMIT_REACHED,
 } from './types';
 import { AppActions, AppState } from '..';
-import { ChallengeMember, PopulatedChallenge, StreakStatus } from '@streakoid/streakoid-sdk/lib';
+import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
+import { ChallengeMemberWithClientData, PopulatedChallengeWithClientData } from '../reducers/challengesReducer';
 
 export enum GetChallengeSortFields {
     currentStreak = 'currentStreak',
@@ -73,7 +74,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                         userChallengeStreak.currentStreak.numberOfDaysInARow >= longestPastStreakNumberOfDays
                             ? userChallengeStreak.currentStreak.numberOfDaysInARow
                             : longestPastStreakNumberOfDays;
-                    const challengeMember: ChallengeMember = {
+                    const challengeMember: ChallengeMemberWithClientData = {
                         username: user.username,
                         userId: user._id,
                         profileImage: user.profileImages.originalImageUrl,
@@ -121,7 +122,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 longestPastStreakForChallenge >= longestCurrentStreakForChallenge
                     ? longestPastStreakForChallenge
                     : longestCurrentStreakForChallenge;
-            const populatedChallenge: PopulatedChallenge = {
+            const populatedChallenge: PopulatedChallengeWithClientData = {
                 ...challenge,
                 members: sortedChallengeMembers,
                 longestCurrentStreakForChallenge,

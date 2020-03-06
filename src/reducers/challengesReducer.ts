@@ -12,7 +12,7 @@ import {
     GET_CHALLENGE_IS_LOADING,
     GET_CHALLENGE_IS_LOADED,
 } from '../actions/types';
-import { Challenge, PopulatedChallenge, ChallengeMember } from '@streakoid/streakoid-sdk/lib';
+import { Challenge, PopulatedChallenge, ChallengeMember, CurrentStreak } from '@streakoid/streakoid-sdk/lib';
 
 export interface ChallengeReducerState {
     challengeList: Challenge[];
@@ -32,6 +32,8 @@ export interface PopulatedChallengeWithClientData extends PopulatedChallenge {
 }
 
 export interface ChallengeMemberWithClientData extends ChallengeMember {
+    challengeStreakId: string;
+    currentStreak: CurrentStreak;
     longestStreak: number;
     joinedChallenge: Date;
 }
