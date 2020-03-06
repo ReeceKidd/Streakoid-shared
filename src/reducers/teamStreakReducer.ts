@@ -65,6 +65,7 @@ interface TeamMemberStreakWithClientData extends TeamMemberStreak {
     incompleteTeamMemberStreakTaskErrorMessage: string;
     longestStreak: number;
     averageStreak: number;
+    totalTimesTracked: number;
 }
 
 export interface TeamStreakReducerState {

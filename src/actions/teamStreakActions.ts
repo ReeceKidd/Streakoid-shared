@@ -68,27 +68,36 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 status: StreakStatus.live,
             });
             const sortedTeamStreaks = sortTeamStreaks(teamStreaks);
-            const teamStreaksWithLoadingStates = sortedTeamStreaks.map(teamStreak => {
-                const members = teamStreak.members.map(member => {
-                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
+            const teamStreaksWithLoadingStates = await Promise.all(
+                sortedTeamStreaks.map(async teamStreak => {
+                    const members = await Promise.all(
+                        teamStreak.members.map(async member => {
+                            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                                userId: member._id,
+                                teamStreakId: teamStreak._id,
+                            });
+                            const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                            return {
+                                ...member,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completeTeamMemberStreakTaskIsLoading: false,
+                                    completeTeamMemberStreakTaskErrorMessage: '',
+                                    incompleteTeamMemberStreakTaskIsLoading: false,
+                                    incompleteTeamMemberStreakTaskErrorMessage: '',
+                                    averageStreak: getAverageStreak(currentStreak, pastStreaks),
+                                    longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                                    totalTimesTracked: totalTimesTracked.length,
+                                },
+                            };
+                        }),
+                    );
                     return {
-                        ...member,
-                        teamMemberStreak: {
-                            ...member.teamMemberStreak,
-                            completeTeamMemberStreakTaskIsLoading: false,
-                            completeTeamMemberStreakTaskErrorMessage: '',
-                            incompleteTeamMemberStreakTaskIsLoading: false,
-                            incompleteTeamMemberStreakTaskErrorMessage: '',
-                            averageStreak: getAverageStreak(currentStreak, pastStreaks),
-                            longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                        },
+                        ...teamStreak,
+                        members,
                     };
-                });
-                return {
-                    ...teamStreak,
-                    members,
-                };
-            });
+                }),
+            );
             dispatch({ type: GET_LIVE_TEAM_STREAKS, payload: teamStreaksWithLoadingStates });
             dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADED });
         } catch (err) {
@@ -112,27 +121,36 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 memberId: userId,
                 status: StreakStatus.archived,
             });
-            const teamStreaksWithLoadingStates = teamStreaks.map(teamStreak => {
-                const members = teamStreak.members.map(member => {
-                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
+            const teamStreaksWithLoadingStates = await Promise.all(
+                teamStreaks.map(async teamStreak => {
+                    const members = await Promise.all(
+                        teamStreak.members.map(async member => {
+                            const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                                userId: member._id,
+                                teamStreakId: teamStreak._id,
+                            });
+                            return {
+                                ...member,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completeTeamMemberStreakTaskIsLoading: false,
+                                    completeTeamMemberStreakTaskErrorMessage: '',
+                                    incompleteTeamMemberStreakTaskIsLoading: false,
+                                    incompleteTeamMemberStreakTaskErrorMessage: '',
+                                    averageStreak: getAverageStreak(currentStreak, pastStreaks),
+                                    longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                                    totalTimesTracked: totalTimesTracked.length,
+                                },
+                            };
+                        }),
+                    );
                     return {
-                        ...member,
-                        teamMemberStreak: {
-                            ...member.teamMemberStreak,
-                            completeTeamMemberStreakTaskIsLoading: false,
-                            completeTeamMemberStreakTaskErrorMessage: '',
-                            incompleteTeamMemberStreakTaskIsLoading: false,
-                            incompleteTeamMemberStreakTaskErrorMessage: '',
-                            averageStreak: getAverageStreak(currentStreak, pastStreaks),
-                            longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                        },
+                        ...teamStreak,
+                        members,
                     };
-                });
-                return {
-                    ...teamStreak,
-                    members,
-                };
-            });
+                }),
+            );
             dispatch({ type: GET_ARCHIVED_TEAM_STREAKS, payload: teamStreaksWithLoadingStates });
             dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_IS_LOADED });
         } catch (err) {
@@ -149,27 +167,30 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: GET_TEAM_STREAK_IS_LOADING });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
-            const members = teamStreak.members.map(member => {
-                const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                console.log(`Current streak for team member: ${member.username}`, currentStreak);
-                console.log(`Past streak for team member: ${member.username}`, pastStreaks);
-                const averageStreak = getAverageStreak(currentStreak, pastStreaks);
-                console.log(`Average streak for member: ${member.username}`, averageStreak);
-                const longestStreak = getLongestStreak(currentStreak, pastStreaks);
-                console.log(`Longest streak for member: ${member.username}`, longestStreak);
-                return {
-                    ...member,
-                    teamMemberStreak: {
-                        ...member.teamMemberStreak,
-                        completeTeamMemberStreakTaskIsLoading: false,
-                        completeTeamMemberStreakTaskErrorMessage: '',
-                        incompleteTeamMemberStreakTaskIsLoading: false,
-                        incompleteTeamMemberStreakTaskErrorMessage: '',
-                        averageStreak,
-                        longestStreak,
-                    },
-                };
-            });
+            const members = await Promise.all(
+                teamStreak.members.map(async member => {
+                    const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                        userId: member._id,
+                        teamStreakId: teamStreak._id,
+                    });
+                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                    const averageStreak = getAverageStreak(currentStreak, pastStreaks);
+                    const longestStreak = getLongestStreak(currentStreak, pastStreaks);
+                    return {
+                        ...member,
+                        teamMemberStreak: {
+                            ...member.teamMemberStreak,
+                            completeTeamMemberStreakTaskIsLoading: false,
+                            completeTeamMemberStreakTaskErrorMessage: '',
+                            incompleteTeamMemberStreakTaskIsLoading: false,
+                            incompleteTeamMemberStreakTaskErrorMessage: '',
+                            averageStreak,
+                            longestStreak,
+                            totalTimesTracked: totalTimesTracked.length,
+                        },
+                    };
+                }),
+            );
             const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
                 teamStreakId,
             });
@@ -244,21 +265,28 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 numberOfMinutes,
                 members,
             });
-            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
-                const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                return {
-                    ...member,
-                    teamMemberStreak: {
-                        ...member.teamMemberStreak,
-                        completeTeamMemberStreakTaskIsLoading: false,
-                        completeTeamMemberStreakTaskErrorMessage: '',
-                        incompleteTeamMemberStreakTaskIsLoading: false,
-                        incompleteTeamMemberStreakTaskErrorMessage: '',
-                        averageStreak: getAverageStreak(currentStreak, pastStreaks),
-                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                    },
-                };
-            });
+            const teamStreakMembersWithLoadingStates = await Promise.all(
+                teamStreak.members.map(async member => {
+                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                    const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                        userId: member._id,
+                        teamStreakId: teamStreak._id,
+                    });
+                    return {
+                        ...member,
+                        teamMemberStreak: {
+                            ...member.teamMemberStreak,
+                            completeTeamMemberStreakTaskIsLoading: false,
+                            completeTeamMemberStreakTaskErrorMessage: '',
+                            incompleteTeamMemberStreakTaskIsLoading: false,
+                            incompleteTeamMemberStreakTaskErrorMessage: '',
+                            averageStreak: getAverageStreak(currentStreak, pastStreaks),
+                            longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                            totalTimesTracked: totalTimesTracked.length,
+                        },
+                    };
+                }),
+            );
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
@@ -342,21 +370,28 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 updateData: { status: StreakStatus.archived },
             });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
-            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
-                const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                return {
-                    ...member,
-                    teamMemberStreak: {
-                        ...member.teamMemberStreak,
-                        completeTeamMemberStreakTaskIsLoading: false,
-                        completeTeamMemberStreakTaskErrorMessage: '',
-                        incompleteTeamMemberStreakTaskIsLoading: false,
-                        incompleteTeamMemberStreakTaskErrorMessage: '',
-                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                        averageStreak: getAverageStreak(currentStreak, pastStreaks),
-                    },
-                };
-            });
+            const teamStreakMembersWithLoadingStates = await Promise.all(
+                teamStreak.members.map(async member => {
+                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                    const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                        userId: member._id,
+                        teamStreakId: teamStreak._id,
+                    });
+                    return {
+                        ...member,
+                        teamMemberStreak: {
+                            ...member.teamMemberStreak,
+                            completeTeamMemberStreakTaskIsLoading: false,
+                            completeTeamMemberStreakTaskErrorMessage: '',
+                            incompleteTeamMemberStreakTaskIsLoading: false,
+                            incompleteTeamMemberStreakTaskErrorMessage: '',
+                            longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                            averageStreak: getAverageStreak(currentStreak, pastStreaks),
+                            totalTimesTracked: totalTimesTracked.length,
+                        },
+                    };
+                }),
+            );
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
@@ -388,21 +423,28 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 updateData: { status: StreakStatus.live },
             });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
-            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
-                const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                return {
-                    ...member,
-                    teamMemberStreak: {
-                        ...member.teamMemberStreak,
-                        completeTeamMemberStreakTaskIsLoading: false,
-                        completeTeamMemberStreakTaskErrorMessage: '',
-                        incompleteTeamMemberStreakTaskIsLoading: false,
-                        incompleteTeamMemberStreakTaskErrorMessage: '',
-                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                        averageStreak: getAverageStreak(currentStreak, pastStreaks),
-                    },
-                };
-            });
+            const teamStreakMembersWithLoadingStates = await Promise.all(
+                teamStreak.members.map(async member => {
+                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                    const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                        userId: member._id,
+                        teamStreakId: teamStreak._id,
+                    });
+                    return {
+                        ...member,
+                        teamMemberStreak: {
+                            ...member.teamMemberStreak,
+                            completeTeamMemberStreakTaskIsLoading: false,
+                            completeTeamMemberStreakTaskErrorMessage: '',
+                            incompleteTeamMemberStreakTaskIsLoading: false,
+                            incompleteTeamMemberStreakTaskErrorMessage: '',
+                            longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                            averageStreak: getAverageStreak(currentStreak, pastStreaks),
+                            totalTimesTracked: totalTimesTracked.length,
+                        },
+                    };
+                }),
+            );
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
@@ -464,21 +506,28 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                     });
                 }),
             );
-            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
-                const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                return {
-                    ...member,
-                    teamMemberStreak: {
-                        ...member.teamMemberStreak,
-                        completeTeamMemberStreakTaskIsLoading: false,
-                        completeTeamMemberStreakTaskErrorMessage: '',
-                        incompleteTeamMemberStreakTaskIsLoading: false,
-                        incompleteTeamMemberStreakTaskErrorMessage: '',
-                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                        averageStreak: getAverageStreak(currentStreak, pastStreaks),
-                    },
-                };
-            });
+            const teamStreakMembersWithLoadingStates = await Promise.all(
+                teamStreak.members.map(async member => {
+                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                    const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                        userId: member._id,
+                        teamStreakId: teamStreak._id,
+                    });
+                    return {
+                        ...member,
+                        teamMemberStreak: {
+                            ...member.teamMemberStreak,
+                            completeTeamMemberStreakTaskIsLoading: false,
+                            completeTeamMemberStreakTaskErrorMessage: '',
+                            incompleteTeamMemberStreakTaskIsLoading: false,
+                            incompleteTeamMemberStreakTaskErrorMessage: '',
+                            longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                            averageStreak: getAverageStreak(currentStreak, pastStreaks),
+                            totalTimesTracked: totalTimesTracked.length,
+                        },
+                    };
+                }),
+            );
             const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
                 teamStreakId,
             });
