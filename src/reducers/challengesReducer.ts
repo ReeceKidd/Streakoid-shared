@@ -12,17 +12,28 @@ import {
     GET_CHALLENGE_IS_LOADING,
     GET_CHALLENGE_IS_LOADED,
 } from '../actions/types';
-import { Challenge, PopulatedChallenge } from '@streakoid/streakoid-sdk/lib';
+import { Challenge, PopulatedChallenge, ChallengeMember } from '@streakoid/streakoid-sdk/lib';
 
 export interface ChallengeReducerState {
     challengeList: Challenge[];
     getAllChallengesIsLoading: boolean;
     getAllChallengesErrorMessage: string;
-    selectedChallenge: PopulatedChallenge;
+    selectedChallenge: PopulatedChallengeWithClientData;
     getChallengeIsLoading: boolean;
     getChallengesErrorMessage: string;
     joinChallengeIsLoading: boolean;
     joinChallengeErrorMessage: string;
+}
+
+export interface PopulatedChallengeWithClientData extends PopulatedChallenge {
+    longestCurrentStreakForChallenge: number;
+    longestEverStreakForChallenge: number;
+    members: ChallengeMemberWithClientData[];
+}
+
+export interface ChallengeMemberWithClientData extends ChallengeMember {
+    longestStreak: number;
+    joinedChallenge: Date;
 }
 
 const initialState: ChallengeReducerState = {

@@ -5,7 +5,6 @@ import {
     FormattedUser,
     Badge,
     Challenge,
-    PopulatedChallenge,
     Note,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithClientData, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
@@ -23,6 +22,7 @@ import { ChallengeStreakWithClientData } from '../reducers/challengeStreakReduce
 import { UserBadge } from '../reducers/badgesReducer';
 import { NoteWithClientData } from '../reducers/notesReducer';
 import { GetAllPopulatedActivityFeedItemsActionResponse } from './activityFeedItemActions';
+import { PopulatedChallengeWithClientData } from '../reducers/challengesReducer';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -1658,7 +1658,7 @@ export interface GetChallengesIsLoadedAction {
 
 export interface GetChallengeAction {
     type: typeof GET_CHALLENGE;
-    payload: PopulatedChallenge;
+    payload: PopulatedChallengeWithClientData;
 }
 
 export interface GetChallengeFailAction {
