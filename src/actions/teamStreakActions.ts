@@ -193,6 +193,8 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 ...teamStreak,
                 members,
                 completedTeamMemberStreakTaskDatesWithCounts,
+                averageStreak: getAverageStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
+                longestStreak: getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
             };
             dispatch({ type: GET_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: GET_TEAM_STREAK_IS_LOADED });
@@ -496,6 +498,8 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
                 completedTeamMemberStreakTaskDatesWithCounts,
+                averageStreak: getAverageStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
+                longestStreak: getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
             };
             dispatch({ type: UPDATE_TEAM_STREAK_TIMEZONE, payload: teamStreakWithLoadingState });
         } catch (err) {

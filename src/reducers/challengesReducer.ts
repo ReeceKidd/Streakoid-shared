@@ -28,6 +28,7 @@ export interface ChallengeReducerState {
 export interface PopulatedChallengeWithClientData extends PopulatedChallenge {
     longestCurrentStreakForChallenge: number;
     longestEverStreakForChallenge: number;
+    averageStreakForChallenge: number;
     members: ChallengeMemberWithClientData[];
 }
 
@@ -35,6 +36,7 @@ export interface ChallengeMemberWithClientData extends ChallengeMember {
     challengeStreakId: string;
     currentStreak: CurrentStreak;
     longestStreak: number;
+    averageStreak: number;
     joinedChallenge: Date;
 }
 
@@ -55,6 +57,7 @@ const initialState: ChallengeReducerState = {
         updatedAt: '',
         longestCurrentStreakForChallenge: 0,
         longestEverStreakForChallenge: 0,
+        averageStreakForChallenge: 0,
     },
     getChallengeIsLoading: false,
     getChallengesErrorMessage: '',

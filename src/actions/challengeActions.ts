@@ -20,6 +20,8 @@ import {
 import { AppActions, AppState } from '..';
 import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
 import { ChallengeMemberWithClientData, PopulatedChallengeWithClientData } from '../reducers/challengesReducer';
+import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
+import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 
 export enum GetChallengeSortFields {
     currentStreak = 'currentStreak',
@@ -66,20 +68,19 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                         challengeId: challengeId,
                     });
                     const userChallengeStreak = userChallengeStreaks[0];
-                    const pastStreakLengths = userChallengeStreak.pastStreaks.map(
-                        pastStreak => pastStreak.numberOfDaysInARow,
-                    );
-                    const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
-                    const longestStreak =
-                        userChallengeStreak.currentStreak.numberOfDaysInARow >= longestPastStreakNumberOfDays
-                            ? userChallengeStreak.currentStreak.numberOfDaysInARow
-                            : longestPastStreakNumberOfDays;
                     const challengeMember: ChallengeMemberWithClientData = {
                         username: user.username,
                         userId: user._id,
                         profileImage: user.profileImages.originalImageUrl,
                         currentStreak: userChallengeStreak.currentStreak,
-                        longestStreak,
+                        longestStreak: getLongestStreak(
+                            userChallengeStreak.currentStreak,
+                            userChallengeStreak.pastStreaks,
+                        ),
+                        averageStreak: getAverageStreak(
+                            userChallengeStreak.currentStreak,
+                            userChallengeStreak.pastStreaks,
+                        ),
                         challengeStreakId: userChallengeStreak._id,
                         joinedChallenge: new Date(userChallengeStreak.createdAt),
                     };
@@ -122,11 +123,21 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 longestPastStreakForChallenge >= longestCurrentStreakForChallenge
                     ? longestPastStreakForChallenge
                     : longestCurrentStreakForChallenge;
+            let totalStreaksSum = 0;
+            let totalNumberOfStreaks = 0;
+            challengeStreaks.map(challengeStreak => {
+                challengeStreak.pastStreaks.map(pastStreak => (totalStreaksSum += pastStreak.numberOfDaysInARow));
+                totalStreaksSum += challengeStreak.currentStreak.numberOfDaysInARow;
+                // Plus one for the current length.
+                totalNumberOfStreaks += challengeStreak.pastStreaks.length + 1;
+            });
+            const averageStreakForChallenge = totalNumberOfStreaks / totalStreaksSum;
             const populatedChallenge: PopulatedChallengeWithClientData = {
                 ...challenge,
                 members: sortedChallengeMembers,
                 longestCurrentStreakForChallenge,
                 longestEverStreakForChallenge,
+                averageStreakForChallenge,
             };
             dispatch({ type: GET_CHALLENGE, payload: populatedChallenge });
             dispatch({ type: GET_CHALLENGE_IS_LOADED });
