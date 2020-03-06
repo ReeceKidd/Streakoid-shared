@@ -67,7 +67,34 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 status: StreakStatus.live,
             });
             const sortedTeamStreaks = sortTeamStreaks(teamStreaks);
-            dispatch({ type: GET_LIVE_TEAM_STREAKS, payload: sortedTeamStreaks });
+            const teamStreaksWithLoadingStates = sortedTeamStreaks.map(teamStreak => {
+                const members = teamStreak.members.map(member => {
+                    const pastStreakLengths = member.teamMemberStreak.pastStreaks.map(
+                        pastStreak => pastStreak.numberOfDaysInARow,
+                    );
+                    const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
+                    const longestStreak =
+                        member.teamMemberStreak.currentStreak.numberOfDaysInARow >= longestPastStreakNumberOfDays
+                            ? member.teamMemberStreak.currentStreak.numberOfDaysInARow
+                            : longestPastStreakNumberOfDays;
+                    return {
+                        ...member,
+                        teamMemberStreak: {
+                            ...member.teamMemberStreak,
+                            completeTeamMemberStreakTaskIsLoading: false,
+                            completeTeamMemberStreakTaskErrorMessage: '',
+                            incompleteTeamMemberStreakTaskIsLoading: false,
+                            incompleteTeamMemberStreakTaskErrorMessage: '',
+                            longestStreak,
+                        },
+                    };
+                });
+                return {
+                    ...teamStreak,
+                    members,
+                };
+            });
+            dispatch({ type: GET_LIVE_TEAM_STREAKS, payload: teamStreaksWithLoadingStates });
             dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADED });
@@ -92,6 +119,14 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             });
             const teamStreaksWithLoadingStates = teamStreaks.map(teamStreak => {
                 const members = teamStreak.members.map(member => {
+                    const pastStreakLengths = member.teamMemberStreak.pastStreaks.map(
+                        pastStreak => pastStreak.numberOfDaysInARow,
+                    );
+                    const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
+                    const longestStreak =
+                        member.teamMemberStreak.currentStreak.numberOfDaysInARow >= longestPastStreakNumberOfDays
+                            ? member.teamMemberStreak.currentStreak.numberOfDaysInARow
+                            : longestPastStreakNumberOfDays;
                     return {
                         ...member,
                         teamMemberStreak: {
@@ -100,6 +135,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                             completeTeamMemberStreakTaskErrorMessage: '',
                             incompleteTeamMemberStreakTaskIsLoading: false,
                             incompleteTeamMemberStreakTaskErrorMessage: '',
+                            longestStreak,
                         },
                     };
                 });

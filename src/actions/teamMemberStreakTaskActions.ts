@@ -39,6 +39,14 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
             const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
             const teamStreaksWithLoadingStates = teamStreaks.map(teamStreak => {
                 const members = teamStreak.members.map(member => {
+                    const pastStreakLengths = member.teamMemberStreak.pastStreaks.map(
+                        pastStreak => pastStreak.numberOfDaysInARow,
+                    );
+                    const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
+                    const longestStreak =
+                        member.teamMemberStreak.currentStreak.numberOfDaysInARow >= longestPastStreakNumberOfDays
+                            ? member.teamMemberStreak.currentStreak.numberOfDaysInARow
+                            : longestPastStreakNumberOfDays;
                     return {
                         ...member,
                         teamMemberStreak: {
@@ -47,6 +55,7 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
                             completeTeamMemberStreakTaskErrorMessage: '',
                             incompleteTeamMemberStreakTaskIsLoading: false,
                             incompleteTeamMemberStreakTaskErrorMessage: '',
+                            longestStreak,
                         },
                     };
                 });
@@ -96,6 +105,14 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
             const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
             const teamStreaksWithLoadingStates = teamStreaks.map(teamStreak => {
                 const members = teamStreak.members.map(member => {
+                    const pastStreakLengths = member.teamMemberStreak.pastStreaks.map(
+                        pastStreak => pastStreak.numberOfDaysInARow,
+                    );
+                    const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
+                    const longestStreak =
+                        member.teamMemberStreak.currentStreak.numberOfDaysInARow >= longestPastStreakNumberOfDays
+                            ? member.teamMemberStreak.currentStreak.numberOfDaysInARow
+                            : longestPastStreakNumberOfDays;
                     return {
                         ...member,
                         teamMemberStreak: {
@@ -104,6 +121,7 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
                             completeTeamMemberStreakTaskErrorMessage: '',
                             incompleteTeamMemberStreakTaskIsLoading: false,
                             incompleteTeamMemberStreakTaskErrorMessage: '',
+                            longestStreak,
                         },
                     };
                 });

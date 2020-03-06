@@ -7,7 +7,6 @@ import {
     Challenge,
     PopulatedChallenge,
     Note,
-    PopulatedTeamStreak,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithLoadingStates, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
 import {
@@ -781,7 +780,7 @@ export const CLEAR_SELECTED_TEAM_STREAK = 'CLEAR_SELECTED_TEAM_STREAK';
 
 export interface GetLiveTeamStreaksAction {
     type: typeof GET_LIVE_TEAM_STREAKS;
-    payload: PopulatedTeamStreak[];
+    payload: PopulatedTeamStreakWithLoadingStates[];
 }
 
 export interface GetLiveTeamStreaksFailAction {
@@ -799,7 +798,7 @@ export interface GetLiveTeamStreaksIsLoadedAction {
 
 export interface GetArchivedTeamStreaksAction {
     type: typeof GET_ARCHIVED_TEAM_STREAKS;
-    payload: PopulatedTeamStreak[];
+    payload: PopulatedTeamStreakWithLoadingStates[];
 }
 
 export interface GetArchivedTeamStreaksFailAction {

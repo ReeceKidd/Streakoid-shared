@@ -64,8 +64,8 @@ interface TeamMemberStreakWithLoadingStates extends TeamMemberStreak {
 }
 
 export interface TeamStreakReducerState {
-    liveTeamStreaks: PopulatedTeamStreak[];
-    archivedTeamStreaks: PopulatedTeamStreak[];
+    liveTeamStreaks: PopulatedTeamStreakWithLoadingStates[];
+    archivedTeamStreaks: PopulatedTeamStreakWithLoadingStates[];
     selectedTeamStreak: PopulatedTeamStreakWithTaskDates;
     getMultipleArchivedTeamStreaksIsLoading: boolean;
     getMultipleLiveTeamStreaksIsLoading: boolean;
