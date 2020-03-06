@@ -48,6 +48,7 @@ export interface PopulatedTeamStreakWithClientData extends PopulatedTeamStreak {
 
 export interface PopulatedTeamStreakWithTaskDates extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
+    completedTeamMemberStreakTaskDatesWithCounts: { date: Date; count: number }[];
     longestStreak: number;
     averageStreak: number;
 }
