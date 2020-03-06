@@ -60,6 +60,7 @@ interface TeamMemberStreakWithLoadingStates extends TeamMemberStreak {
     completeTeamMemberStreakTaskErrorMessage: string;
     incompleteTeamMemberStreakTaskIsLoading: boolean;
     incompleteTeamMemberStreakTaskErrorMessage: string;
+    longestStreak: number;
 }
 
 export interface TeamStreakReducerState {
