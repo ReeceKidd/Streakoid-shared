@@ -39,27 +39,36 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
                 teamMemberStreakId,
             });
             const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
-            const teamStreaksWithLoadingStates = teamStreaks.map(teamStreak => {
-                const members = teamStreak.members.map(member => {
-                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
+            const teamStreaksWithLoadingStates = await Promise.all(
+                teamStreaks.map(async teamStreak => {
+                    const members = await Promise.all(
+                        teamStreak.members.map(async member => {
+                            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                                userId: member._id,
+                                teamStreakId: teamStreak._id,
+                            });
+                            const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                            return {
+                                ...member,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completeTeamMemberStreakTaskIsLoading: false,
+                                    completeTeamMemberStreakTaskErrorMessage: '',
+                                    incompleteTeamMemberStreakTaskIsLoading: false,
+                                    incompleteTeamMemberStreakTaskErrorMessage: '',
+                                    longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                                    averageStreak: getAverageStreak(currentStreak, pastStreaks),
+                                    totalTimesTracked: totalTimesTracked.length,
+                                },
+                            };
+                        }),
+                    );
                     return {
-                        ...member,
-                        teamMemberStreak: {
-                            ...member.teamMemberStreak,
-                            completeTeamMemberStreakTaskIsLoading: false,
-                            completeTeamMemberStreakTaskErrorMessage: '',
-                            incompleteTeamMemberStreakTaskIsLoading: false,
-                            incompleteTeamMemberStreakTaskErrorMessage: '',
-                            longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                            averageStreak: getAverageStreak(currentStreak, pastStreaks),
-                        },
+                        ...teamStreak,
+                        members,
                     };
-                });
-                return {
-                    ...teamStreak,
-                    members,
-                };
-            });
+                }),
+            );
             dispatch({
                 type: GET_LIVE_TEAM_STREAKS,
                 payload: teamStreaksWithLoadingStates,
@@ -99,27 +108,36 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
             });
 
             const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
-            const teamStreaksWithLoadingStates = teamStreaks.map(teamStreak => {
-                const members = teamStreak.members.map(member => {
-                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
+            const teamStreaksWithLoadingStates = await Promise.all(
+                teamStreaks.map(async teamStreak => {
+                    const members = await Promise.all(
+                        teamStreak.members.map(async member => {
+                            const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                                userId: member._id,
+                                teamStreakId: teamStreak._id,
+                            });
+                            return {
+                                ...member,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completeTeamMemberStreakTaskIsLoading: false,
+                                    completeTeamMemberStreakTaskErrorMessage: '',
+                                    incompleteTeamMemberStreakTaskIsLoading: false,
+                                    incompleteTeamMemberStreakTaskErrorMessage: '',
+                                    longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                                    averageStreak: getAverageStreak(currentStreak, pastStreaks),
+                                    totalTimesTracked: totalTimesTracked.length,
+                                },
+                            };
+                        }),
+                    );
                     return {
-                        ...member,
-                        teamMemberStreak: {
-                            ...member.teamMemberStreak,
-                            completeTeamMemberStreakTaskIsLoading: false,
-                            completeTeamMemberStreakTaskErrorMessage: '',
-                            incompleteTeamMemberStreakTaskIsLoading: false,
-                            incompleteTeamMemberStreakTaskErrorMessage: '',
-                            longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                            averageStreak: getAverageStreak(currentStreak, pastStreaks),
-                        },
+                        ...teamStreak,
+                        members,
                     };
-                });
-                return {
-                    ...teamStreak,
-                    members,
-                };
-            });
+                }),
+            );
             dispatch({
                 type: GET_LIVE_TEAM_STREAKS,
                 payload: teamStreaksWithLoadingStates,
