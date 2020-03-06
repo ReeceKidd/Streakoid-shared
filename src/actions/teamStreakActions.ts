@@ -189,12 +189,16 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 date: new Date(taskDate),
                 count: counts[taskDate],
             }));
+            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                teamStreakId: teamStreak._id,
+            });
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members,
                 completedTeamMemberStreakTaskDatesWithCounts,
                 averageStreak: getAverageStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
                 longestStreak: getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
+                totalTimesTracked: totalTimesTracked.length,
             };
             dispatch({ type: GET_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: GET_TEAM_STREAK_IS_LOADED });
@@ -494,12 +498,16 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 date: new Date(taskDate),
                 count: counts[taskDate],
             }));
+            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                teamStreakId: teamStreak._id,
+            });
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
                 completedTeamMemberStreakTaskDatesWithCounts,
                 averageStreak: getAverageStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
                 longestStreak: getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
+                totalTimesTracked: totalTimesTracked.length,
             };
             dispatch({ type: UPDATE_TEAM_STREAK_TIMEZONE, payload: teamStreakWithLoadingState });
         } catch (err) {

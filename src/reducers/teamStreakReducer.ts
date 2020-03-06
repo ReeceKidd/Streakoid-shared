@@ -51,6 +51,7 @@ export interface PopulatedTeamStreakWithTaskDates extends PopulatedTeamStreak {
     completedTeamMemberStreakTaskDatesWithCounts: { date: Date; count: number }[];
     longestStreak: number;
     averageStreak: number;
+    totalTimesTracked: number;
 }
 
 export interface PopulatedTeamMemberWithClientData extends PopulatedTeamMember {
@@ -107,6 +108,7 @@ const defaultSelectedTeamStreak = {
     completedTeamMemberStreakTaskDatesWithCounts: [],
     longestStreak: 0,
     averageStreak: 0,
+    totalTimesTracked: 0,
 };
 
 const initialState: TeamStreakReducerState = {
