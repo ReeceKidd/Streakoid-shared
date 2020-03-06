@@ -42,30 +42,31 @@ import {
 } from '../actions/types';
 import { PopulatedTeamStreak, PopulatedTeamMember, TeamMemberStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
-export interface PopulatedTeamStreakWithLoadingStates extends PopulatedTeamStreak {
-    members: PopulatedTeamMemberWithLoadingStates[];
+export interface PopulatedTeamStreakWithClientData extends PopulatedTeamStreak {
+    members: PopulatedTeamMemberWithClientData[];
 }
 
 export interface PopulatedTeamStreakWithTaskDates extends PopulatedTeamStreak {
-    members: PopulatedTeamMemberWithLoadingStates[];
+    members: PopulatedTeamMemberWithClientData[];
     completedTeamMemberStreakTaskDatesWithCounts: { date: Date; count: number }[];
 }
 
-export interface PopulatedTeamMemberWithLoadingStates extends PopulatedTeamMember {
-    teamMemberStreak: TeamMemberStreakWithLoadingStates;
+export interface PopulatedTeamMemberWithClientData extends PopulatedTeamMember {
+    teamMemberStreak: TeamMemberStreakWithClientData;
 }
 
-interface TeamMemberStreakWithLoadingStates extends TeamMemberStreak {
+interface TeamMemberStreakWithClientData extends TeamMemberStreak {
     completeTeamMemberStreakTaskIsLoading: boolean;
     completeTeamMemberStreakTaskErrorMessage: string;
     incompleteTeamMemberStreakTaskIsLoading: boolean;
     incompleteTeamMemberStreakTaskErrorMessage: string;
     longestStreak: number;
+    averageStreak: number;
 }
 
 export interface TeamStreakReducerState {
-    liveTeamStreaks: PopulatedTeamStreakWithLoadingStates[];
-    archivedTeamStreaks: PopulatedTeamStreakWithLoadingStates[];
+    liveTeamStreaks: PopulatedTeamStreakWithClientData[];
+    archivedTeamStreaks: PopulatedTeamStreakWithClientData[];
     selectedTeamStreak: PopulatedTeamStreakWithTaskDates;
     getMultipleArchivedTeamStreaksIsLoading: boolean;
     getMultipleLiveTeamStreaksIsLoading: boolean;

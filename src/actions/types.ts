@@ -8,7 +8,7 @@ import {
     PopulatedChallenge,
     Note,
 } from '@streakoid/streakoid-sdk/lib';
-import { PopulatedTeamStreakWithLoadingStates, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
+import { PopulatedTeamStreakWithClientData, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
 import {
     SoloStreakWithClientData,
     ArchivedSoloStreakWithClientData,
@@ -780,7 +780,7 @@ export const CLEAR_SELECTED_TEAM_STREAK = 'CLEAR_SELECTED_TEAM_STREAK';
 
 export interface GetLiveTeamStreaksAction {
     type: typeof GET_LIVE_TEAM_STREAKS;
-    payload: PopulatedTeamStreakWithLoadingStates[];
+    payload: PopulatedTeamStreakWithClientData[];
 }
 
 export interface GetLiveTeamStreaksFailAction {
@@ -798,7 +798,7 @@ export interface GetLiveTeamStreaksIsLoadedAction {
 
 export interface GetArchivedTeamStreaksAction {
     type: typeof GET_ARCHIVED_TEAM_STREAKS;
-    payload: PopulatedTeamStreakWithLoadingStates[];
+    payload: PopulatedTeamStreakWithClientData[];
 }
 
 export interface GetArchivedTeamStreaksFailAction {
@@ -834,7 +834,7 @@ export interface GetTeamStreakLoadedAction {
 
 export interface CreateTeamStreakAction {
     type: typeof CREATE_TEAM_STREAK;
-    payload: PopulatedTeamStreakWithLoadingStates;
+    payload: PopulatedTeamStreakWithClientData;
 }
 
 export interface EditTeamStreakAction {
@@ -927,7 +927,7 @@ export interface ClearCreateTeamStreakErrorAction {
 
 export interface ArchiveTeamStreakAction {
     type: typeof ARCHIVE_TEAM_STREAK;
-    payload: PopulatedTeamStreakWithLoadingStates;
+    payload: PopulatedTeamStreakWithClientData;
 }
 
 export interface ArchiveTeamStreakFailAction {
@@ -949,7 +949,7 @@ export interface ArchiveTeamStreakIsLoadedAction {
 
 export interface RestoreArchivedTeamStreakAction {
     type: typeof RESTORE_ARCHIVED_TEAM_STREAK;
-    payload: PopulatedTeamStreakWithLoadingStates;
+    payload: PopulatedTeamStreakWithClientData;
 }
 
 export interface RestoreArchivedTeamStreakFailAction {
