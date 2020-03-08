@@ -56,13 +56,13 @@ const teamMemberStreakReducer = (
         case GET_TEAM_MEMBER_STREAK_IS_LOADING:
             return {
                 ...state,
-                getTeamMemberStreakIsLoading: false,
+                getTeamMemberStreakIsLoading: true,
             };
 
         case GET_TEAM_MEMBER_STREAK_IS_LOADED:
             return {
                 ...state,
-                getTeamMemberStreakIsLoading: true,
+                getTeamMemberStreakIsLoading: false,
             };
 
         case CLEAR_SELECTED_TEAM_MEMBER_STREAK:
