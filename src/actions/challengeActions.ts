@@ -68,6 +68,9 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                         challengeId: challengeId,
                     });
                     const userChallengeStreak = userChallengeStreaks[0];
+                    const totalTimesTracked = await streakoid.completeChallengeStreakTasks.getAll({
+                        challengeStreakId: userChallengeStreak._id,
+                    });
                     const challengeMember: ChallengeMemberWithClientData = {
                         username: user.username,
                         userId: user._id,
@@ -81,6 +84,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                             userChallengeStreak.currentStreak,
                             userChallengeStreak.pastStreaks,
                         ),
+                        totalTimesTracked: totalTimesTracked.length,
                         challengeStreakId: userChallengeStreak._id,
                         joinedChallenge: new Date(userChallengeStreak.createdAt),
                     };
@@ -109,6 +113,15 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 } else return 0;
             });
             const challengeStreaks = await streakoid.challengeStreaks.getAll({ challengeId });
+            let totalTimesTracked = 0;
+            await Promise.all(
+                challengeStreaks.map(async challengeStreak => {
+                    const timesTracked = await streakoid.completeChallengeStreakTasks.getAll({
+                        challengeStreakId: challengeStreak._id,
+                    });
+                    totalTimesTracked += timesTracked.length;
+                }),
+            );
             const currentStreaks = challengeStreaks.map(
                 challengeStreak => challengeStreak.currentStreak.numberOfDaysInARow,
             );
@@ -138,6 +151,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 longestCurrentStreakForChallenge,
                 longestEverStreakForChallenge,
                 averageStreakForChallenge,
+                totalTimesTracked,
             };
             dispatch({ type: GET_CHALLENGE, payload: populatedChallenge });
             dispatch({ type: GET_CHALLENGE_IS_LOADED });
