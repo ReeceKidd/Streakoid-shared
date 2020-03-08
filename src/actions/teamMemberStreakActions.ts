@@ -17,6 +17,7 @@ const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: GET_TEAM_MEMBER_STREAK_IS_LOADING });
             const teamMemberStreak = await streakoid.teamMemberStreaks.getOne(teamMemberStreakId);
+            const teamStreak = await streakoid.teamStreaks.getOne(teamMemberStreak.teamStreakId);
             const teamMemberStreakOwner = await streakoid.users.getOne(teamMemberStreak.userId);
             const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
                 teamMemberStreakId,
@@ -31,6 +32,8 @@ const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
                     username: teamMemberStreakOwner.username,
                     userProfileImage: teamMemberStreakOwner.profileImages.originalImageUrl,
                     completedTeamMemberStreakTaskDates,
+                    teamStreakName: teamStreak.streakName,
+                    teamStreakDescription: teamStreak.streakDescription,
                 },
             });
             dispatch({ type: GET_TEAM_MEMBER_STREAK_IS_LOADED });

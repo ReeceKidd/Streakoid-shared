@@ -29,6 +29,8 @@ const defaultSelectedTeamMemberStreak = {
     username: '',
     userProfileImage: '',
     teamStreakId: '',
+    teamStreakName: '',
+    teamStreakDescription: '',
 };
 
 const initialState: TeamMemberStreakReducerState = {
@@ -40,6 +42,8 @@ export interface TeamMemberStreakWithTaskCompletedDates extends TeamMemberStreak
     completedTeamMemberStreakTaskDates: Date[];
     username: string;
     userProfileImage: string;
+    teamStreakName: string;
+    teamStreakDescription?: string;
 }
 
 const teamMemberStreakReducer = (
