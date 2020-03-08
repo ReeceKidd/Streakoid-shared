@@ -23,6 +23,7 @@ import { UserBadge } from '../reducers/badgesReducer';
 import { NoteWithClientData } from '../reducers/notesReducer';
 import { GetAllPopulatedActivityFeedItemsActionResponse } from './activityFeedItemActions';
 import { PopulatedChallengeWithClientData } from '../reducers/challengesReducer';
+import { TeamMemberStreakWithTaskCompletedDates } from '../reducers/teamMemberStreakReducer';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -1051,6 +1052,35 @@ export type TeamStreakActionTypes =
     | UpdateTimezoneAction
     | UpdateTimezoneFailAction
     | ClearSelectedTeamStreakAction;
+
+export const GET_TEAM_MEMBER_STREAK = 'GET_TEAM_MEMBER_STREAK';
+export const GET_TEAM_MEMBER_STREAK_FAIL = 'GET_TEAM_MEMBER_STREAK_FAIL';
+export const GET_TEAM_MEMBER_STREAK_IS_LOADING = 'GET_TEAM_MEMBER_STREAK_IS_LOADING';
+export const GET_TEAM_MEMBER_STREAK_IS_LOADED = 'GET_TEAM_MEMBER_STREAK_IS_LOADED';
+
+export interface GetTeamMemberStreakAction {
+    type: typeof GET_TEAM_MEMBER_STREAK;
+    payload: TeamMemberStreakWithTaskCompletedDates;
+}
+
+export interface GetTeamMemberStreakFailAction {
+    type: typeof GET_TEAM_MEMBER_STREAK_FAIL;
+    errorMessage: string;
+}
+
+export interface GetTeamMemberStreakLoadingAction {
+    type: typeof GET_TEAM_MEMBER_STREAK_IS_LOADING;
+}
+
+export interface GetTeamMemberStreakLoadedAction {
+    type: typeof GET_TEAM_MEMBER_STREAK_IS_LOADED;
+}
+
+export type TeamMemberStreakActionTypes =
+    | GetTeamMemberStreakAction
+    | GetTeamMemberStreakFailAction
+    | GetTeamMemberStreakLoadingAction
+    | GetTeamMemberStreakLoadedAction;
 
 export const GET_USERS = 'GET_USERS';
 export const GET_USERS_FAIL = 'GET_USERS_FAIL';
@@ -2141,6 +2171,7 @@ export type AppActions =
     | SoloStreakActionTypes
     | StreakRecommendationsActionTypes
     | TeamStreakActionTypes
+    | TeamMemberStreakActionTypes
     | UserActionTypes
     | FriendActionTypes
     | FriendRequestActionTypes

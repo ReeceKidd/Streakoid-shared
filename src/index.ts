@@ -20,6 +20,7 @@ import CognitoPayload from './cognitoPayload';
 import { getCountdownString } from './helpers/countdown/getCountdownString';
 import { getIdToken } from './helpers/auth/getIdToken';
 import { getStreakCompletionString } from './helpers/generatedText/getStreakCompletionString';
+import { teamMemberStreakReducer } from './reducers/teamMemberStreakReducer';
 
 const sharedReducers = {
     auth: authReducer,
@@ -34,6 +35,7 @@ const sharedReducers = {
     challengeStreaks: challengeStreakReducer,
     notes: noteReducer,
     activityFeedItems: activityFeedItemReducer,
+    teamMemberStreaks: teamMemberStreakReducer,
 };
 
 const sharedReducer = combineReducers({
@@ -50,6 +52,7 @@ export {
     friendRequestReducer,
     soloStreakReducer,
     teamStreakReducer,
+    teamMemberStreakReducer,
     userReducer,
     badgeReducer,
     challengeReducer,
