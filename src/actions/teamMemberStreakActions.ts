@@ -5,6 +5,7 @@ import {
     GET_TEAM_MEMBER_STREAK,
     GET_TEAM_MEMBER_STREAK_IS_LOADED,
     GET_TEAM_MEMBER_STREAK_FAIL,
+    CLEAR_SELECTED_TEAM_MEMBER_STREAK,
 } from './types';
 import { AppActions } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -42,9 +43,13 @@ const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
             }
         }
     };
+    const clearSelectedTeamMemberStreak = (): AppActions => ({
+        type: CLEAR_SELECTED_TEAM_MEMBER_STREAK,
+    });
 
     return {
         getTeamMemberStreak,
+        clearSelectedTeamMemberStreak,
     };
 };
 

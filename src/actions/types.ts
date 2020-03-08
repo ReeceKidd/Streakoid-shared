@@ -1057,6 +1057,7 @@ export const GET_TEAM_MEMBER_STREAK = 'GET_TEAM_MEMBER_STREAK';
 export const GET_TEAM_MEMBER_STREAK_FAIL = 'GET_TEAM_MEMBER_STREAK_FAIL';
 export const GET_TEAM_MEMBER_STREAK_IS_LOADING = 'GET_TEAM_MEMBER_STREAK_IS_LOADING';
 export const GET_TEAM_MEMBER_STREAK_IS_LOADED = 'GET_TEAM_MEMBER_STREAK_IS_LOADED';
+export const CLEAR_SELECTED_TEAM_MEMBER_STREAK = 'CLEAR_SELECTED_TEAM_MEMBER_STREAK';
 
 export interface GetTeamMemberStreakAction {
     type: typeof GET_TEAM_MEMBER_STREAK;
@@ -1076,11 +1077,16 @@ export interface GetTeamMemberStreakLoadedAction {
     type: typeof GET_TEAM_MEMBER_STREAK_IS_LOADED;
 }
 
+export interface ClearSelectedTeamMemberStreakAction {
+    type: typeof CLEAR_SELECTED_TEAM_MEMBER_STREAK;
+}
+
 export type TeamMemberStreakActionTypes =
     | GetTeamMemberStreakAction
     | GetTeamMemberStreakFailAction
     | GetTeamMemberStreakLoadingAction
-    | GetTeamMemberStreakLoadedAction;
+    | GetTeamMemberStreakLoadedAction
+    | ClearSelectedTeamMemberStreakAction;
 
 export const GET_USERS = 'GET_USERS';
 export const GET_USERS_FAIL = 'GET_USERS_FAIL';

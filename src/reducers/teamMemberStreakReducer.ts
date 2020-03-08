@@ -5,6 +5,7 @@ import {
     GET_TEAM_MEMBER_STREAK,
     GET_TEAM_MEMBER_STREAK_IS_LOADING,
     GET_TEAM_MEMBER_STREAK_IS_LOADED,
+    CLEAR_SELECTED_TEAM_MEMBER_STREAK,
 } from '../actions/types';
 
 export interface TeamMemberStreakReducerState {
@@ -62,6 +63,12 @@ const teamMemberStreakReducer = (
             return {
                 ...state,
                 getTeamMemberStreakIsLoading: true,
+            };
+
+        case CLEAR_SELECTED_TEAM_MEMBER_STREAK:
+            return {
+                ...state,
+                selectedTeamMemberStreak: defaultSelectedTeamMemberStreak,
             };
 
         default:
