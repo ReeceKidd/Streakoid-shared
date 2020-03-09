@@ -13,9 +13,12 @@ export interface LeaderboardReducerState {
 }
 
 export interface LeaderboardItem {
+    streakName: string;
+    streakId: string;
     username: string;
     userProfileImage: string;
     currentStreakNumberOfDaysInARow: number;
+    streakCreatedAt: Date;
 }
 
 const initialState: LeaderboardReducerState = {

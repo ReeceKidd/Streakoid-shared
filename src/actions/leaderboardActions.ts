@@ -22,9 +22,12 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
                 soloStreaks.map(async soloStreak => {
                     const user = await streakoid.users.getOne(soloStreak.userId);
                     return {
+                        streakId: soloStreak._id,
+                        streakName: soloStreak.streakName,
                         username: user.username,
                         userProfileImage: user.profileImages.originalImageUrl,
                         currentStreakNumberOfDaysInARow: soloStreak.currentStreak.numberOfDaysInARow,
+                        streakCreatedAt: new Date(soloStreak.createdAt),
                     };
                 }),
             );
