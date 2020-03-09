@@ -11,7 +11,7 @@ import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoi
 import { GetAllSoloStreaksSortFields } from '@streakoid/streakoid-sdk/lib/soloStreaks';
 import { LeaderboardItem } from '../reducers/leaderboardReducer';
 
-const noteActions = (streakoid: typeof streakoidSDK) => {
+const leaderboardActions = (streakoid: typeof streakoidSDK) => {
     const getSoloStreakLeaderboard = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_SOLO_STREAK_LEADERBOARD_LOADING });
@@ -45,4 +45,4 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
     };
 };
 
-export { noteActions };
+export { leaderboardActions };
