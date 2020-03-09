@@ -17,6 +17,7 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: GET_SOLO_STREAK_LEADERBOARD_LOADING });
             const soloStreaks = await streakoid.soloStreaks.getAll({
                 sortField: GetAllSoloStreaksSortFields.currentStreak,
+                active: true,
             });
             const leaderboardItems: LeaderboardItem[] = await Promise.all(
                 soloStreaks.map(async soloStreak => {
