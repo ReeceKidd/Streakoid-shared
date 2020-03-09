@@ -20,15 +20,26 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
             });
             const leaderboardItems: LeaderboardItem[] = await Promise.all(
                 soloStreaks.map(async soloStreak => {
-                    const user = await streakoid.users.getOne(soloStreak.userId);
-                    return {
-                        streakId: soloStreak._id,
-                        streakName: soloStreak.streakName,
-                        username: user.username,
-                        userProfileImage: user.profileImages.originalImageUrl,
-                        currentStreakNumberOfDaysInARow: soloStreak.currentStreak.numberOfDaysInARow,
-                        streakCreatedAt: new Date(soloStreak.createdAt),
-                    };
+                    try {
+                        const user = await streakoid.users.getOne(soloStreak.userId);
+                        return {
+                            streakId: soloStreak._id,
+                            streakName: soloStreak.streakName,
+                            username: user.username,
+                            userProfileImage: user.profileImages.originalImageUrl,
+                            currentStreakNumberOfDaysInARow: soloStreak.currentStreak.numberOfDaysInARow,
+                            streakCreatedAt: new Date(soloStreak.createdAt),
+                        };
+                    } catch (err) {
+                        return {
+                            streakId: soloStreak._id,
+                            streakName: soloStreak.streakName,
+                            username: '',
+                            userProfileImage: '',
+                            currentStreakNumberOfDaysInARow: soloStreak.currentStreak.numberOfDaysInARow,
+                            streakCreatedAt: new Date(soloStreak.createdAt),
+                        };
+                    }
                 }),
             );
             dispatch({ type: GET_SOLO_STREAK_LEADERBOARD, payload: leaderboardItems });
