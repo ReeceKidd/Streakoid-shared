@@ -9,12 +9,21 @@ import {
     GET_TEAM_STREAK_LEADERBOARD,
     GET_TEAM_STREAK_LEADERBOARD_LOADED,
     GET_TEAM_STREAK_LEADERBOARD_FAIL,
+    GET_CHALLENGE_STREAK_LEADERBOARD_LOADING,
+    GET_CHALLENGE_STREAK_LEADERBOARD,
+    GET_CHALLENGE_STREAK_LEADERBOARD_LOADED,
+    GET_CHALLENGE_STREAK_LEADERBOARD_FAIL,
 } from './types';
 import { AppActions } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import { GetAllSoloStreaksSortFields } from '@streakoid/streakoid-sdk/lib/soloStreaks';
 import { GetAllTeamStreaksSortFields } from '@streakoid/streakoid-sdk/lib/teamStreaks';
-import { TeamStreakLeaderboardItem, SoloStreakLeaderboardItem } from '../reducers/leaderboardReducer';
+import {
+    TeamStreakLeaderboardItem,
+    SoloStreakLeaderboardItem,
+    ChallengeStreakLeaderboardItem,
+} from '../reducers/leaderboardReducer';
+import { GetAllChallengeStreaksSortFields } from '@streakoid/streakoid-sdk/lib/challengeStreak';
 
 const leaderboardActions = (streakoid: typeof streakoidSDK) => {
     const getSoloStreakLeaderboard = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -99,10 +108,56 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
             }
         }
     };
+    const getChallengeStreakLeaderboard = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+        try {
+            dispatch({ type: GET_CHALLENGE_STREAK_LEADERBOARD_LOADING });
+            const challengeStreaks = await streakoid.challengeStreaks.getAll({
+                sortField: GetAllChallengeStreaksSortFields.currentStreak,
+                active: true,
+            });
+            const leaderboardItems: ChallengeStreakLeaderboardItem[] = await Promise.all(
+                challengeStreaks.map(async challengeStreak => {
+                    try {
+                        const challenge = await streakoid.challenges.getOne({
+                            challengeId: challengeStreak.challengeId,
+                        });
+                        const challengeStreakOwner = await streakoid.users.getOne(challengeStreak.userId);
+                        return {
+                            streakId: challengeStreak._id,
+                            challengeName: challenge.name,
+                            username: challengeStreakOwner.username,
+                            userProfileImage: challengeStreakOwner.profileImages.originalImageUrl,
+                            currentStreakNumberOfDaysInARow: challengeStreak.currentStreak.numberOfDaysInARow,
+                            streakCreatedAt: new Date(challengeStreak.createdAt),
+                        };
+                    } catch (err) {
+                        return {
+                            streakId: '',
+                            challengeName: '',
+                            username: '',
+                            userProfileImage: '',
+                            currentStreakNumberOfDaysInARow: 0,
+                            streakCreatedAt: new Date(),
+                        };
+                    }
+                }),
+            );
+            dispatch({ type: GET_CHALLENGE_STREAK_LEADERBOARD, payload: leaderboardItems });
+            dispatch({ type: GET_CHALLENGE_STREAK_LEADERBOARD_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_CHALLENGE_STREAK_LEADERBOARD_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_CHALLENGE_STREAK_LEADERBOARD_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: GET_CHALLENGE_STREAK_LEADERBOARD_FAIL, payload: err.message });
+            }
+        }
+    };
 
     return {
         getSoloStreakLeaderboard,
         getTeamStreakLeaderboard,
+        getChallengeStreakLeaderboard,
     };
 };
 

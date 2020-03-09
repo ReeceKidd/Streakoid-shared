@@ -8,6 +8,10 @@ import {
     GET_TEAM_STREAK_LEADERBOARD_FAIL,
     GET_TEAM_STREAK_LEADERBOARD_LOADED,
     GET_TEAM_STREAK_LEADERBOARD_LOADING,
+    GET_CHALLENGE_STREAK_LEADERBOARD,
+    GET_CHALLENGE_STREAK_LEADERBOARD_FAIL,
+    GET_CHALLENGE_STREAK_LEADERBOARD_LOADED,
+    GET_CHALLENGE_STREAK_LEADERBOARD_LOADING,
 } from '../actions/types';
 
 export interface LeaderboardReducerState {
@@ -17,6 +21,9 @@ export interface LeaderboardReducerState {
     teamStreakLeaderboard: TeamStreakLeaderboardItem[];
     getTeamStreakLeaderboardIsLoading: boolean;
     getTeamStreakLeaderboardErrorMessage: string;
+    challengeStreakLeaderboard: ChallengeStreakLeaderboardItem[];
+    getChallengeStreakLeaderboardIsLoading: boolean;
+    getChallengeStreakLeaderboardErrorMessage: string;
 }
 
 export interface SoloStreakLeaderboardItem {
@@ -35,6 +42,15 @@ export interface TeamStreakLeaderboardItem {
     streakCreatedAt: Date;
 }
 
+export interface ChallengeStreakLeaderboardItem {
+    challengeName: string;
+    streakId: string;
+    username: string;
+    userProfileImage: string;
+    currentStreakNumberOfDaysInARow: number;
+    streakCreatedAt: Date;
+}
+
 const initialState: LeaderboardReducerState = {
     soloStreakLeaderboard: [],
     getSoloStreakLeaderboardIsLoading: false,
@@ -42,6 +58,9 @@ const initialState: LeaderboardReducerState = {
     teamStreakLeaderboard: [],
     getTeamStreakLeaderboardIsLoading: false,
     getTeamStreakLeaderboardErrorMessage: '',
+    challengeStreakLeaderboard: [],
+    getChallengeStreakLeaderboardIsLoading: false,
+    getChallengeStreakLeaderboardErrorMessage: '',
 };
 
 export interface LeaderboardWithClientData {
@@ -97,6 +116,30 @@ const leaderboardReducer = (state = initialState, action: LeaderboardActionTypes
             return {
                 ...state,
                 getTeamStreakLeaderboardIsLoading: true,
+            };
+
+        case GET_CHALLENGE_STREAK_LEADERBOARD:
+            return {
+                ...state,
+                challengeStreakLeaderboard: action.payload,
+            };
+
+        case GET_CHALLENGE_STREAK_LEADERBOARD_FAIL:
+            return {
+                ...state,
+                getChallengeStreakLeaderboardErrorMessage: action.payload,
+            };
+
+        case GET_CHALLENGE_STREAK_LEADERBOARD_LOADED:
+            return {
+                ...state,
+                getChallengeStreakLeaderboardIsLoading: true,
+            };
+
+        case GET_CHALLENGE_STREAK_LEADERBOARD_LOADING:
+            return {
+                ...state,
+                getChallengeStreakLeaderboardIsLoading: true,
             };
 
         default:

@@ -24,7 +24,11 @@ import { NoteWithClientData } from '../reducers/notesReducer';
 import { GetAllPopulatedActivityFeedItemsActionResponse } from './activityFeedItemActions';
 import { PopulatedChallengeWithClientData } from '../reducers/challengesReducer';
 import { TeamMemberStreakWithTaskCompletedDates } from '../reducers/teamMemberStreakReducer';
-import { SoloStreakLeaderboardItem, TeamStreakLeaderboardItem } from '../reducers/leaderboardReducer';
+import {
+    SoloStreakLeaderboardItem,
+    TeamStreakLeaderboardItem,
+    ChallengeStreakLeaderboardItem,
+} from '../reducers/leaderboardReducer';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -2182,6 +2186,11 @@ export const GET_TEAM_STREAK_LEADERBOARD_FAIL = 'GET_TEAM_STREAK_LEADERBOARD_FAI
 export const GET_TEAM_STREAK_LEADERBOARD_LOADING = 'GET_TEAM_STREAK_LEADERBOARD_LOADING';
 export const GET_TEAM_STREAK_LEADERBOARD_LOADED = 'GET_TEAM_STREAK_LEADERBOARD_LOADED';
 
+export const GET_CHALLENGE_STREAK_LEADERBOARD = 'GET_CHALLENGE_STREAK_LEADERBOARD';
+export const GET_CHALLENGE_STREAK_LEADERBOARD_FAIL = 'GET_CHALLENGE_STREAK_LEADERBOARD_FAIL';
+export const GET_CHALLENGE_STREAK_LEADERBOARD_LOADING = 'GET_CHALLENGE_STREAK_LEADERBOARD_LOADING';
+export const GET_CHALLENGE_STREAK_LEADERBOARD_LOADED = 'GET_CHALLENGE_STREAK_LEADERBOARD_LOADED';
+
 export interface GetSoloStreakLeaderboardAction {
     type: typeof GET_SOLO_STREAK_LEADERBOARD;
     payload: SoloStreakLeaderboardItem[];
@@ -2218,6 +2227,24 @@ export interface GetTeamStreakLeaderboardLoadedAction {
     type: typeof GET_TEAM_STREAK_LEADERBOARD_LOADED;
 }
 
+export interface GetChallengeStreakLeaderboardAction {
+    type: typeof GET_CHALLENGE_STREAK_LEADERBOARD;
+    payload: ChallengeStreakLeaderboardItem[];
+}
+
+export interface GetChallengeStreakLeaderboardFailAction {
+    type: typeof GET_CHALLENGE_STREAK_LEADERBOARD_FAIL;
+    payload: string;
+}
+
+export interface GetChallengeStreakLeaderboardLoadingAction {
+    type: typeof GET_CHALLENGE_STREAK_LEADERBOARD_LOADING;
+}
+
+export interface GetChallengeStreakLeaderboardLoadedAction {
+    type: typeof GET_CHALLENGE_STREAK_LEADERBOARD_LOADED;
+}
+
 export type LeaderboardActionTypes =
     | GetSoloStreakLeaderboardAction
     | GetSoloStreakLeaderboardFailAction
@@ -2226,7 +2253,11 @@ export type LeaderboardActionTypes =
     | GetTeamStreakLeaderboardAction
     | GetTeamStreakLeaderboardFailAction
     | GetTeamStreakLeaderboardLoadingAction
-    | GetTeamStreakLeaderboardLoadedAction;
+    | GetTeamStreakLeaderboardLoadedAction
+    | GetChallengeStreakLeaderboardAction
+    | GetChallengeStreakLeaderboardFailAction
+    | GetChallengeStreakLeaderboardLoadingAction
+    | GetChallengeStreakLeaderboardLoadedAction;
 
 export type AppActions =
     | NavigationActionTypes
