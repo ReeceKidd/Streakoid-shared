@@ -24,6 +24,7 @@ import { NoteWithClientData } from '../reducers/notesReducer';
 import { GetAllPopulatedActivityFeedItemsActionResponse } from './activityFeedItemActions';
 import { PopulatedChallengeWithClientData } from '../reducers/challengesReducer';
 import { TeamMemberStreakWithTaskCompletedDates } from '../reducers/teamMemberStreakReducer';
+import { LeaderboardItem } from '../reducers/leaderboardReducer';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -2171,6 +2172,35 @@ export type ActivityFeedItemsActionTypes =
     | GetActivityFeedItemsLoadedAction
     | ClearActivityFeedItemsAction;
 
+export const GET_SOLO_STREAK_LEADERBOARD = 'GET_SOLO_STREAK_LEADERBOARD';
+export const GET_SOLO_STREAK_LEADERBOARD_FAIL = 'GET_SOLO_STREAK_LEADERBOARD_FAIL';
+export const GET_SOLO_STREAK_LEADERBOARD_LOADING = 'GET_SOLO_STREAK_LEADERBOARD_LOADING';
+export const GET_SOLO_STREAK_LEADERBOARD_LOADED = 'GET_SOLO_STREAK_LEADERBOARD_LOADED';
+
+export interface GetSoloStreakLeaderboardAction {
+    type: typeof GET_SOLO_STREAK_LEADERBOARD;
+    payload: LeaderboardItem[];
+}
+
+export interface GetSoloStreakLeaderboardFailAction {
+    type: typeof GET_SOLO_STREAK_LEADERBOARD_FAIL;
+    payload: string;
+}
+
+export interface GetSoloStreakLeaderboardLoadingAction {
+    type: typeof GET_SOLO_STREAK_LEADERBOARD_LOADING;
+}
+
+export interface GetSoloStreakLeaderboardLoadedAction {
+    type: typeof GET_SOLO_STREAK_LEADERBOARD_LOADED;
+}
+
+export type LeaderboardActionTypes =
+    | GetSoloStreakLeaderboardAction
+    | GetSoloStreakLeaderboardFailAction
+    | GetSoloStreakLeaderboardLoadingAction
+    | GetSoloStreakLeaderboardLoadedAction;
+
 export type AppActions =
     | NavigationActionTypes
     | AuthActionTypes
@@ -2185,4 +2215,5 @@ export type AppActions =
     | ChallengeActionTypes
     | ChallengeStreakActionTypes
     | NotesActionTypes
-    | ActivityFeedItemsActionTypes;
+    | ActivityFeedItemsActionTypes
+    | LeaderboardActionTypes;
