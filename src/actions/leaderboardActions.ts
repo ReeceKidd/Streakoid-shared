@@ -5,11 +5,16 @@ import {
     GET_SOLO_STREAK_LEADERBOARD_LOADING,
     GET_SOLO_STREAK_LEADERBOARD_LOADED,
     GET_SOLO_STREAK_LEADERBOARD_FAIL,
+    GET_TEAM_STREAK_LEADERBOARD_LOADING,
+    GET_TEAM_STREAK_LEADERBOARD,
+    GET_TEAM_STREAK_LEADERBOARD_LOADED,
+    GET_TEAM_STREAK_LEADERBOARD_FAIL,
 } from './types';
 import { AppActions } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import { GetAllSoloStreaksSortFields } from '@streakoid/streakoid-sdk/lib/soloStreaks';
-import { LeaderboardItem } from '../reducers/leaderboardReducer';
+import { GetAllTeamStreaksSortFields } from '@streakoid/streakoid-sdk/lib/teamStreaks';
+import { TeamStreakLeaderboardItem, SoloStreakLeaderboardItem } from '../reducers/leaderboardReducer';
 
 const leaderboardActions = (streakoid: typeof streakoidSDK) => {
     const getSoloStreakLeaderboard = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -19,7 +24,7 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
                 sortField: GetAllSoloStreaksSortFields.currentStreak,
                 active: true,
             });
-            const leaderboardItems: LeaderboardItem[] = await Promise.all(
+            const leaderboardItems: SoloStreakLeaderboardItem[] = await Promise.all(
                 soloStreaks.map(async soloStreak => {
                     try {
                         const user = await streakoid.users.getOne(soloStreak.userId);
@@ -55,8 +60,49 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const getTeamStreakLeaderboard = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+        try {
+            dispatch({ type: GET_TEAM_STREAK_LEADERBOARD_LOADING });
+            const teamStreaks = await streakoid.teamStreaks.getAll({
+                sortField: GetAllTeamStreaksSortFields.currentStreak,
+                active: true,
+            });
+            const leaderboardItems: TeamStreakLeaderboardItem[] = await Promise.all(
+                teamStreaks.map(async teamStreak => {
+                    try {
+                        return {
+                            streakId: teamStreak._id,
+                            streakName: teamStreak.streakName,
+                            currentStreakNumberOfDaysInARow: teamStreak.currentStreak.numberOfDaysInARow,
+                            streakCreatedAt: new Date(teamStreak.createdAt),
+                        };
+                    } catch (err) {
+                        return {
+                            streakId: teamStreak._id,
+                            streakName: teamStreak.streakName,
+                            username: '',
+                            userProfileImage: '',
+                            currentStreakNumberOfDaysInARow: teamStreak.currentStreak.numberOfDaysInARow,
+                            streakCreatedAt: new Date(teamStreak.createdAt),
+                        };
+                    }
+                }),
+            );
+            dispatch({ type: GET_TEAM_STREAK_LEADERBOARD, payload: leaderboardItems });
+            dispatch({ type: GET_TEAM_STREAK_LEADERBOARD_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_TEAM_STREAK_LEADERBOARD_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_TEAM_STREAK_LEADERBOARD_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: GET_TEAM_STREAK_LEADERBOARD_FAIL, payload: err.message });
+            }
+        }
+    };
+
     return {
         getSoloStreakLeaderboard,
+        getTeamStreakLeaderboard,
     };
 };
 

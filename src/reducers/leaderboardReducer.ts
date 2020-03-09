@@ -4,15 +4,22 @@ import {
     GET_SOLO_STREAK_LEADERBOARD_FAIL,
     GET_SOLO_STREAK_LEADERBOARD_LOADED,
     GET_SOLO_STREAK_LEADERBOARD_LOADING,
+    GET_TEAM_STREAK_LEADERBOARD,
+    GET_TEAM_STREAK_LEADERBOARD_FAIL,
+    GET_TEAM_STREAK_LEADERBOARD_LOADED,
+    GET_TEAM_STREAK_LEADERBOARD_LOADING,
 } from '../actions/types';
 
 export interface LeaderboardReducerState {
-    soloStreakLeaderboard: LeaderboardItem[];
+    soloStreakLeaderboard: SoloStreakLeaderboardItem[];
     getSoloStreakLeaderboardIsLoading: boolean;
     getSoloStreakLeaderboardErrorMessage: string;
+    teamStreakLeaderboard: TeamStreakLeaderboardItem[];
+    getTeamStreakLeaderboardIsLoading: boolean;
+    getTeamStreakLeaderboardErrorMessage: string;
 }
 
-export interface LeaderboardItem {
+export interface SoloStreakLeaderboardItem {
     streakName: string;
     streakId: string;
     username: string;
@@ -21,10 +28,20 @@ export interface LeaderboardItem {
     streakCreatedAt: Date;
 }
 
+export interface TeamStreakLeaderboardItem {
+    streakName: string;
+    streakId: string;
+    currentStreakNumberOfDaysInARow: number;
+    streakCreatedAt: Date;
+}
+
 const initialState: LeaderboardReducerState = {
     soloStreakLeaderboard: [],
     getSoloStreakLeaderboardIsLoading: false,
     getSoloStreakLeaderboardErrorMessage: '',
+    teamStreakLeaderboard: [],
+    getTeamStreakLeaderboardIsLoading: false,
+    getTeamStreakLeaderboardErrorMessage: '',
 };
 
 export interface LeaderboardWithClientData {
@@ -56,6 +73,30 @@ const leaderboardReducer = (state = initialState, action: LeaderboardActionTypes
             return {
                 ...state,
                 getSoloStreakLeaderboardIsLoading: true,
+            };
+
+        case GET_TEAM_STREAK_LEADERBOARD:
+            return {
+                ...state,
+                teamStreakLeaderboard: action.payload,
+            };
+
+        case GET_TEAM_STREAK_LEADERBOARD_FAIL:
+            return {
+                ...state,
+                getTeamStreakLeaderboardErrorMessage: action.payload,
+            };
+
+        case GET_TEAM_STREAK_LEADERBOARD_LOADED:
+            return {
+                ...state,
+                getTeamStreakLeaderboardIsLoading: true,
+            };
+
+        case GET_TEAM_STREAK_LEADERBOARD_LOADING:
+            return {
+                ...state,
+                getTeamStreakLeaderboardIsLoading: true,
             };
 
         default:
