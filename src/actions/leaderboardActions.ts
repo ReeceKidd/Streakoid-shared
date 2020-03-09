@@ -84,6 +84,7 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
                             streakName: teamStreak.streakName,
                             currentStreakNumberOfDaysInARow: teamStreak.currentStreak.numberOfDaysInARow,
                             streakCreatedAt: new Date(teamStreak.createdAt),
+                            members: teamStreak.members,
                         };
                     } catch (err) {
                         return {
@@ -93,6 +94,7 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: '',
                             currentStreakNumberOfDaysInARow: teamStreak.currentStreak.numberOfDaysInARow,
                             streakCreatedAt: new Date(teamStreak.createdAt),
+                            members: teamStreak.members,
                         };
                     }
                 }),

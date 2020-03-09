@@ -13,6 +13,7 @@ import {
     GET_CHALLENGE_STREAK_LEADERBOARD_LOADED,
     GET_CHALLENGE_STREAK_LEADERBOARD_LOADING,
 } from '../actions/types';
+import { PopulatedTeamMember } from '@streakoid/streakoid-sdk/lib';
 
 export interface LeaderboardReducerState {
     soloStreakLeaderboard: SoloStreakLeaderboardItem[];
@@ -40,6 +41,7 @@ export interface TeamStreakLeaderboardItem {
     streakId: string;
     currentStreakNumberOfDaysInARow: number;
     streakCreatedAt: Date;
+    members: PopulatedTeamMember[];
 }
 
 export interface ChallengeStreakLeaderboardItem {
