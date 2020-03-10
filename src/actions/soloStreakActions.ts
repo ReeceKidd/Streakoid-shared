@@ -57,6 +57,8 @@ import {
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import { sortSoloStreaks } from '../helpers/sorters/sortStreaks';
+import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
+import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 
 const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveSoloStreaks = () => async (
@@ -135,6 +137,9 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                     username: soloStreakOwner.username,
                     userProfileImage: soloStreakOwner.profileImages.originalImageUrl,
                     completedSoloStreakTaskDates,
+                    longestStreak: getLongestStreak(soloStreak.currentStreak, soloStreak.pastStreaks),
+                    averageStreak: getAverageStreak(soloStreak.currentStreak, soloStreak.pastStreaks),
+                    totalTimesTracked: completeSoloStreakTasks.length,
                 },
             });
             dispatch({ type: GET_SOLO_STREAK_IS_LOADED });
