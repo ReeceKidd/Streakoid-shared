@@ -47,7 +47,7 @@ export interface ChallengeStreakReducerState {
     selectedChallengeStreak: ChallengeStreakWithClientData;
     getSelectedChallengeStreakIsLoading: boolean;
     getSelectedChallengeStreakErrorMessage: string;
-    archivedChallengeStreaks: ChallengeStreakListItem[];
+    archivedChallengeStreaks: ArchivedChallengeStreakListItem[];
     getArchivedChallengeStreaksIsLoading: boolean;
     getArchivedChallengeStreaksErrorMessage: string;
     archiveChallengeStreakIsLoading: boolean;
@@ -114,6 +114,11 @@ export interface ChallengeStreakListItem extends ChallengeStreak {
     completeChallengeStreakTaskErrorMessage: string;
     incompleteChallengeStreakTaskIsLoading: boolean;
     incompleteChallengeStreakTaskErrorMessage: string;
+}
+
+export interface ArchivedChallengeStreakListItem extends ChallengeStreak {
+    challengeName: string;
+    challengeDescription: string;
 }
 
 export interface ChallengeStreakWithClientData extends ChallengeStreak {

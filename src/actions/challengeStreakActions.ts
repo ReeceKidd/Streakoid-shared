@@ -110,10 +110,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                     return {
                         ...challengeStreak,
                         challengeName: challenge.name,
-                        completeChallengeStreakTaskIsLoading: false,
-                        completeChallengeStreakTaskErrorMessage: '',
-                        incompleteChallengeStreakTaskIsLoading: false,
-                        incompleteChallengeStreakTaskErrorMessage: '',
+                        challengeDescription: challenge.description,
                     };
                 }),
             );

@@ -18,7 +18,11 @@ import { UserWithClientData, SelectedUser, PopulatedCurrentUserWithStreakComplet
 import { FriendWithClientData } from '../reducers/friendReducer';
 import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
-import { ChallengeStreakWithClientData, ChallengeStreakListItem } from '../reducers/challengeStreakReducer';
+import {
+    ChallengeStreakWithClientData,
+    ChallengeStreakListItem,
+    ArchivedChallengeStreakListItem,
+} from '../reducers/challengeStreakReducer';
 import { UserBadge } from '../reducers/badgesReducer';
 import { NoteWithClientData } from '../reducers/notesReducer';
 import { GetAllPopulatedActivityFeedItemsActionResponse } from './activityFeedItemActions';
@@ -1815,7 +1819,7 @@ export interface GetLiveChallengeStreaksIsLoadedAction {
 
 export interface GetArchivedChallengeStreaksAction {
     type: typeof GET_ARCHIVED_CHALLENGE_STREAKS;
-    payload: ChallengeStreakListItem[];
+    payload: ArchivedChallengeStreakListItem[];
 }
 
 export interface GetArchivedChallengeStreaksFailAction {
