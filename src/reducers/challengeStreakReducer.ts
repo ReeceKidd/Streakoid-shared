@@ -41,13 +41,13 @@ import {
 } from '../actions/types';
 
 export interface ChallengeStreakReducerState {
-    liveChallengeStreaks: ChallengeStreakWithClientData[];
+    liveChallengeStreaks: ChallengeStreakListItem[];
     getLiveChallengeStreaksIsLoading: boolean;
     getLiveChallengeStreaksErrorMessage: string;
     selectedChallengeStreak: ChallengeStreakWithClientData;
     getSelectedChallengeStreakIsLoading: boolean;
     getSelectedChallengeStreakErrorMessage: string;
-    archivedChallengeStreaks: ChallengeStreakWithClientData[];
+    archivedChallengeStreaks: ChallengeStreakListItem[];
     getArchivedChallengeStreaksIsLoading: boolean;
     getArchivedChallengeStreaksErrorMessage: string;
     archiveChallengeStreakIsLoading: boolean;
@@ -84,6 +84,9 @@ const defaultSelectedChallengeStreak = {
     completedChallengeStreakTaskDates: [],
     username: '',
     userProfileImage: '',
+    longestStreak: 0,
+    averageStreak: 0,
+    totalTimesTracked: 0,
 };
 
 const initialState: ChallengeStreakReducerState = {
@@ -105,6 +108,14 @@ const initialState: ChallengeStreakReducerState = {
     deleteArchivedChallengeStreakErrorMessage: '',
 };
 
+export interface ChallengeStreakListItem extends ChallengeStreak {
+    challengeName: string;
+    completeChallengeStreakTaskIsLoading: boolean;
+    completeChallengeStreakTaskErrorMessage: string;
+    incompleteChallengeStreakTaskIsLoading: boolean;
+    incompleteChallengeStreakTaskErrorMessage: string;
+}
+
 export interface ChallengeStreakWithClientData extends ChallengeStreak {
     challengeName: string;
     challengeDescription: string;
@@ -115,6 +126,9 @@ export interface ChallengeStreakWithClientData extends ChallengeStreak {
     completedChallengeStreakTaskDates: Date[];
     username: string;
     userProfileImage: string;
+    longestStreak: number;
+    averageStreak: number;
+    totalTimesTracked: number;
 }
 
 const challengeStreakReducer = (
@@ -324,7 +338,7 @@ const challengeStreakReducer = (
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.challengeStreakId) {
-                        const challengeStreakWithClientData: ChallengeStreakWithClientData = {
+                        const challengeStreakWithClientData = {
                             ...challengeStreak,
                             completeChallengeStreakTaskIsLoading: true,
                         };
@@ -339,7 +353,7 @@ const challengeStreakReducer = (
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.challengeStreakId) {
-                        const challengeStreakWithClientData: ChallengeStreakWithClientData = {
+                        const challengeStreakWithClientData = {
                             ...challengeStreak,
                             completeChallengeStreakTaskIsLoading: false,
                         };
@@ -386,7 +400,7 @@ const challengeStreakReducer = (
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.challengeStreakId) {
-                        const challengeStreakWithClientData: ChallengeStreakWithClientData = {
+                        const challengeStreakWithClientData = {
                             ...challengeStreak,
                             incompleteChallengeStreakTaskIsLoading: true,
                         };
@@ -401,7 +415,7 @@ const challengeStreakReducer = (
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.challengeStreakId) {
-                        const challengeStreakWithClientData: ChallengeStreakWithClientData = {
+                        const challengeStreakWithClientData = {
                             ...challengeStreak,
                             incompleteChallengeStreakTaskIsLoading: false,
                         };

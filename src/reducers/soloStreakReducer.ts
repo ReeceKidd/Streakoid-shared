@@ -49,9 +49,9 @@ import {
 } from '../actions/types';
 
 export interface SoloStreakReducerState {
-    liveSoloStreaks: SoloStreakWithClientData[];
-    selectedSoloStreak: SoloStreakWithTaskCompletedDates;
-    archivedSoloStreaks: ArchivedSoloStreakWithClientData[];
+    liveSoloStreaks: SoloStreakListItem[];
+    selectedSoloStreak: SoloStreakWithClientData;
+    archivedSoloStreaks: ArchivedSoloStreakListItem[];
     getMultipleLiveSoloStreaksIsLoading: boolean;
     getSoloStreakIsLoading: boolean;
     getMultipleArchivedSoloStreaksIsLoading: boolean;
@@ -110,7 +110,7 @@ const initialState: SoloStreakReducerState = {
     deleteArchivedSoloStreakErrorMessage: '',
 };
 
-export interface SoloStreakWithTaskCompletedDates extends SoloStreak {
+export interface SoloStreakWithClientData extends SoloStreak {
     completedSoloStreakTaskDates: Date[];
     username: string;
     userProfileImage: string;
@@ -119,14 +119,14 @@ export interface SoloStreakWithTaskCompletedDates extends SoloStreak {
     totalTimesTracked: number;
 }
 
-export interface SoloStreakWithClientData extends SoloStreak {
+export interface SoloStreakListItem extends SoloStreak {
     completeSoloStreakTaskIsLoading: boolean;
     completeSoloStreakTaskErrorMessage: string;
     incompleteSoloStreakTaskIsLoading: boolean;
     incompleteSoloStreakTaskErrorMessage: string;
 }
 
-export interface ArchivedSoloStreakWithClientData extends SoloStreak {
+export interface ArchivedSoloStreakListItem extends SoloStreak {
     createSoloStreakTaskIsLoading: boolean;
     createCompleteSoloStreakTaskErrorMessage: string;
 }
@@ -231,11 +231,11 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
                     if (soloStreak._id === action.soloStreakId) {
-                        const SoloStreakWithClientData: SoloStreakWithClientData = {
+                        const SoloStreakListItem: SoloStreakListItem = {
                             ...soloStreak,
                             completeSoloStreakTaskIsLoading: true,
                         };
-                        return SoloStreakWithClientData;
+                        return SoloStreakListItem;
                     }
                     return soloStreak;
                 }),
@@ -246,11 +246,11 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
                     if (soloStreak._id === action.soloStreakId) {
-                        const SoloStreakWithClientData: SoloStreakWithClientData = {
+                        const SoloStreakListItem: SoloStreakListItem = {
                             ...soloStreak,
                             completeSoloStreakTaskIsLoading: false,
                         };
-                        return SoloStreakWithClientData;
+                        return SoloStreakListItem;
                     }
                     return soloStreak;
                 }),
@@ -293,11 +293,11 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
                     if (soloStreak._id === action.soloStreakId) {
-                        const SoloStreakWithClientData: SoloStreakWithClientData = {
+                        const SoloStreakListItem: SoloStreakListItem = {
                             ...soloStreak,
                             incompleteSoloStreakTaskIsLoading: true,
                         };
-                        return SoloStreakWithClientData;
+                        return SoloStreakListItem;
                     }
                     return soloStreak;
                 }),
@@ -308,11 +308,11 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
                     if (soloStreak._id === action.soloStreakId) {
-                        const SoloStreakWithClientData: SoloStreakWithClientData = {
+                        const SoloStreakListItem: SoloStreakListItem = {
                             ...soloStreak,
                             incompleteSoloStreakTaskIsLoading: false,
                         };
-                        return SoloStreakWithClientData;
+                        return SoloStreakListItem;
                     }
                     return soloStreak;
                 }),

@@ -9,16 +9,16 @@ import {
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithClientData, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
 import {
+    SoloStreakListItem,
+    ArchivedSoloStreakListItem,
     SoloStreakWithClientData,
-    ArchivedSoloStreakWithClientData,
-    SoloStreakWithTaskCompletedDates,
 } from '../reducers/soloStreakReducer';
 import { FriendRequestStateWithClientData } from '../reducers/friendRequestReducer';
 import { UserWithClientData, SelectedUser, PopulatedCurrentUserWithStreakCompleteInfo } from '../reducers/userReducer';
 import { FriendWithClientData } from '../reducers/friendReducer';
 import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
-import { ChallengeStreakWithClientData } from '../reducers/challengeStreakReducer';
+import { ChallengeStreakWithClientData, ChallengeStreakListItem } from '../reducers/challengeStreakReducer';
 import { UserBadge } from '../reducers/badgesReducer';
 import { NoteWithClientData } from '../reducers/notesReducer';
 import { GetAllPopulatedActivityFeedItemsActionResponse } from './activityFeedItemActions';
@@ -396,7 +396,7 @@ export const CLEAR_SELECTED_SOLO_STREAK = 'CLEAR_SELECTED_SOLO_STREAK';
 
 export interface GetLiveSoloStreaksAction {
     type: typeof GET_LIVE_SOLO_STREAKS;
-    payload: SoloStreakWithClientData[];
+    payload: SoloStreakListItem[];
 }
 
 export interface GetLiveSoloStreaksFailAction {
@@ -406,7 +406,7 @@ export interface GetLiveSoloStreaksFailAction {
 
 export interface GetArchivedSoloStreaksAction {
     type: typeof GET_ARCHIVED_SOLO_STREAKS;
-    payload: ArchivedSoloStreakWithClientData[];
+    payload: ArchivedSoloStreakListItem[];
 }
 
 export interface GetArchivedSoloStreaksFailAction {
@@ -416,7 +416,7 @@ export interface GetArchivedSoloStreaksFailAction {
 
 export interface GetSoloStreakAction {
     type: typeof GET_SOLO_STREAK;
-    payload: SoloStreakWithTaskCompletedDates;
+    payload: SoloStreakWithClientData;
 }
 
 export interface GetSoloStreakFailAction {
@@ -426,12 +426,12 @@ export interface GetSoloStreakFailAction {
 
 export interface CreateSoloStreakAction {
     type: typeof CREATE_SOLO_STREAK;
-    payload: SoloStreakWithClientData;
+    payload: SoloStreakListItem;
 }
 
 export interface EditSoloStreakAction {
     type: typeof EDIT_SOLO_STREAK;
-    soloStreak: SoloStreakWithClientData;
+    soloStreak: SoloStreakListItem;
 }
 
 export interface EditSoloStreakFailAction {
@@ -495,7 +495,7 @@ export interface UpdateSoloStreaksTimezonesFailAction {
 
 export interface ArchiveSoloStreakAction {
     type: typeof ARCHIVE_SOLO_STREAK;
-    payload: ArchivedSoloStreakWithClientData;
+    payload: ArchivedSoloStreakListItem;
 }
 
 export interface ArchiveSoloStreakFailAction {
@@ -509,7 +509,7 @@ export interface ClearArchiveSoloStreakAction {
 
 export interface RestoreArchivedSoloStreakAction {
     type: typeof RESTORE_ARCHIVED_SOLO_STREAK;
-    payload: SoloStreakWithClientData;
+    payload: SoloStreakListItem;
 }
 
 export interface RestoreArchivedSoloStreakFailAction {
@@ -1746,10 +1746,10 @@ export type ChallengeActionTypes =
     | JoinChallengeIsLoadingAction
     | JoinChallengeIsLoadedAction;
 
-export const GET_LIVE_CHALLENGE_STREAKS = 'GET_CHALLENGE_STREAKS';
-export const GET_LIVE_CHALLENGE_STREAKS_FAIL = 'GET_CHALLENGE_STREAKS_FAIL';
-export const GET_LIVE_CHALLENGE_STREAKS_LOADING = 'GET_CHALLENGE_STREAKS_LOADING';
-export const GET_LIVE_CHALLENGE_STREAKS_LOADED = 'GET_CHALLENGE_STREAKS_LOADED';
+export const GET_LIVE_CHALLENGE_STREAKS = 'GET_LIVE_CHALLENGE_STREAKS';
+export const GET_LIVE_CHALLENGE_STREAKS_FAIL = 'GET_LIVE_CHALLENGE_STREAKS_FAIL';
+export const GET_LIVE_CHALLENGE_STREAKS_LOADING = 'GET_LIVE_CHALLENGE_STREAKS_LOADING';
+export const GET_LIVE_CHALLENGE_STREAKS_LOADED = 'GET_LIVE_CHALLENGE_STREAKS_LOADED';
 
 export const GET_ARCHIVED_CHALLENGE_STREAKS = 'GET_ARCHIVED_CHALLENGE_STREAKS';
 export const GET_ARCHIVED_CHALLENGE_STREAKS_FAIL = 'GET_ARCHIVED_CHALLENGE_STREAKS_FAIL';
@@ -1797,7 +1797,7 @@ export const CLEAR_SELECTED_CHALLENGE_STREAK = 'CLEAR_SELECTED_CHALLENGE_STREAK'
 
 export interface GetLiveChallengeStreaksAction {
     type: typeof GET_LIVE_CHALLENGE_STREAKS;
-    payload: ChallengeStreakWithClientData[];
+    payload: ChallengeStreakListItem[];
 }
 
 export interface GetLiveChallengeStreaksFailAction {
@@ -1815,7 +1815,7 @@ export interface GetLiveChallengeStreaksIsLoadedAction {
 
 export interface GetArchivedChallengeStreaksAction {
     type: typeof GET_ARCHIVED_CHALLENGE_STREAKS;
-    payload: ChallengeStreakWithClientData[];
+    payload: ChallengeStreakListItem[];
 }
 
 export interface GetArchivedChallengeStreaksFailAction {

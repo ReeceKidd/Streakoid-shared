@@ -49,7 +49,7 @@ import {
 } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 import { UserBadge } from './badgesReducer';
-import { ChallengeStreakWithClientData } from './challengeStreakReducer';
+import { ChallengeStreakListItem } from './challengeStreakReducer';
 
 export interface UserWithClientData extends FormattedUser {
     sendFriendRequestIsLoading: boolean;
@@ -59,9 +59,13 @@ export interface UserWithClientData extends FormattedUser {
 export interface SelectedUser extends PopulatedUser {
     soloStreaks: SoloStreak[];
     teamStreaks: PopulatedTeamStreak[];
-    challengeStreaks: ChallengeStreakWithClientData[];
+    challengeStreaks: ChallengeStreakListItem[];
     userBadges: UserBadge[];
     userStreakCompleteInfo: { date: Date; count: number }[];
+    longestEverStreak: number;
+    longestCurrentStreak: number;
+    numberOfStreaks: number;
+    totalTimesTracked: number;
 }
 
 export interface PopulatedCurrentUserWithStreakCompleteInfo extends PopulatedCurrentUser {
@@ -154,6 +158,10 @@ const initialState: UserReducerInitialState = {
         challengeStreaks: [],
         userBadges: [],
         userStreakCompleteInfo: [],
+        longestEverStreak: 0,
+        longestCurrentStreak: 0,
+        numberOfStreaks: 0,
+        totalTimesTracked: 0,
     },
     getUsersIsLoading: false,
     getUsersErrorMessage: '',
@@ -466,6 +474,10 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                     challengeStreaks: [],
                     userBadges: [],
                     userStreakCompleteInfo: [],
+                    longestEverStreak: 0,
+                    longestCurrentStreak: 0,
+                    numberOfStreaks: 0,
+                    totalTimesTracked: 0,
                 },
             };
 

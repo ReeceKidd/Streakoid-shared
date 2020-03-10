@@ -29,6 +29,7 @@ import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoi
 import Notifications from '@streakoid/streakoid-sdk/lib/models/Notifications';
 import { sortBadgesByLongestStreak } from './badgeActions';
 import { sortSoloStreaks, sortTeamStreaks, sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
+import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -93,12 +94,18 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             const users = await streakoid.users.getAll({ username });
             const user = await streakoid.users.getOne(users[0]._id);
             const { badges } = user;
-            const soloStreaks = await streakoid.soloStreaks.getAll({ userId: user._id, status: StreakStatus.live });
-            const sortedSoloStreaks = sortSoloStreaks(soloStreaks);
-            const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: user._id, status: StreakStatus.live });
-            const sortedTeamStreaks = await sortTeamStreaks(teamStreaks);
-            const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId: user._id });
-            const sortedChallengeStreaks = sortChallengeStreaks(challengeStreaks);
+            const activeSoloStreaks = await streakoid.soloStreaks.getAll({
+                userId: user._id,
+                status: StreakStatus.live,
+            });
+            const sortedSoloStreaks = sortSoloStreaks(activeSoloStreaks);
+            const activeTeamStreaks = await streakoid.teamStreaks.getAll({
+                memberId: user._id,
+                status: StreakStatus.live,
+            });
+            const sortedTeamStreaks = await sortTeamStreaks(activeTeamStreaks);
+            const activeChallengeStreaks = await streakoid.challengeStreaks.getAll({ userId: user._id });
+            const sortedChallengeStreaks = sortChallengeStreaks(activeChallengeStreaks);
             const challengeStreaksWithClientData = await Promise.all(
                 sortedChallengeStreaks.map(async challengeStreak => {
                     const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
@@ -121,7 +128,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             const userBadges = await Promise.all(
                 badges.map(badge => {
                     if (badge.badgeType === BadgeTypes.challenge) {
-                        const associatedChallengeStreak = challengeStreaks.find(
+                        const associatedChallengeStreak = sortedChallengeStreaks.find(
                             challengeStreak => challengeStreak.badgeId === badge._id,
                         );
                         if (!associatedChallengeStreak) {
@@ -150,6 +157,50 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 }),
             );
             const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId: user._id });
+            const numberOfStreaks = activeSoloStreaks.length + activeChallengeStreaks.length + activeTeamStreaks.length;
+            const longestCurrentSoloStreak = Math.max(
+                ...activeSoloStreaks.map(soloStreak => {
+                    return getLongestStreak(soloStreak.currentStreak, soloStreak.pastStreaks);
+                }),
+            );
+            const longestCurrentChallengeStreak = Math.max(
+                ...activeChallengeStreaks.map(challengeStreak => {
+                    return getLongestStreak(challengeStreak.currentStreak, challengeStreak.pastStreaks);
+                }),
+            );
+            const longestCurrentTeamStreak = Math.max(
+                ...activeTeamStreaks.map(teamStreak => {
+                    return getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks);
+                }),
+            );
+            const longestCurrentStreak = Math.max(
+                longestCurrentSoloStreak,
+                longestCurrentChallengeStreak,
+                longestCurrentTeamStreak,
+            );
+            const allSoloStreaks = await streakoid.soloStreaks.getAll({ userId: user._id });
+            const allChallengeStreaks = await streakoid.challengeStreaks.getAll({ userId: user._id });
+            const allTeamStreaks = await streakoid.teamStreaks.getAll({ memberId: user._id });
+            const longestEverSoloStreak = Math.max(
+                ...allSoloStreaks.map(soloStreak => {
+                    return getLongestStreak(soloStreak.currentStreak, soloStreak.pastStreaks);
+                }),
+            );
+            const longestEverChallengeStreak = Math.max(
+                ...allChallengeStreaks.map(challengeStreak => {
+                    return getLongestStreak(challengeStreak.currentStreak, challengeStreak.pastStreaks);
+                }),
+            );
+            const longestEverTeamStreak = Math.max(
+                ...allTeamStreaks.map(teamStreak => {
+                    return getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks);
+                }),
+            );
+            const longestEverStreak = Math.max(
+                longestEverSoloStreak,
+                longestEverChallengeStreak,
+                longestEverTeamStreak,
+            );
             const selectedUser = {
                 ...user,
                 userBadges: userBadges.sort(sortBadgesByLongestStreak),
@@ -157,6 +208,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 teamStreaks: sortedTeamStreaks,
                 challengeStreaks: challengeStreaksWithClientData,
                 userStreakCompleteInfo,
+                longestEverStreak,
+                longestCurrentStreak,
+                numberOfStreaks,
+                totalTimesTracked: userStreakCompleteInfo.length,
             };
             dispatch({ type: GET_USER, payload: selectedUser });
             dispatch({ type: GET_USER_IS_LOADED });
