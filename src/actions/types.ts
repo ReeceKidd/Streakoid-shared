@@ -27,7 +27,7 @@ import { UserBadge } from '../reducers/badgesReducer';
 import { NoteWithClientData } from '../reducers/notesReducer';
 import { GetAllPopulatedActivityFeedItemsActionResponse } from './activityFeedItemActions';
 import { PopulatedChallengeWithClientData } from '../reducers/challengesReducer';
-import { TeamMemberStreakWithTaskCompletedDates } from '../reducers/teamMemberStreakReducer';
+import { TeamMemberStreakWithClientData } from '../reducers/teamMemberStreakReducer';
 import {
     SoloStreakLeaderboardItem,
     TeamStreakLeaderboardItem,
@@ -1070,7 +1070,7 @@ export const CLEAR_SELECTED_TEAM_MEMBER_STREAK = 'CLEAR_SELECTED_TEAM_MEMBER_STR
 
 export interface GetTeamMemberStreakAction {
     type: typeof GET_TEAM_MEMBER_STREAK;
-    payload: TeamMemberStreakWithTaskCompletedDates;
+    payload: TeamMemberStreakWithClientData;
 }
 
 export interface GetTeamMemberStreakFailAction {

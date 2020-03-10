@@ -44,7 +44,7 @@ const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
                         createdAt: new Date(teamMemberStreak.createdAt),
                         timezone: teamMemberStreak.timezone,
                     }),
-                    numberOfRestarts: teamMemberStreak.pastStreaks,
+                    numberOfRestarts: teamMemberStreak.pastStreaks.length,
                 },
             });
             dispatch({ type: GET_TEAM_MEMBER_STREAK_IS_LOADED });

@@ -207,6 +207,8 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 longestStreak: 0,
                 averageStreak: 0,
                 totalTimesTracked: 0,
+                daysSinceStreakCreation: 0,
+                numberOfRestarts: 0,
             };
             dispatch({ type: CREATE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: JOIN_CHALLENGE_LOADED });
