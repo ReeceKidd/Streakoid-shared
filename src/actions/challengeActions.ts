@@ -204,6 +204,9 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 completedChallengeStreakTaskDates: [],
                 username: currentUser.username,
                 userProfileImage: currentUser.profileImages.originalImageUrl,
+                longestStreak: 0,
+                averageStreak: 0,
+                totalTimesTracked: 0,
             };
             dispatch({ type: CREATE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: JOIN_CHALLENGE_LOADED });
