@@ -87,6 +87,8 @@ const defaultSelectedChallengeStreak = {
     longestStreak: 0,
     averageStreak: 0,
     totalTimesTracked: 0,
+    daysSinceStreakCreation: 0,
+    numberOfRestarts: 0,
 };
 
 const initialState: ChallengeStreakReducerState = {
@@ -134,6 +136,8 @@ export interface ChallengeStreakWithClientData extends ChallengeStreak {
     longestStreak: number;
     averageStreak: number;
     totalTimesTracked: number;
+    daysSinceStreakCreation: number;
+    numberOfRestarts: number;
 }
 
 const challengeStreakReducer = (

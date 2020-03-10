@@ -9,7 +9,7 @@ import {
 } from '../actions/types';
 
 export interface TeamMemberStreakReducerState {
-    selectedTeamMemberStreak: TeamMemberStreakWithTaskCompletedDates;
+    selectedTeamMemberStreak: TeamMemberStreakWithClientData;
     getTeamMemberStreakIsLoading: boolean;
 }
 
@@ -31,6 +31,11 @@ const defaultSelectedTeamMemberStreak = {
     teamStreakId: '',
     teamStreakName: '',
     teamStreakDescription: '',
+    longestStreak: 0,
+    averageStreak: 0,
+    totalTimesTracked: 0,
+    daysSinceStreakCreation: 0,
+    numberOfRestarts: 0,
 };
 
 const initialState: TeamMemberStreakReducerState = {
@@ -38,12 +43,17 @@ const initialState: TeamMemberStreakReducerState = {
     getTeamMemberStreakIsLoading: false,
 };
 
-export interface TeamMemberStreakWithTaskCompletedDates extends TeamMemberStreak {
+export interface TeamMemberStreakWithClientData extends TeamMemberStreak {
     completedTeamMemberStreakTaskDates: Date[];
     username: string;
     userProfileImage: string;
     teamStreakName: string;
     teamStreakDescription?: string;
+    longestStreak: number;
+    averageStreak: number;
+    totalTimesTracked: number;
+    daysSinceStreakCreation: number;
+    numberOfRestarts: number;
 }
 
 const teamMemberStreakReducer = (

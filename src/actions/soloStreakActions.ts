@@ -1,6 +1,5 @@
 import { Dispatch } from 'redux';
 import StreakStatus from '@streakoid/streakoid-sdk/lib/StreakStatus';
-import moment from 'moment-timezone';
 
 import {
     GET_SOLO_STREAK,
@@ -60,6 +59,7 @@ import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoi
 import { sortSoloStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
+import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 
 const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveSoloStreaks = () => async (
@@ -131,10 +131,6 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             const completedSoloStreakTaskDates = completeSoloStreakTasks.map(
                 completeTask => new Date(completeTask.createdAt),
             );
-            const currentTime = moment().tz(soloStreak.timezone);
-            const createdAtDate = moment(soloStreak.createdAt).tz(soloStreak.timezone);
-            const duration = moment.duration(currentTime.diff(createdAtDate));
-            const daysSinceStreakCreation = Number(duration.asDays().toFixed(0));
             const numberOfRestarts = soloStreak.pastStreaks.length;
             dispatch({
                 type: GET_SOLO_STREAK,
@@ -146,7 +142,10 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                     longestStreak: getLongestStreak(soloStreak.currentStreak, soloStreak.pastStreaks),
                     averageStreak: getAverageStreak(soloStreak.currentStreak, soloStreak.pastStreaks),
                     totalTimesTracked: completeSoloStreakTasks.length,
-                    daysSinceStreakCreation,
+                    daysSinceStreakCreation: getDaysSinceStreakCreation({
+                        createdAt: new Date(soloStreak.createdAt),
+                        timezone: soloStreak.timezone,
+                    }),
                     numberOfRestarts,
                 },
             });

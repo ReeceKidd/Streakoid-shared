@@ -9,6 +9,9 @@ import {
 } from './types';
 import { AppActions } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
+import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
+import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 
 const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
     const getTeamMemberStreak = (teamMemberStreakId: string) => async (
@@ -34,6 +37,14 @@ const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
                     completedTeamMemberStreakTaskDates,
                     teamStreakName: teamStreak.streakName,
                     teamStreakDescription: teamStreak.streakDescription,
+                    longestStreak: getLongestStreak(teamMemberStreak.currentStreak, teamMemberStreak.pastStreaks),
+                    averageStreak: getAverageStreak(teamMemberStreak.currentStreak, teamMemberStreak.pastStreaks),
+                    totalTimesTracked: completeTeamMemberStreakTasks.length,
+                    daysSinceStreakCreation: getDaysSinceStreakCreation({
+                        createdAt: new Date(teamMemberStreak.createdAt),
+                        timezone: teamMemberStreak.timezone,
+                    }),
+                    numberOfRestarts: teamMemberStreak.pastStreaks,
                 },
             });
             dispatch({ type: GET_TEAM_MEMBER_STREAK_IS_LOADED });

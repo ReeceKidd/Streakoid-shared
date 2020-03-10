@@ -46,6 +46,7 @@ import {
 import { sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
+import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveChallengeStreaks = () => async (
@@ -132,6 +133,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: GET_SELECTED_CHALLENGE_STREAK_LOADING });
             const challengeStreak = await streakoid.challengeStreaks.getOne({ challengeStreakId });
+            const { currentStreak, pastStreaks, timezone, createdAt } = challengeStreak;
             const challengeStreakOwner = await streakoid.users.getOne(challengeStreak.userId);
             const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
             const completeChallengeStreakTasks = await streakoid.completeChallengeStreakTasks.getAll({
@@ -153,9 +155,14 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 completedChallengeStreakTaskDates,
                 username: challengeStreakOwner.username,
                 userProfileImage: challengeStreakOwner.profileImages.originalImageUrl,
-                longestStreak: getLongestStreak(challengeStreak.currentStreak, challengeStreak.pastStreaks),
-                averageStreak: getAverageStreak(challengeStreak.currentStreak, challengeStreak.pastStreaks),
+                longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                averageStreak: getAverageStreak(currentStreak, pastStreaks),
                 totalTimesTracked: completeChallengeStreakTasks.length,
+                daysSinceStreakCreation: getDaysSinceStreakCreation({
+                    createdAt: new Date(createdAt),
+                    timezone,
+                }),
+                numberOfRestarts: pastStreaks.length,
             };
             dispatch({ type: GET_SELECTED_CHALLENGE_STREAK, payload: challengeStreakWithLoadingStates });
             dispatch({ type: GET_SELECTED_CHALLENGE_STREAK_LOADED });
@@ -179,6 +186,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 challengeStreakId,
                 updateData: { status: StreakStatus.archived },
             });
+            const { currentStreak, pastStreaks, createdAt, timezone } = updatedChallengeStreak;
             const currentUser = getState().users.currentUser;
             const challenge = await streakoid.challenges.getOne({ challengeId: updatedChallengeStreak.challengeId });
             const completeChallengeStreakTasks = await streakoid.completeChallengeStreakTasks.getAll({
@@ -197,15 +205,14 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 completedChallengeStreakTaskDates: [],
                 username: currentUser.username,
                 userProfileImage: currentUser.profileImages.originalImageUrl,
-                longestStreak: getLongestStreak(
-                    updatedChallengeStreak.currentStreak,
-                    updatedChallengeStreak.pastStreaks,
-                ),
-                averageStreak: getAverageStreak(
-                    updatedChallengeStreak.currentStreak,
-                    updatedChallengeStreak.pastStreaks,
-                ),
+                longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                averageStreak: getAverageStreak(currentStreak, pastStreaks),
                 totalTimesTracked: completeChallengeStreakTasks.length,
+                daysSinceStreakCreation: getDaysSinceStreakCreation({
+                    createdAt: new Date(createdAt),
+                    timezone,
+                }),
+                numberOfRestarts: pastStreaks.length,
             };
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK_LOADED });
@@ -234,6 +241,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 challengeStreakId,
                 updateData: { status: StreakStatus.live },
             });
+            const { currentStreak, pastStreaks, createdAt, timezone } = updatedChallengeStreak;
             const currentUser = getState().users.currentUser;
             const challenge = await streakoid.challenges.getOne({ challengeId: updatedChallengeStreak.challengeId });
             const completeChallengeStreakTasks = await streakoid.completeChallengeStreakTasks.getAll({
@@ -252,15 +260,14 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 completedChallengeStreakTaskDates: [],
                 username: currentUser.username,
                 userProfileImage: currentUser.profileImages.originalImageUrl,
-                longestStreak: getLongestStreak(
-                    updatedChallengeStreak.currentStreak,
-                    updatedChallengeStreak.pastStreaks,
-                ),
-                averageStreak: getAverageStreak(
-                    updatedChallengeStreak.currentStreak,
-                    updatedChallengeStreak.pastStreaks,
-                ),
+                longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                averageStreak: getAverageStreak(currentStreak, pastStreaks),
                 totalTimesTracked: completeChallengeStreakTasks.length,
+                daysSinceStreakCreation: getDaysSinceStreakCreation({
+                    createdAt: new Date(createdAt),
+                    timezone,
+                }),
+                numberOfRestarts: pastStreaks.length,
             };
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED });
