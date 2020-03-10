@@ -88,6 +88,8 @@ const defaultSelectedSoloStreak = {
     longestStreak: 0,
     averageStreak: 0,
     totalTimesTracked: 0,
+    daysSinceStreakCreation: 0,
+    numberOfRestarts: 0,
 };
 
 const initialState: SoloStreakReducerState = {
@@ -117,6 +119,8 @@ export interface SoloStreakWithClientData extends SoloStreak {
     longestStreak: number;
     averageStreak: number;
     totalTimesTracked: number;
+    daysSinceStreakCreation: number;
+    numberOfRestarts: number;
 }
 
 export interface SoloStreakListItem extends SoloStreak {
