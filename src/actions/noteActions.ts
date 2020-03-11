@@ -23,6 +23,7 @@ import {
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import { NoteWithClientData } from '../reducers/notesReducer';
+import { StreakTypes } from '@streakoid/streakoid-sdk/lib';
 
 const noteActions = (streakoid: typeof streakoidSDK) => {
     const getNotes = ({ subjectId, userId }: { subjectId?: string; userId?: string }) => async (
@@ -78,10 +79,15 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const createNote = ({ text, subjectId }: { text: string; subjectId: string }) => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
+    const createNote = ({
+        text,
+        subjectId,
+        streakType,
+    }: {
+        text: string;
+        subjectId: string;
+        streakType: StreakTypes;
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: CREATE_NOTE_LOADING });
             const userId = getState().users.currentUser._id;
@@ -98,21 +104,15 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
                     noteCreator && noteCreator.profileImages && noteCreator.profileImages.originalImageUrl,
             };
             dispatch({ type: CREATE_NOTE, payload: notesWithClientData });
-            try {
-                await streakoid.soloStreaks.getOne(subjectId);
+            if (streakType === StreakTypes.solo) {
                 dispatch({ type: NAVIGATE_TO_SPECIFIC_SOLO_STREAK, payload: subjectId });
-            } catch (err) {}
-
-            try {
-                await streakoid.challengeStreaks.getOne({ challengeStreakId: subjectId });
+            }
+            if (streakType === StreakTypes.challenge) {
                 dispatch({ type: NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK, payload: subjectId });
-            } catch (err) {}
-
-            try {
-                await streakoid.teamStreaks.getOne(subjectId);
+            }
+            if (streakType === StreakTypes.team) {
                 dispatch({ type: NAVIGATE_TO_SPECIFIC_TEAM_STREAK, payload: subjectId });
-            } catch (err) {}
-
+            }
             dispatch({ type: CREATE_NOTE_LOADED });
         } catch (err) {
             dispatch({ type: CREATE_NOTE_LOADED });
