@@ -22,6 +22,7 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { NoteWithClientData } from '../reducers/notesReducer';
 
 const noteActions = (streakoid: typeof streakoidSDK) => {
     const getNotes = ({ subjectId, userId }: { subjectId?: string; userId?: string }) => async (
@@ -84,12 +85,19 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: CREATE_NOTE_LOADING });
             const userId = getState().users.currentUser._id;
+            const noteCreator = await streakoid.users.getOne(userId);
             const note = await streakoid.notes.create({
                 userId,
                 subjectId,
                 text,
             });
-            dispatch({ type: CREATE_NOTE, payload: note });
+            const notesWithClientData: NoteWithClientData = {
+                ...note,
+                deleteNoteIsLoading: false,
+                noteCreatorProfilePicture:
+                    noteCreator && noteCreator.profileImages && noteCreator.profileImages.originalImageUrl,
+            };
+            dispatch({ type: CREATE_NOTE, payload: notesWithClientData });
             try {
                 await streakoid.soloStreaks.getOne(subjectId);
                 dispatch({ type: NAVIGATE_TO_SPECIFIC_SOLO_STREAK, payload: subjectId });

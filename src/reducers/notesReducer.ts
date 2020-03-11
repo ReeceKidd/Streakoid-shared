@@ -18,6 +18,7 @@ import {
     DELETE_NOTE_LOADING,
     DELETE_NOTE_LOADED,
     CLEAR_NOTES,
+    CREATE_NOTE,
 } from '../actions/types';
 
 export interface NoteReducerState {
@@ -110,6 +111,12 @@ const noteReducer = (state = initialState, action: NotesActionTypes): NoteReduce
             return {
                 ...state,
                 createNoteErrorMessage: action.payload,
+            };
+
+        case CREATE_NOTE:
+            return {
+                ...state,
+                notes: [...state.notes, action.payload],
             };
 
         case CREATE_NOTE_LOADING:

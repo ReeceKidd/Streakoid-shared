@@ -2086,6 +2086,7 @@ export interface GetNoteLoadedAction {
 
 export interface CreateNoteAction {
     type: typeof CREATE_NOTE;
+    payload: NoteWithClientData;
 }
 
 export interface CreateNoteFailAction {
