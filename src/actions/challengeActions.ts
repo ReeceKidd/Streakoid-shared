@@ -150,7 +150,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 members: sortedChallengeMembers,
                 longestCurrentStreakForChallenge,
                 longestEverStreakForChallenge,
-                averageStreakForChallenge,
+                averageStreakForChallenge: isFinite(averageStreakForChallenge) ? averageStreakForChallenge : 0,
                 totalTimesTracked,
             };
             dispatch({ type: GET_CHALLENGE, payload: populatedChallenge });
