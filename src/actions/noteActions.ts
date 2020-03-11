@@ -96,6 +96,7 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
                 userId,
                 subjectId,
                 text,
+                streakType,
             });
             const notesWithClientData: NoteWithClientData = {
                 ...note,
