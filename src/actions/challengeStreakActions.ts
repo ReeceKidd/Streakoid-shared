@@ -20,10 +20,10 @@ import {
     CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK,
     CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED,
     CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL,
-    GET_SELECTED_CHALLENGE_STREAK_LOADED,
-    GET_SELECTED_CHALLENGE_STREAK,
-    GET_SELECTED_CHALLENGE_STREAK_LOADING,
-    GET_SELECTED_CHALLENGE_STREAK_FAIL,
+    GET_CHALLENGE_STREAK_LOADED,
+    GET_CHALLENGE_STREAK,
+    GET_CHALLENGE_STREAK_LOADING,
+    GET_CHALLENGE_STREAK_FAIL,
     UPDATE_CHALLENGE_STREAK_TIMEZONES,
     UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL,
     ARCHIVE_CHALLENGE_STREAK_LOADING,
@@ -127,11 +127,11 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getSelectedChallengeStreak = ({ challengeStreakId }: { challengeStreakId: string }) => async (
+    const getChallengeStreak = ({ challengeStreakId }: { challengeStreakId: string }) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
         try {
-            dispatch({ type: GET_SELECTED_CHALLENGE_STREAK_LOADING });
+            dispatch({ type: GET_CHALLENGE_STREAK_LOADING });
             const challengeStreak = await streakoid.challengeStreaks.getOne({ challengeStreakId });
             const { currentStreak, pastStreaks, timezone, createdAt } = challengeStreak;
             const challengeStreakOwner = await streakoid.users.getOne(challengeStreak.userId);
@@ -164,14 +164,14 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 }),
                 numberOfRestarts: pastStreaks.length,
             };
-            dispatch({ type: GET_SELECTED_CHALLENGE_STREAK, payload: challengeStreakWithLoadingStates });
-            dispatch({ type: GET_SELECTED_CHALLENGE_STREAK_LOADED });
+            dispatch({ type: GET_CHALLENGE_STREAK, payload: challengeStreakWithLoadingStates });
+            dispatch({ type: GET_CHALLENGE_STREAK_LOADED });
         } catch (err) {
-            dispatch({ type: GET_SELECTED_CHALLENGE_STREAK_LOADED });
+            dispatch({ type: GET_CHALLENGE_STREAK_LOADED });
             if (err.response) {
-                dispatch({ type: GET_SELECTED_CHALLENGE_STREAK_FAIL, payload: err.response.data.message });
+                dispatch({ type: GET_CHALLENGE_STREAK_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: GET_SELECTED_CHALLENGE_STREAK_FAIL, payload: err.message });
+                dispatch({ type: GET_CHALLENGE_STREAK_FAIL, payload: err.message });
             }
         }
     };
@@ -401,7 +401,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     return {
         getLiveChallengeStreaks,
         getArchivedChallengeStreaks,
-        getSelectedChallengeStreak,
+        getChallengeStreak,
         archiveChallengeStreak,
         clearArchiveChallengeStreakErrorMessage,
         restoreArchivedChallengeStreak,

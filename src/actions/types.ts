@@ -1760,10 +1760,10 @@ export const GET_ARCHIVED_CHALLENGE_STREAKS_FAIL = 'GET_ARCHIVED_CHALLENGE_STREA
 export const GET_ARCHIVED_CHALLENGE_STREAKS_LOADING = 'GET_ARCHIVED_CHALLENGE_STREAKS_LOADING';
 export const GET_ARCHIVED_CHALLENGE_STREAKS_LOADED = 'GET_ARCHIVED_CHALLENGE_STREAKS_LOADED';
 
-export const GET_SELECTED_CHALLENGE_STREAK = 'GET_SELECTED_CHALLENGE_STREAK';
-export const GET_SELECTED_CHALLENGE_STREAK_FAIL = 'GET_SELECTED_CHALLENGE_STREAK_FAIL';
-export const GET_SELECTED_CHALLENGE_STREAK_LOADING = 'GET_SELECTED_CHALLENGE_STREAK_LOADING';
-export const GET_SELECTED_CHALLENGE_STREAK_LOADED = 'GET_SELECTED_CHALLENGE_STREAK_LOADED';
+export const GET_CHALLENGE_STREAK = 'GET_CHALLENGE_STREAK';
+export const GET_CHALLENGE_STREAK_FAIL = 'GET_CHALLENGE_STREAK_FAIL';
+export const GET_CHALLENGE_STREAK_LOADING = 'GET_CHALLENGE_STREAK_LOADING';
+export const GET_CHALLENGE_STREAK_LOADED = 'GET_CHALLENGE_STREAK_LOADED';
 
 export const ARCHIVE_CHALLENGE_STREAK = 'ARCHIVE_CHALLENGE_STREAK';
 export const ARCHIVE_CHALLENGE_STREAK_FAIL = 'ARCHIVE_CHALLENGE_STREAK_FAIL';
@@ -1835,22 +1835,22 @@ export interface GetArchivedChallengeStreaksIsLoadedAction {
     type: typeof GET_ARCHIVED_CHALLENGE_STREAKS_LOADED;
 }
 
-export interface GetSelectedChallengeStreakAction {
-    type: typeof GET_SELECTED_CHALLENGE_STREAK;
+export interface GetChallengeStreakAction {
+    type: typeof GET_CHALLENGE_STREAK;
     payload: ChallengeStreakWithClientData;
 }
 
-export interface GetSelectedChallengeStreakFailAction {
-    type: typeof GET_SELECTED_CHALLENGE_STREAK_FAIL;
+export interface GetChallengeStreakFailAction {
+    type: typeof GET_CHALLENGE_STREAK_FAIL;
     payload: string;
 }
 
-export interface GetSelectedChallengeStreakIsLoadingAction {
-    type: typeof GET_SELECTED_CHALLENGE_STREAK_LOADING;
+export interface GetChallengeStreakIsLoadingAction {
+    type: typeof GET_CHALLENGE_STREAK_LOADING;
 }
 
-export interface GetSelectedChallengeStreakIsLoadedAction {
-    type: typeof GET_SELECTED_CHALLENGE_STREAK_LOADED;
+export interface GetChallengeStreakIsLoadedAction {
+    type: typeof GET_CHALLENGE_STREAK_LOADED;
 }
 
 export interface ArchiveChallengeStreakAction {
@@ -1996,10 +1996,10 @@ export type ChallengeStreakActionTypes =
     | GetArchivedChallengeStreaksFailAction
     | GetArchivedChallengeStreaksIsLoadingAction
     | GetArchivedChallengeStreaksIsLoadedAction
-    | GetSelectedChallengeStreakAction
-    | GetSelectedChallengeStreakFailAction
-    | GetSelectedChallengeStreakIsLoadingAction
-    | GetSelectedChallengeStreakIsLoadedAction
+    | GetChallengeStreakAction
+    | GetChallengeStreakFailAction
+    | GetChallengeStreakIsLoadingAction
+    | GetChallengeStreakIsLoadedAction
     | ArchiveChallengeStreakAction
     | ArchiveChallengeStreakFailAction
     | ArchiveChallengeStreakIsLoadingAction

@@ -21,10 +21,10 @@ import {
     CREATE_CHALLENGE_STREAK,
     CREATE_CHALLENGE_STREAK_FAIL,
     UPDATE_CHALLENGE_STREAK_TIMEZONES,
-    GET_SELECTED_CHALLENGE_STREAK,
-    GET_SELECTED_CHALLENGE_STREAK_FAIL,
-    GET_SELECTED_CHALLENGE_STREAK_LOADING,
-    GET_SELECTED_CHALLENGE_STREAK_LOADED,
+    GET_CHALLENGE_STREAK,
+    GET_CHALLENGE_STREAK_FAIL,
+    GET_CHALLENGE_STREAK_LOADING,
+    GET_CHALLENGE_STREAK_LOADED,
     RESTORE_ARCHIVED_CHALLENGE_STREAK,
     RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADING,
     RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED,
@@ -169,25 +169,25 @@ const challengeStreakReducer = (
                 getLiveChallengeStreaksErrorMessage: action.payload,
             };
 
-        case GET_SELECTED_CHALLENGE_STREAK:
+        case GET_CHALLENGE_STREAK:
             return {
                 ...state,
                 selectedChallengeStreak: action.payload,
             };
 
-        case GET_SELECTED_CHALLENGE_STREAK_FAIL:
+        case GET_CHALLENGE_STREAK_FAIL:
             return {
                 ...state,
                 getSelectedChallengeStreakErrorMessage: action.payload,
             };
 
-        case GET_SELECTED_CHALLENGE_STREAK_LOADING:
+        case GET_CHALLENGE_STREAK_LOADING:
             return {
                 ...state,
                 getSelectedChallengeStreakIsLoading: true,
             };
 
-        case GET_SELECTED_CHALLENGE_STREAK_LOADED:
+        case GET_CHALLENGE_STREAK_LOADED:
             return {
                 ...state,
                 getSelectedChallengeStreakIsLoading: false,
