@@ -30,7 +30,6 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
         try {
-            dispatch({ type: CLEAR_NOTES });
             dispatch({ type: GET_NOTES_LOADING });
             let query: { userId?: string; subjectId?: string } = {};
             if (userId) {
@@ -142,11 +141,16 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const clearNotes = (): AppActions => ({
+        type: CLEAR_NOTES,
+    });
+
     return {
         getNotes,
         getNote,
         createNote,
         deleteNote,
+        clearNotes,
     };
 };
 
