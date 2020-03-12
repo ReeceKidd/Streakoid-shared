@@ -135,7 +135,7 @@ const initialState: UserReducerInitialState = {
         },
         userStreakCompleteInfo: [],
         pushNotificationToken: '',
-        hasCompletedIntroduction: false,
+        hasCompletedIntroduction: true,
         createdAt: '',
         updatedAt: '',
     },
