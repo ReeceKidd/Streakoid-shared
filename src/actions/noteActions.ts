@@ -46,6 +46,7 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
                     return {
                         ...note,
                         deleteNoteIsLoading: false,
+                        noteCreatorUsername: noteCreator && noteCreator.username,
                         noteCreatorProfilePicture:
                             noteCreator && noteCreator.profileImages && noteCreator.profileImages.originalImageUrl,
                     };
@@ -101,6 +102,7 @@ const noteActions = (streakoid: typeof streakoidSDK) => {
             const notesWithClientData: NoteWithClientData = {
                 ...note,
                 deleteNoteIsLoading: false,
+                noteCreatorUsername: noteCreator && noteCreator.username,
                 noteCreatorProfilePicture:
                     noteCreator && noteCreator.profileImages && noteCreator.profileImages.originalImageUrl,
             };

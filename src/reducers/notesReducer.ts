@@ -54,6 +54,7 @@ const initialState: NoteReducerState = {
 
 export interface NoteWithClientData extends Note {
     deleteNoteIsLoading: boolean;
+    noteCreatorUsername: string;
     noteCreatorProfilePicture: string;
 }
 
