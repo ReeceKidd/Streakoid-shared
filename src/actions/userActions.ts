@@ -104,7 +104,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 status: StreakStatus.live,
             });
             const sortedTeamStreaks = await sortTeamStreaks(activeTeamStreaks);
-            const activeChallengeStreaks = await streakoid.challengeStreaks.getAll({ userId: user._id });
+            const activeChallengeStreaks = await streakoid.challengeStreaks.getAll({
+                userId: user._id,
+                status: StreakStatus.live,
+            });
             const sortedChallengeStreaks = sortChallengeStreaks(activeChallengeStreaks);
             const challengeStreaksWithClientData = await Promise.all(
                 sortedChallengeStreaks.map(async challengeStreak => {
