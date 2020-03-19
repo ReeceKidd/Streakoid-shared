@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 
 import * as types from './actions/types';
 import { authReducer } from './reducers/authReducer';
-import { friendReducer } from './reducers/friendReducer';
 import { friendRequestReducer } from './reducers/friendRequestReducer';
 import { soloStreakReducer } from './reducers/soloStreakReducer';
 import { teamStreakReducer } from './reducers/teamStreakReducer';
@@ -25,7 +24,6 @@ import { getStreakCompletionString } from './helpers/generatedText/getStreakComp
 
 const sharedReducers = {
     auth: authReducer,
-    friends: friendReducer,
     friendRequests: friendRequestReducer,
     soloStreaks: soloStreakReducer,
     teamStreaks: teamStreakReducer,
