@@ -46,6 +46,7 @@ import {
     FormattedUser,
     PopulatedCurrentUser,
     PopulatedUser,
+    Friend,
 } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 import { UserBadge } from './badgesReducer';
@@ -68,13 +69,20 @@ export interface SelectedUser extends PopulatedUser {
     totalTimesTracked: number;
 }
 
-export interface PopulatedCurrentUserWithStreakCompleteInfo extends PopulatedCurrentUser {
+export interface FriendWithClientData extends Friend {
+    deleteFriendIsLoading: boolean;
+    deleteFriendErrorMessage: string;
+    isSelected: boolean;
+}
+
+export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser {
     userStreakCompleteInfo: { date: Date; count: number }[];
+    friends: FriendWithClientData[];
 }
 
 export interface UserReducerInitialState {
     usersList: UserWithClientData[];
-    currentUser: PopulatedCurrentUserWithStreakCompleteInfo;
+    currentUser: PopulatedCurrentUserWithClientData;
     selectedUser: SelectedUser;
     getUsersIsLoading: boolean;
     getUsersErrorMessage: string;
@@ -114,6 +122,7 @@ const initialState: UserReducerInitialState = {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         },
         badges: [],
+        friends: [],
         notifications: {
             completeStreaksReminder: {
                 pushNotification: false,

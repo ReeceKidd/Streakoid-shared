@@ -2,44 +2,17 @@ import { Dispatch } from 'redux';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
 import {
-    GET_FRIEND_LIST,
     DELETE_FRIEND,
-    GET_FRIEND_LIST_FAIL,
     DELETE_FRIEND_FAIL,
-    GET_FRIEND_LIST_IS_LOADING,
-    GET_FRIEND_LIST_IS_LOADED,
     DELETE_FRIEND_IS_LOADING,
     DELETE_FRIEND_IS_LOADED,
     SELECT_FRIEND,
     UNSELECT_FRIEND,
     CLEAR_SELECTED_FRIENDS,
-    CLEAR_FRIEND_LIST,
 } from './types';
 import { AppActions, AppState } from '..';
 
 const friendActions = (streakoid: typeof streakoidSDK) => {
-    const getFriendList = ({ userId }: { userId: string }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
-        try {
-            dispatch({ type: GET_FRIEND_LIST_IS_LOADING });
-            const friends = await streakoid.users.friends.getAll(userId);
-            const friendsWithClientData = friends.map(friend => ({
-                ...friend,
-                deleteFriendIsLoading: false,
-                deleteFriendErrorMessage: '',
-                isSelected: false,
-            }));
-            dispatch({ type: GET_FRIEND_LIST, payload: friendsWithClientData });
-            dispatch({ type: GET_FRIEND_LIST_IS_LOADED });
-        } catch (err) {
-            dispatch({ type: GET_FRIEND_LIST_IS_LOADED });
-            if (err.response) {
-                dispatch({ type: GET_FRIEND_LIST_FAIL, payload: err.response.data.message });
-            } else {
-                dispatch({ type: GET_FRIEND_LIST_FAIL, payload: err.message });
-            }
-        }
-    };
-
     const deleteFriend = (friendId: string) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
@@ -79,17 +52,12 @@ const friendActions = (streakoid: typeof streakoidSDK) => {
     const clearSelectedFriends = (): AppActions => ({
         type: CLEAR_SELECTED_FRIENDS,
     });
-    const clearFriendList = (): AppActions => ({
-        type: CLEAR_FRIEND_LIST,
-    });
 
     return {
-        getFriendList,
         deleteFriend,
         selectFriend,
         unselectFriend,
         clearSelectedFriends,
-        clearFriendList,
     };
 };
 

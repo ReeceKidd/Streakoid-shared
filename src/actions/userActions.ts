@@ -232,8 +232,18 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: GET_CURRENT_USER_IS_LOADING });
             const user = await streakoid.user.getCurrentUser();
+            const friends = await streakoid.users.friends.getAll(user._id);
+            const friendsWithClientData = friends.map(friend => ({
+                ...friend,
+                deleteFriendIsLoading: false,
+                deleteFriendErrorMessage: '',
+                isSelected: false,
+            }));
             const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId: user._id });
-            dispatch({ type: GET_CURRENT_USER, payload: { ...user, userStreakCompleteInfo } });
+            dispatch({
+                type: GET_CURRENT_USER,
+                payload: { ...user, friends: friendsWithClientData, userStreakCompleteInfo },
+            });
             dispatch({ type: GET_CURRENT_USER_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_CURRENT_USER_IS_LOADED });
@@ -251,12 +261,23 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         timezone?: string;
         pushNotificationToken?: string;
         hasCompletedIntroduction?: boolean;
-    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADING });
             const updatedUser = await streakoid.user.updateCurrentUser({ updateData });
+            const userId = getState().users.currentUser._id;
+            const friends = await streakoid.users.friends.getAll(userId);
+            const friendsWithClientData = friends.map(friend => ({
+                ...friend,
+                deleteFriendIsLoading: false,
+                deleteFriendErrorMessage: '',
+                isSelected: false,
+            }));
             const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId: updatedUser._id });
-            dispatch({ type: UPDATE_CURRENT_USER, user: { ...updatedUser, userStreakCompleteInfo } });
+            dispatch({
+                type: UPDATE_CURRENT_USER,
+                user: { ...updatedUser, friends: friendsWithClientData, userStreakCompleteInfo },
+            });
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADED });
         } catch (err) {
             if (err.response) {
