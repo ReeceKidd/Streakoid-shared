@@ -14,8 +14,12 @@ import {
     SoloStreakWithClientData,
 } from '../reducers/soloStreakReducer';
 import { FriendRequestStateWithClientData } from '../reducers/friendRequestReducer';
-import { UserWithClientData, SelectedUser, PopulatedCurrentUserWithClientData } from '../reducers/userReducer';
-import { FriendWithClientData } from '../reducers/friendReducer';
+import {
+    UserWithClientData,
+    SelectedUser,
+    PopulatedCurrentUserWithClientData,
+    FriendWithClientData,
+} from '../reducers/userReducer';
 import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 import {
@@ -1141,6 +1145,14 @@ export const UPLOAD_PROFILE_IMAGE_IS_LOADED = 'UPLOAD_PROFILE_IMAGE_IS_LOADED';
 export const CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES = 'CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES';
 export const CLEAR_SELECTED_USER = 'CLEAR_SELECTED_USER';
 
+export const DELETE_FRIEND = 'DELTE_FRIEND';
+export const DELETE_FRIEND_FAIL = 'DELTE_FRIEND_FAIL';
+export const DELETE_FRIEND_IS_LOADING = 'DELETE_FRIEND_IS_LOADING';
+export const DELETE_FRIEND_IS_LOADED = 'DELETE_FRIEND_IS_LOADED';
+export const SELECT_FRIEND = 'SELECT_FRIEND';
+export const UNSELECT_FRIEND = 'UNSELECT_FRIEND';
+export const CLEAR_SELECTED_FRIENDS = 'CLEAR_SELECTED_FRIENDS';
+
 export interface GetUsersAction {
     type: typeof GET_USERS;
     payload: UserWithClientData[];
@@ -1325,6 +1337,40 @@ export interface ClearSelectedUserAction {
     type: typeof CLEAR_SELECTED_USER;
 }
 
+export interface DeleteFriendAction {
+    type: typeof DELETE_FRIEND;
+    payload: FriendWithClientData[];
+}
+
+export interface DeleteFriendFailAction {
+    type: typeof DELETE_FRIEND_FAIL;
+    payload: { errorMessage: string; friendId: string };
+}
+
+export interface DeleteFriendIsLoadingAction {
+    type: typeof DELETE_FRIEND_IS_LOADING;
+    payload: string;
+}
+
+export interface DeleteFriendIsLoadedAction {
+    type: typeof DELETE_FRIEND_IS_LOADED;
+    payload: string;
+}
+
+export interface SelectFriendAction {
+    type: typeof SELECT_FRIEND;
+    payload: string;
+}
+
+export interface UnselectFriendAction {
+    type: typeof UNSELECT_FRIEND;
+    payload: string;
+}
+
+export interface ClearSelectedFriendsAction {
+    type: typeof CLEAR_SELECTED_FRIENDS;
+}
+
 export type UserActionTypes =
     | GetUsersAction
     | GetUsersFailAction
@@ -1371,51 +1417,7 @@ export type UserActionTypes =
     | UploadProfileIsLoadingAction
     | UploadProfileIsLoadedAction
     | ClearUploadProfileImageMessagesAction
-    | ClearSelectedUserAction;
-
-export const DELETE_FRIEND = 'DELTE_FRIEND';
-export const DELETE_FRIEND_FAIL = 'DELTE_FRIEND_FAIL';
-export const DELETE_FRIEND_IS_LOADING = 'DELETE_FRIEND_IS_LOADING';
-export const DELETE_FRIEND_IS_LOADED = 'DELETE_FRIEND_IS_LOADED';
-export const SELECT_FRIEND = 'SELECT_FRIEND';
-export const UNSELECT_FRIEND = 'UNSELECT_FRIEND';
-export const CLEAR_SELECTED_FRIENDS = 'CLEAR_SELECTED_FRIENDS';
-
-export interface DeleteFriendAction {
-    type: typeof DELETE_FRIEND;
-    payload: FriendWithClientData[];
-}
-
-export interface DeleteFriendFailAction {
-    type: typeof DELETE_FRIEND_FAIL;
-    payload: { errorMessage: string; friendId: string };
-}
-
-export interface DeleteFriendIsLoadingAction {
-    type: typeof DELETE_FRIEND_IS_LOADING;
-    payload: string;
-}
-
-export interface DeleteFriendIsLoadedAction {
-    type: typeof DELETE_FRIEND_IS_LOADED;
-    payload: string;
-}
-
-export interface SelectFriendAction {
-    type: typeof SELECT_FRIEND;
-    payload: string;
-}
-
-export interface UnselectFriendAction {
-    type: typeof UNSELECT_FRIEND;
-    payload: string;
-}
-
-export interface ClearSelectedFriendsAction {
-    type: typeof CLEAR_SELECTED_FRIENDS;
-}
-
-export type FriendActionTypes =
+    | ClearSelectedUserAction
     | DeleteFriendAction
     | DeleteFriendFailAction
     | DeleteFriendIsLoadingAction
@@ -2240,7 +2242,6 @@ export type AppActions =
     | TeamStreakActionTypes
     | TeamMemberStreakActionTypes
     | UserActionTypes
-    | FriendActionTypes
     | FriendRequestActionTypes
     | BadgesActionTypes
     | ChallengeActionTypes

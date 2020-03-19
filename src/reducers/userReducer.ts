@@ -39,6 +39,12 @@ import {
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING,
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED,
     CLEAR_SELECTED_USER,
+    DELETE_FRIEND,
+    DELETE_FRIEND_FAIL,
+    DELETE_FRIEND_IS_LOADED,
+    SELECT_FRIEND,
+    UNSELECT_FRIEND,
+    CLEAR_SELECTED_FRIENDS,
 } from '../actions/types';
 import {
     SoloStreak,
@@ -487,6 +493,91 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                     longestCurrentStreak: 0,
                     numberOfStreaks: 0,
                     totalTimesTracked: 0,
+                },
+            };
+
+        case DELETE_FRIEND:
+            return { ...state, currentUser: { ...state.currentUser, friends: action.payload } };
+
+        case DELETE_FRIEND_FAIL:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    friends: state.currentUser.friends.map(friend => {
+                        if (friend.friendId === action.payload.friendId) {
+                            return {
+                                ...friend,
+                                deleteFriendErrorMessage: action.payload.errorMessage,
+                            };
+                        }
+                        return friend;
+                    }),
+                },
+            };
+
+        case DELETE_FRIEND_IS_LOADED:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    friends: state.currentUser.friends.map(friend => {
+                        if (friend.friendId === action.payload) {
+                            return {
+                                ...friend,
+                                deleteFriendIsLoading: false,
+                            };
+                        }
+                        return friend;
+                    }),
+                },
+            };
+
+        case SELECT_FRIEND:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    friends: state.currentUser.friends.map(friend => {
+                        if (friend.friendId === action.payload) {
+                            return {
+                                ...friend,
+                                isSelected: true,
+                            };
+                        }
+                        return friend;
+                    }),
+                },
+            };
+
+        case UNSELECT_FRIEND:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    friends: state.currentUser.friends.map(friend => {
+                        if (friend.friendId === action.payload) {
+                            return {
+                                ...friend,
+                                isSelected: false,
+                            };
+                        }
+                        return friend;
+                    }),
+                },
+            };
+
+        case CLEAR_SELECTED_FRIENDS:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    friends: state.currentUser.friends.map(friend => {
+                        return {
+                            ...friend,
+                            isSelected: false,
+                        };
+                    }),
                 },
             };
 
