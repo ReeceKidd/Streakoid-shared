@@ -48,7 +48,6 @@ export {
     types,
     sharedReducers,
     authReducer,
-    friendReducer,
     friendRequestReducer,
     soloStreakReducer,
     teamStreakReducer,
