@@ -84,16 +84,16 @@ const leaderboardReducer = (state = initialState, action: LeaderboardActionTypes
                 getSoloStreakLeaderboardErrorMessage: action.payload,
             };
 
-        case GET_SOLO_STREAK_LEADERBOARD_LOADED:
+        case GET_SOLO_STREAK_LEADERBOARD_LOADING:
             return {
                 ...state,
                 getSoloStreakLeaderboardIsLoading: true,
             };
 
-        case GET_SOLO_STREAK_LEADERBOARD_LOADING:
+        case GET_SOLO_STREAK_LEADERBOARD_LOADED:
             return {
                 ...state,
-                getSoloStreakLeaderboardIsLoading: true,
+                getSoloStreakLeaderboardIsLoading: false,
             };
 
         case GET_TEAM_STREAK_LEADERBOARD:
@@ -108,16 +108,16 @@ const leaderboardReducer = (state = initialState, action: LeaderboardActionTypes
                 getTeamStreakLeaderboardErrorMessage: action.payload,
             };
 
-        case GET_TEAM_STREAK_LEADERBOARD_LOADED:
+        case GET_TEAM_STREAK_LEADERBOARD_LOADING:
             return {
                 ...state,
                 getTeamStreakLeaderboardIsLoading: true,
             };
 
-        case GET_TEAM_STREAK_LEADERBOARD_LOADING:
+        case GET_TEAM_STREAK_LEADERBOARD_LOADED:
             return {
                 ...state,
-                getTeamStreakLeaderboardIsLoading: true,
+                getTeamStreakLeaderboardIsLoading: false,
             };
 
         case GET_CHALLENGE_STREAK_LEADERBOARD:
@@ -132,16 +132,16 @@ const leaderboardReducer = (state = initialState, action: LeaderboardActionTypes
                 getChallengeStreakLeaderboardErrorMessage: action.payload,
             };
 
-        case GET_CHALLENGE_STREAK_LEADERBOARD_LOADED:
+        case GET_CHALLENGE_STREAK_LEADERBOARD_LOADING:
             return {
                 ...state,
                 getChallengeStreakLeaderboardIsLoading: true,
             };
 
-        case GET_CHALLENGE_STREAK_LEADERBOARD_LOADING:
+        case GET_CHALLENGE_STREAK_LEADERBOARD_LOADED:
             return {
                 ...state,
-                getChallengeStreakLeaderboardIsLoading: true,
+                getChallengeStreakLeaderboardIsLoading: false,
             };
 
         default:
