@@ -42,7 +42,7 @@ import {
 
 export interface ChallengeStreakReducerState {
     liveChallengeStreaks: ChallengeStreakListItem[];
-    getLiveChallengeStreaksIsLoading: boolean;
+    getMultipleLiveChallengeStreaksIsLoading: boolean;
     getLiveChallengeStreaksErrorMessage: string;
     selectedChallengeStreak: ChallengeStreakWithClientData;
     getSelectedChallengeStreakIsLoading: boolean;
@@ -93,7 +93,7 @@ const defaultSelectedChallengeStreak = {
 
 const initialState: ChallengeStreakReducerState = {
     liveChallengeStreaks: [],
-    getLiveChallengeStreaksIsLoading: false,
+    getMultipleLiveChallengeStreaksIsLoading: false,
     getLiveChallengeStreaksErrorMessage: '',
     selectedChallengeStreak: defaultSelectedChallengeStreak,
     getSelectedChallengeStreakIsLoading: false,
@@ -154,13 +154,13 @@ const challengeStreakReducer = (
         case GET_LIVE_CHALLENGE_STREAKS_LOADING:
             return {
                 ...state,
-                getLiveChallengeStreaksIsLoading: true,
+                getMultipleLiveChallengeStreaksIsLoading: true,
             };
 
         case GET_LIVE_CHALLENGE_STREAKS_LOADED:
             return {
                 ...state,
-                getLiveChallengeStreaksIsLoading: false,
+                getMultipleLiveChallengeStreaksIsLoading: false,
             };
 
         case GET_LIVE_CHALLENGE_STREAKS_FAIL:
