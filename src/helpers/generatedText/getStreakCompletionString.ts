@@ -33,7 +33,7 @@ export const getStreakCompletionString = ({
                 moment.duration(currentTime.diff(lastTimeUserCompletedStreak)).asDays(),
             ).toFixed(0);
 
-            streakCompletionString = `Days since completion: ${howManyDaysSinceUserCompletedStreak}`;
+            streakCompletionString = `Days since completion: ${howManyDaysSinceUserCompletedStreak + 1}`;
             streakCompletionStringError = true;
         }
     }
