@@ -29,11 +29,10 @@ export const getStreakCompletionString = ({
 
             const lastTimeUserCompletedStreak = moment(mostRecentPastStreak.endDate).tz(timezone);
 
-            const howManyDaysSinceUserCompletedStreak = Math.floor(
-                moment.duration(currentTime.diff(lastTimeUserCompletedStreak)).asDays(),
-            ).toFixed(0);
+            const howManyDaysSinceUserCompletedStreak =
+                Math.floor(moment.duration(currentTime.diff(lastTimeUserCompletedStreak)).asDays()).toFixed(0) + 1;
 
-            streakCompletionString = `Days since completion: ${howManyDaysSinceUserCompletedStreak + 1}`;
+            streakCompletionString = `Days since completion: ${howManyDaysSinceUserCompletedStreak}`;
             streakCompletionStringError = true;
         }
     }
