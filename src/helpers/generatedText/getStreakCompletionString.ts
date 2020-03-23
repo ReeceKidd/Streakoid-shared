@@ -29,8 +29,9 @@ export const getStreakCompletionString = ({
 
             const lastTimeUserCompletedStreak = moment(mostRecentPastStreak.endDate).tz(timezone);
 
-            const howManyDaysSinceUserCompletedStreak =
-                Math.floor(moment.duration(currentTime.diff(lastTimeUserCompletedStreak)).asDays()).toFixed(0) + 1;
+            const howManyDaysSinceUserCompletedStreak = Math.floor(
+                moment.duration(currentTime.diff(lastTimeUserCompletedStreak)).asDays() + 1,
+            ).toFixed(0);
 
             streakCompletionString = `Days since completion: ${howManyDaysSinceUserCompletedStreak}`;
             streakCompletionStringError = true;
