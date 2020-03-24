@@ -21,7 +21,7 @@ import {
     UPDATE_SELECTED_CHALLENGE,
 } from './types';
 import { AppActions, AppState } from '..';
-import { StreakStatus, PopulatedChallenge, ChallengeMember } from '@streakoid/streakoid-sdk/lib';
+import { PopulatedChallenge, ChallengeMember } from '@streakoid/streakoid-sdk/lib';
 import { ChallengeMemberWithClientData, PopulatedChallengeWithClientData } from '../reducers/challengesReducer';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
@@ -73,7 +73,9 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
     };
 
     const getPopulatedChallengeStats = async (challenge: PopulatedChallenge) => {
-        const challengeStreaks = await streakoid.challengeStreaks.getAll({ challengeId: challenge._id });
+        const challengeStreaks = await streakoid.challengeStreaks.getAll({
+            challengeId: challenge._id,
+        });
         let totalTimesTracked = 0;
         await Promise.all(
             challengeStreaks.map(async challengeStreak => {
@@ -183,7 +185,6 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
             if (!isPayingMember) {
                 const userChallengeStreaks = await streakoid.challengeStreaks.getAll({
                     userId,
-                    status: StreakStatus.live,
                 });
                 const challengeLimitForFreeAccounts = 2;
                 if (userChallengeStreaks.length >= challengeLimitForFreeAccounts) {
