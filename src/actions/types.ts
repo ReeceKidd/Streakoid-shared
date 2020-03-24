@@ -1644,11 +1644,17 @@ export const GET_CHALLENGES = 'GET_CHALLENGES';
 export const GET_CHALLENGES_FAIL = 'GET_CHALLENGES_FAIL';
 export const GET_CHALLENGES_IS_LOADING = 'GET_CHALLENGES_IS_LOADING';
 export const GET_CHALLENGES_IS_LOADED = 'GET_CHALLENGES_IS_LOADED';
-export const GET_CHALLENGE = 'GET_CHALLENGE';
-export const GET_CHALLENGE_FAIL = 'GET_CHALLENGE_FAIL';
-export const GET_CHALLENGE_IS_LOADING = 'GET_CHALLENGE_IS_LOADING';
-export const GET_CHALLENGE_IS_LOADED = 'GET_CHALLENGE_IS_LOADED';
-export const JOIN_CHALLENGE = 'JOIN_CHALLENGE';
+
+export const GET_SELECTED_CHALLENGE = 'GET_SELECTED_CHALLENGE';
+export const GET_SELECTED_CHALLENGE_FAIL = 'GET_SELECTED_CHALLENGE_FAIL';
+export const GET_SELECTED_CHALLENGE_IS_LOADING = 'GET_SELECTED_CHALLENGE_IS_LOADING';
+export const GET_SELECTED_CHALLENGE_IS_LOADED = 'GET_SELECTED_CHALLENGE_IS_LOADED';
+
+export const UPDATE_SELECTED_CHALLENGE = 'UPDATE_SELECTED_CHALLENGE';
+export const UPDATE_SELECTED_CHALLENGE_FAIL = 'UPDATE_SELECTED_CHALLENGE_FAIL';
+export const UPDATE_SELECTED_CHALLENGE_IS_LOADING = 'UPDATE_SELECTED_CHALLENGE_IS_LOADING';
+export const UPDATE_SELECTED_CHALLENGE_IS_LOADED = 'UPDATE_SELECTED_CHALLENGE_IS_LOADED';
+
 export const JOIN_CHALLENGE_FAIL = 'JOIN_CHALLENGE_FAIL';
 export const JOIN_CHALLENGE_LOADING = 'JOIN_CHALLENGE_LOADING';
 export const JOIN_CHALLENGE_LOADED = 'JOIN_CHALLENGE_LOADED';
@@ -1671,26 +1677,40 @@ export interface GetChallengesIsLoadedAction {
     type: typeof GET_CHALLENGES_IS_LOADED;
 }
 
-export interface GetChallengeAction {
-    type: typeof GET_CHALLENGE;
+export interface GetSelectedChallengeAction {
+    type: typeof GET_SELECTED_CHALLENGE;
     payload: PopulatedChallengeWithClientData;
 }
 
-export interface GetChallengeFailAction {
-    type: typeof GET_CHALLENGE_FAIL;
+export interface GetSelectedChallengeFailAction {
+    type: typeof GET_SELECTED_CHALLENGE_FAIL;
     payload: string;
 }
 
-export interface GetChallengeIsLoadingAction {
-    type: typeof GET_CHALLENGE_IS_LOADING;
+export interface GetSelectedChallengeIsLoadingAction {
+    type: typeof GET_SELECTED_CHALLENGE_IS_LOADING;
 }
 
-export interface GetChallengeIsLoadedAction {
-    type: typeof GET_CHALLENGE_IS_LOADED;
+export interface GetSelectedChallengeIsLoadedAction {
+    type: typeof GET_SELECTED_CHALLENGE_IS_LOADED;
 }
 
-export interface JoinChallengeAction {
-    type: typeof JOIN_CHALLENGE;
+export interface UpdateSelectedChallengeAction {
+    type: typeof UPDATE_SELECTED_CHALLENGE;
+    payload: PopulatedChallengeWithClientData;
+}
+
+export interface UpdateSelectedChallengeFailAction {
+    type: typeof UPDATE_SELECTED_CHALLENGE_FAIL;
+    payload: string;
+}
+
+export interface UpdateSelectedChallengeIsLoadingAction {
+    type: typeof UPDATE_SELECTED_CHALLENGE_IS_LOADING;
+}
+
+export interface UpdateSelectedChallengeIsLoadedAction {
+    type: typeof UPDATE_SELECTED_CHALLENGE_IS_LOADED;
 }
 
 export interface JoinChallengeFailAction {
@@ -1711,11 +1731,14 @@ export type ChallengeActionTypes =
     | GetChallengesFailAction
     | GetChallengesIsLoadingAction
     | GetChallengesIsLoadedAction
-    | GetChallengeAction
-    | GetChallengeFailAction
-    | GetChallengeIsLoadingAction
-    | GetChallengeIsLoadedAction
-    | JoinChallengeAction
+    | GetSelectedChallengeAction
+    | GetSelectedChallengeFailAction
+    | GetSelectedChallengeIsLoadingAction
+    | GetSelectedChallengeIsLoadedAction
+    | UpdateSelectedChallengeAction
+    | UpdateSelectedChallengeFailAction
+    | UpdateSelectedChallengeIsLoadingAction
+    | UpdateSelectedChallengeIsLoadedAction
     | JoinChallengeFailAction
     | JoinChallengeIsLoadingAction
     | JoinChallengeIsLoadedAction;

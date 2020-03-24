@@ -6,16 +6,19 @@ import {
     GET_CHALLENGES_FAIL,
     GET_CHALLENGES_IS_LOADING,
     GET_CHALLENGES_IS_LOADED,
-    GET_CHALLENGE_IS_LOADING,
-    GET_CHALLENGE,
-    GET_CHALLENGE_IS_LOADED,
-    GET_CHALLENGE_FAIL,
+    GET_SELECTED_CHALLENGE_IS_LOADING,
+    GET_SELECTED_CHALLENGE,
+    GET_SELECTED_CHALLENGE_IS_LOADED,
+    GET_SELECTED_CHALLENGE_FAIL,
     JOIN_CHALLENGE_LOADING,
     JOIN_CHALLENGE_LOADED,
-    JOIN_CHALLENGE,
     JOIN_CHALLENGE_FAIL,
     CREATE_CHALLENGE_STREAK,
     NAVIGATE_TO_STREAK_LIMIT_REACHED,
+    UPDATE_SELECTED_CHALLENGE_IS_LOADING,
+    UPDATE_SELECTED_CHALLENGE_IS_LOADED,
+    UPDATE_SELECTED_CHALLENGE_FAIL,
+    UPDATE_SELECTED_CHALLENGE,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
@@ -56,9 +59,10 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
     }: {
         challengeId: string;
         sort: { sortField: GetChallengeSortFields; sortOrder: GetChallengeSortOrder };
-    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
-            dispatch({ type: GET_CHALLENGE_IS_LOADING });
+            dispatch({ type: GET_SELECTED_CHALLENGE_IS_LOADING });
+            const currentUserId = getState().users.currentUser._id;
             const challenge = await streakoid.challenges.getOne({ challengeId });
             const challengeMembers = await Promise.all(
                 challenge.members.map(async member => {
@@ -145,22 +149,27 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 totalNumberOfStreaks += challengeStreak.pastStreaks.length + 1;
             });
             const averageStreakForChallenge = totalNumberOfStreaks / totalStreaksSum;
+            const userChallengeStreaks = await streakoid.challengeStreaks.getAll({ userId: currentUserId });
+            const userIsApartOfChallenge = userChallengeStreaks.find(
+                challengeStreak => String(challengeStreak.challengeId) === String(challenge._id),
+            );
             const populatedChallenge: PopulatedChallengeWithClientData = {
                 ...challenge,
+                userIsApartOfChallenge: userIsApartOfChallenge ? true : false,
                 members: sortedChallengeMembers,
                 longestCurrentStreakForChallenge,
                 longestEverStreakForChallenge,
                 averageStreakForChallenge: isFinite(averageStreakForChallenge) ? averageStreakForChallenge : 0,
                 totalTimesTracked,
             };
-            dispatch({ type: GET_CHALLENGE, payload: populatedChallenge });
-            dispatch({ type: GET_CHALLENGE_IS_LOADED });
+            dispatch({ type: GET_SELECTED_CHALLENGE, payload: populatedChallenge });
+            dispatch({ type: GET_SELECTED_CHALLENGE_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_CHALLENGES_IS_LOADED });
             if (err.response) {
-                dispatch({ type: GET_CHALLENGE_FAIL, payload: err.response.data.message });
+                dispatch({ type: GET_SELECTED_CHALLENGE_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: GET_CHALLENGE_FAIL, payload: err.message });
+                dispatch({ type: GET_SELECTED_CHALLENGE_FAIL, payload: err.message });
             }
         }
     };
@@ -210,15 +219,23 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 daysSinceStreakCreation: 0,
                 numberOfRestarts: 0,
             };
+            dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADING });
+            dispatch({
+                type: UPDATE_SELECTED_CHALLENGE,
+                payload: { ...getState().challenges.selectedChallenge, userIsApartOfChallenge: true },
+            });
+            dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADED });
             dispatch({ type: CREATE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: JOIN_CHALLENGE_LOADED });
-            dispatch({ type: JOIN_CHALLENGE, payload: challengeStreakWithLoadingState });
         } catch (err) {
             dispatch({ type: JOIN_CHALLENGE_LOADED });
+            dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADED });
             if (err.response) {
                 dispatch({ type: JOIN_CHALLENGE_FAIL, payload: err.response.data.message });
+                dispatch({ type: UPDATE_SELECTED_CHALLENGE_FAIL, payload: err.response.data.message });
             } else {
                 dispatch({ type: JOIN_CHALLENGE_FAIL, payload: err.message });
+                dispatch({ type: UPDATE_SELECTED_CHALLENGE_FAIL, payload: err.response.data.message });
             }
         }
     };

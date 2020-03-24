@@ -4,13 +4,17 @@ import {
     GET_CHALLENGES_IS_LOADING,
     GET_CHALLENGES_IS_LOADED,
     ChallengeActionTypes,
-    GET_CHALLENGE,
-    GET_CHALLENGE_FAIL,
+    GET_SELECTED_CHALLENGE,
+    GET_SELECTED_CHALLENGE_FAIL,
     JOIN_CHALLENGE_LOADING,
     JOIN_CHALLENGE_LOADED,
     JOIN_CHALLENGE_FAIL,
-    GET_CHALLENGE_IS_LOADING,
-    GET_CHALLENGE_IS_LOADED,
+    GET_SELECTED_CHALLENGE_IS_LOADING,
+    GET_SELECTED_CHALLENGE_IS_LOADED,
+    UPDATE_SELECTED_CHALLENGE,
+    UPDATE_SELECTED_CHALLENGE_FAIL,
+    UPDATE_SELECTED_CHALLENGE_IS_LOADING,
+    UPDATE_SELECTED_CHALLENGE_IS_LOADED,
 } from '../actions/types';
 import { Challenge, PopulatedChallenge, ChallengeMember, CurrentStreak } from '@streakoid/streakoid-sdk/lib';
 
@@ -19,13 +23,16 @@ export interface ChallengeReducerState {
     getAllChallengesIsLoading: boolean;
     getAllChallengesErrorMessage: string;
     selectedChallenge: PopulatedChallengeWithClientData;
-    getChallengeIsLoading: boolean;
-    getChallengesErrorMessage: string;
+    getSelectedChallengeIsLoading: boolean;
+    getSelectedChallengesErrorMessage: string;
+    updateSelectedChallengeIsLoading: boolean;
+    updateSelectedChallengeErrorMessage: string;
     joinChallengeIsLoading: boolean;
     joinChallengeErrorMessage: string;
 }
 
 export interface PopulatedChallengeWithClientData extends PopulatedChallenge {
+    userIsApartOfChallenge: boolean;
     longestCurrentStreakForChallenge: number;
     longestEverStreakForChallenge: number;
     averageStreakForChallenge: number;
@@ -57,13 +64,16 @@ const initialState: ChallengeReducerState = {
         levels: [],
         createdAt: '',
         updatedAt: '',
+        userIsApartOfChallenge: false,
         longestCurrentStreakForChallenge: 0,
         longestEverStreakForChallenge: 0,
         averageStreakForChallenge: 0,
         totalTimesTracked: 0,
     },
-    getChallengeIsLoading: false,
-    getChallengesErrorMessage: '',
+    getSelectedChallengeIsLoading: false,
+    getSelectedChallengesErrorMessage: '',
+    updateSelectedChallengeIsLoading: false,
+    updateSelectedChallengeErrorMessage: '',
     joinChallengeIsLoading: false,
     joinChallengeErrorMessage: '',
 };
@@ -94,29 +104,55 @@ const challengeReducer = (state = initialState, action: ChallengeActionTypes): C
                 getAllChallengesIsLoading: false,
             };
 
-        case GET_CHALLENGE:
+        case GET_SELECTED_CHALLENGE:
             return {
                 ...state,
                 selectedChallenge: action.payload,
             };
 
-        case GET_CHALLENGE_FAIL:
+        case GET_SELECTED_CHALLENGE_FAIL:
             return {
                 ...state,
-                getChallengesErrorMessage: action.payload,
+                getSelectedChallengesErrorMessage: action.payload,
             };
 
-        case GET_CHALLENGE_IS_LOADING: {
+        case GET_SELECTED_CHALLENGE_IS_LOADING: {
             return {
                 ...state,
-                getChallengeIsLoading: true,
+                getSelectedChallengeIsLoading: true,
             };
         }
 
-        case GET_CHALLENGE_IS_LOADED: {
+        case GET_SELECTED_CHALLENGE_IS_LOADED: {
             return {
                 ...state,
-                getChallengeIsLoading: false,
+                getSelectedChallengeIsLoading: false,
+            };
+        }
+
+        case UPDATE_SELECTED_CHALLENGE:
+            return {
+                ...state,
+                selectedChallenge: action.payload,
+            };
+
+        case UPDATE_SELECTED_CHALLENGE_FAIL:
+            return {
+                ...state,
+                updateSelectedChallengeErrorMessage: action.payload,
+            };
+
+        case UPDATE_SELECTED_CHALLENGE_IS_LOADING: {
+            return {
+                ...state,
+                updateSelectedChallengeIsLoading: true,
+            };
+        }
+
+        case UPDATE_SELECTED_CHALLENGE_IS_LOADED: {
+            return {
+                ...state,
+                updateSelectedChallengeIsLoading: false,
             };
         }
 
