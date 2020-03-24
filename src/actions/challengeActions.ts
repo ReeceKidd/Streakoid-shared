@@ -66,7 +66,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         );
         const sortedChallengeMembers = populatedChallengeMembers.sort((challengeMemberA, challengeMemberB) => {
             return (
-                challengeMemberA.currentStreak.numberOfDaysInARow - challengeMemberB.currentStreak.numberOfDaysInARow
+                challengeMemberB.currentStreak.numberOfDaysInARow - challengeMemberA.currentStreak.numberOfDaysInARow
             );
         });
         return sortedChallengeMembers;
