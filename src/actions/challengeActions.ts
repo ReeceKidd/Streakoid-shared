@@ -21,7 +21,7 @@ import {
     UPDATE_SELECTED_CHALLENGE,
 } from './types';
 import { AppActions, AppState } from '..';
-import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
+import { StreakStatus, PopulatedChallenge, ChallengeMember } from '@streakoid/streakoid-sdk/lib';
 import { ChallengeMemberWithClientData, PopulatedChallengeWithClientData } from '../reducers/challengesReducer';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
@@ -53,106 +53,101 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getChallenge = ({
-        challengeId,
-        sort,
-    }: {
-        challengeId: string;
-        sort: { sortField: GetChallengeSortFields; sortOrder: GetChallengeSortOrder };
-    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
+    const getSortedChallengeMembers = async (challengeId: string, challengeMembers: ChallengeMember[]) => {
+        const populatedChallengeMembers = await Promise.all(
+            challengeMembers.map(async member => {
+                const user = await streakoid.users.getOne(member.userId);
+                const userChallengeStreaks = await streakoid.challengeStreaks.getAll({
+                    userId: user._id,
+                    challengeId: challengeId,
+                });
+                const userChallengeStreak = userChallengeStreaks[0];
+                const totalTimesTracked = await streakoid.completeChallengeStreakTasks.getAll({
+                    challengeStreakId: userChallengeStreak._id,
+                });
+                const challengeMember: ChallengeMemberWithClientData = {
+                    username: user.username,
+                    userId: user._id,
+                    profileImage: user.profileImages.originalImageUrl,
+                    currentStreak: userChallengeStreak.currentStreak,
+                    longestStreak: getLongestStreak(userChallengeStreak.currentStreak, userChallengeStreak.pastStreaks),
+                    averageStreak: getAverageStreak(userChallengeStreak.currentStreak, userChallengeStreak.pastStreaks),
+                    totalTimesTracked: totalTimesTracked.length,
+                    challengeStreakId: userChallengeStreak._id,
+                    joinedChallenge: new Date(userChallengeStreak.createdAt),
+                };
+                return challengeMember;
+            }),
+        );
+        const sortedChallengeMembers = populatedChallengeMembers.sort((challengeMemberA, challengeMemberB) => {
+            return (
+                challengeMemberA.currentStreak.numberOfDaysInARow - challengeMemberB.currentStreak.numberOfDaysInARow
+            );
+        });
+        return sortedChallengeMembers;
+    };
+
+    const getPopulatedChallengeStats = async (challenge: PopulatedChallenge) => {
+        const challengeStreaks = await streakoid.challengeStreaks.getAll({ challengeId: challenge._id });
+        let totalTimesTracked = 0;
+        await Promise.all(
+            challengeStreaks.map(async challengeStreak => {
+                const timesTracked = await streakoid.completeChallengeStreakTasks.getAll({
+                    challengeStreakId: challengeStreak._id,
+                });
+                totalTimesTracked += timesTracked.length;
+            }),
+        );
+        const currentStreaks = challengeStreaks.map(
+            challengeStreak => challengeStreak.currentStreak.numberOfDaysInARow,
+        );
+        const longestPastStreakLengths = challengeStreaks.map(challengeStreak => {
+            const pastStreakLengths = challengeStreak.pastStreaks.map(pastStreak => pastStreak.numberOfDaysInARow);
+            const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
+            return longestPastStreakNumberOfDays;
+        });
+        const longestPastStreakForChallenge = Math.max(...longestPastStreakLengths);
+        const longestCurrentStreakForChallenge = currentStreaks.length === 0 ? 0 : Math.max(...currentStreaks);
+        const longestEverStreakForChallenge =
+            longestPastStreakForChallenge >= longestCurrentStreakForChallenge
+                ? longestPastStreakForChallenge
+                : longestCurrentStreakForChallenge;
+        let totalStreaksSum = 0;
+        let totalNumberOfStreaks = 0;
+        challengeStreaks.map(challengeStreak => {
+            challengeStreak.pastStreaks.map(pastStreak => (totalStreaksSum += pastStreak.numberOfDaysInARow));
+            totalStreaksSum += challengeStreak.currentStreak.numberOfDaysInARow;
+            // Plus one for the current length.
+            totalNumberOfStreaks += challengeStreak.pastStreaks.length + 1;
+        });
+        const averageStreakForChallenge = totalNumberOfStreaks / totalStreaksSum;
+        return {
+            totalTimesTracked,
+            longestCurrentStreakForChallenge,
+            longestEverStreakForChallenge,
+            averageStreakForChallenge,
+        };
+    };
+
+    const getChallenge = ({ challengeId }: { challengeId: string }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
         try {
             dispatch({ type: GET_SELECTED_CHALLENGE_IS_LOADING });
             const currentUserId = getState().users.currentUser._id;
             const challenge = await streakoid.challenges.getOne({ challengeId });
-            const challengeMembers = await Promise.all(
-                challenge.members.map(async member => {
-                    const user = await streakoid.users.getOne(member.userId);
-                    const userChallengeStreaks = await streakoid.challengeStreaks.getAll({
-                        userId: user._id,
-                        challengeId: challengeId,
-                    });
-                    const userChallengeStreak = userChallengeStreaks[0];
-                    const totalTimesTracked = await streakoid.completeChallengeStreakTasks.getAll({
-                        challengeStreakId: userChallengeStreak._id,
-                    });
-                    const challengeMember: ChallengeMemberWithClientData = {
-                        username: user.username,
-                        userId: user._id,
-                        profileImage: user.profileImages.originalImageUrl,
-                        currentStreak: userChallengeStreak.currentStreak,
-                        longestStreak: getLongestStreak(
-                            userChallengeStreak.currentStreak,
-                            userChallengeStreak.pastStreaks,
-                        ),
-                        averageStreak: getAverageStreak(
-                            userChallengeStreak.currentStreak,
-                            userChallengeStreak.pastStreaks,
-                        ),
-                        totalTimesTracked: totalTimesTracked.length,
-                        challengeStreakId: userChallengeStreak._id,
-                        joinedChallenge: new Date(userChallengeStreak.createdAt),
-                    };
-                    return challengeMember;
-                }),
-            );
-            const sortedChallengeMembers = challengeMembers.sort((challengeMemberA, challengeMemberB) => {
-                if (sort.sortField === GetChallengeSortFields.currentStreak) {
-                    if (sort.sortOrder === GetChallengeSortOrder.ascending) {
-                        return (
-                            challengeMemberA.currentStreak.numberOfDaysInARow -
-                            challengeMemberB.currentStreak.numberOfDaysInARow
-                        );
-                    } else {
-                        return (
-                            challengeMemberB.currentStreak.numberOfDaysInARow -
-                            challengeMemberA.currentStreak.numberOfDaysInARow
-                        );
-                    }
-                } else if (sort.sortField === GetChallengeSortFields.longestStreak) {
-                    if (sort.sortOrder === GetChallengeSortOrder.ascending) {
-                        return challengeMemberA.longestStreak - challengeMemberB.longestStreak;
-                    } else {
-                        return challengeMemberB.longestStreak - challengeMemberA.longestStreak;
-                    }
-                } else return 0;
-            });
-            const challengeStreaks = await streakoid.challengeStreaks.getAll({ challengeId });
-            let totalTimesTracked = 0;
-            await Promise.all(
-                challengeStreaks.map(async challengeStreak => {
-                    const timesTracked = await streakoid.completeChallengeStreakTasks.getAll({
-                        challengeStreakId: challengeStreak._id,
-                    });
-                    totalTimesTracked += timesTracked.length;
-                }),
-            );
-            const currentStreaks = challengeStreaks.map(
-                challengeStreak => challengeStreak.currentStreak.numberOfDaysInARow,
-            );
-            const longestPastStreakLengths = challengeStreaks.map(challengeStreak => {
-                const pastStreakLengths = challengeStreak.pastStreaks.map(pastStreak => pastStreak.numberOfDaysInARow);
-                const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
-                return longestPastStreakNumberOfDays;
-            });
-            const longestPastStreakForChallenge = Math.max(...longestPastStreakLengths);
-            const longestCurrentStreakForChallenge = currentStreaks.length === 0 ? 0 : Math.max(...currentStreaks);
-            const longestEverStreakForChallenge =
-                longestPastStreakForChallenge >= longestCurrentStreakForChallenge
-                    ? longestPastStreakForChallenge
-                    : longestCurrentStreakForChallenge;
-            let totalStreaksSum = 0;
-            let totalNumberOfStreaks = 0;
-            challengeStreaks.map(challengeStreak => {
-                challengeStreak.pastStreaks.map(pastStreak => (totalStreaksSum += pastStreak.numberOfDaysInARow));
-                totalStreaksSum += challengeStreak.currentStreak.numberOfDaysInARow;
-                // Plus one for the current length.
-                totalNumberOfStreaks += challengeStreak.pastStreaks.length + 1;
-            });
-            const averageStreakForChallenge = totalNumberOfStreaks / totalStreaksSum;
+            const sortedChallengeMembers = await getSortedChallengeMembers(challenge._id, challenge.members);
             const userChallengeStreaks = await streakoid.challengeStreaks.getAll({ userId: currentUserId });
             const userIsApartOfChallenge = userChallengeStreaks.find(
                 challengeStreak => String(challengeStreak.challengeId) === String(challenge._id),
             );
+            const {
+                longestCurrentStreakForChallenge,
+                longestEverStreakForChallenge,
+                averageStreakForChallenge,
+                totalTimesTracked,
+            } = await getPopulatedChallengeStats(challenge);
             const populatedChallenge: PopulatedChallengeWithClientData = {
                 ...challenge,
                 userIsApartOfChallenge: userIsApartOfChallenge ? true : false,
@@ -220,9 +215,24 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 numberOfRestarts: 0,
             };
             dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADING });
+            const sortedChallengeMembers = await getSortedChallengeMembers(challenge._id, challenge.members);
+            const {
+                longestCurrentStreakForChallenge,
+                longestEverStreakForChallenge,
+                averageStreakForChallenge,
+                totalTimesTracked,
+            } = await getPopulatedChallengeStats(challenge);
             dispatch({
                 type: UPDATE_SELECTED_CHALLENGE,
-                payload: { ...getState().challenges.selectedChallenge, userIsApartOfChallenge: true },
+                payload: {
+                    ...getState().challenges.selectedChallenge,
+                    userIsApartOfChallenge: true,
+                    members: sortedChallengeMembers,
+                    longestCurrentStreakForChallenge,
+                    longestEverStreakForChallenge,
+                    averageStreakForChallenge,
+                    totalTimesTracked,
+                },
             });
             dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADED });
             dispatch({ type: CREATE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
