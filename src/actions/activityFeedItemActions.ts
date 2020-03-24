@@ -72,8 +72,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: soloStreak._id,
-                            subjectName: soloStreak.streakName,
+                            subjectId: soloStreak && soloStreak._id,
+                            subjectName: soloStreak && soloStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -89,8 +89,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: soloStreak._id,
-                            subjectName: soloStreak.streakName,
+                            subjectId: soloStreak && soloStreak._id,
+                            subjectName: soloStreak && soloStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -106,8 +106,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: soloStreak._id,
-                            subjectName: soloStreak.streakName,
+                            subjectId: soloStreak && soloStreak._id,
+                            subjectName: soloStreak && soloStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -123,8 +123,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: soloStreak._id,
-                            subjectName: soloStreak.streakName,
+                            subjectId: soloStreak && soloStreak._id,
+                            subjectName: soloStreak && soloStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -140,8 +140,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: soloStreak._id,
-                            subjectName: soloStreak.streakName,
+                            subjectId: soloStreak && soloStreak._id,
+                            subjectName: soloStreak && soloStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -157,8 +157,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: soloStreak._id,
-                            subjectName: soloStreak.streakName,
+                            subjectId: soloStreak && soloStreak._id,
+                            subjectName: soloStreak && soloStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -174,8 +174,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: soloStreak._id,
-                            subjectName: soloStreak.streakName,
+                            subjectId: soloStreak && soloStreak._id,
+                            subjectName: soloStreak && soloStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -191,9 +191,9 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            description: soloStreak.streakDescription,
-                            subjectId: soloStreak._id,
-                            subjectName: soloStreak.streakName,
+                            description: soloStreak && soloStreak.streakDescription,
+                            subjectId: soloStreak && soloStreak._id,
+                            subjectName: soloStreak && soloStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -209,8 +209,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: teamStreak._id,
-                            subjectName: teamStreak.streakName,
+                            subjectId: teamStreak && teamStreak._id,
+                            subjectName: teamStreak && teamStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -226,8 +226,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: teamStreak._id,
-                            subjectName: teamStreak.streakName,
+                            subjectId: teamStreak && teamStreak._id,
+                            subjectName: teamStreak && teamStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -243,8 +243,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: teamStreak._id,
-                            subjectName: teamStreak.streakName,
+                            subjectId: teamStreak && teamStreak._id,
+                            subjectName: teamStreak && teamStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -260,8 +260,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: teamStreak._id,
-                            subjectName: teamStreak.streakName,
+                            subjectId: teamStreak && teamStreak._id,
+                            subjectName: teamStreak && teamStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -277,8 +277,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: teamStreak._id,
-                            subjectName: teamStreak.streakName,
+                            subjectId: teamStreak && teamStreak._id,
+                            subjectName: teamStreak && teamStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -294,8 +294,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: teamStreak._id,
-                            subjectName: teamStreak.streakName,
+                            subjectId: teamStreak && teamStreak._id,
+                            subjectName: teamStreak && teamStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -311,8 +311,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: teamStreak._id,
-                            subjectName: teamStreak.streakName,
+                            subjectId: teamStreak && teamStreak._id,
+                            subjectName: teamStreak && teamStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -328,8 +328,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: teamStreak._id,
-                            subjectName: teamStreak.streakName,
+                            subjectId: teamStreak && teamStreak._id,
+                            subjectName: teamStreak && teamStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -345,9 +345,9 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            description: teamStreak.streakDescription,
-                            subjectId: teamStreak._id,
-                            subjectName: teamStreak.streakName,
+                            description: teamStreak && teamStreak.streakDescription,
+                            subjectId: teamStreak && teamStreak._id,
+                            subjectName: teamStreak && teamStreak.streakName,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -368,8 +368,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: challengeStreak._id,
-                            subjectName: challenge.name,
+                            subjectId: challengeStreak && challengeStreak._id,
+                            subjectName: challenge && challenge.name,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -390,8 +390,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: challengeStreak._id,
-                            subjectName: challenge.name,
+                            subjectId: challengeStreak && challengeStreak._id,
+                            subjectName: challenge && challenge.name,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -412,8 +412,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: challengeStreak._id,
-                            subjectName: challenge.name,
+                            subjectId: challengeStreak && challengeStreak._id,
+                            subjectName: challenge && challenge.name,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -434,8 +434,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: challengeStreak._id,
-                            subjectName: challenge.name,
+                            subjectId: challengeStreak && challengeStreak._id,
+                            subjectName: challenge && challenge.name,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -456,8 +456,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: challengeStreak._id,
-                            subjectName: challenge.name,
+                            subjectId: challengeStreak && challengeStreak._id,
+                            subjectName: challenge && challenge.name,
                         };
                         return userActivityFeedActionItem;
                     }
@@ -478,8 +478,8 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                             username: user && user.username,
                             title,
-                            subjectId: challengeStreak._id,
-                            subjectName: challenge.name,
+                            subjectId: challengeStreak && challengeStreak._id,
+                            subjectName: challenge && challenge.name,
                         };
                         return userActivityFeedActionItem;
                     }
