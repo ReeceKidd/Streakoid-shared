@@ -1,3 +1,0 @@
-1) How can I fix the no return type for the function for each of my actions. 
-2) Need to ask Maxime how he would have approached sharing code vs what I've done because 
-it seems a bit mad to use dependency injection for it all just because the timezone is different. 
