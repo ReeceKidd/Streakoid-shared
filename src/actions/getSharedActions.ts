@@ -16,6 +16,7 @@ import { noteActions } from './noteActions';
 import { activityFeedItemActions } from './activityFeedItemActions';
 import { teamMemberStreakActions } from './teamMemberStreakActions';
 import { leaderboardActions } from './leaderboardActions';
+import { databaseStatsActions } from './databaseStatsActions';
 
 export const getSharedActions = (streakoid: typeof streakoidSDK) => {
     return {
@@ -36,5 +37,6 @@ export const getSharedActions = (streakoid: typeof streakoidSDK) => {
         noteActions: noteActions(streakoid),
         activityFeedItemActions: activityFeedItemActions(streakoid),
         leaderboardActions: leaderboardActions(streakoid),
+        databaseStatsActions: databaseStatsActions(streakoid),
     };
 };
