@@ -6,6 +6,7 @@ import {
     Badge,
     Challenge,
     Note,
+    DatabaseStats,
 } from '@streakoid/streakoid-sdk/lib';
 import { PopulatedTeamStreakWithClientData, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
 import {
@@ -2257,6 +2258,35 @@ export type LeaderboardActionTypes =
     | GetChallengeStreakLeaderboardLoadingAction
     | GetChallengeStreakLeaderboardLoadedAction;
 
+export const GET_DATABASE_STATS = 'GET_DATABASE_STATS';
+export const GET_DATABASE_STATS_FAIL = 'GET_DATABASE_STATS_FAIL';
+export const GET_DATABASE_STATS_LOADING = 'GET_DATABASE_STATS_LOADING';
+export const GET_DATABASE_STATS_LOADED = 'GET_DATABASE_STATS_LOADED';
+
+export interface GetDatabaseStatsAction {
+    type: typeof GET_DATABASE_STATS;
+    payload: DatabaseStats;
+}
+
+export interface GetDatabaseStatsFailAction {
+    type: typeof GET_DATABASE_STATS_FAIL;
+    payload: string;
+}
+
+export interface GetDatabaseStatsLoadingAction {
+    type: typeof GET_DATABASE_STATS_LOADING;
+}
+
+export interface GetDatabaseStatsLoadedAction {
+    type: typeof GET_DATABASE_STATS_LOADED;
+}
+
+export type DatabaseStatsActionTypes =
+    | GetDatabaseStatsAction
+    | GetDatabaseStatsFailAction
+    | GetDatabaseStatsLoadingAction
+    | GetDatabaseStatsLoadedAction;
+
 export type AppActions =
     | NavigationActionTypes
     | AuthActionTypes
@@ -2271,4 +2301,5 @@ export type AppActions =
     | ChallengeStreakActionTypes
     | NotesActionTypes
     | ActivityFeedItemsActionTypes
-    | LeaderboardActionTypes;
+    | LeaderboardActionTypes
+    | DatabaseStatsActionTypes;

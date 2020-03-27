@@ -14,6 +14,7 @@ import { noteReducer } from './reducers/notesReducer';
 import { activityFeedItemReducer } from './reducers/activityFeedItemReducer';
 import { teamMemberStreakReducer } from './reducers/teamMemberStreakReducer';
 import { leaderboardReducer } from './reducers/leaderboardReducer';
+import { databaseStatsReducer } from './reducers/databaseStatsReducer';
 
 import { AppActions } from './actions/types';
 import { getSharedActions } from './actions/getSharedActions';
@@ -36,6 +37,7 @@ const sharedReducers = {
     activityFeedItems: activityFeedItemReducer,
     teamMemberStreaks: teamMemberStreakReducer,
     leaderboards: leaderboardReducer,
+    dabatabaseStats: databaseStatsReducer,
 };
 
 const sharedReducer = combineReducers({
