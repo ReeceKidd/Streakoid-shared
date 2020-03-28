@@ -173,7 +173,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const joinChallenge = ({ challengeId }: { challengeId: string }) => async (
+    const joinChallenge = ({ challengeId, isAppleDevice }: { challengeId: string; isAppleDevice?: boolean }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
@@ -182,7 +182,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
             const currentUser = getState().users.currentUser;
             const userId = currentUser._id;
             const isPayingMember = getState().users.currentUser.membershipInformation.isPayingMember;
-            if (!isPayingMember) {
+            if (!isPayingMember && !isAppleDevice) {
                 const userChallengeStreaks = await streakoid.challengeStreaks.getAll({
                     userId,
                 });
