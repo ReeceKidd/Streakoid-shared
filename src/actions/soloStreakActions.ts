@@ -181,6 +181,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                 const soloStreaksLimitForFreeAccounts = 2;
                 if (userSoloStreaks.length >= soloStreaksLimitForFreeAccounts) {
                     dispatch({ type: NAVIGATE_TO_STREAK_LIMIT_REACHED });
+                    dispatch({ type: CREATE_SOLO_STREAK_IS_LOADED });
                     return;
                 }
             }

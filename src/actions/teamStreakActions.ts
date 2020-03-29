@@ -254,6 +254,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 const teamStreaksLimitForFreeAccounts = 2;
                 if (userTeamStreaks.length >= teamStreaksLimitForFreeAccounts) {
                     dispatch({ type: NAVIGATE_TO_STREAK_LIMIT_REACHED });
+                    dispatch({ type: CREATE_TEAM_STREAK_IS_LOADED });
                     return;
                 }
             }
