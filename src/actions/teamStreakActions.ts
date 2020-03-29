@@ -45,7 +45,6 @@ import {
     UPDATE_TEAM_STREAK_TIMEZONE,
     UPDATE_TEAM_STREAK_TIMEZONE_FAIL,
     NAVIGATE_TO_STREAK_LIMIT_REACHED,
-    JOIN_CHALLENGE_LOADED,
     CLEAR_SELECTED_TEAM_STREAK,
 } from './types';
 import { AppActions, AppState } from '..';
@@ -255,7 +254,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 const teamStreaksLimitForFreeAccounts = 2;
                 if (userTeamStreaks.length >= teamStreaksLimitForFreeAccounts) {
                     dispatch({ type: NAVIGATE_TO_STREAK_LIMIT_REACHED });
-                    dispatch({ type: JOIN_CHALLENGE_LOADED });
                     return;
                 }
             }
