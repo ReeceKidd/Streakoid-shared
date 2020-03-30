@@ -69,6 +69,7 @@ const initialState: ChallengeReducerState = {
         longestEverStreakForChallenge: 0,
         averageStreakForChallenge: 0,
         totalTimesTracked: 0,
+        numberOfMembers: 0,
     },
     getSelectedChallengeIsLoading: false,
     getSelectedChallengesErrorMessage: '',
