@@ -39,12 +39,16 @@ import { sortSoloStreaks, sortTeamStreaks, sortChallengeStreaks } from '../helpe
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
-    const getUsers = ({ skip, limit }: { skip: number; limit: number }) => async (
+    const getUsers = ({ limit, searchQuery }: { limit: number; searchQuery?: string }) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_USERS_IS_LOADING });
-            const getAllUsersResponse = await streakoid.users.getAll({ skip, limit });
+            const query: { limit: number; searchQuery?: string } = { limit };
+            if (searchQuery) {
+                query.searchQuery = searchQuery;
+            }
+            const getAllUsersResponse = await streakoid.users.getAll(query);
             const { users, totalUserCount } = getAllUsersResponse;
             const usersWithClientData = users.map(user => ({
                 ...user,
