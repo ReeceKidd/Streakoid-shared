@@ -1156,7 +1156,7 @@ export const CLEAR_SELECTED_FRIENDS = 'CLEAR_SELECTED_FRIENDS';
 
 export interface GetUsersAction {
     type: typeof GET_USERS;
-    payload: UserWithClientData[];
+    payload: { users: UserWithClientData[]; totalUserCount: number };
 }
 
 export interface GetUsersFailAction {

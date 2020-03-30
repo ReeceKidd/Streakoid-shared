@@ -39,16 +39,19 @@ import { sortSoloStreaks, sortTeamStreaks, sortChallengeStreaks } from '../helpe
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
-    const getUsers = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getUsers = ({ skip, limit }: { skip: number; limit: number }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
         try {
             dispatch({ type: GET_USERS_IS_LOADING });
-            const users = await streakoid.users.getAll({});
+            const getAllUsersResponse = await streakoid.users.getAll({ skip, limit });
+            const { users, totalUserCount } = getAllUsersResponse;
             const usersWithClientData = users.map(user => ({
                 ...user,
                 sendFriendRequestIsLoading: false,
                 sendFriendRequestErrorMessage: '',
             }));
-            dispatch({ type: GET_USERS, payload: usersWithClientData });
+            dispatch({ type: GET_USERS, payload: { users: usersWithClientData, totalUserCount } });
             dispatch({ type: GET_USERS_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_USERS_IS_LOADED });
@@ -98,7 +101,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
     const getUser = ({ username }: { username: string }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_USER_IS_LOADING });
-            const users = await streakoid.users.getAll({ username });
+            const getAllUsersResponse = await streakoid.users.getAll({ username });
+            const { users } = getAllUsersResponse;
             const user = await streakoid.users.getOne(users[0]._id);
             const { badges } = user;
             const activeSoloStreaks = await streakoid.soloStreaks.getAll({
