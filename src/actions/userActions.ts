@@ -51,14 +51,13 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             if (searchQuery) {
                 query.searchQuery = searchQuery;
             }
-            const getAllUsersResponse = await streakoid.users.getAll(query);
-            const { users, totalUserCount } = getAllUsersResponse;
+            const users = await streakoid.users.getAll(query);
             const usersWithClientData = users.map(user => ({
                 ...user,
                 sendFriendRequestIsLoading: false,
                 sendFriendRequestErrorMessage: '',
             }));
-            dispatch({ type: GET_USERS, payload: { users: usersWithClientData, totalUserCount } });
+            dispatch({ type: GET_USERS, payload: { usersList: usersWithClientData } });
             dispatch({ type: GET_USERS_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_USERS_IS_LOADED });
@@ -108,8 +107,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
     const getUser = ({ username }: { username: string }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_USER_IS_LOADING });
-            const getAllUsersResponse = await streakoid.users.getAll({ username });
-            const { users } = getAllUsersResponse;
+            const users = await streakoid.users.getAll({ username });
             const user = await streakoid.users.getOne(users[0]._id);
             const { badges } = user;
             const activeSoloStreaks = await streakoid.soloStreaks.getAll({

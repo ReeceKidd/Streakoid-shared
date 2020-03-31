@@ -88,7 +88,6 @@ export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser
 
 export interface UserReducerInitialState {
     usersList: UserWithClientData[];
-    totalUserCount: number;
     currentUser: PopulatedCurrentUserWithClientData;
     selectedUser: SelectedUser;
     getUsersIsLoading: boolean;
@@ -114,7 +113,6 @@ export interface UserReducerInitialState {
 
 const initialState: UserReducerInitialState = {
     usersList: [],
-    totalUserCount: 0,
     currentUser: {
         _id: '',
         email: '',
@@ -206,8 +204,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
         case GET_USERS:
             return {
                 ...state,
-                usersList: action.payload.users,
-                totalUserCount: action.payload.totalUserCount,
+                usersList: action.payload.usersList,
             };
 
         case GET_USERS_FAIL:
