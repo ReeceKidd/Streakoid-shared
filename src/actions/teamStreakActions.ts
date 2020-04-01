@@ -43,6 +43,8 @@ import {
     UPDATE_TEAM_STREAK_TIMEZONE_FAIL,
     NAVIGATE_TO_STREAK_LIMIT_REACHED,
     CLEAR_SELECTED_TEAM_STREAK,
+    ADD_FOLLOWER_TO_TEAM_STREAK,
+    ADD_FOLLOWER_TO_TEAM_STREAK_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -554,6 +556,25 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         type: CLEAR_SELECTED_TEAM_STREAK,
     });
 
+    const addFollowerToTeamStreak = ({
+        followerId,
+        teamStreakId,
+    }: {
+        followerId: string;
+        teamStreakId: string;
+    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+        try {
+            await streakoid.teamStreaks.teamMembers.create({ followerId, teamStreakId });
+            dispatch({ type: ADD_FOLLOWER_TO_TEAM_STREAK });
+        } catch (err) {
+            if (err.response) {
+                dispatch({ type: ADD_FOLLOWER_TO_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
+            } else {
+                dispatch({ type: ADD_FOLLOWER_TO_TEAM_STREAK_FAIL, errorMessage: err.message });
+            }
+        }
+    };
+
     return {
         getLiveTeamStreaks,
         getArchivedTeamStreaks,
@@ -569,5 +590,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         deleteArchivedTeamStreak,
         updateTeamStreakTimezone,
         clearSelectedTeamStreak,
+        addFollowerToTeamStreak,
     };
 };
