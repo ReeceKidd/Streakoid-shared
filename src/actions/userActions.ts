@@ -10,10 +10,6 @@ import {
     UPDATE_CURRENT_USER_FAIL,
     GET_USERS_IS_LOADING,
     GET_USERS_IS_LOADED,
-    SEND_FRIEND_REQUEST_LOADING,
-    SEND_FRIEND_REQUEST,
-    SEND_FRIEND_REQUEST_LOADED,
-    SEND_FRIEND_REQUEST_FAIL,
     GET_USER_IS_LOADING,
     GET_USER,
     GET_USER_IS_LOADED,
@@ -23,13 +19,17 @@ import {
     UPDATE_CURRENT_USER_IS_LOADING,
     UPDATE_CURRENT_USER_IS_LOADED,
     CLEAR_SELECTED_USER,
-    DELETE_FRIEND_IS_LOADING,
-    DELETE_FRIEND,
-    DELETE_FRIEND_IS_LOADED,
-    DELETE_FRIEND_FAIL,
-    SELECT_FRIEND,
-    UNSELECT_FRIEND,
-    CLEAR_SELECTED_FRIENDS,
+    UNFOLLOW_USER,
+    UNFOLLOW_USER_IS_LOADING,
+    UNFOLLOW_USER_IS_LOADED,
+    UNFOLLOW_USER_FAIL,
+    CLEAR_SELECTED_FOLLOWERS,
+    UNSELECT_FOLLOWER,
+    SELECT_FOLLOWER,
+    FOLLOW_USER_IS_LOADING,
+    FOLLOW_USER,
+    FOLLOW_USER_IS_LOADED,
+    FOLLOW_USER_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -52,12 +52,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 query.searchQuery = searchQuery;
             }
             const users = await streakoid.users.getAll(query);
-            const usersWithClientData = users.map(user => ({
-                ...user,
-                sendFriendRequestIsLoading: false,
-                sendFriendRequestErrorMessage: '',
-            }));
-            dispatch({ type: GET_USERS, payload: { usersList: usersWithClientData } });
+
+            dispatch({ type: GET_USERS, payload: users });
             dispatch({ type: GET_USERS_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_USERS_IS_LOADED });
@@ -248,17 +244,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: GET_CURRENT_USER_IS_LOADING });
             const user = await streakoid.user.getCurrentUser();
-            const friends = await streakoid.users.friends.getAll(user._id);
-            const friendsWithClientData = friends.map(friend => ({
-                ...friend,
-                deleteFriendIsLoading: false,
-                deleteFriendErrorMessage: '',
-                isSelected: false,
-            }));
             const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId: user._id });
             dispatch({
                 type: GET_CURRENT_USER,
-                payload: { ...user, friends: friendsWithClientData, userStreakCompleteInfo },
+                payload: { ...user, userStreakCompleteInfo },
             });
             dispatch({ type: GET_CURRENT_USER_IS_LOADED });
         } catch (err) {
@@ -282,17 +271,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADING });
             const updatedUser = await streakoid.user.updateCurrentUser({ updateData });
             const userId = getState().users.currentUser._id;
-            const friends = await streakoid.users.friends.getAll(userId);
-            const friendsWithClientData = friends.map(friend => ({
-                ...friend,
-                deleteFriendIsLoading: false,
-                deleteFriendErrorMessage: '',
-                isSelected: false,
-            }));
-            const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId: updatedUser._id });
+            const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId });
             dispatch({
                 type: UPDATE_CURRENT_USER,
-                user: { ...updatedUser, friends: friendsWithClientData, userStreakCompleteInfo },
+                user: { ...updatedUser, userStreakCompleteInfo },
             });
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADED });
         } catch (err) {
@@ -304,71 +286,70 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const sendFriendRequest = (friendId: string) => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
-        try {
-            dispatch({ type: SEND_FRIEND_REQUEST_LOADING, friendId });
-            const userId = getState().users.currentUser._id;
-            const friendRequest = await streakoid.friendRequests.create({ requesterId: userId, requesteeId: friendId });
-            dispatch({ type: SEND_FRIEND_REQUEST, friendRequest });
-            dispatch({ type: SEND_FRIEND_REQUEST_LOADED, friendId });
-        } catch (err) {
-            dispatch({ type: SEND_FRIEND_REQUEST_LOADED, friendId });
-            if (err.response) {
-                dispatch({
-                    type: SEND_FRIEND_REQUEST_FAIL,
-                    payload: { friendId, errorMessage: err.response.data.message },
-                });
-            } else {
-                dispatch({ type: SEND_FRIEND_REQUEST_FAIL, payload: { friendId, errorMessage: err.message } });
-            }
-        }
-    };
-
     const clearSelectedUser = (): AppActions => ({
         type: CLEAR_SELECTED_USER,
     });
 
-    const deleteFriend = (friendId: string) => async (
+    const followUser = (userToFollowId: string) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: DELETE_FRIEND_IS_LOADING, payload: friendId });
+            dispatch({ type: FOLLOW_USER_IS_LOADING, payload: userToFollowId });
             const userId = getState().users.currentUser._id;
-            const friends = await streakoid.users.friends.deleteOne(userId, friendId);
-            const friendsWithClientData = friends.map(friend => ({
-                ...friend,
-                deleteFriendIsLoading: false,
-                deleteFriendErrorMessage: '',
-                isSelected: false,
-            }));
-            dispatch({ type: DELETE_FRIEND, payload: friendsWithClientData });
-            dispatch({ type: DELETE_FRIEND_IS_LOADED, payload: friendId });
+            const folllowing = await streakoid.users.following.followUser({ userId, userToFollowId });
+
+            dispatch({ type: FOLLOW_USER, payload: folllowing });
+            dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollowId });
         } catch (err) {
-            dispatch({ type: DELETE_FRIEND_IS_LOADED, payload: friendId });
+            dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollowId });
             if (err.response) {
-                dispatch({ type: DELETE_FRIEND_FAIL, payload: { friendId, errorMessage: err.response.data.message } });
+                dispatch({
+                    type: FOLLOW_USER_FAIL,
+                    payload: { userToFollowId, errorMessage: err.response.data.message },
+                });
             } else {
-                dispatch({ type: DELETE_FRIEND_FAIL, payload: { friendId, errorMessage: err.message } });
+                dispatch({ type: FOLLOW_USER_FAIL, payload: { userToFollowId, errorMessage: err.message } });
             }
         }
     };
 
-    const selectFriend = (friendId: string): AppActions => ({
-        type: SELECT_FRIEND,
-        payload: friendId,
+    const unfollowUser = (userToUnfollowId: string) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: UNFOLLOW_USER_IS_LOADING, payload: userToUnfollowId });
+            const userId = getState().users.currentUser._id;
+            const folllowing = await streakoid.users.following.unfollowUser({ userId, userToUnfollowId });
+
+            dispatch({ type: UNFOLLOW_USER, payload: folllowing });
+            dispatch({ type: UNFOLLOW_USER_IS_LOADED, payload: userToUnfollowId });
+        } catch (err) {
+            dispatch({ type: UNFOLLOW_USER_IS_LOADED, payload: userToUnfollowId });
+            if (err.response) {
+                dispatch({
+                    type: UNFOLLOW_USER_FAIL,
+                    payload: { userToUnfollowId, errorMessage: err.response.data.message },
+                });
+            } else {
+                dispatch({ type: UNFOLLOW_USER_FAIL, payload: { userToUnfollowId, errorMessage: err.message } });
+            }
+        }
+    };
+
+    const selectFollower = (followerId: string): AppActions => ({
+        type: SELECT_FOLLOWER,
+        payload: followerId,
     });
 
-    const unselectFriend = (friendId: string): AppActions => ({
-        type: UNSELECT_FRIEND,
-        payload: friendId,
+    const unselectFollower = (followerId: string): AppActions => ({
+        type: UNSELECT_FOLLOWER,
+        payload: followerId,
     });
 
-    const clearSelectedFriends = (): AppActions => ({
-        type: CLEAR_SELECTED_FRIENDS,
+    const clearSelectedFollowers = (): AppActions => ({
+        type: CLEAR_SELECTED_FOLLOWERS,
     });
 
     return {
@@ -377,12 +358,12 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         getCurrentUser,
         getUserStreakCompleteInfo,
         updateCurrentUser,
-        sendFriendRequest,
+        followUser,
+        unfollowUser,
         clearSelectedUser,
-        deleteFriend,
-        selectFriend,
-        unselectFriend,
-        clearSelectedFriends,
+        selectFollower,
+        unselectFollower,
+        clearSelectedFollowers,
     };
 };
 

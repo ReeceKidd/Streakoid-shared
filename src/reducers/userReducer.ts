@@ -4,10 +4,6 @@ import {
     GET_USERS_FAIL,
     GET_USERS_IS_LOADING,
     GET_USERS_IS_LOADED,
-    SEND_FRIEND_REQUEST_LOADED,
-    SEND_FRIEND_REQUEST_LOADING,
-    CLEAR_SEND_FRIEND_REQUEST_ERROR_MESSAGE,
-    SEND_FRIEND_REQUEST_FAIL,
     CREATE_STRIPE_SUBSCRIPTION_FAIL,
     CLEAR_STRIPE_SUBSCRIPTION_ERROR_MESSAGE,
     CREATE_STRIPE_SUBSCRIPTION_LOADING,
@@ -39,12 +35,10 @@ import {
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING,
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED,
     CLEAR_SELECTED_USER,
-    DELETE_FRIEND,
-    DELETE_FRIEND_FAIL,
-    DELETE_FRIEND_IS_LOADED,
-    SELECT_FRIEND,
-    UNSELECT_FRIEND,
-    CLEAR_SELECTED_FRIENDS,
+    SELECT_FOLLOWER,
+    UNSELECT_FOLLOWER,
+    CLEAR_SELECTED_FOLLOWERS,
+    FOLLOW_USER_FAIL,
 } from '../actions/types';
 import {
     SoloStreak,
@@ -52,16 +46,10 @@ import {
     FormattedUser,
     PopulatedCurrentUser,
     PopulatedUser,
-    Friend,
 } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 import { UserBadge } from './badgesReducer';
 import { ChallengeStreakListItem } from './challengeStreakReducer';
-
-export interface UserWithClientData extends FormattedUser {
-    sendFriendRequestIsLoading: boolean;
-    sendFriendRequestErrorMessage: string;
-}
 
 export interface SelectedUser extends PopulatedUser {
     soloStreaks: SoloStreak[];
@@ -75,19 +63,12 @@ export interface SelectedUser extends PopulatedUser {
     totalTimesTracked: number;
 }
 
-export interface FriendWithClientData extends Friend {
-    deleteFriendIsLoading: boolean;
-    deleteFriendErrorMessage: string;
-    isSelected: boolean;
-}
-
 export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser {
     userStreakCompleteInfo: { date: Date; count: number }[];
-    friends: FriendWithClientData[];
 }
 
 export interface UserReducerInitialState {
-    usersList: UserWithClientData[];
+    usersList: FormattedUser[];
     currentUser: PopulatedCurrentUserWithClientData;
     selectedUser: SelectedUser;
     getUsersIsLoading: boolean;
@@ -129,6 +110,8 @@ const initialState: UserReducerInitialState = {
         },
         badges: [],
         friends: [],
+        followers: [],
+        following: [],
         notifications: {
             completeStreaksReminder: {
                 pushNotification: false,
@@ -163,6 +146,8 @@ const initialState: UserReducerInitialState = {
         timezone: 'Europe/London',
         userType: UserTypes.basic,
         friends: [],
+        followers: [],
+        following: [],
         badges: [],
         profileImages: {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
@@ -204,7 +189,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
         case GET_USERS:
             return {
                 ...state,
-                usersList: action.payload.usersList,
+                usersList: action.payload,
             };
 
         case GET_USERS_FAIL:
@@ -297,50 +282,6 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
             return {
                 ...state,
                 updateCurrentUserIsLoading: false,
-            };
-
-        case SEND_FRIEND_REQUEST_FAIL:
-            return {
-                ...state,
-                usersList: state.usersList.map(user => {
-                    if (user._id === action.payload.friendId) {
-                        return { ...user, addFriendRequestErrorMessage: '' };
-                    }
-                    return user;
-                }),
-            };
-
-        case CLEAR_SEND_FRIEND_REQUEST_ERROR_MESSAGE:
-            return {
-                ...state,
-                usersList: state.usersList.map(user => {
-                    if (user._id === action.friendId) {
-                        return { ...user, addFriendRequestErrorMessage: '' };
-                    }
-                    return user;
-                }),
-            };
-
-        case SEND_FRIEND_REQUEST_LOADING:
-            return {
-                ...state,
-                usersList: state.usersList.map(user => {
-                    if (user._id === action.friendId) {
-                        return { ...user, addFriendRequestIsLoading: true };
-                    }
-                    return user;
-                }),
-            };
-
-        case SEND_FRIEND_REQUEST_LOADED:
-            return {
-                ...state,
-                usersList: state.usersList.map(user => {
-                    if (user._id === action.friendId) {
-                        return { ...user, sendFriendRequestIsLoading: false };
-                    }
-                    return user;
-                }),
             };
 
         case CREATE_STRIPE_SUBSCRIPTION_FAIL:
@@ -479,6 +420,8 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                     timezone: 'Europe/London',
                     userType: UserTypes.basic,
                     friends: [],
+                    followers: [],
+                    following: [],
                     badges: [],
                     profileImages: {
                         originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
@@ -496,44 +439,24 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 },
             };
 
-        case DELETE_FRIEND:
-            return { ...state, currentUser: { ...state.currentUser, friends: action.payload } };
-
-        case DELETE_FRIEND_FAIL:
+        case FOLLOW_USER_FAIL:
             return {
                 ...state,
                 currentUser: {
                     ...state.currentUser,
-                    friends: state.currentUser.friends.map(friend => {
-                        if (friend.friendId === action.payload.friendId) {
+                    following: state.currentUser.following.map(followingUser => {
+                        if (followingUser.userId === action.payload.userToFollowId) {
                             return {
-                                ...friend,
-                                deleteFriendErrorMessage: action.payload.errorMessage,
+                                ...followingUser,
+                                followUserErrorMessage: action.payload.errorMessage,
                             };
                         }
-                        return friend;
+                        return followingUser;
                     }),
                 },
             };
 
-        case DELETE_FRIEND_IS_LOADED:
-            return {
-                ...state,
-                currentUser: {
-                    ...state.currentUser,
-                    friends: state.currentUser.friends.map(friend => {
-                        if (friend.friendId === action.payload) {
-                            return {
-                                ...friend,
-                                deleteFriendIsLoading: false,
-                            };
-                        }
-                        return friend;
-                    }),
-                },
-            };
-
-        case SELECT_FRIEND:
+        case SELECT_FOLLOWER:
             return {
                 ...state,
                 currentUser: {
@@ -550,7 +473,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 },
             };
 
-        case UNSELECT_FRIEND:
+        case UNSELECT_FOLLOWER:
             return {
                 ...state,
                 currentUser: {
@@ -567,7 +490,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 },
             };
 
-        case CLEAR_SELECTED_FRIENDS:
+        case CLEAR_SELECTED_FOLLOWERS:
             return {
                 ...state,
                 currentUser: {

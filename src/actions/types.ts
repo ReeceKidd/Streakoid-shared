@@ -1,5 +1,4 @@
 import {
-    PopulatedFriendRequest,
     TeamStreak,
     ProfileImages,
     FormattedUser,
@@ -14,13 +13,7 @@ import {
     ArchivedSoloStreakListItem,
     SoloStreakWithClientData,
 } from '../reducers/soloStreakReducer';
-import { FriendRequestStateWithClientData } from '../reducers/friendRequestReducer';
-import {
-    UserWithClientData,
-    SelectedUser,
-    PopulatedCurrentUserWithClientData,
-    FriendWithClientData,
-} from '../reducers/userReducer';
+import { SelectedUser, PopulatedCurrentUserWithClientData } from '../reducers/userReducer';
 import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 import {
@@ -755,8 +748,8 @@ export const EDIT_TEAM_STREAK_FAIL = 'EDIT_TEAM_STREAK_FAIL';
 export const EDIT_TEAM_STREAK_LOADING = 'EDIT_TEAM_STREAK_LOADING';
 export const EDIT_TEAM_STREAK_LOADED = 'EDIT_TEAM_STREAK_LOADED';
 export const CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE = 'CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE';
-export const ADD_FRIEND_TO_TEAM_STREAK = 'ADD_FRIEND_TO_TEAM_STREAK';
-export const ADD_FRIEND_TO_TEAM_STREAK_FAIL = 'ADD_FRIEND_TO_TEAM_STREAK_FAIL';
+export const ADD_FOLLOWER_TO_TEAM_STREAK = 'ADD_FOLLOWER_TO_TEAM_STREAK';
+export const ADD_FOLLOWER_TO_TEAM_STREAK_FAIL = 'ADD_FOLLOWER_TO_TEAM_STREAK_FAIL';
 export const COMPLETE_TEAM_MEMBER_STREAK_TASK = 'COMPLETE_TEAM_MEMBER_STREAK_TASK';
 export const COMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL = 'COMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL';
 export const COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING = 'COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING';
@@ -874,12 +867,12 @@ export interface ClearEditTeamStreakErrorMessageAction {
     type: typeof CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE;
 }
 
-export interface AddFriendToTeamStreakAction {
-    type: typeof ADD_FRIEND_TO_TEAM_STREAK;
+export interface AddFollowerToTeamStreakAction {
+    type: typeof ADD_FOLLOWER_TO_TEAM_STREAK;
 }
 
-export interface AddFriendToTeamStreakFailAction {
-    type: typeof ADD_FRIEND_TO_TEAM_STREAK_FAIL;
+export interface AddFollowerToTeamStreakFailAction {
+    type: typeof ADD_FOLLOWER_TO_TEAM_STREAK_FAIL;
     errorMessage: string;
 }
 
@@ -1035,8 +1028,8 @@ export type TeamStreakActionTypes =
     | EditTeamStreakLoadingAction
     | EditTeamStreakLoadedAction
     | ClearEditTeamStreakErrorMessageAction
-    | AddFriendToTeamStreakAction
-    | AddFriendToTeamStreakFailAction
+    | AddFollowerToTeamStreakAction
+    | AddFollowerToTeamStreakFailAction
     | CompleteTeamMemberStreakTaskAction
     | CompleteTeamMemberStreakTaskFailAction
     | CompleteTeamMemberStreakTaskLoadingAction
@@ -1120,10 +1113,6 @@ export const GET_CURRENT_USER_FAIL = 'GET_CURRENT_USER_FAIL';
 export const GET_CURRENT_USER_IS_LOADING = 'GET_CURRENT_USER_IS_LOADING';
 export const GET_CURRENT_USER_IS_LOADED = 'GET_CURRENT_USER_IS_LOADED';
 
-export const SEND_FRIEND_REQUEST_FAIL = 'SEND_FRIEND_REQUEST_FAIL';
-export const CLEAR_SEND_FRIEND_REQUEST_ERROR_MESSAGE = 'CLEAR_SEND_FRIEND_REQUEST_ERROR_MESSAGE';
-export const SEND_FRIEND_REQUEST_LOADING = 'SEND_FRIEND_REQUEST_LOADING';
-export const SEND_FRIEND_REQUEST_LOADED = 'SEND_FRIEND_REQUEST_LOADED';
 export const CREATE_STRIPE_SUBSCRIPTION = 'CREATE_STRIPE_SUBSCRIPTION';
 export const CREATE_STRIPE_SUBSCRIPTION_FAIL = 'CREATE_STRIPE_SUBSCRIPTION_FAIL';
 export const CLEAR_STRIPE_SUBSCRIPTION_ERROR_MESSAGE = 'CLEAR_STRIPE_SUBSCRIPTION_ERROR_MESSAGE';
@@ -1146,17 +1135,21 @@ export const UPLOAD_PROFILE_IMAGE_IS_LOADED = 'UPLOAD_PROFILE_IMAGE_IS_LOADED';
 export const CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES = 'CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES';
 export const CLEAR_SELECTED_USER = 'CLEAR_SELECTED_USER';
 
-export const DELETE_FRIEND = 'DELTE_FRIEND';
-export const DELETE_FRIEND_FAIL = 'DELTE_FRIEND_FAIL';
-export const DELETE_FRIEND_IS_LOADING = 'DELETE_FRIEND_IS_LOADING';
-export const DELETE_FRIEND_IS_LOADED = 'DELETE_FRIEND_IS_LOADED';
-export const SELECT_FRIEND = 'SELECT_FRIEND';
-export const UNSELECT_FRIEND = 'UNSELECT_FRIEND';
-export const CLEAR_SELECTED_FRIENDS = 'CLEAR_SELECTED_FRIENDS';
+export const FOLLOW_USER = 'FOLLOW_USER';
+export const FOLLOW_USER_FAIL = 'FOLLOW_USER_FAIL';
+export const FOLLOW_USER_IS_LOADING = 'FOLLOW_USER_IS_LOADING';
+export const FOLLOW_USER_IS_LOADED = 'FOLLOW_USER_IS_LOADED';
+export const UNFOLLOW_USER = 'UNFOLLOW_USER';
+export const UNFOLLOW_USER_FAIL = 'UNFOLLOW_USER_FAIL';
+export const UNFOLLOW_USER_IS_LOADING = 'UNFOLLOW_USER_IS_LOADING';
+export const UNFOLLOW_USER_IS_LOADED = 'UNFOLLOW_USER_IS_LOADED';
+export const SELECT_FOLLOWER = 'SELECT_FOLLOWER';
+export const UNSELECT_FOLLOWER = 'UNSELECT_FOLLOWER';
+export const CLEAR_SELECTED_FOLLOWERS = 'CLEAR_SELECTED_FOLLOWERS';
 
 export interface GetUsersAction {
     type: typeof GET_USERS;
-    payload: { usersList: UserWithClientData[] };
+    payload: FormattedUser[];
 }
 
 export interface GetUsersFailAction {
@@ -1224,26 +1217,6 @@ export interface GetCurrentUserIsLoadingAction {
 
 export interface GetCurrentUserIsLoadedAction {
     type: typeof GET_CURRENT_USER_IS_LOADED;
-}
-
-export interface SendFriendRequestFailAction {
-    type: typeof SEND_FRIEND_REQUEST_FAIL;
-    payload: { errorMessage: string; friendId: string };
-}
-
-export interface ClearSendFriendRequestErrorMessage {
-    type: typeof CLEAR_SEND_FRIEND_REQUEST_ERROR_MESSAGE;
-    friendId: string;
-}
-
-export interface SendFriendRequestLoadingAction {
-    type: typeof SEND_FRIEND_REQUEST_LOADING;
-    friendId: string;
-}
-
-export interface SendFriendRequestLoadedAction {
-    type: typeof SEND_FRIEND_REQUEST_LOADED;
-    friendId: string;
 }
 
 export interface CreateStripeSubscriptionAction {
@@ -1338,38 +1311,58 @@ export interface ClearSelectedUserAction {
     type: typeof CLEAR_SELECTED_USER;
 }
 
-export interface DeleteFriendAction {
-    type: typeof DELETE_FRIEND;
-    payload: FriendWithClientData[];
+export interface FollowerUserAction {
+    type: typeof FOLLOW_USER;
+    payload: string[];
 }
 
-export interface DeleteFriendFailAction {
-    type: typeof DELETE_FRIEND_FAIL;
-    payload: { errorMessage: string; friendId: string };
+export interface FollowerUserFailAction {
+    type: typeof FOLLOW_USER_FAIL;
+    payload: { errorMessage: string; userToFollowId: string };
 }
 
-export interface DeleteFriendIsLoadingAction {
-    type: typeof DELETE_FRIEND_IS_LOADING;
+export interface FollowerUserIsLoadingAction {
+    type: typeof FOLLOW_USER_IS_LOADING;
     payload: string;
 }
 
-export interface DeleteFriendIsLoadedAction {
-    type: typeof DELETE_FRIEND_IS_LOADED;
+export interface FollowerUserIsLoadedAction {
+    type: typeof FOLLOW_USER_IS_LOADED;
     payload: string;
 }
 
-export interface SelectFriendAction {
-    type: typeof SELECT_FRIEND;
+export interface UnfolloweUserAction {
+    type: typeof UNFOLLOW_USER;
+    payload: string[];
+}
+
+export interface UnfollowUserFailAction {
+    type: typeof UNFOLLOW_USER_FAIL;
+    payload: { errorMessage: string; userToUnfollowId: string };
+}
+
+export interface UnfollowUserIsLoadingAction {
+    type: typeof UNFOLLOW_USER_IS_LOADING;
     payload: string;
 }
 
-export interface UnselectFriendAction {
-    type: typeof UNSELECT_FRIEND;
+export interface UnfollowerUserIsLoadedAction {
+    type: typeof UNFOLLOW_USER_IS_LOADED;
     payload: string;
 }
 
-export interface ClearSelectedFriendsAction {
-    type: typeof CLEAR_SELECTED_FRIENDS;
+export interface SelectFollowerAction {
+    type: typeof SELECT_FOLLOWER;
+    payload: string;
+}
+
+export interface UnselectFollowerAction {
+    type: typeof UNSELECT_FOLLOWER;
+    payload: string;
+}
+
+export interface ClearSelectedFollowersAction {
+    type: typeof CLEAR_SELECTED_FOLLOWERS;
 }
 
 export type UserActionTypes =
@@ -1389,15 +1382,6 @@ export type UserActionTypes =
     | GetCurrentUserFailAction
     | GetCurrentUserIsLoadingAction
     | GetCurrentUserIsLoadedAction
-    | SendFriendRequestAction
-    | SendFriendRequestFailAction
-    | ClearSendFriendRequestErrorMessage
-    | SendFriendRequestLoadingAction
-    | SendFriendRequestLoadedAction
-    | SendFriendRequestFailAction
-    | ClearSendFriendRequestErrorMessage
-    | SendFriendRequestLoadingAction
-    | SendFriendRequestLoadedAction
     | CreateStripeSubscriptionAction
     | CreateStripeSubscriptionActionFail
     | ClearStripeSubscriptionErrorMessageAction
@@ -1419,145 +1403,17 @@ export type UserActionTypes =
     | UploadProfileIsLoadedAction
     | ClearUploadProfileImageMessagesAction
     | ClearSelectedUserAction
-    | DeleteFriendAction
-    | DeleteFriendFailAction
-    | DeleteFriendIsLoadingAction
-    | DeleteFriendIsLoadedAction
-    | SelectFriendAction
-    | UnselectFriendAction
-    | ClearSelectedFriendsAction;
-
-export const GET_PENDING_FRIEND_REQUESTS = 'GET_PENDING_FRIEND_REQUESTS';
-export const GET_PENDING_FRIEND_REQUESTS_FAIL = 'GET_PENDING_FRIEND_REQUEST_FAIL';
-export const ACCEPT_FRIEND_REQUEST = 'ACCEPT_FRIEND_REQUEST';
-export const ACCEPT_FRIEND_REQUEST_FAIL = 'ACCEPT_FRIEND_REQUEST_FAIL';
-export const CLEAR_ACCEPT_FRIEND_REQUEST_ERROR_MESSAGE = 'CLEAR_ACCEPT_FRIEND_REQUEST_ERROR_MESSAGE';
-export const ACCEPT_FRIEND_REQUEST_IS_LOADING = 'ACCEPT_FRIEND_REQUEST_IS_LOADING';
-export const ACCEPT_FRIEND_REQUEST_IS_LOADED = 'ACCEPT_FRIEND_REQUEST_IS_LOADED';
-export const REJECT_FRIEND_REQUEST = 'REJECT_FRIEND_REQUEST';
-export const REJECT_FRIEND_REQUEST_FAIL = 'REJECT_FRIEND_REQUEST_FAIL';
-export const CLEAR_REJECT_FRIEND_REQUEST_ERROR_MESSAGE = 'CLEAR_REJECT_FRIEND_REQUEST_ERROR_MESSAGE';
-export const REJECT_FRIEND_REQUEST_IS_LOADING = 'REJECT_FRIEND_REQUEST_IS_LOADING';
-export const REJECT_FRIEND_REQUEST_IS_LOADED = 'REJECT_FRIEND_REQUEST_IS_LOADED';
-export const GET_SENT_FRIEND_REQUESTS = 'GET_SENT_FRIEND_REQUESTS';
-export const GET_SENT_FRIEND_REQUESTS_FAIL = 'GET_SENT_FRIEND_REQUESTS_FAIL';
-export const SEND_FRIEND_REQUEST = 'SEND_FRIEND_REQUEST';
-export const GET_SENT_FRIEND_REQUESTS_IS_LOADING = 'GET_SENT_FRIEND_REQUESTS_IS_LOADING';
-export const GET_SENT_FRIEND_REQUESTS_IS_LOADED = 'GET_SENT_FRIEND_REQUEST_IS_LOADED';
-export const GET_PENDING_FRIEND_REQUESTS_IS_LOADING = 'GET_PENDING_FRIEND_REQUESTS_IS_LOADING';
-export const GET_PENDING_FRIEND_REQUESTS_IS_LOADED = 'GET_PENDING_FRIEND_REQUEST_IS_LOADED';
-
-export interface GetPendingFriendRequestsAction {
-    type: typeof GET_PENDING_FRIEND_REQUESTS;
-    pendingFriendRequests: FriendRequestStateWithClientData[];
-}
-
-export interface GetPendingFriendRequestActionFail {
-    type: typeof GET_PENDING_FRIEND_REQUESTS_FAIL;
-    errorMessage: string;
-}
-
-export interface AcceptFriendRequestAction {
-    type: typeof ACCEPT_FRIEND_REQUEST;
-    friendRequestId: string;
-}
-
-export interface AcceptFriendRequestFailAction {
-    type: typeof ACCEPT_FRIEND_REQUEST_FAIL;
-    payload: { errorMessage: string; friendRequestId: string };
-}
-
-export interface ClearAcceptFriendRequestErrorMessageAction {
-    type: typeof CLEAR_ACCEPT_FRIEND_REQUEST_ERROR_MESSAGE;
-    friendRequestId: string;
-}
-
-export interface AcceptFriendRequestIsLoadingAction {
-    type: typeof ACCEPT_FRIEND_REQUEST_IS_LOADING;
-    friendRequestId: string;
-}
-
-export interface AcceptFriendRequestIsLoadedAction {
-    type: typeof ACCEPT_FRIEND_REQUEST_IS_LOADED;
-    friendRequestId: string;
-}
-
-export interface RejectFriendRequestAction {
-    type: typeof REJECT_FRIEND_REQUEST;
-    friendRequestId: string;
-}
-
-export interface RejectFriendRequestFailAction {
-    type: typeof REJECT_FRIEND_REQUEST_FAIL;
-    payload: { errorMessage: string; friendRequestId: string };
-}
-
-export interface ClearRejectFriendRequestErrorMessageAction {
-    type: typeof CLEAR_REJECT_FRIEND_REQUEST_ERROR_MESSAGE;
-    friendRequestId: string;
-}
-
-export interface RejectFriendRequestIsLoadingAction {
-    type: typeof REJECT_FRIEND_REQUEST_IS_LOADING;
-    friendRequestId: string;
-}
-
-export interface RejectFriendRequestIsLoadedAction {
-    type: typeof REJECT_FRIEND_REQUEST_IS_LOADED;
-    friendRequestId: string;
-}
-
-export interface GetSentFriendRequestsAction {
-    type: typeof GET_SENT_FRIEND_REQUESTS;
-    sentFriendRequests: PopulatedFriendRequest[];
-}
-
-export interface GetSentFriendRequestActionFail {
-    type: typeof GET_SENT_FRIEND_REQUESTS_FAIL;
-    errorMessage: string;
-}
-
-export interface SendFriendRequestAction {
-    type: typeof SEND_FRIEND_REQUEST;
-    friendRequest: PopulatedFriendRequest;
-}
-
-export interface GetSentFriendRequestsIsLoadingAction {
-    type: typeof GET_SENT_FRIEND_REQUESTS_IS_LOADING;
-}
-
-export interface GetSentFriendRequestsIsLoadedAction {
-    type: typeof GET_SENT_FRIEND_REQUESTS_IS_LOADED;
-}
-
-export interface GetPendingFriendRequestsIsLoadingAction {
-    type: typeof GET_PENDING_FRIEND_REQUESTS_IS_LOADING;
-}
-
-export interface GetPendingFriendRequestsIsLoadedAction {
-    type: typeof GET_PENDING_FRIEND_REQUESTS_IS_LOADED;
-}
-
-export type FriendRequestActionTypes =
-    | GetPendingFriendRequestsAction
-    | GetPendingFriendRequestActionFail
-    | AcceptFriendRequestAction
-    | AcceptFriendRequestFailAction
-    | ClearAcceptFriendRequestErrorMessageAction
-    | AcceptFriendRequestIsLoadingAction
-    | AcceptFriendRequestIsLoadedAction
-    | RejectFriendRequestAction
-    | RejectFriendRequestFailAction
-    | ClearRejectFriendRequestErrorMessageAction
-    | RejectFriendRequestIsLoadingAction
-    | RejectFriendRequestIsLoadedAction
-    | GetSentFriendRequestsAction
-    | GetSentFriendRequestActionFail
-    | SendFriendRequestAction
-    | GetSentFriendRequestsIsLoadingAction
-    | GetSentFriendRequestsIsLoadedAction
-    | GetPendingFriendRequestsIsLoadingAction
-    | GetPendingFriendRequestsIsLoadedAction;
+    | FollowerUserAction
+    | FollowerUserFailAction
+    | FollowerUserIsLoadingAction
+    | FollowerUserIsLoadedAction
+    | UnfolloweUserAction
+    | UnfollowUserFailAction
+    | UnfollowUserIsLoadingAction
+    | UnfollowerUserIsLoadedAction
+    | SelectFollowerAction
+    | UnselectFollowerAction
+    | ClearSelectedFollowersAction;
 
 export const GET_BADGES = 'GET_BADGES';
 export const GET_BADGES_FAIL = 'GET_BADGES_FAIL';
@@ -2295,7 +2151,6 @@ export type AppActions =
     | TeamStreakActionTypes
     | TeamMemberStreakActionTypes
     | UserActionTypes
-    | FriendRequestActionTypes
     | BadgesActionTypes
     | ChallengeActionTypes
     | ChallengeStreakActionTypes
