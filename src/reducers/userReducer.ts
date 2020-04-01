@@ -50,6 +50,7 @@ import {
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 import { UserBadge } from './badgesReducer';
 import { ChallengeStreakListItem } from './challengeStreakReducer';
+import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
 
 export interface SelectedUser extends PopulatedUser {
     soloStreaks: SoloStreak[];
@@ -63,8 +64,17 @@ export interface SelectedUser extends PopulatedUser {
     totalTimesTracked: number;
 }
 
+export interface FollowerWithClientData extends BasicUser {
+    isSelected: boolean;
+    followUserIsLoading: boolean;
+    followUserFailMessage: string;
+    unfollowUserIsLoading: boolean;
+    unfollowUserFailMessage: string;
+}
+
 export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser {
     userStreakCompleteInfo: { date: Date; count: number }[];
+    followers: FollowerWithClientData[];
 }
 
 export interface UserReducerInitialState {
@@ -461,14 +471,14 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ...state,
                 currentUser: {
                     ...state.currentUser,
-                    friends: state.currentUser.friends.map(friend => {
-                        if (friend.friendId === action.payload) {
+                    followers: state.currentUser.followers.map(follower => {
+                        if (follower.userId === action.payload) {
                             return {
-                                ...friend,
+                                ...follower,
                                 isSelected: true,
                             };
                         }
-                        return friend;
+                        return follower;
                     }),
                 },
             };
@@ -478,14 +488,14 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ...state,
                 currentUser: {
                     ...state.currentUser,
-                    friends: state.currentUser.friends.map(friend => {
-                        if (friend.friendId === action.payload) {
+                    followers: state.currentUser.followers.map(follower => {
+                        if (follower.userId === action.payload) {
                             return {
-                                ...friend,
+                                ...follower,
                                 isSelected: false,
                             };
                         }
-                        return friend;
+                        return follower;
                     }),
                 },
             };
