@@ -1,6 +1,5 @@
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import { emailActions } from './emailActions';
-import { friendRequestActions } from './friendRequestActions';
 import { soloStreakActions } from './soloStreakActions';
 import { stripeActions } from './stripeActions';
 import { teamMemberStreakTaskActions } from './teamMemberStreakTaskActions';
@@ -23,7 +22,6 @@ export const getSharedActions = (streakoid: typeof streakoidSDK) => {
         authActions,
         profilePictureActions,
         emailActions: emailActions(streakoid),
-        friendRequestActions: friendRequestActions(streakoid),
         soloStreakActions: soloStreakActions(streakoid),
         stripeActions: stripeActions(streakoid),
         teamMemberStreakTaskActions: teamMemberStreakTaskActions(streakoid),

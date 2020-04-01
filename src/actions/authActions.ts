@@ -79,17 +79,10 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             dispatch({ type: LOGIN_SUCCESS, payload: cognitoPayload });
 
             const user = await streakoid.user.getCurrentUser();
-            const friends = await streakoid.users.friends.getAll(user._id);
-            const friendsWithClientData = friends.map(friend => ({
-                ...friend,
-                deleteFriendIsLoading: false,
-                deleteFriendErrorMessage: '',
-                isSelected: false,
-            }));
 
             dispatch({
                 type: UPDATE_CURRENT_USER,
-                user: { ...user, friends: friendsWithClientData, userStreakCompleteInfo: [] },
+                user: { ...user, userStreakCompleteInfo: [] },
             });
             dispatch({ type: NAVIGATE_TO_HOME });
             dispatch({ type: LOGIN_IS_LOADED });

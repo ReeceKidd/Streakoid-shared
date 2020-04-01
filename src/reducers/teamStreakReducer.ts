@@ -1,6 +1,5 @@
 import {
     GET_LIVE_TEAM_STREAKS,
-    ADD_FRIEND_TO_TEAM_STREAK,
     TeamStreakActionTypes,
     COMPLETE_TEAM_MEMBER_STREAK_TASK,
     COMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL,
@@ -198,9 +197,6 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 editTeamStreakIsLoading: false,
             };
-
-        case ADD_FRIEND_TO_TEAM_STREAK:
-            return state;
 
         case COMPLETE_TEAM_MEMBER_STREAK_TASK:
             return {

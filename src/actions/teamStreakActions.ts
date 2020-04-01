@@ -7,8 +7,6 @@ import {
     GET_TEAM_STREAK_FAIL,
     GET_TEAM_STREAK_IS_LOADING,
     GET_TEAM_STREAK_IS_LOADED,
-    ADD_FRIEND_TO_TEAM_STREAK,
-    ADD_FRIEND_TO_TEAM_STREAK_FAIL,
     CREATE_TEAM_STREAK,
     CREATE_TEAM_STREAK_IS_LOADING,
     CREATE_TEAM_STREAK_IS_LOADED,
@@ -16,7 +14,6 @@ import {
     CLEAR_CREATE_TEAM_STREAK_ERROR,
     GET_LIVE_TEAM_STREAKS_IS_LOADING,
     GET_LIVE_TEAM_STREAKS_IS_LOADED,
-    CLEAR_SELECTED_FRIENDS,
     EDIT_TEAM_STREAK,
     EDIT_TEAM_STREAK_LOADED,
     EDIT_TEAM_STREAK_FAIL,
@@ -293,7 +290,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 members: teamStreakMembersWithLoadingStates,
             };
             dispatch({ type: CREATE_TEAM_STREAK, payload: teamStreakWithLoadingState });
-            dispatch({ type: CLEAR_SELECTED_FRIENDS });
             dispatch({ type: CREATE_TEAM_STREAK_IS_LOADED });
             dispatch({ type: NAVIGATE_TO_TEAM_STREAKS });
         } catch (err) {
@@ -347,21 +343,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     const clearEditTeamStreakErrorMessage = (): AppActions => ({
         type: CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE,
     });
-
-    const addFriendToTeamStreak = (friendId: string, teamStreakId: string) => async (
-        dispatch: Dispatch<AppActions>,
-    ): Promise<void> => {
-        try {
-            await streakoid.teamStreaks.teamMembers.create({ friendId, teamStreakId });
-            dispatch({ type: ADD_FRIEND_TO_TEAM_STREAK });
-        } catch (err) {
-            if (err.response) {
-                dispatch({ type: ADD_FRIEND_TO_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
-            } else {
-                dispatch({ type: ADD_FRIEND_TO_TEAM_STREAK_FAIL, errorMessage: err.message });
-            }
-        }
-    };
 
     const archiveTeamStreak = (teamStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
@@ -581,7 +562,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         clearCreateTeamStreakError,
         editTeamStreak,
         clearEditTeamStreakErrorMessage,
-        addFriendToTeamStreak,
         archiveTeamStreak,
         clearArchiveTeamStreakErrorMessage,
         restoreArchivedTeamStreak,
