@@ -273,7 +273,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
         case UPDATE_CURRENT_USER:
             return {
                 ...state,
-                currentUser: action.user,
+                currentUser: action.payload,
             };
 
         case UPDATE_CURRENT_USER_FAIL:

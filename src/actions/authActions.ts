@@ -89,7 +89,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             }));
             dispatch({
                 type: UPDATE_CURRENT_USER,
-                user: { ...user, followers: followersWithClientData, userStreakCompleteInfo: [] },
+                payload: { ...user, followers: followersWithClientData, userStreakCompleteInfo: [] },
             });
             dispatch({ type: NAVIGATE_TO_HOME });
             dispatch({ type: LOGIN_IS_LOADED });
@@ -149,7 +149,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             }));
             dispatch({
                 type: UPDATE_CURRENT_USER,
-                user: { ...user, followers: followersWithClientData, userStreakCompleteInfo: [] },
+                payload: { ...user, followers: followersWithClientData, userStreakCompleteInfo: [] },
             });
             dispatch({ type: PASSWORD_STORE, password });
             dispatch({ type: REGISTER_IS_LOADED });
@@ -208,7 +208,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
                 }));
                 dispatch({
                     type: UPDATE_CURRENT_USER,
-                    user: {
+                    payload: {
                         ...user,
                         followers: followersWithClientData,
                         userStreakCompleteInfo: [],

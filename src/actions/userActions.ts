@@ -19,7 +19,6 @@ import {
     UPDATE_CURRENT_USER_IS_LOADING,
     UPDATE_CURRENT_USER_IS_LOADED,
     CLEAR_SELECTED_USER,
-    UNFOLLOW_USER,
     UNFOLLOW_USER_IS_LOADING,
     UNFOLLOW_USER_IS_LOADED,
     UNFOLLOW_USER_FAIL,
@@ -27,7 +26,6 @@ import {
     UNSELECT_FOLLOWER,
     SELECT_FOLLOWER,
     FOLLOW_USER_IS_LOADING,
-    FOLLOW_USER,
     FOLLOW_USER_IS_LOADED,
     FOLLOW_USER_FAIL,
 } from './types';
@@ -290,7 +288,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             }));
             dispatch({
                 type: UPDATE_CURRENT_USER,
-                user: { ...updatedUser, followers: followersWithClientData, userStreakCompleteInfo },
+                payload: { ...updatedUser, followers: followersWithClientData, userStreakCompleteInfo },
             });
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADED });
         } catch (err) {
@@ -313,9 +311,22 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: FOLLOW_USER_IS_LOADING, payload: userToFollowId });
             const userId = getState().users.currentUser._id;
-            const folllowing = await streakoid.users.following.followUser({ userId, userToFollowId });
+            await streakoid.users.following.followUser({ userId, userToFollowId });
+            const updatedUser = await streakoid.user.getCurrentUser();
+            const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId });
+            const followersWithClientData = updatedUser.followers.map(follower => ({
+                ...follower,
+                isSelected: false,
+                followUserIsLoading: false,
+                followUserFailMessage: '',
+                unfollowUserIsLoading: false,
+                unfollowUserFailMessage: '',
+            }));
+            dispatch({
+                type: UPDATE_CURRENT_USER,
+                payload: { ...updatedUser, followers: followersWithClientData, userStreakCompleteInfo },
+            });
 
-            dispatch({ type: FOLLOW_USER, payload: folllowing });
             dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollowId });
         } catch (err) {
             dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollowId });
@@ -337,9 +348,21 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: UNFOLLOW_USER_IS_LOADING, payload: userToUnfollowId });
             const userId = getState().users.currentUser._id;
-            const folllowing = await streakoid.users.following.unfollowUser({ userId, userToUnfollowId });
-
-            dispatch({ type: UNFOLLOW_USER, payload: folllowing });
+            await streakoid.users.following.unfollowUser({ userId, userToUnfollowId });
+            const updatedUser = await streakoid.user.getCurrentUser();
+            const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId });
+            const followersWithClientData = updatedUser.followers.map(follower => ({
+                ...follower,
+                isSelected: false,
+                followUserIsLoading: false,
+                followUserFailMessage: '',
+                unfollowUserIsLoading: false,
+                unfollowUserFailMessage: '',
+            }));
+            dispatch({
+                type: UPDATE_CURRENT_USER,
+                payload: { ...updatedUser, followers: followersWithClientData, userStreakCompleteInfo },
+            });
             dispatch({ type: UNFOLLOW_USER_IS_LOADED, payload: userToUnfollowId });
         } catch (err) {
             dispatch({ type: UNFOLLOW_USER_IS_LOADED, payload: userToUnfollowId });
