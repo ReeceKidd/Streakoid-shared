@@ -1140,6 +1140,7 @@ export const UPLOAD_PROFILE_IMAGE_IS_LOADED = 'UPLOAD_PROFILE_IMAGE_IS_LOADED';
 export const CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES = 'CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES';
 export const CLEAR_SELECTED_USER = 'CLEAR_SELECTED_USER';
 
+export const FOLLOW_USER = 'FOLLOW_USER';
 export const FOLLOW_USER_FAIL = 'FOLLOW_USER_FAIL';
 export const FOLLOW_USER_IS_LOADING = 'FOLLOW_USER_IS_LOADING';
 export const FOLLOW_USER_IS_LOADED = 'FOLLOW_USER_IS_LOADED';
@@ -1315,6 +1316,11 @@ export interface ClearSelectedUserAction {
     type: typeof CLEAR_SELECTED_USER;
 }
 
+export interface FollowUserAction {
+    type: typeof FOLLOW_USER;
+    payload: FormattedUserWithClientData;
+}
+
 export interface FollowerUserFailAction {
     type: typeof FOLLOW_USER_FAIL;
     payload: { errorMessage: string; userToFollowId: string };
@@ -1402,6 +1408,7 @@ export type UserActionTypes =
     | UploadProfileIsLoadedAction
     | ClearUploadProfileImageMessagesAction
     | ClearSelectedUserAction
+    | FollowUserAction
     | FollowerUserFailAction
     | FollowerUserIsLoadingAction
     | FollowerUserIsLoadedAction

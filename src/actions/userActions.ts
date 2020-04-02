@@ -42,6 +42,7 @@ import { FormattedUserWithClientData } from '../reducers/userReducer';
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
         dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_USERS_IS_LOADING });
@@ -52,13 +53,17 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             if (searchQuery) {
                 query.searchQuery = searchQuery;
             }
+            const currentUser = getState().users.currentUser;
             const users = await streakoid.users.getAll(query);
-            const usersWithClientData = users.map(user => ({
-                ...user,
-                followUserIsLoading: false,
-                followUserErrorMessage: '',
-            }));
-
+            const usersWithClientData = users.map(user => {
+                const isCurrentUserFollowing = currentUser.following.find(following => following.userId == user._id);
+                return {
+                    ...user,
+                    followUserIsLoading: false,
+                    followUserErrorMessage: '',
+                    isCurrentUserFollowing: Boolean(isCurrentUserFollowing),
+                };
+            });
             dispatch({ type: GET_USERS, payload: usersWithClientData });
             dispatch({ type: GET_USERS_IS_LOADED });
         } catch (err) {

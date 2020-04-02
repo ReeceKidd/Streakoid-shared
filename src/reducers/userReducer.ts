@@ -45,6 +45,7 @@ import {
     UNFOLLOW_USER_FAIL,
     UNFOLLOW_USER_IS_LOADING,
     UNFOLLOW_USER_IS_LOADED,
+    FOLLOW_USER,
 } from '../actions/types';
 import {
     SoloStreak,
@@ -88,6 +89,7 @@ export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser
 export interface FormattedUserWithClientData extends FormattedUser {
     followUserIsLoading: boolean;
     followUserErrorMessage: string;
+    isCurrentUserFollowing: boolean;
 }
 
 export interface UserReducerInitialState {
@@ -460,6 +462,22 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                     numberOfStreaks: 0,
                     totalTimesTracked: 0,
                 },
+            };
+
+        case FOLLOW_USER:
+            return {
+                ...state,
+                usersList: [
+                    ...state.usersList.map(selectedUser => {
+                        if (selectedUser._id === action.payload._id) {
+                            return {
+                                ...selectedUser,
+                                isCurrentUserFollowing: true,
+                            };
+                        }
+                        return selectedUser;
+                    }),
+                ],
             };
 
         case FOLLOW_USER_FAIL:
