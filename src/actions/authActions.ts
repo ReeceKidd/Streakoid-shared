@@ -79,17 +79,25 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             dispatch({ type: LOGIN_SUCCESS, payload: cognitoPayload });
 
             const user = await streakoid.user.getCurrentUser();
-            const followersWithClientData = user.followers.map(follower => ({
-                ...follower,
-                isSelected: false,
+            const followingWithClientData = user.following.map(following => ({
+                ...following,
                 followUserIsLoading: false,
                 followUserFailMessage: '',
                 unfollowUserIsLoading: false,
                 unfollowUserFailMessage: '',
             }));
+            const followersWithClientData = user.followers.map(follower => ({
+                ...follower,
+                isSelected: false,
+            }));
             dispatch({
                 type: UPDATE_CURRENT_USER,
-                payload: { ...user, followers: followersWithClientData, userStreakCompleteInfo: [] },
+                payload: {
+                    ...user,
+                    following: followingWithClientData,
+                    followers: followersWithClientData,
+                    userStreakCompleteInfo: [],
+                },
             });
             dispatch({ type: NAVIGATE_TO_HOME });
             dispatch({ type: LOGIN_IS_LOADED });
@@ -139,17 +147,25 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             const lowercaseUsername = username.toLowerCase();
             await Auth.signUp({ username: lowercaseUsername, password, attributes: { email } });
             const user = await streakoidRegistration.users.create({ username: lowercaseUsername, email });
-            const followersWithClientData = user.followers.map(follower => ({
-                ...follower,
-                isSelected: false,
+            const followingWithClientData = user.following.map(following => ({
+                ...following,
                 followUserIsLoading: false,
                 followUserFailMessage: '',
                 unfollowUserIsLoading: false,
                 unfollowUserFailMessage: '',
             }));
+            const followersWithClientData = user.followers.map(follower => ({
+                ...follower,
+                isSelected: false,
+            }));
             dispatch({
                 type: UPDATE_CURRENT_USER,
-                payload: { ...user, followers: followersWithClientData, userStreakCompleteInfo: [] },
+                payload: {
+                    ...user,
+                    following: followingWithClientData,
+                    followers: followersWithClientData,
+                    userStreakCompleteInfo: [],
+                },
             });
             dispatch({ type: PASSWORD_STORE, password });
             dispatch({ type: REGISTER_IS_LOADED });
@@ -198,18 +214,22 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
 
                 dispatch({ type: LOGIN_SUCCESS, payload: cognitoPayload });
                 const user = await streakoid.user.getCurrentUser();
-                const followersWithClientData = user.followers.map(follower => ({
-                    ...follower,
-                    isSelected: false,
+                const followingWithClientData = user.following.map(following => ({
+                    ...following,
                     followUserIsLoading: false,
                     followUserFailMessage: '',
                     unfollowUserIsLoading: false,
                     unfollowUserFailMessage: '',
                 }));
+                const followersWithClientData = user.followers.map(follower => ({
+                    ...follower,
+                    isSelected: false,
+                }));
                 dispatch({
                     type: UPDATE_CURRENT_USER,
                     payload: {
                         ...user,
+                        following: followingWithClientData,
                         followers: followersWithClientData,
                         userStreakCompleteInfo: [],
                     },

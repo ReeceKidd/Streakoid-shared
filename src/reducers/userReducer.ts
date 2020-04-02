@@ -39,6 +39,13 @@ import {
     UNSELECT_FOLLOWER,
     CLEAR_SELECTED_FOLLOWERS,
     FOLLOW_USER_FAIL,
+    FOLLOW_USER,
+    FOLLOW_USER_IS_LOADING,
+    FOLLOW_USER_IS_LOADED,
+    UNFOLLOW_USER,
+    UNFOLLOW_USER_FAIL,
+    UNFOLLOW_USER_IS_LOADING,
+    UNFOLLOW_USER_IS_LOADED,
 } from '../actions/types';
 import {
     SoloStreak,
@@ -64,16 +71,20 @@ export interface SelectedUser extends PopulatedUser {
     totalTimesTracked: number;
 }
 
-export interface FollowerWithClientData extends BasicUser {
-    isSelected: boolean;
+export interface FollowingWithClientData extends BasicUser {
     followUserIsLoading: boolean;
     followUserFailMessage: string;
     unfollowUserIsLoading: boolean;
     unfollowUserFailMessage: string;
 }
 
+export interface FollowerWithClientData extends BasicUser {
+    isSelected: boolean;
+}
+
 export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser {
     userStreakCompleteInfo: { date: Date; count: number }[];
+    following: FollowingWithClientData[];
     followers: FollowerWithClientData[];
 }
 
@@ -449,6 +460,15 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 },
             };
 
+        case FOLLOW_USER:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    following: [...state.currentUser.following, action.payload],
+                },
+            };
+
         case FOLLOW_USER_FAIL:
             return {
                 ...state,
@@ -459,6 +479,102 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                             return {
                                 ...followingUser,
                                 followUserErrorMessage: action.payload.errorMessage,
+                            };
+                        }
+                        return followingUser;
+                    }),
+                },
+            };
+
+        case FOLLOW_USER_IS_LOADING:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    following: state.currentUser.following.map(followingUser => {
+                        if (followingUser.userId === action.payload) {
+                            return {
+                                ...followingUser,
+                                followUserIsLoading: true,
+                            };
+                        }
+                        return followingUser;
+                    }),
+                },
+            };
+
+        case FOLLOW_USER_IS_LOADED:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    following: state.currentUser.following.map(followingUser => {
+                        if (followingUser.userId === action.payload) {
+                            return {
+                                ...followingUser,
+                                followUserIsLoaded: true,
+                            };
+                        }
+                        return followingUser;
+                    }),
+                },
+            };
+
+        case UNFOLLOW_USER:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    following: [
+                        ...state.currentUser.following.filter(following => following.userId === action.payload.userId),
+                    ],
+                },
+            };
+
+        case UNFOLLOW_USER_FAIL:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    following: state.currentUser.following.map(followingUser => {
+                        if (followingUser.userId === action.payload.userToUnfollowId) {
+                            return {
+                                ...followingUser,
+                                unfollowUserErrorMessage: action.payload.errorMessage,
+                            };
+                        }
+                        return followingUser;
+                    }),
+                },
+            };
+
+        case UNFOLLOW_USER_IS_LOADING:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    following: state.currentUser.following.map(followingUser => {
+                        if (followingUser.userId === action.payload) {
+                            return {
+                                ...followingUser,
+                                unfollowUserIsLoading: true,
+                            };
+                        }
+                        return followingUser;
+                    }),
+                },
+            };
+
+        case UNFOLLOW_USER_IS_LOADED:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    following: state.currentUser.following.map(followingUser => {
+                        if (followingUser.userId === action.payload) {
+                            return {
+                                ...followingUser,
+                                unfollowUserIsLoaded: true,
                             };
                         }
                         return followingUser;
@@ -505,9 +621,9 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ...state,
                 currentUser: {
                     ...state.currentUser,
-                    friends: state.currentUser.friends.map(friend => {
+                    followers: state.currentUser.followers.map(follower => {
                         return {
-                            ...friend,
+                            ...follower,
                             isSelected: false,
                         };
                     }),
