@@ -27,7 +27,6 @@ import {
     FOLLOW_USER_IS_LOADING,
     FOLLOW_USER_IS_LOADED,
     FOLLOW_USER_FAIL,
-    FOLLOW_USER,
     UNFOLLOW_USER,
     UPDATE_CURRENT_USER,
 } from './types';
@@ -333,14 +332,6 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: FOLLOW_USER_IS_LOADING, payload: userToFollow._id });
             const userId = getState().users.currentUser._id;
             await streakoid.users.following.followUser({ userId, userToFollowId: userToFollow._id });
-            dispatch({
-                type: FOLLOW_USER,
-                payload: {
-                    ...userToFollow,
-                    unfollowUserIsLoading: false,
-                    unfollowUserErrorMessage: '',
-                },
-            });
             dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow._id });
         } catch (err) {
             dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow._id });

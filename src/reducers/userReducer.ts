@@ -39,7 +39,6 @@ import {
     UNSELECT_FOLLOWER,
     CLEAR_SELECTED_FOLLOWERS,
     FOLLOW_USER_FAIL,
-    FOLLOW_USER,
     FOLLOW_USER_IS_LOADING,
     FOLLOW_USER_IS_LOADED,
     UNFOLLOW_USER,
@@ -460,24 +459,6 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                     longestCurrentStreak: 0,
                     numberOfStreaks: 0,
                     totalTimesTracked: 0,
-                },
-            };
-
-        case FOLLOW_USER:
-            return {
-                ...state,
-                currentUser: {
-                    ...state.currentUser,
-                    following: [
-                        ...state.currentUser.following,
-                        {
-                            userId: action.payload._id,
-                            username: action.payload.username,
-                            profileImage: action.payload.profileImages.originalImageUrl,
-                            unfollowUserErrorMessage: '',
-                            unfollowUserIsLoading: false,
-                        },
-                    ],
                 },
             };
 
