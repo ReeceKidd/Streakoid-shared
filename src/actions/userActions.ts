@@ -337,6 +337,26 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: FOLLOW_USER_IS_LOADING, payload: userToFollow._id });
             const userId = getState().users.currentUser._id;
             await streakoid.users.following.followUser({ userId, userToFollowId: userToFollow._id });
+            const updatedUser = await streakoid.user.getCurrentUser();
+            const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId });
+            const followingWithClientData = updatedUser.following.map(following => ({
+                ...following,
+                unfollowUserIsLoading: false,
+                unfollowUserErrorMessage: '',
+            }));
+            const followersWithClientData = updatedUser.followers.map(follower => ({
+                ...follower,
+                isSelected: false,
+            }));
+            dispatch({
+                type: UPDATE_CURRENT_USER,
+                payload: {
+                    ...updatedUser,
+                    following: followingWithClientData,
+                    followers: followersWithClientData,
+                    userStreakCompleteInfo,
+                },
+            });
             dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow._id });
         } catch (err) {
             dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow._id });
