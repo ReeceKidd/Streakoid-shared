@@ -82,9 +82,9 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             const followingWithClientData = user.following.map(following => ({
                 ...following,
                 followUserIsLoading: false,
-                followUserFailMessage: '',
+                followUserErrorMessage: '',
                 unfollowUserIsLoading: false,
-                unfollowUserFailMessage: '',
+                unfollowUserErrorMessage: '',
             }));
             const followersWithClientData = user.followers.map(follower => ({
                 ...follower,
@@ -150,9 +150,9 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             const followingWithClientData = user.following.map(following => ({
                 ...following,
                 followUserIsLoading: false,
-                followUserFailMessage: '',
+                followUserErrorMessage: '',
                 unfollowUserIsLoading: false,
-                unfollowUserFailMessage: '',
+                unfollowUserErrorMessage: '',
             }));
             const followersWithClientData = user.followers.map(follower => ({
                 ...follower,
@@ -216,10 +216,8 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
                 const user = await streakoid.user.getCurrentUser();
                 const followingWithClientData = user.following.map(following => ({
                     ...following,
-                    followUserIsLoading: false,
-                    followUserFailMessage: '',
                     unfollowUserIsLoading: false,
-                    unfollowUserFailMessage: '',
+                    unfollowUserErrorMessage: '',
                 }));
                 const followersWithClientData = user.followers.map(follower => ({
                     ...follower,

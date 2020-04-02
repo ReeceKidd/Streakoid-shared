@@ -38,6 +38,7 @@ import { sortBadgesByLongestStreak } from './badgeActions';
 import { sortSoloStreaks, sortTeamStreaks, sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
+import { FormattedUserWithClientData } from '../reducers/userReducer';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
@@ -53,8 +54,13 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 query.searchQuery = searchQuery;
             }
             const users = await streakoid.users.getAll(query);
+            const usersWithClientData = users.map(user => ({
+                ...user,
+                followUserIsLoading: false,
+                followUserErrorMessage: '',
+            }));
 
-            dispatch({ type: GET_USERS, payload: users });
+            dispatch({ type: GET_USERS, payload: usersWithClientData });
             dispatch({ type: GET_USERS_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_USERS_IS_LOADED });
@@ -248,10 +254,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId: user._id });
             const followingWithClientData = user.following.map(following => ({
                 ...following,
-                followUserIsLoading: false,
-                followUserFailMessage: '',
                 unfollowUserIsLoading: false,
-                unfollowUserFailMessage: '',
+                unfollowUserErrorMessage: '',
             }));
             const followersWithClientData = user.followers.map(follower => ({
                 ...follower,
@@ -291,10 +295,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId });
             const followingWithClientData = updatedUser.following.map(following => ({
                 ...following,
-                followUserIsLoading: false,
-                followUserFailMessage: '',
                 unfollowUserIsLoading: false,
-                unfollowUserFailMessage: '',
+                unfollowUserErrorMessage: '',
             }));
             const followersWithClientData = updatedUser.followers.map(follower => ({
                 ...follower,
@@ -323,38 +325,34 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         type: CLEAR_SELECTED_USER,
     });
 
-    const followUser = (userToFollow: BasicUser) => async (
+    const followUser = (userToFollow: FormattedUserWithClientData) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: FOLLOW_USER_IS_LOADING, payload: userToFollow.userId });
+            dispatch({ type: FOLLOW_USER_IS_LOADING, payload: userToFollow._id });
             const userId = getState().users.currentUser._id;
-            await streakoid.users.following.followUser({ userId, userToFollowId: userToFollow.userId });
+            await streakoid.users.following.followUser({ userId, userToFollowId: userToFollow._id });
             dispatch({
                 type: FOLLOW_USER,
                 payload: {
-                    userId: userToFollow.userId,
-                    username: userToFollow.username,
-                    profileImage: userToFollow.profileImage,
-                    followUserIsLoading: false,
-                    followUserFailMessage: '',
+                    ...userToFollow,
                     unfollowUserIsLoading: false,
-                    unfollowUserFailMessage: '',
+                    unfollowUserErrorMessage: '',
                 },
             });
-            dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow.userId });
+            dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow._id });
         } catch (err) {
-            dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow.userId });
+            dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow._id });
             if (err.response) {
                 dispatch({
                     type: FOLLOW_USER_FAIL,
-                    payload: { userToFollowId: userToFollow.userId, errorMessage: err.response.data.message },
+                    payload: { userToFollowId: userToFollow._id, errorMessage: err.response.data.message },
                 });
             } else {
                 dispatch({
                     type: FOLLOW_USER_FAIL,
-                    payload: { userToFollowId: userToFollow.userId, errorMessage: err.message },
+                    payload: { userToFollowId: userToFollow._id, errorMessage: err.message },
                 });
             }
         }
@@ -374,10 +372,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                     userId: userToUnfollow.userId,
                     username: userToUnfollow.username,
                     profileImage: userToUnfollow.profileImage,
-                    followUserIsLoading: false,
-                    followUserFailMessage: '',
                     unfollowUserIsLoading: false,
-                    unfollowUserFailMessage: '',
+                    unfollowUserErrorMessage: '',
                 },
             });
             dispatch({ type: UNFOLLOW_USER_IS_LOADED, payload: userToUnfollow.userId });

@@ -50,9 +50,9 @@ import {
 import {
     SoloStreak,
     PopulatedTeamStreak,
-    FormattedUser,
     PopulatedCurrentUser,
     PopulatedUser,
+    FormattedUser,
 } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 import { UserBadge } from './badgesReducer';
@@ -72,10 +72,8 @@ export interface SelectedUser extends PopulatedUser {
 }
 
 export interface FollowingWithClientData extends BasicUser {
-    followUserIsLoading: boolean;
-    followUserFailMessage: string;
     unfollowUserIsLoading: boolean;
-    unfollowUserFailMessage: string;
+    unfollowUserErrorMessage: string;
 }
 
 export interface FollowerWithClientData extends BasicUser {
@@ -88,8 +86,13 @@ export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser
     followers: FollowerWithClientData[];
 }
 
+export interface FormattedUserWithClientData extends FormattedUser {
+    followUserIsLoading: boolean;
+    followUserErrorMessage: string;
+}
+
 export interface UserReducerInitialState {
-    usersList: FormattedUser[];
+    usersList: FormattedUserWithClientData[];
     currentUser: PopulatedCurrentUserWithClientData;
     selectedUser: SelectedUser;
     getUsersIsLoading: boolean;
@@ -465,59 +468,65 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ...state,
                 currentUser: {
                     ...state.currentUser,
-                    following: [...state.currentUser.following, action.payload],
+                    following: [
+                        ...state.currentUser.following,
+                        {
+                            userId: action.payload._id,
+                            username: action.payload.username,
+                            profileImage: action.payload.profileImages.originalImageUrl,
+                            unfollowUserErrorMessage: '',
+                            unfollowUserIsLoading: false,
+                        },
+                    ],
                 },
             };
 
         case FOLLOW_USER_FAIL:
             return {
                 ...state,
-                currentUser: {
-                    ...state.currentUser,
-                    following: state.currentUser.following.map(followingUser => {
-                        if (followingUser.userId === action.payload.userToFollowId) {
+                usersList: [
+                    ...state.usersList.map(selectedUser => {
+                        if (selectedUser._id === action.payload.userToFollowId) {
                             return {
-                                ...followingUser,
+                                ...selectedUser,
                                 followUserErrorMessage: action.payload.errorMessage,
                             };
                         }
-                        return followingUser;
+                        return selectedUser;
                     }),
-                },
+                ],
             };
 
         case FOLLOW_USER_IS_LOADING:
             return {
                 ...state,
-                currentUser: {
-                    ...state.currentUser,
-                    following: state.currentUser.following.map(followingUser => {
-                        if (followingUser.userId === action.payload) {
+                usersList: [
+                    ...state.usersList.map(selectedUser => {
+                        if (selectedUser._id === action.payload) {
                             return {
-                                ...followingUser,
+                                ...selectedUser,
                                 followUserIsLoading: true,
                             };
                         }
-                        return followingUser;
+                        return selectedUser;
                     }),
-                },
+                ],
             };
 
         case FOLLOW_USER_IS_LOADED:
             return {
                 ...state,
-                currentUser: {
-                    ...state.currentUser,
-                    following: state.currentUser.following.map(followingUser => {
-                        if (followingUser.userId === action.payload) {
+                usersList: [
+                    ...state.usersList.map(selectedUser => {
+                        if (selectedUser._id === action.payload) {
                             return {
-                                ...followingUser,
-                                followUserIsLoaded: true,
+                                ...selectedUser,
+                                followUserIsLoading: false,
                             };
                         }
-                        return followingUser;
+                        return selectedUser;
                     }),
-                },
+                ],
             };
 
         case UNFOLLOW_USER:

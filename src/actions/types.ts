@@ -13,7 +13,12 @@ import {
     ArchivedSoloStreakListItem,
     SoloStreakWithClientData,
 } from '../reducers/soloStreakReducer';
-import { SelectedUser, PopulatedCurrentUserWithClientData, FollowingWithClientData } from '../reducers/userReducer';
+import {
+    SelectedUser,
+    PopulatedCurrentUserWithClientData,
+    FollowingWithClientData,
+    FormattedUserWithClientData,
+} from '../reducers/userReducer';
 import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 import {
@@ -1149,7 +1154,7 @@ export const CLEAR_SELECTED_FOLLOWERS = 'CLEAR_SELECTED_FOLLOWERS';
 
 export interface GetUsersAction {
     type: typeof GET_USERS;
-    payload: FormattedUser[];
+    payload: FormattedUserWithClientData[];
 }
 
 export interface GetUsersFailAction {
@@ -1313,7 +1318,7 @@ export interface ClearSelectedUserAction {
 
 export interface FollowUserAction {
     type: typeof FOLLOW_USER;
-    payload: FollowingWithClientData;
+    payload: FormattedUserWithClientData;
 }
 
 export interface FollowerUserFailAction {
