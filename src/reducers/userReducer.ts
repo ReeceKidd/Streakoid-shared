@@ -44,6 +44,16 @@ import {
     UNFOLLOW_USER_FAIL,
     UNFOLLOW_USER_IS_LOADING,
     UNFOLLOW_USER_IS_LOADED,
+    FOLLOW_SELECTED_USER,
+    FOLLOW_SELECTED_USER_IS_LOADING,
+    FOLLOW_SELECTED_USER_FAIL,
+    FOLLOW_SELECTED_USER_IS_LOADED,
+    UNFOLLOW_SELECTED_USER,
+    UNFOLLOW_SELECTED_USER_FAIL,
+    UNFOLLOW_SELECTED_USER_IS_LOADING,
+    UNFOLLOW_SELECTED_USER_IS_LOADED,
+    FOLLOW_USER,
+    UNFOLLOW_USER,
 } from '../actions/types';
 import {
     SoloStreak,
@@ -67,6 +77,14 @@ export interface SelectedUser extends PopulatedUser {
     longestCurrentStreak: number;
     numberOfStreaks: number;
     totalTimesTracked: number;
+}
+
+export interface SelectedUserWithClientData extends SelectedUser {
+    isCurrentUserFollowing: boolean;
+    followUserIsLoading: boolean;
+    followUserErrorMessage: string;
+    unfollowUserIsLoading: boolean;
+    unfollowUserErrorMessage: string;
 }
 
 export interface FollowingWithClientData extends BasicUser {
@@ -93,7 +111,7 @@ export interface FormattedUserWithClientData extends FormattedUser {
 export interface UserReducerInitialState {
     usersList: FormattedUserWithClientData[];
     currentUser: PopulatedCurrentUserWithClientData;
-    selectedUser: SelectedUser;
+    selectedUser: SelectedUserWithClientData;
     getUsersIsLoading: boolean;
     getUsersErrorMessage: string;
     getUserIsLoading: boolean;
@@ -185,6 +203,11 @@ const initialState: UserReducerInitialState = {
         longestCurrentStreak: 0,
         numberOfStreaks: 0,
         totalTimesTracked: 0,
+        isCurrentUserFollowing: false,
+        followUserIsLoading: false,
+        followUserErrorMessage: '',
+        unfollowUserIsLoading: false,
+        unfollowUserErrorMessage: '',
     },
     getUsersIsLoading: false,
     getUsersErrorMessage: '',
@@ -459,7 +482,29 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                     longestCurrentStreak: 0,
                     numberOfStreaks: 0,
                     totalTimesTracked: 0,
+                    isCurrentUserFollowing: false,
+                    followUserIsLoading: false,
+                    followUserErrorMessage: '',
+                    unfollowUserIsLoading: false,
+                    unfollowUserErrorMessage: '',
                 },
+            };
+
+        case FOLLOW_USER:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    following: [...state.currentUser.following, action.payload],
+                },
+                usersList: [
+                    ...state.usersList.map(user => {
+                        if (user._id === action.payload.userId) {
+                            user.isCurrentUserFollowing = true;
+                        }
+                        return user;
+                    }),
+                ],
             };
 
         case FOLLOW_USER_FAIL:
@@ -506,6 +551,25 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                             };
                         }
                         return selectedUser;
+                    }),
+                ],
+            };
+
+        case UNFOLLOW_USER:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    following: [
+                        ...state.currentUser.following.filter(user => user.userId !== action.payload.userToUnfollowId),
+                    ],
+                },
+                usersList: [
+                    ...state.usersList.map(user => {
+                        if (user._id === action.payload.userToUnfollowId) {
+                            user.isCurrentUserFollowing = false;
+                        }
+                        return user;
                     }),
                 ],
             };
@@ -606,6 +670,78 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                             isSelected: false,
                         };
                     }),
+                },
+            };
+
+        case FOLLOW_SELECTED_USER:
+            return {
+                ...state,
+                selectedUser: {
+                    ...state.selectedUser,
+                    isCurrentUserFollowing: true,
+                },
+            };
+
+        case FOLLOW_SELECTED_USER_FAIL:
+            return {
+                ...state,
+                selectedUser: {
+                    ...state.selectedUser,
+                    followUserErrorMessage: action.payload,
+                },
+            };
+
+        case FOLLOW_SELECTED_USER_IS_LOADING:
+            return {
+                ...state,
+                selectedUser: {
+                    ...state.selectedUser,
+                    followUserIsLoading: true,
+                },
+            };
+
+        case FOLLOW_SELECTED_USER_IS_LOADED:
+            return {
+                ...state,
+                selectedUser: {
+                    ...state.selectedUser,
+                    followUserIsLoading: false,
+                },
+            };
+
+        case UNFOLLOW_SELECTED_USER:
+            return {
+                ...state,
+                selectedUser: {
+                    ...state.selectedUser,
+                    isCurrentUserFollowing: false,
+                },
+            };
+
+        case UNFOLLOW_SELECTED_USER_FAIL:
+            return {
+                ...state,
+                selectedUser: {
+                    ...state.selectedUser,
+                    unfollowUserErrorMessage: action.payload,
+                },
+            };
+
+        case UNFOLLOW_SELECTED_USER_IS_LOADING:
+            return {
+                ...state,
+                selectedUser: {
+                    ...state.selectedUser,
+                    unfollowUserIsLoading: true,
+                },
+            };
+
+        case UNFOLLOW_SELECTED_USER_IS_LOADED:
+            return {
+                ...state,
+                selectedUser: {
+                    ...state.selectedUser,
+                    unfollowUserIsLoading: false,
                 },
             };
 

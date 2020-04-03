@@ -28,6 +28,15 @@ import {
     FOLLOW_USER_IS_LOADED,
     FOLLOW_USER_FAIL,
     UPDATE_CURRENT_USER,
+    FOLLOW_USER,
+    FOLLOW_SELECTED_USER_IS_LOADING,
+    FOLLOW_SELECTED_USER_IS_LOADED,
+    FOLLOW_SELECTED_USER,
+    FOLLOW_SELECTED_USER_FAIL,
+    UNFOLLOW_SELECTED_USER_IS_LOADING,
+    UNFOLLOW_SELECTED_USER,
+    UNFOLLOW_SELECTED_USER_IS_LOADED,
+    UNFOLLOW_SELECTED_USER_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -36,7 +45,7 @@ import { sortBadgesByLongestStreak } from './badgeActions';
 import { sortSoloStreaks, sortTeamStreaks, sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
-import { FormattedUserWithClientData } from '../reducers/userReducer';
+import { FollowingWithClientData } from '../reducers/userReducer';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
@@ -110,7 +119,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         return completedStreakTaskDatesWithCounts;
     };
 
-    const getUser = ({ username }: { username: string }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getUser = ({ username }: { username: string }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
         try {
             dispatch({ type: GET_USER_IS_LOADING });
             const users = await streakoid.users.getAll({ username });
@@ -226,6 +238,9 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 longestEverChallengeStreak,
                 longestEverTeamStreak,
             );
+            const isCurrentUserFollowing = getState().users.currentUser.following.find(
+                selectedUser => selectedUser.userId == user._id,
+            );
             const selectedUser = {
                 ...user,
                 userBadges: userBadges.sort(sortBadgesByLongestStreak),
@@ -237,6 +252,11 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 longestCurrentStreak,
                 numberOfStreaks,
                 totalTimesTracked: userStreakCompleteInfo.length,
+                isCurrentUserFollowing: Boolean(isCurrentUserFollowing),
+                followUserIsLoading: false,
+                followUserErrorMessage: '',
+                unfollowUserIsLoading: false,
+                unfollowUserErrorMessage: '',
             };
             dispatch({ type: GET_USER, payload: selectedUser });
             dispatch({ type: GET_USER_IS_LOADED });
@@ -328,46 +348,34 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         type: CLEAR_SELECTED_USER,
     });
 
-    const followUser = (userToFollow: FormattedUserWithClientData) => async (
+    const followUser = (userToFollow: BasicUser) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: FOLLOW_USER_IS_LOADING, payload: userToFollow._id });
+            dispatch({ type: FOLLOW_USER_IS_LOADING, payload: userToFollow.userId });
             const userId = getState().users.currentUser._id;
-            await streakoid.users.following.followUser({ userId, userToFollowId: userToFollow._id });
-            const user = await streakoid.user.getCurrentUser();
-            const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId: user._id });
-            const followingWithClientData = user.following.map(following => ({
-                ...following,
-                unfollowUserIsLoading: false,
+            await streakoid.users.following.followUser({ userId, userToFollowId: userToFollow.userId });
+            const user: FollowingWithClientData = {
+                userId: userToFollow.userId,
+                username: userToFollow.username,
+                profileImage: userToFollow.profileImage,
                 unfollowUserErrorMessage: '',
-            }));
-            const followersWithClientData = user.followers.map(follower => ({
-                ...follower,
-                isSelected: false,
-            }));
-            dispatch({
-                type: UPDATE_CURRENT_USER,
-                payload: {
-                    ...user,
-                    userStreakCompleteInfo,
-                    following: followingWithClientData,
-                    followers: followersWithClientData,
-                },
-            });
-            dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow._id });
+                unfollowUserIsLoading: false,
+            };
+            dispatch({ type: FOLLOW_USER, payload: user });
+            dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow.userId });
         } catch (err) {
-            dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow._id });
+            dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow.userId });
             if (err.response) {
                 dispatch({
                     type: FOLLOW_USER_FAIL,
-                    payload: { userToFollowId: userToFollow._id, errorMessage: err.response.data.message },
+                    payload: { userToFollowId: userToFollow.userId, errorMessage: err.response.data.message },
                 });
             } else {
                 dispatch({
                     type: FOLLOW_USER_FAIL,
-                    payload: { userToFollowId: userToFollow._id, errorMessage: err.message },
+                    payload: { userToFollowId: userToFollow.userId, errorMessage: err.message },
                 });
             }
         }
@@ -432,6 +440,62 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         type: CLEAR_SELECTED_FOLLOWERS,
     });
 
+    const followSelectedUser = (userToFollow: BasicUser) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: FOLLOW_SELECTED_USER_IS_LOADING });
+            await streakoid.users.following.followUser({
+                userId: getState().users.currentUser._id,
+                userToFollowId: userToFollow.userId,
+            });
+            dispatch({ type: FOLLOW_SELECTED_USER });
+            dispatch({ type: FOLLOW_SELECTED_USER_IS_LOADED, payload: userToFollow.userId });
+        } catch (err) {
+            dispatch({ type: FOLLOW_SELECTED_USER_IS_LOADED, payload: userToFollow.userId });
+            if (err.response) {
+                dispatch({
+                    type: FOLLOW_SELECTED_USER_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: FOLLOW_SELECTED_USER_FAIL,
+                    payload: err.message,
+                });
+            }
+        }
+    };
+
+    const unfollowSelectedUser = (userToUnfollow: BasicUser) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: UNFOLLOW_SELECTED_USER_IS_LOADING });
+            await streakoid.users.following.followUser({
+                userId: getState().users.currentUser._id,
+                userToFollowId: userToUnfollow.userId,
+            });
+            dispatch({ type: UNFOLLOW_SELECTED_USER });
+            dispatch({ type: UNFOLLOW_SELECTED_USER_IS_LOADED, payload: userToUnfollow.userId });
+        } catch (err) {
+            dispatch({ type: UNFOLLOW_SELECTED_USER_IS_LOADED, payload: userToUnfollow.userId });
+            if (err.response) {
+                dispatch({
+                    type: UNFOLLOW_SELECTED_USER_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: UNFOLLOW_SELECTED_USER_FAIL,
+                    payload: err.message,
+                });
+            }
+        }
+    };
+
     return {
         getUsers,
         getUser,
@@ -444,6 +508,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         selectFollower,
         unselectFollower,
         clearSelectedFollowers,
+        followSelectedUser,
+        unfollowSelectedUser,
     };
 };
 

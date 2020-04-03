@@ -13,7 +13,12 @@ import {
     ArchivedSoloStreakListItem,
     SoloStreakWithClientData,
 } from '../reducers/soloStreakReducer';
-import { SelectedUser, PopulatedCurrentUserWithClientData, FormattedUserWithClientData } from '../reducers/userReducer';
+import {
+    PopulatedCurrentUserWithClientData,
+    FormattedUserWithClientData,
+    SelectedUserWithClientData,
+    FollowingWithClientData,
+} from '../reducers/userReducer';
 import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 import {
@@ -1099,10 +1104,22 @@ export const GET_USERS = 'GET_USERS';
 export const GET_USERS_FAIL = 'GET_USERS_FAIL';
 export const GET_USERS_IS_LOADING = 'GET_USERS_IS_LOADING';
 export const GET_USERS_IS_LOADED = 'GET_USERS_IS_LOADED';
+
 export const GET_USER = 'GET_USER';
 export const GET_USER_FAIL = 'GET_USER_FAIL';
 export const GET_USER_IS_LOADING = 'GET_USER_IS_LOADING';
 export const GET_USER_IS_LOADED = 'GET_USER_IS_LOADED';
+
+export const FOLLOW_SELECTED_USER = 'FOLLOW_SELECTED_USER';
+export const FOLLOW_SELECTED_USER_FAIL = 'FOLLOW_SELECTED_USER_FAIL';
+export const FOLLOW_SELECTED_USER_IS_LOADING = 'FOLLOW_SELECTED_USER_IS_LOADING';
+export const FOLLOW_SELECTED_USER_IS_LOADED = 'FOLLOW_SELECTED_USER_IS_LOADED';
+
+export const UNFOLLOW_SELECTED_USER = 'UNFOLLOW_SELECTED_USER';
+export const UNFOLLOW_SELECTED_USER_FAIL = 'UNFOLLOW_SELECTED_USER_FAIL';
+export const UNFOLLOW_SELECTED_USER_IS_LOADING = 'UNFOLLOW_SELECTED_USER_IS_LOADING';
+export const UNFOLLOW_SELECTED_USER_IS_LOADED = 'UNFOLLOW_SELECTED_USER_IS_LOADED';
+
 export const UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER';
 export const UPDATE_CURRENT_USER_FAIL = 'UPDATE_CURRENT_USER_FAIL';
 export const UPDATE_CURRENT_USER_IS_LOADING = 'UPDATE_CURRENT_USER_IS_LOADING';
@@ -1118,16 +1135,19 @@ export const CREATE_STRIPE_SUBSCRIPTION_FAIL = 'CREATE_STRIPE_SUBSCRIPTION_FAIL'
 export const CLEAR_STRIPE_SUBSCRIPTION_ERROR_MESSAGE = 'CLEAR_STRIPE_SUBSCRIPTION_ERROR_MESSAGE';
 export const CREATE_STRIPE_SUBSCRIPTION_LOADING = 'CREATE_STRIPE_SUBSCRIPTION_LOADING';
 export const CREATE_STRIPE_SUBSCRIPTION_LOADED = 'CREATE_STRIPE_SUBSCRIPTION_LOADED';
+
 export const SEND_CONTACT_US_EMAIL = 'SEND_CONTACT_US_EMAIL';
 export const SEND_CONTACT_US_EMAIL_FAIL = 'SEND_CONTACT_US_EMAIL_FAIL';
 export const SEND_CONTACT_US_EMAIL_LOADING = 'SEND_CONTACT_US_EMAIL_LOADING';
 export const SEND_CONTACT_US_EMAIL_LOADED = 'SEND_CONTACT_US_EMAIL_LOADED';
 export const CLEAR_SEND_CONTACT_US_EMAIL_MESSAGES = 'CLEAR_SEND_CONTACT_US_EMAIL_MESSAGES';
+
 export const SEND_CANCEL_MEMBERSHIP_EMAIL = 'SEND_CANCEL_MEMBERSHIP_EMAIL';
 export const SEND_CANCEL_MEMBERSHIP_EMAIL_FAIL = 'SEND_CANCEL_MEMBERSHIP_EMAIL_FAIL';
 export const SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING = 'SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING';
 export const SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED = 'SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED';
 export const CLEAR_SEND_CANCEL_MEMBERSHIP_EMAIL_MESSAGES = 'CLEAR_SEND_CANCEL_MEMBERSHIP_EMAIL_MESSAGES';
+
 export const UPLOAD_PROFILE_IMAGE = 'UPLOAD_PROFILE_IMAGE';
 export const UPLOAD_PROFILE_IMAGE_FAIL = 'UPLOAD_PROFILE_IMAGE_FAIL';
 export const UPLOAD_PROFILE_IMAGE_IS_LOADING = 'UPLOAD_PROFILE_IMAGE_IS_LOADING';
@@ -1135,13 +1155,16 @@ export const UPLOAD_PROFILE_IMAGE_IS_LOADED = 'UPLOAD_PROFILE_IMAGE_IS_LOADED';
 export const CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES = 'CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES';
 export const CLEAR_SELECTED_USER = 'CLEAR_SELECTED_USER';
 
+export const FOLLOW_USER = 'FOLLOW_USER';
 export const FOLLOW_USER_FAIL = 'FOLLOW_USER_FAIL';
 export const FOLLOW_USER_IS_LOADING = 'FOLLOW_USER_IS_LOADING';
 export const FOLLOW_USER_IS_LOADED = 'FOLLOW_USER_IS_LOADED';
+
 export const UNFOLLOW_USER = 'UNFOLLOW_USER';
 export const UNFOLLOW_USER_FAIL = 'UNFOLLOW_USER_FAIL';
 export const UNFOLLOW_USER_IS_LOADING = 'UNFOLLOW_USER_IS_LOADING';
 export const UNFOLLOW_USER_IS_LOADED = 'UNFOLLOW_USER_IS_LOADED';
+
 export const SELECT_FOLLOWER = 'SELECT_FOLLOWER';
 export const UNSELECT_FOLLOWER = 'UNSELECT_FOLLOWER';
 export const CLEAR_SELECTED_FOLLOWERS = 'CLEAR_SELECTED_FOLLOWERS';
@@ -1166,7 +1189,7 @@ export interface GetUsersIsLoadedAction {
 
 export interface GetUserAction {
     type: typeof GET_USER;
-    payload: SelectedUser;
+    payload: SelectedUserWithClientData;
 }
 
 export interface GetUserFailAction {
@@ -1180,6 +1203,40 @@ export interface GetUserIsLoadingAction {
 
 export interface GetUserIsLoadedAction {
     type: typeof GET_USER_IS_LOADED;
+}
+
+export interface FollowSelectedUserAction {
+    type: typeof FOLLOW_SELECTED_USER;
+}
+
+export interface FollowSelectedUserFailAction {
+    type: typeof FOLLOW_SELECTED_USER_FAIL;
+    payload: string;
+}
+
+export interface FollowSelectedUserIsLoadingAction {
+    type: typeof FOLLOW_SELECTED_USER_IS_LOADING;
+}
+
+export interface FollowSelectedUserIsLoadedAction {
+    type: typeof FOLLOW_SELECTED_USER_IS_LOADED;
+}
+
+export interface UnfollowSelectedUserAction {
+    type: typeof UNFOLLOW_SELECTED_USER;
+}
+
+export interface UnfollowSelectedUserFailAction {
+    type: typeof UNFOLLOW_SELECTED_USER_FAIL;
+    payload: string;
+}
+
+export interface UnfollowSelectedUserIsLoadingAction {
+    type: typeof UNFOLLOW_SELECTED_USER_IS_LOADING;
+}
+
+export interface UnfollowSelectedUserIsLoadedAction {
+    type: typeof UNFOLLOW_SELECTED_USER_IS_LOADED;
 }
 
 export interface UpdateCurrentUserAction {
@@ -1310,6 +1367,11 @@ export interface ClearSelectedUserAction {
     type: typeof CLEAR_SELECTED_USER;
 }
 
+export interface FollowUserAction {
+    type: typeof FOLLOW_USER;
+    payload: FollowingWithClientData;
+}
+
 export interface FollowerUserFailAction {
     type: typeof FOLLOW_USER_FAIL;
     payload: { errorMessage: string; userToFollowId: string };
@@ -1323,6 +1385,11 @@ export interface FollowerUserIsLoadingAction {
 export interface FollowerUserIsLoadedAction {
     type: typeof FOLLOW_USER_IS_LOADED;
     payload: string;
+}
+
+export interface UnfollowUserAction {
+    type: typeof UNFOLLOW_USER;
+    payload: { userToUnfollowId: string };
 }
 
 export interface UnfollowUserFailAction {
@@ -1363,6 +1430,14 @@ export type UserActionTypes =
     | GetUserFailAction
     | GetUserIsLoadingAction
     | GetUserIsLoadedAction
+    | FollowSelectedUserAction
+    | FollowSelectedUserFailAction
+    | FollowSelectedUserIsLoadingAction
+    | FollowSelectedUserIsLoadedAction
+    | UnfollowSelectedUserAction
+    | UnfollowSelectedUserFailAction
+    | UnfollowSelectedUserIsLoadingAction
+    | UnfollowSelectedUserIsLoadedAction
     | UpdateCurrentUserAction
     | UpdateCurrentUserFailAction
     | UpdateCurrentUserIsLoadingAction
@@ -1392,9 +1467,11 @@ export type UserActionTypes =
     | UploadProfileIsLoadedAction
     | ClearUploadProfileImageMessagesAction
     | ClearSelectedUserAction
+    | FollowUserAction
     | FollowerUserFailAction
     | FollowerUserIsLoadingAction
     | FollowerUserIsLoadedAction
+    | UnfollowUserAction
     | UnfollowUserFailAction
     | UnfollowUserIsLoadingAction
     | UnfollowerUserIsLoadedAction
