@@ -13,12 +13,7 @@ import {
     ArchivedSoloStreakListItem,
     SoloStreakWithClientData,
 } from '../reducers/soloStreakReducer';
-import {
-    SelectedUser,
-    PopulatedCurrentUserWithClientData,
-    FollowingWithClientData,
-    FormattedUserWithClientData,
-} from '../reducers/userReducer';
+import { SelectedUser, PopulatedCurrentUserWithClientData, FormattedUserWithClientData } from '../reducers/userReducer';
 import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 import {
@@ -1330,11 +1325,6 @@ export interface FollowerUserIsLoadedAction {
     payload: string;
 }
 
-export interface UnfollowUserAction {
-    type: typeof UNFOLLOW_USER;
-    payload: FollowingWithClientData;
-}
-
 export interface UnfollowUserFailAction {
     type: typeof UNFOLLOW_USER_FAIL;
     payload: { errorMessage: string; userToUnfollowId: string };
@@ -1405,7 +1395,6 @@ export type UserActionTypes =
     | FollowerUserFailAction
     | FollowerUserIsLoadingAction
     | FollowerUserIsLoadedAction
-    | UnfollowUserAction
     | UnfollowUserFailAction
     | UnfollowUserIsLoadingAction
     | UnfollowerUserIsLoadedAction

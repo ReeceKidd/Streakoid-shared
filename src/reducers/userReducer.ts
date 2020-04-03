@@ -41,7 +41,6 @@ import {
     FOLLOW_USER_FAIL,
     FOLLOW_USER_IS_LOADING,
     FOLLOW_USER_IS_LOADED,
-    UNFOLLOW_USER,
     UNFOLLOW_USER_FAIL,
     UNFOLLOW_USER_IS_LOADING,
     UNFOLLOW_USER_IS_LOADED,
@@ -509,17 +508,6 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                         return selectedUser;
                     }),
                 ],
-            };
-
-        case UNFOLLOW_USER:
-            return {
-                ...state,
-                currentUser: {
-                    ...state.currentUser,
-                    following: [
-                        ...state.currentUser.following.filter(following => following.userId === action.payload.userId),
-                    ],
-                },
             };
 
         case UNFOLLOW_USER_FAIL:
