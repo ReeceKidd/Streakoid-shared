@@ -7,7 +7,11 @@ import {
     Note,
     DatabaseStats,
 } from '@streakoid/streakoid-sdk/lib';
-import { PopulatedTeamStreakWithClientData, PopulatedTeamStreakWithTaskDates } from '../reducers/teamStreakReducer';
+import {
+    PopulatedTeamStreakWithClientData,
+    PopulatedTeamStreakWithTaskDates,
+    PopulatedTeamMemberWithClientData,
+} from '../reducers/teamStreakReducer';
 import {
     SoloStreakListItem,
     ArchivedSoloStreakListItem,
@@ -875,6 +879,7 @@ export interface ClearEditTeamStreakErrorMessageAction {
 
 export interface AddFollowerToTeamStreakAction {
     type: typeof ADD_FOLLOWER_TO_TEAM_STREAK;
+    payload: PopulatedTeamMemberWithClientData;
 }
 
 export interface AddFollowerToTeamStreakFailAction {

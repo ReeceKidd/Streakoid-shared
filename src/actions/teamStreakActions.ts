@@ -52,6 +52,7 @@ import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
 import { sortTeamStreaks } from '../helpers/sorters/sortStreaks';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
+import { PopulatedTeamMemberWithClientData } from '../reducers/teamStreakReducer';
 
 export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveTeamStreaks = () => async (
@@ -564,8 +565,26 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         teamStreakId: string;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
-            await streakoid.teamStreaks.teamMembers.create({ followerId, teamStreakId });
-            dispatch({ type: ADD_FOLLOWER_TO_TEAM_STREAK });
+            const teamMember = await streakoid.teamStreaks.teamMembers.create({ followerId, teamStreakId });
+            const teamMemberInfo = await streakoid.users.getOne(teamMember.memberId);
+            const teamMemberStreak = await streakoid.teamMemberStreaks.getOne(teamMember.teamMemberStreakId);
+            const populatedTeamMemberWithClientData: PopulatedTeamMemberWithClientData = {
+                ...teamMember,
+                _id: teamMember.memberId,
+                username: teamMemberInfo.username,
+                profileImage: teamMemberInfo.profileImages.originalImageUrl,
+                teamMemberStreak: {
+                    ...teamMemberStreak,
+                    completeTeamMemberStreakTaskIsLoading: false,
+                    completeTeamMemberStreakTaskErrorMessage: '',
+                    incompleteTeamMemberStreakTaskIsLoading: false,
+                    incompleteTeamMemberStreakTaskErrorMessage: '',
+                    longestStreak: 0,
+                    averageStreak: 0,
+                    totalTimesTracked: 0,
+                },
+            };
+            dispatch({ type: ADD_FOLLOWER_TO_TEAM_STREAK, payload: populatedTeamMemberWithClientData });
         } catch (err) {
             if (err.response) {
                 dispatch({ type: ADD_FOLLOWER_TO_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
