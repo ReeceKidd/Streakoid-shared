@@ -1208,7 +1208,7 @@ export interface GetUserIsLoadedAction {
 
 export interface FollowSelectedUserAction {
     type: typeof FOLLOW_SELECTED_USER;
-    payload: BasicUser;
+    payload: { currentUser: BasicUser; userToFollow: BasicUser };
 }
 
 export interface FollowSelectedUserFailAction {
@@ -1226,7 +1226,7 @@ export interface FollowSelectedUserIsLoadedAction {
 
 export interface UnfollowSelectedUserAction {
     type: typeof UNFOLLOW_SELECTED_USER;
-    payload: { userToUnfollowId: string };
+    payload: { currentUserId: string; userToUnfollowId: string };
 }
 
 export interface UnfollowSelectedUserFailAction {

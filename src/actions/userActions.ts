@@ -429,11 +429,22 @@ const userActions = (streakoid: typeof streakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: FOLLOW_SELECTED_USER_IS_LOADING });
+            const currentUser = getState().users.currentUser;
             await streakoid.users.following.followUser({
-                userId: getState().users.currentUser._id,
+                userId: currentUser._id,
                 userToFollowId: userToFollow.userId,
             });
-            dispatch({ type: FOLLOW_SELECTED_USER, payload: userToFollow });
+            dispatch({
+                type: FOLLOW_SELECTED_USER,
+                payload: {
+                    currentUser: {
+                        userId: currentUser._id,
+                        username: currentUser.username,
+                        profileImage: currentUser.profileImages.originalImageUrl,
+                    },
+                    userToFollow,
+                },
+            });
             dispatch({ type: FOLLOW_SELECTED_USER_IS_LOADED, payload: userToFollow.userId });
         } catch (err) {
             dispatch({ type: FOLLOW_SELECTED_USER_IS_LOADED, payload: userToFollow.userId });
@@ -456,12 +467,13 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         getState: () => AppState,
     ): Promise<void> => {
         try {
+            const currentUser = getState().users.currentUser;
             dispatch({ type: UNFOLLOW_SELECTED_USER_IS_LOADING });
             await streakoid.users.following.unfollowUser({
-                userId: getState().users.currentUser._id,
+                userId: currentUser._id,
                 userToUnfollowId,
             });
-            dispatch({ type: UNFOLLOW_SELECTED_USER, payload: { userToUnfollowId } });
+            dispatch({ type: UNFOLLOW_SELECTED_USER, payload: { userToUnfollowId, currentUserId: currentUser._id } });
             dispatch({ type: UNFOLLOW_SELECTED_USER_IS_LOADED, payload: userToUnfollowId });
         } catch (err) {
             dispatch({ type: UNFOLLOW_SELECTED_USER_IS_LOADED, payload: userToUnfollowId });
