@@ -1372,7 +1372,7 @@ export interface ClearSelectedUserAction {
 
 export interface FollowUserAction {
     type: typeof FOLLOW_USER;
-    payload: FollowingWithClientData;
+    payload: { userToFollow: FollowingWithClientData; currentUserId: string };
 }
 
 export interface FollowerUserFailAction {
@@ -1392,7 +1392,7 @@ export interface FollowerUserIsLoadedAction {
 
 export interface UnfollowUserAction {
     type: typeof UNFOLLOW_USER;
-    payload: { userToUnfollowId: string };
+    payload: { userToUnfollowId: string; currentUserId: string };
 }
 
 export interface UnfollowUserFailAction {

@@ -70,6 +70,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                     ...user,
                     followUserIsLoading: false,
                     followUserErrorMessage: '',
+                    unfollowUserIsLoading: false,
+                    unfollowUserErrorMessage: '',
                     isCurrentUserFollowing: Boolean(isCurrentUserFollowing),
                 };
             });
@@ -355,8 +357,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: FOLLOW_USER_IS_LOADING, payload: userToFollow.userId });
-            const userId = getState().users.currentUser._id;
-            await streakoid.users.following.followUser({ userId, userToFollowId: userToFollow.userId });
+            const currentUserId = getState().users.currentUser._id;
+            await streakoid.users.following.followUser({ userId: currentUserId, userToFollowId: userToFollow.userId });
             const user: FollowingWithClientData = {
                 userId: userToFollow.userId,
                 username: userToFollow.username,
@@ -364,7 +366,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 unfollowUserErrorMessage: '',
                 unfollowUserIsLoading: false,
             };
-            dispatch({ type: FOLLOW_USER, payload: user });
+            dispatch({ type: FOLLOW_USER, payload: { userToFollow: user, currentUserId } });
             dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow.userId });
         } catch (err) {
             dispatch({ type: FOLLOW_USER_IS_LOADED, payload: userToFollow.userId });
@@ -388,9 +390,12 @@ const userActions = (streakoid: typeof streakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: UNFOLLOW_USER_IS_LOADING, payload: userToUnfollow.userId });
-            const userId = getState().users.currentUser._id;
-            await streakoid.users.following.unfollowUser({ userId, userToUnfollowId: userToUnfollow.userId });
-            dispatch({ type: UNFOLLOW_USER, payload: { userToUnfollowId: userToUnfollow.userId } });
+            const currentUserId = getState().users.currentUser._id;
+            await streakoid.users.following.unfollowUser({
+                userId: currentUserId,
+                userToUnfollowId: userToUnfollow.userId,
+            });
+            dispatch({ type: UNFOLLOW_USER, payload: { userToUnfollowId: userToUnfollow.userId, currentUserId } });
 
             dispatch({ type: UNFOLLOW_USER_IS_LOADED, payload: userToUnfollow.userId });
         } catch (err) {

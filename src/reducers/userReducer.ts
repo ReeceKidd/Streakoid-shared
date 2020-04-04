@@ -105,6 +105,8 @@ export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser
 export interface FormattedUserWithClientData extends FormattedUser {
     followUserIsLoading: boolean;
     followUserErrorMessage: string;
+    unfollowUserIsLoading: boolean;
+    unfollowUserErrorMessage: string;
     isCurrentUserFollowing: boolean;
 }
 
@@ -495,12 +497,15 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ...state,
                 currentUser: {
                     ...state.currentUser,
-                    following: [...state.currentUser.following, action.payload],
+                    following: [...state.currentUser.following, action.payload.userToFollow],
                 },
                 usersList: [
                     ...state.usersList.map(user => {
-                        if (user._id === action.payload.userId) {
-                            user.isCurrentUserFollowing = true;
+                        if (user._id === action.payload.userToFollow.userId) {
+                            return {
+                                ...user,
+                                isCurrentUserFollowing: true,
+                            };
                         }
                         return user;
                     }),
@@ -567,7 +572,10 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 usersList: [
                     ...state.usersList.map(user => {
                         if (user._id === action.payload.userToUnfollowId) {
-                            user.isCurrentUserFollowing = false;
+                            return {
+                                ...user,
+                                isCurrentUserFollowing: false,
+                            };
                         }
                         return user;
                     }),
@@ -589,6 +597,17 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                         return followingUser;
                     }),
                 },
+                usersList: [
+                    ...state.usersList.map(selectedUser => {
+                        if (selectedUser._id === action.payload.userToUnfollowId) {
+                            return {
+                                ...selectedUser,
+                                unfollowUserErrorMessage: action.payload.errorMessage,
+                            };
+                        }
+                        return selectedUser;
+                    }),
+                ],
             };
 
         case UNFOLLOW_USER_IS_LOADING:
@@ -606,6 +625,17 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                         return followingUser;
                     }),
                 },
+                usersList: [
+                    ...state.usersList.map(selectedUser => {
+                        if (selectedUser._id === action.payload) {
+                            return {
+                                ...selectedUser,
+                                unfollowUserIsLoading: true,
+                            };
+                        }
+                        return selectedUser;
+                    }),
+                ],
             };
 
         case UNFOLLOW_USER_IS_LOADED:
@@ -623,6 +653,17 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                         return followingUser;
                     }),
                 },
+                usersList: [
+                    ...state.usersList.map(selectedUser => {
+                        if (selectedUser._id === action.payload) {
+                            return {
+                                ...selectedUser,
+                                unfollowUserIsLoading: true,
+                            };
+                        }
+                        return selectedUser;
+                    }),
+                ],
             };
 
         case SELECT_FOLLOWER:
