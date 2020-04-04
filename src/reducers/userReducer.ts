@@ -38,12 +38,12 @@ import {
     SELECT_FOLLOWER,
     UNSELECT_FOLLOWER,
     CLEAR_SELECTED_FOLLOWERS,
-    FOLLOW_USER_FAIL,
-    FOLLOW_USER_IS_LOADING,
-    FOLLOW_USER_IS_LOADED,
-    UNFOLLOW_USER_FAIL,
-    UNFOLLOW_USER_IS_LOADING,
-    UNFOLLOW_USER_IS_LOADED,
+    FOLLOW_USERS_LIST_USER_FAIL,
+    FOLLOW_USERS_LIST_USER_IS_LOADING,
+    FOLLOW_USERS_LIST_USER_IS_LOADED,
+    UNFOLLOW_USERS_LIST_USER_FAIL,
+    UNFOLLOW_USERS_LIST_USER_IS_LOADING,
+    UNFOLLOW_USERS_LIST_USER_IS_LOADED,
     FOLLOW_SELECTED_USER,
     FOLLOW_SELECTED_USER_IS_LOADING,
     FOLLOW_SELECTED_USER_FAIL,
@@ -52,8 +52,8 @@ import {
     UNFOLLOW_SELECTED_USER_FAIL,
     UNFOLLOW_SELECTED_USER_IS_LOADING,
     UNFOLLOW_SELECTED_USER_IS_LOADED,
-    FOLLOW_USER,
-    UNFOLLOW_USER,
+    FOLLOW_USERS_LIST_USER,
+    UNFOLLOW_USERS_LIST_USER,
 } from '../actions/types';
 import {
     SoloStreak,
@@ -492,7 +492,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 },
             };
 
-        case FOLLOW_USER:
+        case FOLLOW_USERS_LIST_USER:
             return {
                 ...state,
                 currentUser: {
@@ -512,7 +512,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ],
             };
 
-        case FOLLOW_USER_FAIL:
+        case FOLLOW_USERS_LIST_USER_FAIL:
             return {
                 ...state,
                 usersList: [
@@ -528,7 +528,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ],
             };
 
-        case FOLLOW_USER_IS_LOADING:
+        case FOLLOW_USERS_LIST_USER_IS_LOADING:
             return {
                 ...state,
                 usersList: [
@@ -544,7 +544,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ],
             };
 
-        case FOLLOW_USER_IS_LOADED:
+        case FOLLOW_USERS_LIST_USER_IS_LOADED:
             return {
                 ...state,
                 usersList: [
@@ -560,7 +560,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ],
             };
 
-        case UNFOLLOW_USER:
+        case UNFOLLOW_USERS_LIST_USER:
             return {
                 ...state,
                 currentUser: {
@@ -582,7 +582,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ],
             };
 
-        case UNFOLLOW_USER_FAIL:
+        case UNFOLLOW_USERS_LIST_USER_FAIL:
             return {
                 ...state,
                 currentUser: {
@@ -610,7 +610,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ],
             };
 
-        case UNFOLLOW_USER_IS_LOADING:
+        case UNFOLLOW_USERS_LIST_USER_IS_LOADING:
             return {
                 ...state,
                 currentUser: {
@@ -638,7 +638,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ],
             };
 
-        case UNFOLLOW_USER_IS_LOADED:
+        case UNFOLLOW_USERS_LIST_USER_IS_LOADED:
             return {
                 ...state,
                 currentUser: {
@@ -647,7 +647,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                         if (followingUser.userId === action.payload) {
                             return {
                                 ...followingUser,
-                                unfollowUserIsLoaded: true,
+                                unfollowUserIsLoaded: false,
                             };
                         }
                         return followingUser;
@@ -658,7 +658,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                         if (selectedUser._id === action.payload) {
                             return {
                                 ...selectedUser,
-                                unfollowUserIsLoading: true,
+                                unfollowUserIsLoading: false,
                             };
                         }
                         return selectedUser;

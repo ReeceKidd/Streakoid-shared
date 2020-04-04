@@ -1156,15 +1156,15 @@ export const UPLOAD_PROFILE_IMAGE_IS_LOADED = 'UPLOAD_PROFILE_IMAGE_IS_LOADED';
 export const CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES = 'CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES';
 export const CLEAR_SELECTED_USER = 'CLEAR_SELECTED_USER';
 
-export const FOLLOW_USER = 'FOLLOW_USER';
-export const FOLLOW_USER_FAIL = 'FOLLOW_USER_FAIL';
-export const FOLLOW_USER_IS_LOADING = 'FOLLOW_USER_IS_LOADING';
-export const FOLLOW_USER_IS_LOADED = 'FOLLOW_USER_IS_LOADED';
+export const FOLLOW_USERS_LIST_USER = 'FOLLOW_USERS_LIST_USER';
+export const FOLLOW_USERS_LIST_USER_FAIL = 'FOLLOW_USERS_LIST_USER_FAIL';
+export const FOLLOW_USERS_LIST_USER_IS_LOADING = 'FOLLOW_USERS_LIST_USER_IS_LOADING';
+export const FOLLOW_USERS_LIST_USER_IS_LOADED = 'FOLLOW_USERS_LIST_IS_LOADED';
 
-export const UNFOLLOW_USER = 'UNFOLLOW_USER';
-export const UNFOLLOW_USER_FAIL = 'UNFOLLOW_USER_FAIL';
-export const UNFOLLOW_USER_IS_LOADING = 'UNFOLLOW_USER_IS_LOADING';
-export const UNFOLLOW_USER_IS_LOADED = 'UNFOLLOW_USER_IS_LOADED';
+export const UNFOLLOW_USERS_LIST_USER = 'UNFOLLOW_USERS_LIST_USER';
+export const UNFOLLOW_USERS_LIST_USER_FAIL = 'UNFOLLOW_USERS_LIST_USER_FAIL';
+export const UNFOLLOW_USERS_LIST_USER_IS_LOADING = 'UNFOLLOW_USERS_LIST_USER_IS_LOADING';
+export const UNFOLLOW_USERS_LIST_USER_IS_LOADED = 'UNFOLLOW_USERS_LIST_USER_IS_LOADED';
 
 export const SELECT_FOLLOWER = 'SELECT_FOLLOWER';
 export const UNSELECT_FOLLOWER = 'UNSELECT_FOLLOWER';
@@ -1370,43 +1370,43 @@ export interface ClearSelectedUserAction {
     type: typeof CLEAR_SELECTED_USER;
 }
 
-export interface FollowUserAction {
-    type: typeof FOLLOW_USER;
+export interface FollowUsersListUserAction {
+    type: typeof FOLLOW_USERS_LIST_USER;
     payload: { userToFollow: FollowingWithClientData; currentUserId: string };
 }
 
-export interface FollowerUserFailAction {
-    type: typeof FOLLOW_USER_FAIL;
+export interface FollowerUsersListUserFailAction {
+    type: typeof FOLLOW_USERS_LIST_USER_FAIL;
     payload: { errorMessage: string; userToFollowId: string };
 }
 
-export interface FollowerUserIsLoadingAction {
-    type: typeof FOLLOW_USER_IS_LOADING;
+export interface FollowerUsersListUserIsLoadingAction {
+    type: typeof FOLLOW_USERS_LIST_USER_IS_LOADING;
     payload: string;
 }
 
-export interface FollowerUserIsLoadedAction {
-    type: typeof FOLLOW_USER_IS_LOADED;
+export interface FollowerUsersListUserIsLoadedAction {
+    type: typeof FOLLOW_USERS_LIST_USER_IS_LOADED;
     payload: string;
 }
 
-export interface UnfollowUserAction {
-    type: typeof UNFOLLOW_USER;
+export interface UnfollowUsersListUserAction {
+    type: typeof UNFOLLOW_USERS_LIST_USER;
     payload: { userToUnfollowId: string; currentUserId: string };
 }
 
-export interface UnfollowUserFailAction {
-    type: typeof UNFOLLOW_USER_FAIL;
+export interface UnfollowUsersListUserFailAction {
+    type: typeof UNFOLLOW_USERS_LIST_USER_FAIL;
     payload: { errorMessage: string; userToUnfollowId: string };
 }
 
-export interface UnfollowUserIsLoadingAction {
-    type: typeof UNFOLLOW_USER_IS_LOADING;
+export interface UnfollowUsersListUserIsLoadingAction {
+    type: typeof UNFOLLOW_USERS_LIST_USER_IS_LOADING;
     payload: string;
 }
 
-export interface UnfollowerUserIsLoadedAction {
-    type: typeof UNFOLLOW_USER_IS_LOADED;
+export interface UnfollowerUsersListUserIsLoadedAction {
+    type: typeof UNFOLLOW_USERS_LIST_USER_IS_LOADED;
     payload: string;
 }
 
@@ -1470,14 +1470,14 @@ export type UserActionTypes =
     | UploadProfileIsLoadedAction
     | ClearUploadProfileImageMessagesAction
     | ClearSelectedUserAction
-    | FollowUserAction
-    | FollowerUserFailAction
-    | FollowerUserIsLoadingAction
-    | FollowerUserIsLoadedAction
-    | UnfollowUserAction
-    | UnfollowUserFailAction
-    | UnfollowUserIsLoadingAction
-    | UnfollowerUserIsLoadedAction
+    | FollowUsersListUserAction
+    | FollowerUsersListUserFailAction
+    | FollowerUsersListUserIsLoadingAction
+    | FollowerUsersListUserIsLoadedAction
+    | UnfollowUsersListUserAction
+    | UnfollowUsersListUserFailAction
+    | UnfollowUsersListUserIsLoadingAction
+    | UnfollowerUsersListUserIsLoadedAction
     | SelectFollowerAction
     | UnselectFollowerAction
     | ClearSelectedFollowersAction;
