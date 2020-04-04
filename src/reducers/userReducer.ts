@@ -679,6 +679,14 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 selectedUser: {
                     ...state.selectedUser,
                     isCurrentUserFollowing: true,
+                    followers: [...state.selectedUser.followers, action.payload],
+                },
+                currentUser: {
+                    ...state.currentUser,
+                    following: [
+                        ...state.currentUser.following,
+                        { ...action.payload, unfollowUserErrorMessage: '', unfollowUserIsLoading: false },
+                    ],
                 },
             };
 
@@ -714,7 +722,16 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ...state,
                 selectedUser: {
                     ...state.selectedUser,
+                    followers: [
+                        ...state.selectedUser.followers.filter(user => user.userId !== action.payload.userToUnfollowId),
+                    ],
                     isCurrentUserFollowing: false,
+                },
+                currentUser: {
+                    ...state.currentUser,
+                    following: [
+                        ...state.currentUser.following.filter(user => user.userId !== action.payload.userToUnfollowId),
+                    ],
                 },
             };
 

@@ -423,7 +423,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         type: CLEAR_SELECTED_FOLLOWERS,
     });
 
-    const followSelectedUser = (userToFollowId: string) => async (
+    const followSelectedUser = (userToFollow: BasicUser) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
@@ -431,12 +431,12 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: FOLLOW_SELECTED_USER_IS_LOADING });
             await streakoid.users.following.followUser({
                 userId: getState().users.currentUser._id,
-                userToFollowId: userToFollowId,
+                userToFollowId: userToFollow.userId,
             });
-            dispatch({ type: FOLLOW_SELECTED_USER });
-            dispatch({ type: FOLLOW_SELECTED_USER_IS_LOADED, payload: userToFollowId });
+            dispatch({ type: FOLLOW_SELECTED_USER, payload: userToFollow });
+            dispatch({ type: FOLLOW_SELECTED_USER_IS_LOADED, payload: userToFollow.userId });
         } catch (err) {
-            dispatch({ type: FOLLOW_SELECTED_USER_IS_LOADED, payload: userToFollowId });
+            dispatch({ type: FOLLOW_SELECTED_USER_IS_LOADED, payload: userToFollow.userId });
             if (err.response) {
                 dispatch({
                     type: FOLLOW_SELECTED_USER_FAIL,
@@ -461,7 +461,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 userId: getState().users.currentUser._id,
                 userToUnfollowId,
             });
-            dispatch({ type: UNFOLLOW_SELECTED_USER });
+            dispatch({ type: UNFOLLOW_SELECTED_USER, payload: { userToUnfollowId } });
             dispatch({ type: UNFOLLOW_SELECTED_USER_IS_LOADED, payload: userToUnfollowId });
         } catch (err) {
             dispatch({ type: UNFOLLOW_SELECTED_USER_IS_LOADED, payload: userToUnfollowId });

@@ -36,6 +36,7 @@ import {
     TeamStreakLeaderboardItem,
     ChallengeStreakLeaderboardItem,
 } from '../reducers/leaderboardReducer';
+import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -1207,6 +1208,7 @@ export interface GetUserIsLoadedAction {
 
 export interface FollowSelectedUserAction {
     type: typeof FOLLOW_SELECTED_USER;
+    payload: BasicUser;
 }
 
 export interface FollowSelectedUserFailAction {
@@ -1224,6 +1226,7 @@ export interface FollowSelectedUserIsLoadedAction {
 
 export interface UnfollowSelectedUserAction {
     type: typeof UNFOLLOW_SELECTED_USER;
+    payload: { userToUnfollowId: string };
 }
 
 export interface UnfollowSelectedUserFailAction {
