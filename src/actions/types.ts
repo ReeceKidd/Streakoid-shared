@@ -7,7 +7,11 @@ import {
     Note,
     DatabaseStats,
 } from '@streakoid/streakoid-sdk/lib';
-import { PopulatedTeamStreakWithClientData, PopulatedTeamMemberWithClientData } from '../reducers/teamStreakReducer';
+import {
+    PopulatedTeamStreakWithClientData,
+    PopulatedTeamMemberWithClientData,
+    SelectedTeamStreak,
+} from '../reducers/teamStreakReducer';
 import {
     SoloStreakListItem,
     ArchivedSoloStreakListItem,
@@ -830,7 +834,7 @@ export interface GetArchivedTeamStreaksLoadedAction {
 
 export interface GetSelectedTeamStreakAction {
     type: typeof GET_SELECTED_TEAM_STREAK;
-    payload: PopulatedTeamStreakWithClientData;
+    payload: SelectedTeamStreak;
 }
 
 export interface GetSelectedTeamStreakFailAction {
@@ -1004,7 +1008,7 @@ export interface DeleteArchivedTeamStreakLoadedAction {
 
 export interface UpdateTimezoneAction {
     type: typeof UPDATE_TEAM_STREAK_TIMEZONE;
-    payload: PopulatedTeamStreakWithClientData;
+    payload: SelectedTeamStreak;
 }
 
 export interface UpdateTimezoneFailAction {

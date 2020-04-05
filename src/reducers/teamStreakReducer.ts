@@ -45,18 +45,18 @@ import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
 
 export interface PopulatedTeamStreakWithClientData extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
-    activityFeed: {
-        totalActivityFeedCount: number;
-        activityFeedItems: UserActivityFeedItem[];
-    };
 }
 
-export interface PopulatedTeamStreakWithTaskDates extends PopulatedTeamStreak {
+export interface SelectedTeamStreak extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
     completedTeamMemberStreakTaskDatesWithCounts: { date: Date; count: number }[];
     longestStreak: number;
     averageStreak: number;
     totalTimesTracked: number;
+    activityFeed: {
+        totalActivityFeedCount: number;
+        activityFeedItems: UserActivityFeedItem[];
+    };
 }
 
 export interface PopulatedTeamMemberWithClientData extends PopulatedTeamMember {
@@ -76,7 +76,7 @@ interface TeamMemberStreakWithClientData extends TeamMemberStreak {
 export interface TeamStreakReducerState {
     liveTeamStreaks: PopulatedTeamStreakWithClientData[];
     archivedTeamStreaks: PopulatedTeamStreakWithClientData[];
-    selectedTeamStreak: PopulatedTeamStreakWithClientData;
+    selectedTeamStreak: SelectedTeamStreak;
     getMultipleArchivedTeamStreaksIsLoading: boolean;
     getMultipleLiveTeamStreaksIsLoading: boolean;
     getTeamStreakIsLoading: boolean;

@@ -95,10 +95,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                     return {
                         ...teamStreak,
                         members,
-                        activityFeed: {
-                            totalActivityFeedCount: 0,
-                            activityFeedItems: [],
-                        },
                     };
                 }),
             );
@@ -152,10 +148,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                     return {
                         ...teamStreak,
                         members,
-                        activityFeed: {
-                            totalActivityFeedCount: 0,
-                            activityFeedItems: [],
-                        },
                     };
                 }),
             );
@@ -310,10 +302,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
-                activityFeed: {
-                    totalActivityFeedCount: 0,
-                    activityFeedItems: [],
-                },
             };
             dispatch({ type: CREATE_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: CREATE_TEAM_STREAK_IS_LOADED });
@@ -403,10 +391,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
-                activityFeed: {
-                    totalActivityFeedCount: 0,
-                    activityFeedItems: [],
-                },
             };
             dispatch({ type: ARCHIVE_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: ARCHIVE_TEAM_STREAK_IS_LOADED });
