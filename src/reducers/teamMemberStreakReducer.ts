@@ -10,7 +10,7 @@ import {
 import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
 
 export interface TeamMemberStreakReducerState {
-    selectedTeamMemberStreak: TeamMemberStreakWithClientData;
+    selectedTeamMemberStreak: SelectedTeamMemberStreak;
     getTeamMemberStreakIsLoading: boolean;
 }
 
@@ -48,7 +48,7 @@ const initialState: TeamMemberStreakReducerState = {
     getTeamMemberStreakIsLoading: false,
 };
 
-export interface TeamMemberStreakWithClientData extends TeamMemberStreak {
+export interface SelectedTeamMemberStreak extends TeamMemberStreak {
     completedTeamMemberStreakTaskDates: Date[];
     username: string;
     userProfileImage: string;

@@ -12,21 +12,17 @@ import {
     PopulatedTeamMemberWithClientData,
     SelectedTeamStreak,
 } from '../reducers/teamStreakReducer';
-import {
-    SoloStreakListItem,
-    ArchivedSoloStreakListItem,
-    SoloStreakWithClientData,
-} from '../reducers/soloStreakReducer';
+import { SoloStreakListItem, ArchivedSoloStreakListItem, SelectedSoloStreak } from '../reducers/soloStreakReducer';
 import {
     PopulatedCurrentUserWithClientData,
     FormattedUserWithClientData,
-    SelectedUserWithClientData,
+    SelectedUser,
     FollowingWithClientData,
 } from '../reducers/userReducer';
 import CognitoPayload from '../cognitoPayload';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 import {
-    ChallengeStreakWithClientData,
+    SelectedChallengeStreak,
     ChallengeStreakListItem,
     ArchivedChallengeStreakListItem,
 } from '../reducers/challengeStreakReducer';
@@ -34,7 +30,7 @@ import { UserBadge } from '../reducers/badgesReducer';
 import { NoteWithClientData } from '../reducers/notesReducer';
 import { GetAllPopulatedActivityFeedItemsActionResponse } from './activityFeedItemActions';
 import { PopulatedChallengeWithClientData } from '../reducers/challengesReducer';
-import { TeamMemberStreakWithClientData } from '../reducers/teamMemberStreakReducer';
+import { SelectedTeamMemberStreak } from '../reducers/teamMemberStreakReducer';
 import {
     SoloStreakLeaderboardItem,
     TeamStreakLeaderboardItem,
@@ -428,7 +424,7 @@ export interface GetArchivedSoloStreaksFailAction {
 
 export interface GetSoloStreakAction {
     type: typeof GET_SOLO_STREAK;
-    payload: SoloStreakWithClientData;
+    payload: SelectedSoloStreak;
 }
 
 export interface GetSoloStreakFailAction {
@@ -1079,7 +1075,7 @@ export const CLEAR_SELECTED_TEAM_MEMBER_STREAK = 'CLEAR_SELECTED_TEAM_MEMBER_STR
 
 export interface GetTeamMemberStreakAction {
     type: typeof GET_TEAM_MEMBER_STREAK;
-    payload: TeamMemberStreakWithClientData;
+    payload: SelectedTeamMemberStreak;
 }
 
 export interface GetTeamMemberStreakFailAction {
@@ -1195,7 +1191,7 @@ export interface GetUsersIsLoadedAction {
 
 export interface GetUserAction {
     type: typeof GET_USER;
-    payload: SelectedUserWithClientData;
+    payload: SelectedUser;
 }
 
 export interface GetUserFailAction {
@@ -1759,7 +1755,7 @@ export interface GetArchivedChallengeStreaksIsLoadedAction {
 
 export interface GetChallengeStreakAction {
     type: typeof GET_CHALLENGE_STREAK;
-    payload: ChallengeStreakWithClientData;
+    payload: SelectedChallengeStreak;
 }
 
 export interface GetChallengeStreakFailAction {
@@ -1777,7 +1773,7 @@ export interface GetChallengeStreakIsLoadedAction {
 
 export interface ArchiveChallengeStreakAction {
     type: typeof ARCHIVE_CHALLENGE_STREAK;
-    payload: ChallengeStreakWithClientData;
+    payload: SelectedChallengeStreak;
 }
 
 export interface ArchiveChallengeStreakFailAction {
@@ -1799,7 +1795,7 @@ export interface ArchiveChallengeStreakIsLoadedAction {
 
 export interface RestoreArchivedChallengeStreakAction {
     type: typeof RESTORE_ARCHIVED_CHALLENGE_STREAK;
-    payload: ChallengeStreakWithClientData;
+    payload: SelectedChallengeStreak;
 }
 
 export interface RestoreArchivedChallengeStreakFailAction {
@@ -1839,7 +1835,7 @@ export interface DeleteArchivedChallengeStreakIsLoadedAction {
 
 export interface CreateChallengeStreakAction {
     type: typeof CREATE_CHALLENGE_STREAK;
-    payload: ChallengeStreakWithClientData;
+    payload: SelectedChallengeStreak;
 }
 
 export interface CreateChallengeStreakFailAction {

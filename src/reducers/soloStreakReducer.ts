@@ -51,7 +51,7 @@ import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
 
 export interface SoloStreakReducerState {
     liveSoloStreaks: SoloStreakListItem[];
-    selectedSoloStreak: SoloStreakWithClientData;
+    selectedSoloStreak: SelectedSoloStreak;
     archivedSoloStreaks: ArchivedSoloStreakListItem[];
     getMultipleLiveSoloStreaksIsLoading: boolean;
     getSoloStreakIsLoading: boolean;
@@ -117,7 +117,7 @@ const initialState: SoloStreakReducerState = {
     deleteArchivedSoloStreakErrorMessage: '',
 };
 
-export interface SoloStreakWithClientData extends SoloStreak {
+export interface SelectedSoloStreak extends SoloStreak {
     completedSoloStreakTaskDates: Date[];
     username: string;
     userProfileImage: string;

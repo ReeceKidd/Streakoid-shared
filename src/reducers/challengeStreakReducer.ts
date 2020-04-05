@@ -45,7 +45,7 @@ export interface ChallengeStreakReducerState {
     liveChallengeStreaks: ChallengeStreakListItem[];
     getMultipleLiveChallengeStreaksIsLoading: boolean;
     getLiveChallengeStreaksErrorMessage: string;
-    selectedChallengeStreak: ChallengeStreakWithClientData;
+    selectedChallengeStreak: SelectedChallengeStreak;
     getSelectedChallengeStreakIsLoading: boolean;
     getSelectedChallengeStreakErrorMessage: string;
     archivedChallengeStreaks: ArchivedChallengeStreakListItem[];
@@ -128,7 +128,7 @@ export interface ArchivedChallengeStreakListItem extends ChallengeStreak {
     challengeDescription: string;
 }
 
-export interface ChallengeStreakWithClientData extends ChallengeStreak {
+export interface SelectedChallengeStreak extends ChallengeStreak {
     challengeName: string;
     challengeDescription: string;
     completeChallengeStreakTaskIsLoading: boolean;
@@ -356,11 +356,11 @@ const challengeStreakReducer = (
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.challengeStreakId) {
-                        const challengeStreakWithClientData = {
+                        const SelectedChallengeStreak = {
                             ...challengeStreak,
                             completeChallengeStreakTaskIsLoading: true,
                         };
-                        return challengeStreakWithClientData;
+                        return SelectedChallengeStreak;
                     }
                     return challengeStreak;
                 }),
@@ -371,11 +371,11 @@ const challengeStreakReducer = (
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.challengeStreakId) {
-                        const challengeStreakWithClientData = {
+                        const SelectedChallengeStreak = {
                             ...challengeStreak,
                             completeChallengeStreakTaskIsLoading: false,
                         };
-                        return challengeStreakWithClientData;
+                        return SelectedChallengeStreak;
                     }
                     return challengeStreak;
                 }),
@@ -418,11 +418,11 @@ const challengeStreakReducer = (
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.challengeStreakId) {
-                        const challengeStreakWithClientData = {
+                        const SelectedChallengeStreak = {
                             ...challengeStreak,
                             incompleteChallengeStreakTaskIsLoading: true,
                         };
-                        return challengeStreakWithClientData;
+                        return SelectedChallengeStreak;
                     }
                     return challengeStreak;
                 }),
@@ -433,11 +433,11 @@ const challengeStreakReducer = (
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.challengeStreakId) {
-                        const challengeStreakWithClientData = {
+                        const SelectedChallengeStreak = {
                             ...challengeStreak,
                             incompleteChallengeStreakTaskIsLoading: false,
                         };
-                        return challengeStreakWithClientData;
+                        return SelectedChallengeStreak;
                     }
                     return challengeStreak;
                 }),

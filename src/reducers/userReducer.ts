@@ -78,9 +78,6 @@ export interface SelectedUser extends PopulatedUser {
     longestCurrentStreak: number;
     numberOfStreaks: number;
     totalTimesTracked: number;
-}
-
-export interface SelectedUserWithClientData extends SelectedUser {
     isCurrentUserFollowing: boolean;
     followUserIsLoading: boolean;
     followUserErrorMessage: string;
@@ -119,7 +116,7 @@ export interface FormattedUserWithClientData extends FormattedUser {
     isCurrentUserFollowing: boolean;
 }
 
-const defaultSelectedUser: SelectedUserWithClientData = {
+const defaultSelectedUser: SelectedUser = {
     _id: '',
     isPayingMember: false,
     username: '',
@@ -158,7 +155,7 @@ const defaultSelectedUser: SelectedUserWithClientData = {
 export interface UserReducerInitialState {
     usersList: FormattedUserWithClientData[];
     currentUser: PopulatedCurrentUserWithClientData;
-    selectedUser: SelectedUserWithClientData;
+    selectedUser: SelectedUser;
     getUsersIsLoading: boolean;
     getUsersErrorMessage: string;
     getUserIsLoading: boolean;

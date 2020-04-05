@@ -60,10 +60,10 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
 }
 
 export interface PopulatedTeamMemberWithClientData extends PopulatedTeamMember {
-    teamMemberStreak: TeamMemberStreakWithClientData;
+    teamMemberStreak: SelectedTeamMemberStreak;
 }
 
-interface TeamMemberStreakWithClientData extends TeamMemberStreak {
+interface SelectedTeamMemberStreak extends TeamMemberStreak {
     completeTeamMemberStreakTaskIsLoading: boolean;
     completeTeamMemberStreakTaskErrorMessage: string;
     incompleteTeamMemberStreakTaskIsLoading: boolean;
