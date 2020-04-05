@@ -2067,41 +2067,73 @@ export type NotesActionTypes =
     | DeleteNoteLoadedAction
     | ClearNotesAction;
 
-export const GET_ACTIVITY_FEED_ITEMS = 'GET_ACTIVITY_FEED_ITEMS';
-export const GET_ACTIVITY_FEED_ITEMS_FAIL = 'GET_ACTIVITY_FEED_ITEMS_FAIL';
-export const GET_ACTIVITY_FEED_ITEMS_LOADING = 'GET_ACTIVITY_FEED_ITEMS_LOADING';
-export const GET_ACTIVITY_FEED_ITEMS_LOADED = 'GET_ACTIVITY_FEED_ITEMS_LOADED';
+export const GET_FOLLOWING_ACTIVITY_FEED = 'GET_FOLLOWING_ACTIVITY_FEED';
+export const GET_FOLLOWING_ACTIVITY_FEED_FAIL = 'GET_FOLLOWING_ACTIVITY_FEED_FAIL';
+export const GET_FOLLOWING_ACTIVITY_FEED_LOADING = 'GET_FOLLOWING_ACTIVITY_FEED_LOADING';
+export const GET_FOLLOWING_ACTIVITY_FEED_LOADED = 'GET_FOLLOWING_ACTIVITY_FEED_LOADED';
+export const CLEAR_FOLLOWING_ACTIVITY_FEED = 'CLEAR_ACTIVITY_FEED';
 
-export const CLEAR_ACTIVITY_FEED_ITEMS = 'CLEAR_ACTIVITY_FEED_ITEMS';
+export const GET_GLOBAL_ACTIVITY_FEED = 'GET_GLOBAL_ACTIVITY_FEED';
+export const GET_GLOBAL_ACTIVITY_FEED_FAIL = 'GET_GLOBAL_ACTIVITY_FEED_FAIL';
+export const GET_GLOBAL_ACTIVITY_FEED_LOADING = 'GET_GLOBAL_ACTIVITY_FEED_LOADING';
+export const GET_GLOBAL_ACTIVITY_FEED_LOADED = 'GET_GLOBAL_ACTIVITY_FEED_LOADED';
+export const CLEAR_GLOBAL_ACTIVITY_FEED = 'CLEAR_ACTIVITY_FEED';
 
-export interface GetActivityFeedItemsAction {
-    type: typeof GET_ACTIVITY_FEED_ITEMS;
+export interface GetFollowingActivityFeedItemsAction {
+    type: typeof GET_FOLLOWING_ACTIVITY_FEED;
     payload: GetAllPopulatedActivityFeedItemsActionResponse;
 }
 
-export interface GetActivityFeedItemsFailAction {
-    type: typeof GET_ACTIVITY_FEED_ITEMS_FAIL;
+export interface GetFollowingActivityFeedItemsFailAction {
+    type: typeof GET_FOLLOWING_ACTIVITY_FEED_FAIL;
     payload: string;
 }
 
-export interface GetActivityFeedItemsLoadingAction {
-    type: typeof GET_ACTIVITY_FEED_ITEMS_LOADING;
+export interface GetFollowingActivityFeedItemsLoadingAction {
+    type: typeof GET_FOLLOWING_ACTIVITY_FEED_LOADING;
 }
 
-export interface GetActivityFeedItemsLoadedAction {
-    type: typeof GET_ACTIVITY_FEED_ITEMS_LOADED;
+export interface GetFollowingActivityFeedItemsLoadedAction {
+    type: typeof GET_FOLLOWING_ACTIVITY_FEED_LOADED;
 }
 
-export interface ClearActivityFeedItemsAction {
-    type: typeof CLEAR_ACTIVITY_FEED_ITEMS;
+export interface ClearFollowingActivityFeedItemsAction {
+    type: typeof CLEAR_FOLLOWING_ACTIVITY_FEED;
+}
+
+export interface GetGlobalActivityFeedItemsAction {
+    type: typeof GET_GLOBAL_ACTIVITY_FEED;
+    payload: GetAllPopulatedActivityFeedItemsActionResponse;
+}
+
+export interface GetGlobalActivityFeedItemsFailAction {
+    type: typeof GET_GLOBAL_ACTIVITY_FEED_FAIL;
+    payload: string;
+}
+
+export interface GetGlobalActivityFeedItemsLoadingAction {
+    type: typeof GET_GLOBAL_ACTIVITY_FEED_LOADING;
+}
+
+export interface GetGlobalActivityFeedItemsLoadedAction {
+    type: typeof GET_GLOBAL_ACTIVITY_FEED_LOADED;
+}
+
+export interface ClearGlobalActivityFeedItemsAction {
+    type: typeof CLEAR_GLOBAL_ACTIVITY_FEED;
 }
 
 export type ActivityFeedItemsActionTypes =
-    | GetActivityFeedItemsAction
-    | GetActivityFeedItemsFailAction
-    | GetActivityFeedItemsLoadingAction
-    | GetActivityFeedItemsLoadedAction
-    | ClearActivityFeedItemsAction;
+    | GetFollowingActivityFeedItemsAction
+    | GetFollowingActivityFeedItemsFailAction
+    | GetFollowingActivityFeedItemsLoadingAction
+    | GetFollowingActivityFeedItemsLoadedAction
+    | ClearFollowingActivityFeedItemsAction
+    | GetGlobalActivityFeedItemsAction
+    | GetGlobalActivityFeedItemsFailAction
+    | GetGlobalActivityFeedItemsLoadingAction
+    | GetGlobalActivityFeedItemsLoadedAction
+    | ClearGlobalActivityFeedItemsAction;
 
 export const GET_SOLO_STREAK_LEADERBOARD = 'GET_SOLO_STREAK_LEADERBOARD';
 export const GET_SOLO_STREAK_LEADERBOARD_FAIL = 'GET_SOLO_STREAK_LEADERBOARD_FAIL';

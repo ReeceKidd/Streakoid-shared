@@ -1,27 +1,42 @@
 import {
-    GET_ACTIVITY_FEED_ITEMS,
-    GET_ACTIVITY_FEED_ITEMS_FAIL,
-    GET_ACTIVITY_FEED_ITEMS_LOADED,
-    GET_ACTIVITY_FEED_ITEMS_LOADING,
     ActivityFeedItemsActionTypes,
-    CLEAR_ACTIVITY_FEED_ITEMS,
+    GET_FOLLOWING_ACTIVITY_FEED,
+    GET_FOLLOWING_ACTIVITY_FEED_FAIL,
+    GET_FOLLOWING_ACTIVITY_FEED_LOADING,
+    GET_FOLLOWING_ACTIVITY_FEED_LOADED,
+    CLEAR_FOLLOWING_ACTIVITY_FEED,
+    GET_GLOBAL_ACTIVITY_FEED,
+    GET_GLOBAL_ACTIVITY_FEED_FAIL,
+    GET_GLOBAL_ACTIVITY_FEED_LOADING,
+    GET_GLOBAL_ACTIVITY_FEED_LOADED,
+    CLEAR_GLOBAL_ACTIVITY_FEED,
 } from '../actions/types';
 import { UserActivityFeedActionItem } from '../actions/activityFeedItemActions';
 
 export interface ActivityFeedItemReducerState {
-    activityFeedItems: UserActivityFeedActionItem[];
-    totalCountOfActivityFeedItems: number;
-    getAllActivityFeedItemsLoading: boolean;
-    getAllActivityFeedItemsErrorMessage: string;
-    clearActivityFeedItemsErrorMessage: string;
+    followingActivityFeed: UserActivityFeedActionItem[];
+    totalFollowingActivityFeedItems: number;
+    getFollowingActivityFeedLoading: boolean;
+    getFollowingActivityFeedErrorMessage: string;
+    clearFollowingActivityFeedErrorMessage: string;
+    globalActivityFeed: UserActivityFeedActionItem[];
+    totalGlobalActivityFeedItems: number;
+    getGlobalActivityFeedLoading: boolean;
+    getGlobalActivityFeedErrorMessage: string;
+    clearGlobalActivityFeedErrorMessage: string;
 }
 
 const initialState: ActivityFeedItemReducerState = {
-    activityFeedItems: [],
-    totalCountOfActivityFeedItems: 0,
-    getAllActivityFeedItemsLoading: false,
-    getAllActivityFeedItemsErrorMessage: '',
-    clearActivityFeedItemsErrorMessage: '',
+    followingActivityFeed: [],
+    totalFollowingActivityFeedItems: 0,
+    getFollowingActivityFeedLoading: false,
+    getFollowingActivityFeedErrorMessage: '',
+    clearFollowingActivityFeedErrorMessage: '',
+    globalActivityFeed: [],
+    totalGlobalActivityFeedItems: 0,
+    getGlobalActivityFeedLoading: false,
+    getGlobalActivityFeedErrorMessage: '',
+    clearGlobalActivityFeedErrorMessage: '',
 };
 
 const activityFeedItemReducer = (
@@ -29,36 +44,68 @@ const activityFeedItemReducer = (
     action: ActivityFeedItemsActionTypes,
 ): ActivityFeedItemReducerState => {
     switch (action.type) {
-        case GET_ACTIVITY_FEED_ITEMS:
+        case GET_FOLLOWING_ACTIVITY_FEED:
             return {
                 ...state,
-                activityFeedItems: action.payload.activityFeedItems,
-                totalCountOfActivityFeedItems: action.payload.totalCountOfActivityFeedItems,
+                followingActivityFeed: action.payload.activityFeedItems,
+                totalFollowingActivityFeedItems: action.payload.totalCountOfActivityFeedItems,
             };
 
-        case GET_ACTIVITY_FEED_ITEMS_FAIL:
+        case GET_FOLLOWING_ACTIVITY_FEED_FAIL:
             return {
                 ...state,
-                getAllActivityFeedItemsErrorMessage: action.payload,
+                getFollowingActivityFeedErrorMessage: action.payload,
             };
 
-        case GET_ACTIVITY_FEED_ITEMS_LOADING:
+        case GET_FOLLOWING_ACTIVITY_FEED_LOADING:
             return {
                 ...state,
-                getAllActivityFeedItemsLoading: true,
+                getFollowingActivityFeedLoading: true,
             };
 
-        case GET_ACTIVITY_FEED_ITEMS_LOADED:
+        case GET_FOLLOWING_ACTIVITY_FEED_LOADED:
             return {
                 ...state,
-                getAllActivityFeedItemsLoading: false,
+                getFollowingActivityFeedLoading: false,
             };
 
-        case CLEAR_ACTIVITY_FEED_ITEMS:
+        case CLEAR_FOLLOWING_ACTIVITY_FEED:
             return {
                 ...state,
-                activityFeedItems: [],
-                totalCountOfActivityFeedItems: 0,
+                followingActivityFeed: [],
+                totalFollowingActivityFeedItems: 0,
+            };
+
+        case GET_GLOBAL_ACTIVITY_FEED:
+            return {
+                ...state,
+                globalActivityFeed: action.payload.activityFeedItems,
+                totalGlobalActivityFeedItems: action.payload.totalCountOfActivityFeedItems,
+            };
+
+        case GET_GLOBAL_ACTIVITY_FEED_FAIL:
+            return {
+                ...state,
+                getGlobalActivityFeedErrorMessage: action.payload,
+            };
+
+        case GET_GLOBAL_ACTIVITY_FEED_LOADING:
+            return {
+                ...state,
+                getGlobalActivityFeedLoading: true,
+            };
+
+        case GET_GLOBAL_ACTIVITY_FEED_LOADED:
+            return {
+                ...state,
+                getGlobalActivityFeedLoading: false,
+            };
+
+        case CLEAR_GLOBAL_ACTIVITY_FEED:
+            return {
+                ...state,
+                globalActivityFeed: [],
+                totalGlobalActivityFeedItems: 0,
             };
 
         default:
