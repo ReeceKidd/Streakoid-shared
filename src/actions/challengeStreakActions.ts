@@ -47,6 +47,7 @@ import { sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
+import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveChallengeStreaks = () => async (
@@ -142,6 +143,12 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
             const completedChallengeStreakTaskDates = completeChallengeStreakTasks.map(
                 completeTask => new Date(completeTask.createdAt),
             );
+            const activityFeed = await streakoid.activityFeedItems.getAll({ subjectId: challengeStreak._id });
+            const populatedActivityFeedItems = await Promise.all(
+                activityFeed.activityFeedItems.map(activityFeedItem => {
+                    return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
+                }),
+            );
             const challengeStreakWithLoadingStates = {
                 ...challengeStreak,
                 challengeName: challenge.name,
@@ -163,6 +170,10 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                     timezone,
                 }),
                 numberOfRestarts: pastStreaks.length,
+                activityFeed: {
+                    totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
+                    activityFeedItems: populatedActivityFeedItems,
+                },
             };
             dispatch({ type: GET_CHALLENGE_STREAK, payload: challengeStreakWithLoadingStates });
             dispatch({ type: GET_CHALLENGE_STREAK_LOADED });
@@ -189,9 +200,6 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
             const { currentStreak, pastStreaks, createdAt, timezone } = updatedChallengeStreak;
             const currentUser = getState().users.currentUser;
             const challenge = await streakoid.challenges.getOne({ challengeId: updatedChallengeStreak.challengeId });
-            const completeChallengeStreakTasks = await streakoid.completeChallengeStreakTasks.getAll({
-                challengeStreakId: updatedChallengeStreak._id,
-            });
             const challengeStreakWithLoadingState = {
                 ...updatedChallengeStreak,
                 challengeName: challenge.name,
@@ -207,12 +215,16 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 userProfileImage: currentUser.profileImages.originalImageUrl,
                 longestStreak: getLongestStreak(currentStreak, pastStreaks),
                 averageStreak: getAverageStreak(currentStreak, pastStreaks),
-                totalTimesTracked: completeChallengeStreakTasks.length,
+                totalTimesTracked: 0,
                 daysSinceStreakCreation: getDaysSinceStreakCreation({
                     createdAt: new Date(createdAt),
                     timezone,
                 }),
                 numberOfRestarts: pastStreaks.length,
+                activityFeed: {
+                    totalActivityFeedCount: 0,
+                    activityFeedItems: [],
+                },
             };
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK_LOADED });
@@ -268,6 +280,10 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                     timezone,
                 }),
                 numberOfRestarts: pastStreaks.length,
+                activityFeed: {
+                    totalActivityFeedCount: 0,
+                    activityFeedItems: [],
+                },
             };
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED });

@@ -12,6 +12,7 @@ import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoi
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
+import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 
 const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
     const getTeamMemberStreak = (teamMemberStreakId: string) => async (
@@ -27,6 +28,12 @@ const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
             });
             const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(
                 completeTask => new Date(completeTask.createdAt),
+            );
+            const activityFeed = await streakoid.activityFeedItems.getAll({ subjectId: teamMemberStreak._id });
+            const populatedActivityFeedItems = await Promise.all(
+                activityFeed.activityFeedItems.map(activityFeedItem => {
+                    return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
+                }),
             );
             dispatch({
                 type: GET_TEAM_MEMBER_STREAK,
@@ -45,6 +52,10 @@ const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
                         timezone: teamMemberStreak.timezone,
                     }),
                     numberOfRestarts: teamMemberStreak.pastStreaks.length,
+                    activityFeed: {
+                        totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
+                        activityFeedItems: populatedActivityFeedItems,
+                    },
                 },
             });
             dispatch({ type: GET_TEAM_MEMBER_STREAK_IS_LOADED });

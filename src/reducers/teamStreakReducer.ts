@@ -10,9 +10,6 @@ import {
     INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING,
     INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED,
     CREATE_TEAM_STREAK,
-    GET_TEAM_STREAK,
-    GET_TEAM_STREAK_IS_LOADING,
-    GET_TEAM_STREAK_IS_LOADED,
     EDIT_TEAM_STREAK_FAIL,
     EDIT_TEAM_STREAK_LOADING,
     EDIT_TEAM_STREAK_LOADED,
@@ -39,11 +36,19 @@ import {
     UPDATE_TEAM_STREAK_TIMEZONE,
     CLEAR_SELECTED_TEAM_STREAK,
     ADD_FOLLOWER_TO_TEAM_STREAK,
+    GET_SELECTED_TEAM_STREAK,
+    GET_SELECTED_TEAM_STREAK_IS_LOADING,
+    GET_SELECTED_TEAM_STREAK_IS_LOADED,
 } from '../actions/types';
 import { PopulatedTeamStreak, PopulatedTeamMember, TeamMemberStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
+import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
 
 export interface PopulatedTeamStreakWithClientData extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
+    activityFeed: {
+        totalActivityFeedCount: number;
+        activityFeedItems: UserActivityFeedItem[];
+    };
 }
 
 export interface PopulatedTeamStreakWithTaskDates extends PopulatedTeamStreak {
@@ -71,7 +76,7 @@ interface TeamMemberStreakWithClientData extends TeamMemberStreak {
 export interface TeamStreakReducerState {
     liveTeamStreaks: PopulatedTeamStreakWithClientData[];
     archivedTeamStreaks: PopulatedTeamStreakWithClientData[];
-    selectedTeamStreak: PopulatedTeamStreakWithTaskDates;
+    selectedTeamStreak: PopulatedTeamStreakWithClientData;
     getMultipleArchivedTeamStreaksIsLoading: boolean;
     getMultipleLiveTeamStreaksIsLoading: boolean;
     getTeamStreakIsLoading: boolean;
@@ -110,6 +115,10 @@ const defaultSelectedTeamStreak = {
     longestStreak: 0,
     averageStreak: 0,
     totalTimesTracked: 0,
+    activityFeed: {
+        totalActivityFeedCount: 0,
+        activityFeedItems: [],
+    },
 };
 
 const initialState: TeamStreakReducerState = {
@@ -157,19 +166,19 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 archivedTeamStreaks: action.payload,
             };
 
-        case GET_TEAM_STREAK:
+        case GET_SELECTED_TEAM_STREAK:
             return {
                 ...state,
                 selectedTeamStreak: action.payload,
             };
 
-        case GET_TEAM_STREAK_IS_LOADING:
+        case GET_SELECTED_TEAM_STREAK_IS_LOADING:
             return {
                 ...state,
                 getTeamStreakIsLoading: true,
             };
 
-        case GET_TEAM_STREAK_IS_LOADED:
+        case GET_SELECTED_TEAM_STREAK_IS_LOADED:
             return {
                 ...state,
                 getTeamStreakIsLoading: false,

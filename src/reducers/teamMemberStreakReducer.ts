@@ -7,6 +7,7 @@ import {
     GET_TEAM_MEMBER_STREAK_IS_LOADED,
     CLEAR_SELECTED_TEAM_MEMBER_STREAK,
 } from '../actions/types';
+import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
 
 export interface TeamMemberStreakReducerState {
     selectedTeamMemberStreak: TeamMemberStreakWithClientData;
@@ -36,6 +37,10 @@ const defaultSelectedTeamMemberStreak = {
     totalTimesTracked: 0,
     daysSinceStreakCreation: 0,
     numberOfRestarts: 0,
+    activityFeed: {
+        totalActivityFeedCount: 0,
+        activityFeedItems: [],
+    },
 };
 
 const initialState: TeamMemberStreakReducerState = {
@@ -54,6 +59,10 @@ export interface TeamMemberStreakWithClientData extends TeamMemberStreak {
     totalTimesTracked: number;
     daysSinceStreakCreation: number;
     numberOfRestarts: number;
+    activityFeed: {
+        totalActivityFeedCount: number;
+        activityFeedItems: UserActivityFeedItem[];
+    };
 }
 
 const teamMemberStreakReducer = (

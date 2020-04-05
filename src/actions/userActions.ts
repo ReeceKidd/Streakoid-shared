@@ -47,6 +47,7 @@ import { sortSoloStreaks, sortTeamStreaks, sortChallengeStreaks } from '../helpe
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
 import { FollowingWithClientData } from '../reducers/userReducer';
+import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
@@ -244,6 +245,12 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             const isCurrentUserFollowing = getState().users.currentUser.following.find(
                 selectedUser => selectedUser.userId == user._id,
             );
+            const activityFeed = await streakoid.activityFeedItems.getAll({ userIds: [user._id] });
+            const populatedActivityFeedItems = await Promise.all(
+                activityFeed.activityFeedItems.map(activityFeedItem => {
+                    return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
+                }),
+            );
             const selectedUser = {
                 ...user,
                 userBadges: userBadges.sort(sortBadgesByLongestStreak),
@@ -260,6 +267,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 followUserErrorMessage: '',
                 unfollowUserIsLoading: false,
                 unfollowUserErrorMessage: '',
+                activityFeed: {
+                    totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
+                    activityFeedItems: populatedActivityFeedItems,
+                },
             };
             dispatch({ type: GET_USER, payload: selectedUser });
             dispatch({ type: GET_USER_IS_LOADED });
@@ -287,6 +298,12 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 ...follower,
                 isSelected: false,
             }));
+            const activityFeed = await streakoid.activityFeedItems.getAll({ userIds: [user._id] });
+            const populatedActivityFeedItems = await Promise.all(
+                activityFeed.activityFeedItems.map(activityFeedItem => {
+                    return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
+                }),
+            );
             dispatch({
                 type: GET_CURRENT_USER,
                 payload: {
@@ -294,6 +311,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                     following: followingWithClientData,
                     followers: followersWithClientData,
                     userStreakCompleteInfo,
+                    activityFeed: {
+                        totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
+                        activityFeedItems: populatedActivityFeedItems,
+                    },
                 },
             });
             dispatch({ type: GET_CURRENT_USER_IS_LOADED });
@@ -328,6 +349,12 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 ...follower,
                 isSelected: false,
             }));
+            const activityFeed = await streakoid.activityFeedItems.getAll({ userIds: [userId] });
+            const populatedActivityFeedItems = await Promise.all(
+                activityFeed.activityFeedItems.map(activityFeedItem => {
+                    return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
+                }),
+            );
             dispatch({
                 type: UPDATE_CURRENT_USER,
                 payload: {
@@ -335,6 +362,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                     following: followingWithClientData,
                     followers: followersWithClientData,
                     userStreakCompleteInfo,
+                    activityFeed: {
+                        totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
+                        activityFeedItems: populatedActivityFeedItems,
+                    },
                 },
             });
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADED });

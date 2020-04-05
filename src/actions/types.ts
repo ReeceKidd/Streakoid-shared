@@ -7,11 +7,7 @@ import {
     Note,
     DatabaseStats,
 } from '@streakoid/streakoid-sdk/lib';
-import {
-    PopulatedTeamStreakWithClientData,
-    PopulatedTeamStreakWithTaskDates,
-    PopulatedTeamMemberWithClientData,
-} from '../reducers/teamStreakReducer';
+import { PopulatedTeamStreakWithClientData, PopulatedTeamMemberWithClientData } from '../reducers/teamStreakReducer';
 import {
     SoloStreakListItem,
     ArchivedSoloStreakListItem,
@@ -747,10 +743,10 @@ export const GET_ARCHIVED_TEAM_STREAKS_FAIL = 'GET_ARCHIVED_TEAM_STREAKS_FAIL';
 export const GET_ARCHIVED_TEAM_STREAKS_IS_LOADING = 'GET_ARCHIVED_TEAM_STREAKS_IS_LOADING';
 export const GET_ARCHIVED_TEAM_STREAKS_IS_LOADED = 'GET_ARCHIVED_TEAM_STREAKS_IS_LOADED';
 
-export const GET_TEAM_STREAK = 'GET_LIVE_TEAM_STREAK';
-export const GET_TEAM_STREAK_FAIL = 'GET_LIVE_TEAM_STREAK_FAIL';
-export const GET_TEAM_STREAK_IS_LOADING = 'GET_LIVE_TEAM_STREAK_IS_LOADING';
-export const GET_TEAM_STREAK_IS_LOADED = 'GET_LIVE_TEAM_STREAK_IS_LOADED';
+export const GET_SELECTED_TEAM_STREAK = 'GET_SELECTED_TEAM_STREAK';
+export const GET_SELECTED_TEAM_STREAK_FAIL = 'GET_SELECTED_TEAM_STREAK_FAIL';
+export const GET_SELECTED_TEAM_STREAK_IS_LOADING = 'GET_SELECTED_TEAM_STREAK_IS_LOADING';
+export const GET_SELECTED_TEAM_STREAK_IS_LOADED = 'GET_SELECTED_TEAM_STREAK_IS_LOADED';
 
 export const CREATE_TEAM_STREAK = 'CREATE_TEAM_STREAK';
 export const EDIT_TEAM_STREAK = 'EDIT_TEAM_STREAK';
@@ -832,22 +828,22 @@ export interface GetArchivedTeamStreaksLoadedAction {
     type: typeof GET_ARCHIVED_TEAM_STREAKS_IS_LOADED;
 }
 
-export interface GetTeamStreakAction {
-    type: typeof GET_TEAM_STREAK;
-    payload: PopulatedTeamStreakWithTaskDates;
+export interface GetSelectedTeamStreakAction {
+    type: typeof GET_SELECTED_TEAM_STREAK;
+    payload: PopulatedTeamStreakWithClientData;
 }
 
-export interface GetTeamStreakFailAction {
-    type: typeof GET_TEAM_STREAK_FAIL;
+export interface GetSelectedTeamStreakFailAction {
+    type: typeof GET_SELECTED_TEAM_STREAK_FAIL;
     errorMessage: string;
 }
 
-export interface GetTeamStreakLoadingAction {
-    type: typeof GET_TEAM_STREAK_IS_LOADING;
+export interface GetSelectedTeamStreakLoadingAction {
+    type: typeof GET_SELECTED_TEAM_STREAK_IS_LOADING;
 }
 
-export interface GetTeamStreakLoadedAction {
-    type: typeof GET_TEAM_STREAK_IS_LOADED;
+export interface GetSelectedTeamStreakLoadedAction {
+    type: typeof GET_SELECTED_TEAM_STREAK_IS_LOADED;
 }
 
 export interface CreateTeamStreakAction {
@@ -1008,7 +1004,7 @@ export interface DeleteArchivedTeamStreakLoadedAction {
 
 export interface UpdateTimezoneAction {
     type: typeof UPDATE_TEAM_STREAK_TIMEZONE;
-    payload: PopulatedTeamStreakWithTaskDates;
+    payload: PopulatedTeamStreakWithClientData;
 }
 
 export interface UpdateTimezoneFailAction {
@@ -1029,10 +1025,10 @@ export type TeamStreakActionTypes =
     | GetArchivedTeamStreaksFailAction
     | GetArchivedTeamStreaksLoadingAction
     | GetArchivedTeamStreaksLoadedAction
-    | GetTeamStreakAction
-    | GetTeamStreakFailAction
-    | GetTeamStreakLoadingAction
-    | GetTeamStreakLoadedAction
+    | GetSelectedTeamStreakAction
+    | GetSelectedTeamStreakFailAction
+    | GetSelectedTeamStreakLoadingAction
+    | GetSelectedTeamStreakLoadedAction
     | CreateTeamStreakAction
     | EditTeamStreakAction
     | EditTeamStreakFailAction

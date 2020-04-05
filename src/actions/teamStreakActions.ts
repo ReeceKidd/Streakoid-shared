@@ -3,10 +3,6 @@ import { Dispatch } from 'redux';
 import {
     GET_LIVE_TEAM_STREAKS,
     GET_LIVE_TEAM_STREAKS_FAIL,
-    GET_TEAM_STREAK,
-    GET_TEAM_STREAK_FAIL,
-    GET_TEAM_STREAK_IS_LOADING,
-    GET_TEAM_STREAK_IS_LOADED,
     CREATE_TEAM_STREAK,
     CREATE_TEAM_STREAK_IS_LOADING,
     CREATE_TEAM_STREAK_IS_LOADED,
@@ -45,6 +41,10 @@ import {
     CLEAR_SELECTED_TEAM_STREAK,
     ADD_FOLLOWER_TO_TEAM_STREAK,
     ADD_FOLLOWER_TO_TEAM_STREAK_FAIL,
+    GET_SELECTED_TEAM_STREAK,
+    GET_SELECTED_TEAM_STREAK_IS_LOADING,
+    GET_SELECTED_TEAM_STREAK_IS_LOADED,
+    GET_SELECTED_TEAM_STREAK_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -53,6 +53,7 @@ import { sortTeamStreaks } from '../helpers/sorters/sortStreaks';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { PopulatedTeamMemberWithClientData } from '../reducers/teamStreakReducer';
+import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 
 export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveTeamStreaks = () => async (
@@ -94,6 +95,10 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                     return {
                         ...teamStreak,
                         members,
+                        activityFeed: {
+                            totalActivityFeedCount: 0,
+                            activityFeedItems: [],
+                        },
                     };
                 }),
             );
@@ -147,6 +152,10 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                     return {
                         ...teamStreak,
                         members,
+                        activityFeed: {
+                            totalActivityFeedCount: 0,
+                            activityFeedItems: [],
+                        },
                     };
                 }),
             );
@@ -162,9 +171,9 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getTeamStreak = (teamStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getSelectedTeamStreak = (teamStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
-            dispatch({ type: GET_TEAM_STREAK_IS_LOADING });
+            dispatch({ type: GET_SELECTED_TEAM_STREAK_IS_LOADING });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
             const members = await Promise.all(
                 teamStreak.members.map(async member => {
@@ -212,6 +221,12 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
                 teamStreakId: teamStreak._id,
             });
+            const activityFeed = await streakoid.activityFeedItems.getAll({ subjectId: teamStreak._id });
+            const populatedActivityFeedItems = await Promise.all(
+                activityFeed.activityFeedItems.map(activityFeedItem => {
+                    return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
+                }),
+            );
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members,
@@ -219,15 +234,19 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 averageStreak: getAverageStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
                 longestStreak: getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
                 totalTimesTracked: totalTimesTracked.length,
+                activityFeed: {
+                    totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
+                    activityFeedItems: populatedActivityFeedItems,
+                },
             };
-            dispatch({ type: GET_TEAM_STREAK, payload: teamStreakWithLoadingState });
-            dispatch({ type: GET_TEAM_STREAK_IS_LOADED });
+            dispatch({ type: GET_SELECTED_TEAM_STREAK, payload: teamStreakWithLoadingState });
+            dispatch({ type: GET_SELECTED_TEAM_STREAK_IS_LOADED });
         } catch (err) {
-            dispatch({ type: GET_TEAM_STREAK_IS_LOADED });
+            dispatch({ type: GET_SELECTED_TEAM_STREAK_IS_LOADED });
             if (err.response) {
-                dispatch({ type: GET_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: GET_SELECTED_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
             } else {
-                dispatch({ type: GET_TEAM_STREAK_FAIL, errorMessage: err.message });
+                dispatch({ type: GET_SELECTED_TEAM_STREAK_FAIL, errorMessage: err.message });
             }
         }
     };
@@ -291,6 +310,10 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
+                activityFeed: {
+                    totalActivityFeedCount: 0,
+                    activityFeedItems: [],
+                },
             };
             dispatch({ type: CREATE_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: CREATE_TEAM_STREAK_IS_LOADED });
@@ -380,6 +403,10 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
+                activityFeed: {
+                    totalActivityFeedCount: 0,
+                    activityFeedItems: [],
+                },
             };
             dispatch({ type: ARCHIVE_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: ARCHIVE_TEAM_STREAK_IS_LOADED });
@@ -433,6 +460,10 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
+                activityFeed: {
+                    totalActivityFeedCount: 0,
+                    activityFeedItems: [],
+                },
             };
             dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK_LOADED });
@@ -542,6 +573,10 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 averageStreak: getAverageStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
                 longestStreak: getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
                 totalTimesTracked: totalTimesTracked.length,
+                activityFeed: {
+                    totalActivityFeedCount: 0,
+                    activityFeedItems: [],
+                },
             };
             dispatch({ type: UPDATE_TEAM_STREAK_TIMEZONE, payload: teamStreakWithLoadingState });
         } catch (err) {
@@ -597,7 +632,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     return {
         getLiveTeamStreaks,
         getArchivedTeamStreaks,
-        getTeamStreak,
+        getSelectedTeamStreak,
         createTeamStreak,
         clearCreateTeamStreakError,
         editTeamStreak,

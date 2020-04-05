@@ -47,6 +47,7 @@ import {
     CLEAR_DELETE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE,
     CLEAR_SELECTED_SOLO_STREAK,
 } from '../actions/types';
+import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
 
 export interface SoloStreakReducerState {
     liveSoloStreaks: SoloStreakListItem[];
@@ -90,6 +91,10 @@ const defaultSelectedSoloStreak = {
     totalTimesTracked: 0,
     daysSinceStreakCreation: 0,
     numberOfRestarts: 0,
+    activityFeed: {
+        totalActivityFeedCount: 0,
+        activityFeedItems: [],
+    },
 };
 
 const initialState: SoloStreakReducerState = {
@@ -121,6 +126,10 @@ export interface SoloStreakWithClientData extends SoloStreak {
     totalTimesTracked: number;
     daysSinceStreakCreation: number;
     numberOfRestarts: number;
+    activityFeed: {
+        totalActivityFeedCount: number;
+        activityFeedItems: UserActivityFeedItem[];
+    };
 }
 
 export interface SoloStreakListItem extends SoloStreak {

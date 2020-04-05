@@ -59,6 +59,7 @@ import { sortSoloStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
+import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 
 const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveSoloStreaks = () => async (
@@ -130,6 +131,12 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             const completedSoloStreakTaskDates = completeSoloStreakTasks.map(
                 completeTask => new Date(completeTask.createdAt),
             );
+            const activityFeed = await streakoid.activityFeedItems.getAll({ subjectId: soloStreak._id });
+            const populatedActivityFeedItems = await Promise.all(
+                activityFeed.activityFeedItems.map(activityFeedItem => {
+                    return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
+                }),
+            );
             const numberOfRestarts = soloStreak.pastStreaks.length;
             dispatch({
                 type: GET_SOLO_STREAK,
@@ -146,6 +153,10 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                         timezone: soloStreak.timezone,
                     }),
                     numberOfRestarts,
+                    activityFeed: {
+                        totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
+                        activityFeedItems: populatedActivityFeedItems,
+                    },
                 },
             });
             dispatch({ type: GET_SOLO_STREAK_IS_LOADED });

@@ -39,6 +39,7 @@ import {
     DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL,
     CLEAR_SELECTED_CHALLENGE_STREAK,
 } from '../actions/types';
+import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
 
 export interface ChallengeStreakReducerState {
     liveChallengeStreaks: ChallengeStreakListItem[];
@@ -89,6 +90,10 @@ const defaultSelectedChallengeStreak = {
     totalTimesTracked: 0,
     daysSinceStreakCreation: 0,
     numberOfRestarts: 0,
+    activityFeed: {
+        totalActivityFeedCount: 0,
+        activityFeedItems: [],
+    },
 };
 
 const initialState: ChallengeStreakReducerState = {
@@ -138,6 +143,10 @@ export interface ChallengeStreakWithClientData extends ChallengeStreak {
     totalTimesTracked: number;
     daysSinceStreakCreation: number;
     numberOfRestarts: number;
+    activityFeed: {
+        totalActivityFeedCount: number;
+        activityFeedItems: UserActivityFeedItem[];
+    };
 }
 
 const challengeStreakReducer = (

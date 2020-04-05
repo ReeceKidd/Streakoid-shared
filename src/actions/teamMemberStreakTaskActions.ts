@@ -66,6 +66,10 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
                     return {
                         ...teamStreak,
                         members,
+                        activityFeed: {
+                            totalActivityFeedCount: 0,
+                            activityFeedItems: [],
+                        },
                     };
                 }),
             );
@@ -135,6 +139,10 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
                     return {
                         ...teamStreak,
                         members,
+                        activityFeed: {
+                            totalActivityFeedCount: 0,
+                            activityFeedItems: [],
+                        },
                     };
                 }),
             );

@@ -66,6 +66,7 @@ import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 import { UserBadge } from './badgesReducer';
 import { ChallengeStreakListItem } from './challengeStreakReducer';
 import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
+import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
 
 export interface SelectedUser extends PopulatedUser {
     soloStreaks: SoloStreak[];
@@ -85,6 +86,10 @@ export interface SelectedUserWithClientData extends SelectedUser {
     followUserErrorMessage: string;
     unfollowUserIsLoading: boolean;
     unfollowUserErrorMessage: string;
+    activityFeed: {
+        totalActivityFeedCount: number;
+        activityFeedItems: UserActivityFeedItem[];
+    };
 }
 
 export interface FollowingWithClientData extends BasicUser {
@@ -100,6 +105,10 @@ export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser
     userStreakCompleteInfo: { date: Date; count: number }[];
     following: FollowingWithClientData[];
     followers: FollowerWithClientData[];
+    activityFeed: {
+        totalActivityFeedCount: number;
+        activityFeedItems: UserActivityFeedItem[];
+    };
 }
 
 export interface FormattedUserWithClientData extends FormattedUser {
@@ -109,6 +118,42 @@ export interface FormattedUserWithClientData extends FormattedUser {
     unfollowUserErrorMessage: string;
     isCurrentUserFollowing: boolean;
 }
+
+const defaultSelectedUser: SelectedUserWithClientData = {
+    _id: '',
+    isPayingMember: false,
+    username: '',
+    createdAt: '',
+    updatedAt: '',
+    timezone: 'Europe/London',
+    userType: UserTypes.basic,
+    friends: [],
+    followers: [],
+    following: [],
+    badges: [],
+    profileImages: {
+        originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
+    },
+    pushNotificationToken: '',
+    soloStreaks: [],
+    teamStreaks: [],
+    challengeStreaks: [],
+    userBadges: [],
+    userStreakCompleteInfo: [],
+    longestEverStreak: 0,
+    longestCurrentStreak: 0,
+    numberOfStreaks: 0,
+    totalTimesTracked: 0,
+    isCurrentUserFollowing: false,
+    followUserIsLoading: false,
+    followUserErrorMessage: '',
+    unfollowUserIsLoading: false,
+    unfollowUserErrorMessage: '',
+    activityFeed: {
+        activityFeedItems: [],
+        totalActivityFeedCount: 0,
+    },
+};
 
 export interface UserReducerInitialState {
     usersList: FormattedUserWithClientData[];
@@ -179,38 +224,12 @@ const initialState: UserReducerInitialState = {
         hasCompletedIntroduction: true,
         createdAt: '',
         updatedAt: '',
-    },
-    selectedUser: {
-        _id: '',
-        isPayingMember: false,
-        username: '',
-        createdAt: '',
-        updatedAt: '',
-        timezone: 'Europe/London',
-        userType: UserTypes.basic,
-        friends: [],
-        followers: [],
-        following: [],
-        badges: [],
-        profileImages: {
-            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
+        activityFeed: {
+            totalActivityFeedCount: 0,
+            activityFeedItems: [],
         },
-        pushNotificationToken: '',
-        soloStreaks: [],
-        teamStreaks: [],
-        challengeStreaks: [],
-        userBadges: [],
-        userStreakCompleteInfo: [],
-        longestEverStreak: 0,
-        longestCurrentStreak: 0,
-        numberOfStreaks: 0,
-        totalTimesTracked: 0,
-        isCurrentUserFollowing: false,
-        followUserIsLoading: false,
-        followUserErrorMessage: '',
-        unfollowUserIsLoading: false,
-        unfollowUserErrorMessage: '',
     },
+    selectedUser: defaultSelectedUser,
     getUsersIsLoading: false,
     getUsersErrorMessage: '',
     getUserIsLoading: false,
@@ -459,37 +478,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
         case CLEAR_SELECTED_USER:
             return {
                 ...state,
-                selectedUser: {
-                    _id: '',
-                    isPayingMember: false,
-                    username: '',
-                    createdAt: '',
-                    updatedAt: '',
-                    timezone: 'Europe/London',
-                    userType: UserTypes.basic,
-                    friends: [],
-                    followers: [],
-                    following: [],
-                    badges: [],
-                    profileImages: {
-                        originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
-                    },
-                    pushNotificationToken: '',
-                    soloStreaks: [],
-                    teamStreaks: [],
-                    challengeStreaks: [],
-                    userBadges: [],
-                    userStreakCompleteInfo: [],
-                    longestEverStreak: 0,
-                    longestCurrentStreak: 0,
-                    numberOfStreaks: 0,
-                    totalTimesTracked: 0,
-                    isCurrentUserFollowing: false,
-                    followUserIsLoading: false,
-                    followUserErrorMessage: '',
-                    unfollowUserIsLoading: false,
-                    unfollowUserErrorMessage: '',
-                },
+                selectedUser: defaultSelectedUser,
             };
 
         case FOLLOW_USERS_LIST_USER:
