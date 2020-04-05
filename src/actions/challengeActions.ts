@@ -216,6 +216,10 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 totalTimesTracked: 0,
                 daysSinceStreakCreation: 0,
                 numberOfRestarts: 0,
+                activityFeed: {
+                    totalActivityFeedCount: 0,
+                    activityFeedItems: [],
+                },
             };
             dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADING });
             const sortedChallengeMembers = await getSortedChallengeMembers(challenge._id, challenge.members);

@@ -97,6 +97,10 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
                     following: followingWithClientData,
                     followers: followersWithClientData,
                     userStreakCompleteInfo: [],
+                    activityFeed: {
+                        totalActivityFeedCount: 0,
+                        activityFeedItems: [],
+                    },
                 },
             });
             dispatch({ type: NAVIGATE_TO_HOME });
@@ -165,6 +169,10 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
                     following: followingWithClientData,
                     followers: followersWithClientData,
                     userStreakCompleteInfo: [],
+                    activityFeed: {
+                        totalActivityFeedCount: 0,
+                        activityFeedItems: [],
+                    },
                 },
             });
             dispatch({ type: PASSWORD_STORE, password });
@@ -230,6 +238,10 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
                         following: followingWithClientData,
                         followers: followersWithClientData,
                         userStreakCompleteInfo: [],
+                        activityFeed: {
+                            totalActivityFeedCount: 0,
+                            activityFeedItems: [],
+                        },
                     },
                 });
                 dispatch({ type: NAVIGATE_TO_WELCOME });
