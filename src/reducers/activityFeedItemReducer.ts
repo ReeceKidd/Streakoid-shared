@@ -39,7 +39,7 @@ const initialState: ActivityFeedItemReducerState = {
     clearGlobalActivityFeedErrorMessage: '',
 };
 
-const activityFeedItemReducer = (
+const activityFeedReducer = (
     state = initialState,
     action: ActivityFeedItemsActionTypes,
 ): ActivityFeedItemReducerState => {
@@ -113,4 +113,4 @@ const activityFeedItemReducer = (
     }
 };
 
-export { activityFeedItemReducer };
+export { activityFeedReducer };

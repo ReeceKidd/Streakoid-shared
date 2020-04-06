@@ -10,7 +10,7 @@ import { badgeReducer } from './reducers/badgesReducer';
 import { challengeReducer } from './reducers/challengesReducer';
 import { challengeStreakReducer } from './reducers/challengeStreakReducer';
 import { noteReducer } from './reducers/notesReducer';
-import { activityFeedItemReducer } from './reducers/activityFeedItemReducer';
+import { activityFeedReducer } from './reducers/activityFeedItemReducer';
 import { teamMemberStreakReducer } from './reducers/teamMemberStreakReducer';
 import { leaderboardReducer } from './reducers/leaderboardReducer';
 import { databaseStatsReducer } from './reducers/databaseStatsReducer';
@@ -32,7 +32,7 @@ const sharedReducers = {
     challenges: challengeReducer,
     challengeStreaks: challengeStreakReducer,
     notes: noteReducer,
-    activityFeedItems: activityFeedItemReducer,
+    activityFeed: activityFeedReducer,
     teamMemberStreaks: teamMemberStreakReducer,
     leaderboards: leaderboardReducer,
     dabatabaseStats: databaseStatsReducer,
