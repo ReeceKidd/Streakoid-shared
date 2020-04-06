@@ -163,7 +163,10 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getSelectedTeamStreak = (teamStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getSelectedTeamStreak = (teamStreakId: string) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
         try {
             dispatch({ type: GET_SELECTED_TEAM_STREAK_IS_LOADING });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
@@ -219,6 +222,9 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                     return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
                 }),
             );
+            const currentUserMemberInfo = members.find(member => member._id == getState().users.currentUser._id);
+            const hasCurrentUserCompletedTaskForTheDay =
+                (currentUserMemberInfo && currentUserMemberInfo.teamMemberStreak.completedToday) || false;
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members,
@@ -230,6 +236,8 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                     totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
                     activityFeedItems: populatedActivityFeedItems,
                 },
+                isCurrentUserApartOfTeamStreak: Boolean(currentUserMemberInfo),
+                hasCurrentUserCompletedTaskForTheDay,
             };
             dispatch({ type: GET_SELECTED_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: GET_SELECTED_TEAM_STREAK_IS_LOADED });
@@ -490,6 +498,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
 
     const updateTeamStreakTimezone = ({ teamStreakId, timezone }: { teamStreakId: string; timezone: string }) => async (
         dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             await streakoid.teamStreaks.update({
@@ -550,6 +559,11 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
                 teamStreakId: teamStreak._id,
             });
+            const currentUserMemberInfo = teamStreak.members.find(
+                member => member._id == getState().users.currentUser._id,
+            );
+            const hasCurrentUserCompletedTaskForTheDay =
+                (currentUserMemberInfo && currentUserMemberInfo.teamMemberStreak.completedToday) || false;
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
@@ -561,6 +575,8 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                     totalActivityFeedCount: 0,
                     activityFeedItems: [],
                 },
+                isCurrentUserApartOfTeamStreak: Boolean(currentUserMemberInfo),
+                hasCurrentUserCompletedTaskForTheDay,
             };
             dispatch({ type: UPDATE_TEAM_STREAK_TIMEZONE, payload: teamStreakWithLoadingState });
         } catch (err) {

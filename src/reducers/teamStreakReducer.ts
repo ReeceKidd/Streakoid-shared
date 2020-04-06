@@ -65,6 +65,8 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
         totalActivityFeedCount: number;
         activityFeedItems: UserActivityFeedItem[];
     };
+    isCurrentUserApartOfTeamStreak: boolean;
+    hasCurrentUserCompletedTaskForTheDay: boolean;
 }
 
 export interface PopulatedTeamMemberWithClientData extends PopulatedTeamMember {
@@ -127,6 +129,8 @@ const defaultSelectedTeamStreak = {
         totalActivityFeedCount: 0,
         activityFeedItems: [],
     },
+    isCurrentUserApartOfTeamStreak: false,
+    hasCurrentUserCompletedTaskForTheDay: false,
 };
 
 const initialState: TeamStreakReducerState = {
