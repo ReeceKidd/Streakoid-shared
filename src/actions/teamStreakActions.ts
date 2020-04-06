@@ -562,8 +562,10 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const currentUserMemberInfo = teamStreak.members.find(
                 member => member._id == getState().users.currentUser._id,
             );
+            console.log('currentUserMemberInfo', currentUserMemberInfo);
             const hasCurrentUserCompletedTaskForTheDay =
                 (currentUserMemberInfo && currentUserMemberInfo.teamMemberStreak.completedToday) || false;
+            console.log('hasCurrentUserCompletedTaskForTheDay', hasCurrentUserCompletedTaskForTheDay);
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,

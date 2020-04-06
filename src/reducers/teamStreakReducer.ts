@@ -225,7 +225,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.teamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.teamMemberStreakId) {
                             const completedTeamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 completedToday: true,
@@ -250,7 +250,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.teamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.payload.teamMemberStreakId) {
                             const teamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 completeTeamMemberStreakTaskErrorMessage: action.payload.errorMessage,
@@ -275,7 +275,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.teamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.teamMemberStreakId) {
                             const teamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 completeTeamMemberStreakTaskIsLoading: true,
@@ -300,7 +300,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.teamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.teamMemberStreakId) {
                             const teamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 completeTeamMemberStreakTaskIsLoading: false,
@@ -325,7 +325,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
                             const completedTeamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 completedToday: true,
@@ -354,7 +354,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
                             const teamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 completeTeamMemberStreakTaskErrorMessage: action.payload.errorMessage,
@@ -379,7 +379,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
                             const teamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 completeTeamMemberStreakTaskIsLoading: true,
@@ -404,7 +404,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
                             const teamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 completeTeamMemberStreakTaskIsLoading: false,
@@ -429,7 +429,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.teamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.teamMemberStreakId) {
                             const completedTeamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 completedToday: false,
@@ -447,10 +447,6 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         members,
                     };
                 }),
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    hasCurrentUserCompletedTaskForTheDay: false,
-                },
             };
 
         case INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL:
@@ -458,7 +454,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.teamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.payload.teamMemberStreakId) {
                             const teamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 incompleteTeamMemberStreakTaskErrorMessage: action.payload.errorMessage,
@@ -483,7 +479,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.teamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.teamMemberStreakId) {
                             const teamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 incompleteTeamMemberStreakTaskIsLoading: true,
@@ -508,7 +504,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.teamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.teamMemberStreakId) {
                             const teamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 incompleteTeamMemberStreakTaskIsLoading: false,
@@ -533,7 +529,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
                             const completedTeamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 completedToday: false,
@@ -551,6 +547,10 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         members,
                     };
                 }),
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    hasCurrentUserCompletedTaskForTheDay: false,
+                },
             };
 
         case INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL:
@@ -558,7 +558,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
                             const teamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 incompleteTeamMemberStreakTaskErrorMessage: action.payload.errorMessage,
@@ -583,7 +583,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
                             const teamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 incompleteTeamMemberStreakTaskIsLoading: true,
@@ -608,7 +608,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
                             const teamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 incompleteTeamMemberStreakTaskIsLoading: false,
