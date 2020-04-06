@@ -352,76 +352,61 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
         case COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL:
             return {
                 ...state,
-                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
-                    const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
-                            const teamMemberStreak = {
-                                ...member.teamMemberStreak,
-                                completeTeamMemberStreakTaskErrorMessage: action.payload.errorMessage,
-                            };
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
                             return {
                                 ...member,
-                                teamMemberStreak,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completeTeamMemberStreakTaskErrorMessage: action.payload.errorMessage,
+                                },
                             };
                         }
                         return member;
-                    });
-
-                    return {
-                        ...teamStreak,
-                        members,
-                    };
-                }),
+                    }),
+                },
             };
 
         case COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING:
             return {
                 ...state,
-                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
-                    const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
-                            const teamMemberStreak = {
-                                ...member.teamMemberStreak,
-                                completeTeamMemberStreakTaskIsLoading: true,
-                            };
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
                             return {
                                 ...member,
-                                teamMemberStreak,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completeTeamMemberStreakTaskIsLoading: true,
+                                },
                             };
                         }
                         return member;
-                    });
-
-                    return {
-                        ...teamStreak,
-                        members,
-                    };
-                }),
+                    }),
+                },
             };
 
         case COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED:
             return {
                 ...state,
-                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
-                    const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
-                            const teamMemberStreak = {
-                                ...member.teamMemberStreak,
-                                completeTeamMemberStreakTaskIsLoading: false,
-                            };
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
                             return {
                                 ...member,
-                                teamMemberStreak,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completeTeamMemberStreakTaskIsLoading: false,
+                                },
                             };
                         }
                         return member;
-                    });
-
-                    return {
-                        ...teamStreak,
-                        members,
-                    };
-                }),
+                    }),
+                },
             };
 
         case INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK:
@@ -556,76 +541,61 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
         case INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL:
             return {
                 ...state,
-                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
-                    const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
-                            const teamMemberStreak = {
-                                ...member.teamMemberStreak,
-                                incompleteTeamMemberStreakTaskErrorMessage: action.payload.errorMessage,
-                            };
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
                             return {
                                 ...member,
-                                teamMemberStreak,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    incompleteTeamMemberStreakTaskErrorMessage: action.payload.errorMessage,
+                                },
                             };
                         }
                         return member;
-                    });
-
-                    return {
-                        ...teamStreak,
-                        members,
-                    };
-                }),
+                    }),
+                },
             };
 
         case INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING:
             return {
                 ...state,
-                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
-                    const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
-                            const teamMemberStreak = {
-                                ...member.teamMemberStreak,
-                                incompleteTeamMemberStreakTaskIsLoading: true,
-                            };
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
                             return {
                                 ...member,
-                                teamMemberStreak,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    incompleteTeamMemberStreakTaskIsLoading: true,
+                                },
                             };
                         }
                         return member;
-                    });
-
-                    return {
-                        ...teamStreak,
-                        members,
-                    };
-                }),
+                    }),
+                },
             };
 
         case INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED:
             return {
                 ...state,
-                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
-                    const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
-                            const teamMemberStreak = {
-                                ...member.teamMemberStreak,
-                                incompleteTeamMemberStreakTaskIsLoading: false,
-                            };
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
                             return {
                                 ...member,
-                                teamMemberStreak,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    incompleteTeamMemberStreakTaskIsLoading: false,
+                                },
                             };
                         }
                         return member;
-                    });
-
-                    return {
-                        ...teamStreak,
-                        members,
-                    };
-                }),
+                    }),
+                },
             };
 
         case CREATE_TEAM_STREAK_IS_LOADING:
