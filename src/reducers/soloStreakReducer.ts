@@ -149,10 +149,10 @@ export interface SelectedSoloStreak extends SoloStreak {
 }
 
 export interface SoloStreakListItem extends SoloStreak {
-    completeSoloStreakTaskIsLoading: boolean;
-    completeSoloStreakTaskErrorMessage: string;
-    incompleteSoloStreakTaskIsLoading: boolean;
-    incompleteSoloStreakTaskErrorMessage: string;
+    completeSoloStreakListTaskIsLoading: boolean;
+    completeSoloStreakListTaskErrorMessage: string;
+    incompleteSoloStreakListTaskIsLoading: boolean;
+    incompleteSoloStreakListTaskErrorMessage: string;
 }
 
 export interface ArchivedSoloStreakListItem extends SoloStreak {
@@ -262,7 +262,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                     if (soloStreak._id === action.soloStreakId) {
                         const SoloStreakListItem: SoloStreakListItem = {
                             ...soloStreak,
-                            completeSoloStreakTaskIsLoading: true,
+                            completeSoloStreakListTaskIsLoading: true,
                         };
                         return SoloStreakListItem;
                     }
@@ -277,7 +277,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                     if (soloStreak._id === action.soloStreakId) {
                         const SoloStreakListItem: SoloStreakListItem = {
                             ...soloStreak,
-                            completeSoloStreakTaskIsLoading: false,
+                            completeSoloStreakListTaskIsLoading: false,
                         };
                         return SoloStreakListItem;
                     }
@@ -373,7 +373,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                     if (soloStreak._id === action.soloStreakId) {
                         const SoloStreakListItem: SoloStreakListItem = {
                             ...soloStreak,
-                            incompleteSoloStreakTaskIsLoading: true,
+                            incompleteSoloStreakListTaskIsLoading: true,
                         };
                         return SoloStreakListItem;
                     }
@@ -388,7 +388,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                     if (soloStreak._id === action.soloStreakId) {
                         const SoloStreakListItem: SoloStreakListItem = {
                             ...soloStreak,
-                            incompleteSoloStreakTaskIsLoading: false,
+                            incompleteSoloStreakListTaskIsLoading: false,
                         };
                         return SoloStreakListItem;
                     }

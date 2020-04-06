@@ -85,10 +85,10 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             const soloStreaksWithLoadingStates = sortedSoloStreaks.map(soloStreak => {
                 return {
                     ...soloStreak,
-                    completeSoloStreakTaskIsLoading: false,
-                    completeSoloStreakTaskErrorMessage: '',
-                    incompleteSoloStreakTaskIsLoading: false,
-                    incompleteSoloStreakTaskErrorMessage: '',
+                    completeSoloStreakListTaskIsLoading: false,
+                    completeSoloStreakListTaskErrorMessage: '',
+                    incompleteSoloStreakListTaskIsLoading: false,
+                    incompleteSoloStreakListTaskErrorMessage: '',
                 };
             });
             dispatch({ type: GET_LIVE_SOLO_STREAKS, payload: soloStreaksWithLoadingStates });
@@ -216,10 +216,10 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             });
             const soloStreakWithLoadingState = {
                 ...soloStreak,
-                completeSoloStreakTaskIsLoading: false,
-                completeSoloStreakTaskErrorMessage: '',
-                incompleteSoloStreakTaskIsLoading: false,
-                incompleteSoloStreakTaskErrorMessage: '',
+                completeSoloStreakListTaskIsLoading: false,
+                completeSoloStreakListTaskErrorMessage: '',
+                incompleteSoloStreakListTaskIsLoading: false,
+                incompleteSoloStreakListTaskErrorMessage: '',
             };
             dispatch({ type: CREATE_SOLO_STREAK_IS_LOADED });
             dispatch({ type: CREATE_SOLO_STREAK, payload: soloStreakWithLoadingState });
@@ -257,10 +257,10 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             });
             const soloStreakWithLoadingState = {
                 ...soloStreak,
-                completeSoloStreakTaskIsLoading: false,
-                completeSoloStreakTaskErrorMessage: '',
-                incompleteSoloStreakTaskIsLoading: false,
-                incompleteSoloStreakTaskErrorMessage: '',
+                completeSoloStreakListTaskIsLoading: false,
+                completeSoloStreakListTaskErrorMessage: '',
+                incompleteSoloStreakListTaskIsLoading: false,
+                incompleteSoloStreakListTaskErrorMessage: '',
             };
             dispatch({ type: EDIT_SOLO_STREAK, soloStreak: soloStreakWithLoadingState });
             dispatch({ type: NAVIGATE_TO_SPECIFIC_SOLO_STREAK, payload: soloStreakId });
@@ -319,10 +319,10 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             });
             const soloStreakWithLoadingState = {
                 ...updatedSoloStreak,
-                completeSoloStreakTaskIsLoading: false,
-                completeSoloStreakTaskErrorMessage: '',
-                incompleteSoloStreakTaskIsLoading: false,
-                incompleteSoloStreakTaskErrorMessage: '',
+                completeSoloStreakListTaskIsLoading: false,
+                completeSoloStreakListTaskErrorMessage: '',
+                incompleteSoloStreakListTaskIsLoading: false,
+                incompleteSoloStreakListTaskErrorMessage: '',
             };
             dispatch({ type: RESTORE_ARCHIVED_SOLO_STREAK, payload: soloStreakWithLoadingState });
             dispatch({ type: RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADED });
