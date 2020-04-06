@@ -29,7 +29,10 @@ const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
             const completedTeamMemberStreakTaskDates = completeTeamMemberStreakTasks.map(
                 completeTask => new Date(completeTask.createdAt),
             );
-            const activityFeed = await streakoid.activityFeedItems.getAll({ subjectId: teamMemberStreak._id });
+            const activityFeed = await streakoid.activityFeedItems.getAll({
+                subjectId: teamMemberStreak.teamStreakId,
+                userIds: [teamMemberStreak.userId],
+            });
             const populatedActivityFeedItems = await Promise.all(
                 activityFeed.activityFeedItems.map(activityFeedItem => {
                     return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
