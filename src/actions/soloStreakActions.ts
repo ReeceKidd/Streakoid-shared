@@ -36,14 +36,14 @@ import {
     CLEAR_EDIT_SOLO_STREAK_ERROR_MESSAGE,
     CLEAR_ARCHIVE_SOLO_STREAK_ERROR_MESSAGE,
     CLEAR_RESTORE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE,
-    CREATE_COMPLETE_SOLO_STREAK_TASK_LOADING,
-    CREATE_COMPLETE_SOLO_STREAK_TASK,
-    CREATE_COMPLETE_SOLO_STREAK_TASK_LOADED,
-    CREATE_COMPLETE_SOLO_STREAK_TASK_FAIL,
-    CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADING,
-    CREATE_INCOMPLETE_SOLO_STREAK_TASK_FAIL,
-    CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADED,
-    CREATE_INCOMPLETE_SOLO_STREAK_TASK,
+    CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADING,
+    CREATE_COMPLETE_SOLO_STREAK_LIST_TASK,
+    CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADED,
+    CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_FAIL,
+    CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADING,
+    CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_FAIL,
+    CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADED,
+    CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK,
     DELETE_ARCHIVED_SOLO_STREAK_IS_LOADING,
     DELETE_ARCHIVED_SOLO_STREAK_IS_LOADED,
     DELETE_ARCHIVED_SOLO_STREAK,
@@ -52,6 +52,14 @@ import {
     NAVIGATE_TO_SPECIFIC_SOLO_STREAK,
     NAVIGATE_TO_STREAK_LIMIT_REACHED,
     CLEAR_SELECTED_SOLO_STREAK,
+    COMPLETE_SELECTED_SOLO_STREAK_IS_LOADING,
+    COMPLETE_SELECTED_SOLO_STREAK,
+    COMPLETE_SELECTED_SOLO_STREAK_IS_LOADED,
+    COMPLETE_SELECTED_SOLO_STREAK_FAIL,
+    INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADING,
+    INCOMPLETE_SELECTED_SOLO_STREAK,
+    INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED,
+    INCOMPLETE_SELECTED_SOLO_STREAK_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -157,6 +165,10 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                         totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
                         activityFeedItems: populatedActivityFeedItems,
                     },
+                    completeSelectedSoloStreakIsLoading: false,
+                    completeSelectedSoloStreakErrorMessage: '',
+                    incompleteSelectedSoloStreakIsLoading: false,
+                    incompleteSelectedSoloStreakErrorMessage: '',
                 },
             });
             dispatch({ type: GET_SOLO_STREAK_IS_LOADED });
@@ -370,59 +382,117 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const completeSoloStreakTask = (soloStreakId: string) => async (
+    const completeSoloStreakListTask = (soloStreakId: string) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: CREATE_COMPLETE_SOLO_STREAK_TASK_LOADING, soloStreakId });
+            dispatch({ type: CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADING, soloStreakId });
             const userId = getState().users.currentUser._id;
             const completeSoloStreakTask = await streakoid.completeSoloStreakTasks.create({ soloStreakId, userId });
             dispatch({
-                type: CREATE_COMPLETE_SOLO_STREAK_TASK,
+                type: CREATE_COMPLETE_SOLO_STREAK_LIST_TASK,
                 payload: completeSoloStreakTask.streakId,
             });
-            dispatch({ type: CREATE_COMPLETE_SOLO_STREAK_TASK_LOADED, soloStreakId });
+            dispatch({ type: CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADED, soloStreakId });
         } catch (err) {
-            dispatch({ type: CREATE_COMPLETE_SOLO_STREAK_TASK_LOADED, soloStreakId });
+            dispatch({ type: CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADED, soloStreakId });
             if (err.response) {
                 dispatch({
-                    type: CREATE_COMPLETE_SOLO_STREAK_TASK_FAIL,
+                    type: CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_FAIL,
                     payload: { soloStreakId, errorMessage: err.response.data.message },
                 });
             } else {
                 dispatch({
-                    type: CREATE_COMPLETE_SOLO_STREAK_TASK_FAIL,
+                    type: CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_FAIL,
                     payload: { soloStreakId, errorMessage: err.message },
                 });
             }
         }
     };
 
-    const incompleteSoloStreakTask = (soloStreakId: string) => async (
+    const incompleteSoloStreakListTask = (soloStreakId: string) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADING, soloStreakId });
+            dispatch({ type: CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADING, soloStreakId });
             const userId = getState().users.currentUser._id;
             await streakoid.incompleteSoloStreakTasks.create({ userId, soloStreakId });
             dispatch({
-                type: CREATE_INCOMPLETE_SOLO_STREAK_TASK,
+                type: CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK,
                 payload: soloStreakId,
             });
-            dispatch({ type: CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADED, soloStreakId });
+            dispatch({ type: CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADED, soloStreakId });
         } catch (err) {
-            dispatch({ type: CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADED, soloStreakId });
+            dispatch({ type: CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADED, soloStreakId });
             if (err.response) {
                 dispatch({
-                    type: CREATE_INCOMPLETE_SOLO_STREAK_TASK_FAIL,
+                    type: CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_FAIL,
                     payload: { soloStreakId, errorMessage: err.response.data.message },
                 });
             } else {
                 dispatch({
-                    type: CREATE_INCOMPLETE_SOLO_STREAK_TASK_FAIL,
+                    type: CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_FAIL,
                     payload: { soloStreakId, errorMessage: err.message },
+                });
+            }
+        }
+    };
+
+    const completeSelectedSoloStreakTask = (selectedSoloStreakId: string) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: COMPLETE_SELECTED_SOLO_STREAK_IS_LOADING });
+            const userId = getState().users.currentUser._id;
+            await streakoid.completeSoloStreakTasks.create({ soloStreakId: selectedSoloStreakId, userId });
+            dispatch({
+                type: COMPLETE_SELECTED_SOLO_STREAK,
+                payload: { selectedSoloStreakId },
+            });
+            dispatch({ type: COMPLETE_SELECTED_SOLO_STREAK_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: COMPLETE_SELECTED_SOLO_STREAK_IS_LOADED });
+            if (err.response) {
+                dispatch({
+                    type: COMPLETE_SELECTED_SOLO_STREAK_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: COMPLETE_SELECTED_SOLO_STREAK_FAIL,
+                    payload: err.message,
+                });
+            }
+        }
+    };
+
+    const incompleteSelectedSoloStreakTask = (selectedSoloStreakId: string) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADING });
+            const userId = getState().users.currentUser._id;
+            await streakoid.incompleteSoloStreakTasks.create({ soloStreakId: selectedSoloStreakId, userId });
+            dispatch({
+                type: INCOMPLETE_SELECTED_SOLO_STREAK,
+                payload: { selectedSoloStreakId },
+            });
+            dispatch({ type: INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED });
+            if (err.response) {
+                dispatch({
+                    type: INCOMPLETE_SELECTED_SOLO_STREAK_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: INCOMPLETE_SELECTED_SOLO_STREAK_FAIL,
+                    payload: err.message,
                 });
             }
         }
@@ -445,9 +515,11 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
         clearRestoreArchivedSoloStreakErrorMessage,
         deleteArchivedSoloStreak,
         updateSoloStreakTimezones,
-        completeSoloStreakTask,
-        incompleteSoloStreakTask,
+        completeSoloStreakListTask,
+        incompleteSoloStreakListTask,
         clearSelectedSoloStreak,
+        completeSelectedSoloStreakTask,
+        incompleteSelectedSoloStreakTask,
     };
 };
 

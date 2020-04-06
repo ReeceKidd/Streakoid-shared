@@ -357,50 +357,72 @@ export const GET_LIVE_SOLO_STREAKS = 'GET_LIVE_SOLO_STREAKS';
 export const GET_LIVE_SOLO_STREAKS_FAIL = 'GET_LIVE_SOLO_STREAKS_FAIL';
 export const GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING = 'GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING';
 export const GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED = 'GET_MULTIPLE_SOLO_STREAKS_IS_LOADED';
+
 export const GET_ARCHIVED_SOLO_STREAKS = 'GET_ARCHIVED_SOLO_STREAKS';
 export const GET_ARCHIVED_SOLO_STREAKS_FAIL = 'GET_ARCHIVED_SOLO_STREAKS_FAIL';
-export const GET_SOLO_STREAK = 'GET_SOLO_STREAK';
-export const GET_SOLO_STREAK_FAIL = 'GET_SOLO_STREAK_FAIL';
-export const CREATE_SOLO_STREAK = 'CREATE_SOLO_STREAK';
-export const EDIT_SOLO_STREAK = 'EDIT_SOLO_STREAK';
-export const EDIT_SOLO_STREAK_FAIL = 'EDIT_SOLO_STREAK_FAIL';
-export const CLEAR_EDIT_SOLO_STREAK_ERROR_MESSAGE = 'CLEAR_EDIT_SOLO_STREAK_ERROR_MESSAGE';
-export const CREATE_COMPLETE_SOLO_STREAK_TASK = 'CREATE_COMPLETE__SOLO_STREAK_TASK';
-export const CREATE_COMPLETE_SOLO_STREAK_TASK_FAIL = 'CREATE_COMPLETE_SOLO_STREAK_TASK_FAIL';
-export const CREATE_COMPLETE_SOLO_STREAK_TASK_LOADING = 'CREATE_COMPLETE_SOLO_STREAK_TASK_LOADING';
-export const CREATE_COMPLETE_SOLO_STREAK_TASK_LOADED = 'CREATE_COMPLETE_SOLO_STREAK_TASK_LOADED';
-export const CREATE_INCOMPLETE_SOLO_STREAK_TASK = 'CREATE_INCOMPLETE__SOLO_STREAK_TASK';
-export const CREATE_INCOMPLETE_SOLO_STREAK_TASK_FAIL = 'CREATE_INCOMPLETE_SOLO_STREAK_TASK_FAIL';
-export const CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADING = 'CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADING';
-export const CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADED = 'CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADED';
-export const UPDATE_SOLO_STREAK_TIMEZONES = 'UPDATE_SOLO_STREAK_TIMEZONES';
-export const UPDATE_SOLO_STREAK_TIMEZONES_FAIL = 'UPDATE_SOLO_STREAK_TIMEZONES_FAIL';
-export const ARCHIVE_SOLO_STREAK = 'ARCHIVE_SOLO_STREAK';
-export const ARCHIVE_SOLO_STREAK_FAIL = 'ARCHIVE_SOLO_STREAK_FAIL';
-export const CLEAR_ARCHIVE_SOLO_STREAK_ERROR_MESSAGE = 'CLEAR_ARCHIVE_SOLO_STREAK_ERROR_MESSAGE';
-export const RESTORE_ARCHIVED_SOLO_STREAK = 'RESTORE_ARCHIVED_SOLO_STREAK';
-export const RESTORE_ARCHIVED_SOLO_STREAK_FAIL = 'RESTORE_ARCHIVED_SOLO_STREAK_FAIL';
-export const CLEAR_RESTORE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE = 'CLEAR_RESTORE_ACHIVED_SOLO_STREAK_ERROR_MESSAGE';
-export const DELETE_ARCHIVED_SOLO_STREAK = 'DELETE_ARCHIVED_SOLO_STREAK';
-export const DELETE_ARCHIVED_SOLO_STREAK_FAIL = 'DELETE_ARCHIVED_SOLO_STREAK_FAIL';
-export const CLEAR_DELETE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE = 'DELETE_ACHIVED_SOLO_STREAK_ERROR_MESSAGE';
 export const GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING = 'GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING';
 export const GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED = 'GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED';
+
+export const GET_SOLO_STREAK = 'GET_SOLO_STREAK';
+export const GET_SOLO_STREAK_FAIL = 'GET_SOLO_STREAK_FAIL';
 export const GET_SOLO_STREAK_IS_LOADING = 'GET_SOLO_STREAK_IS_LOADING';
 export const GET_SOLO_STREAK_IS_LOADED = 'GET_SOLO_STREAK_IS_LOADED';
-export const ARCHIVE_SOLO_STREAK_IS_LOADING = 'ARCHIVE_SOLO_STREAK_IS_LOADING';
-export const ARCHIVE_SOLO_STREAK_IS_LOADED = 'ARCHIVE_SOLO_STREAK_IS_LOADED';
-export const RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADING = 'RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADING';
-export const RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADED = 'RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADED';
-export const DELETE_ARCHIVED_SOLO_STREAK_IS_LOADING = 'DELETE_ARCHIVED_SOLO_STREAK_IS_LOADING';
-export const DELETE_ARCHIVED_SOLO_STREAK_IS_LOADED = 'DELETE_ARCHIVED_SOLO_STREAK_IS_LOADED';
+
+export const CREATE_SOLO_STREAK = 'CREATE_SOLO_STREAK';
+export const CREATE_SOLO_STREAK_ERROR = 'CREATE_SOLO_STREAK_ERROR';
 export const CREATE_SOLO_STREAK_IS_LOADING = 'CREATE_SOLO_STREAK_IS_LOADING';
 export const CREATE_SOLO_STREAK_IS_LOADED = 'CREATE_SOLO_STREAK_IS_LOADED';
+export const CLEAR_CREATE_SOLO_STREAK_ERROR = 'CLEAR_CREATE_SOLO_STREAK_ERROR';
+
+export const EDIT_SOLO_STREAK = 'EDIT_SOLO_STREAK';
+export const EDIT_SOLO_STREAK_FAIL = 'EDIT_SOLO_STREAK_FAIL';
 export const EDIT_SOLO_STREAK_IS_LOADING = 'EDIT_SOLO_STREAK_IS_LOADING';
 export const EDIT_SOLO_STREAK_IS_LOADED = 'EDIT_SOLO_STREAK_IS_LOADED';
-export const CREATE_SOLO_STREAK_ERROR = 'CREATE_SOLO_STREAK_ERROR';
-export const CLEAR_CREATE_SOLO_STREAK_ERROR = 'CLEAR_CREATE_SOLO_STREAK_ERROR';
+
+export const CLEAR_EDIT_SOLO_STREAK_ERROR_MESSAGE = 'CLEAR_EDIT_SOLO_STREAK_ERROR_MESSAGE';
+
+export const CREATE_COMPLETE_SOLO_STREAK_LIST_TASK = 'CREATE_COMPLETE__SOLO_STREAK_TASK';
+export const CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_FAIL = 'CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_FAIL';
+export const CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADING = 'CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADING';
+export const CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADED = 'CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADED';
+
+export const CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK = 'CREATE_INCOMPLETE__SOLO_STREAK_TASK';
+export const CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_FAIL = 'CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_FAIL';
+export const CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADING = 'CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADING';
+export const CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADED = 'CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADED';
+
+export const UPDATE_SOLO_STREAK_TIMEZONES = 'UPDATE_SOLO_STREAK_TIMEZONES';
+export const UPDATE_SOLO_STREAK_TIMEZONES_FAIL = 'UPDATE_SOLO_STREAK_TIMEZONES_FAIL';
+
+export const ARCHIVE_SOLO_STREAK = 'ARCHIVE_SOLO_STREAK';
+export const ARCHIVE_SOLO_STREAK_FAIL = 'ARCHIVE_SOLO_STREAK_FAIL';
+export const ARCHIVE_SOLO_STREAK_IS_LOADING = 'ARCHIVE_SOLO_STREAK_IS_LOADING';
+export const ARCHIVE_SOLO_STREAK_IS_LOADED = 'ARCHIVE_SOLO_STREAK_IS_LOADED';
+export const CLEAR_ARCHIVE_SOLO_STREAK_ERROR_MESSAGE = 'CLEAR_ARCHIVE_SOLO_STREAK_ERROR_MESSAGE';
+
+export const RESTORE_ARCHIVED_SOLO_STREAK = 'RESTORE_ARCHIVED_SOLO_STREAK';
+export const RESTORE_ARCHIVED_SOLO_STREAK_FAIL = 'RESTORE_ARCHIVED_SOLO_STREAK_FAIL';
+export const RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADING = 'RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADING';
+export const RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADED = 'RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADED';
+export const CLEAR_RESTORE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE = 'CLEAR_RESTORE_ACHIVED_SOLO_STREAK_ERROR_MESSAGE';
+
+export const DELETE_ARCHIVED_SOLO_STREAK = 'DELETE_ARCHIVED_SOLO_STREAK';
+export const DELETE_ARCHIVED_SOLO_STREAK_FAIL = 'DELETE_ARCHIVED_SOLO_STREAK_FAIL';
+export const DELETE_ARCHIVED_SOLO_STREAK_IS_LOADING = 'DELETE_ARCHIVED_SOLO_STREAK_IS_LOADING';
+export const DELETE_ARCHIVED_SOLO_STREAK_IS_LOADED = 'DELETE_ARCHIVED_SOLO_STREAK_IS_LOADED';
+export const CLEAR_DELETE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE = 'DELETE_ACHIVED_SOLO_STREAK_ERROR_MESSAGE';
+
 export const CLEAR_SELECTED_SOLO_STREAK = 'CLEAR_SELECTED_SOLO_STREAK';
+
+export const COMPLETE_SELECTED_SOLO_STREAK = 'COMPLETE_SELECTED_SOLO_STREAK';
+export const COMPLETE_SELECTED_SOLO_STREAK_FAIL = 'COMPLETE_SELECTED_SOLO_STREAK_FAIL';
+export const COMPLETE_SELECTED_SOLO_STREAK_IS_LOADING = 'COMPLETE_SELECTED_SOLO_STREAK_IS_LOADING';
+export const COMPLETE_SELECTED_SOLO_STREAK_IS_LOADED = 'COMPLETE_SELECTED_SOLO_STREAK_IS_LOADED';
+
+export const INCOMPLETE_SELECTED_SOLO_STREAK = 'INCOMPLETE_SELECTED_SOLO_STREAK';
+export const INCOMPLETE_SELECTED_SOLO_STREAK_FAIL = 'INCOMPLETE_SELECTED_SOLO_STREAK_FAIL';
+export const INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADING = 'INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADING';
+export const INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED = 'INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED';
 
 export interface GetLiveSoloStreaksAction {
     type: typeof GET_LIVE_SOLO_STREAKS;
@@ -451,43 +473,43 @@ export interface ClearEditSoloStreakErrorMessageAction {
     type: typeof CLEAR_EDIT_SOLO_STREAK_ERROR_MESSAGE;
 }
 
-export interface CreateCompleteSoloStreakTaskAction {
-    type: typeof CREATE_COMPLETE_SOLO_STREAK_TASK;
+export interface CreateCompleteSoloStreakListTaskAction {
+    type: typeof CREATE_COMPLETE_SOLO_STREAK_LIST_TASK;
     payload: string;
 }
 
-export interface CreateCompleteSoloStreakTaskFailAction {
-    type: typeof CREATE_COMPLETE_SOLO_STREAK_TASK_FAIL;
+export interface CreateCompleteSoloStreakListTaskFailAction {
+    type: typeof CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_FAIL;
     payload: { soloStreakId: string; errorMessage: string };
 }
 
-export interface CreateCompleteSoloStreakTaskLoadingAction {
-    type: typeof CREATE_COMPLETE_SOLO_STREAK_TASK_LOADING;
+export interface CreateCompleteSoloStreakListTaskLoadingAction {
+    type: typeof CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADING;
     soloStreakId: string;
 }
 
-export interface CreateCompleteSoloStreakTaskLoadedAction {
-    type: typeof CREATE_COMPLETE_SOLO_STREAK_TASK_LOADED;
+export interface CreateCompleteSoloStreakListTaskLoadedAction {
+    type: typeof CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADED;
     soloStreakId: string;
 }
 
-export interface CreateIncompleteSoloStreakTaskAction {
-    type: typeof CREATE_INCOMPLETE_SOLO_STREAK_TASK;
+export interface CreateIncompleteSoloStreakListTaskAction {
+    type: typeof CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK;
     payload: string;
 }
 
-export interface CreateIncompleteSoloStreakTaskFailAction {
-    type: typeof CREATE_INCOMPLETE_SOLO_STREAK_TASK_FAIL;
+export interface CreateIncompleteSoloStreakListTaskFailAction {
+    type: typeof CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_FAIL;
     payload: { soloStreakId: string; errorMessage: string };
 }
 
-export interface CreateIncompleteSoloStreakTaskLoadingAction {
-    type: typeof CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADING;
+export interface CreateIncompleteSoloStreakListTaskLoadingAction {
+    type: typeof CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADING;
     soloStreakId: string;
 }
 
-export interface CreateIncompleteSoloStreakTaskLoadedAction {
-    type: typeof CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADED;
+export interface CreateIncompleteSoloStreakListTaskLoadedAction {
+    type: typeof CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADED;
     soloStreakId: string;
 }
 
@@ -620,6 +642,42 @@ export interface ClearSelectedSoloStreakAction {
     type: typeof CLEAR_SELECTED_SOLO_STREAK;
 }
 
+export interface CompleteSelectedSoloStreakAction {
+    type: typeof COMPLETE_SELECTED_SOLO_STREAK;
+    payload: { selectedSoloStreakId: string };
+}
+
+export interface CompleteSelectedSoloStreakFailAction {
+    type: typeof COMPLETE_SELECTED_SOLO_STREAK_FAIL;
+    payload: string;
+}
+
+export interface CompleteSelectedSoloStreakIsLoadingAction {
+    type: typeof COMPLETE_SELECTED_SOLO_STREAK_IS_LOADING;
+}
+
+export interface CompleteSelectedSoloStreakIsLoadedAction {
+    type: typeof COMPLETE_SELECTED_SOLO_STREAK_IS_LOADED;
+}
+
+export interface IncompleteSelectedSoloStreakAction {
+    type: typeof INCOMPLETE_SELECTED_SOLO_STREAK;
+    payload: { selectedSoloStreakId: string };
+}
+
+export interface IncompleteSelectedSoloStreakFailAction {
+    type: typeof INCOMPLETE_SELECTED_SOLO_STREAK_FAIL;
+    payload: string;
+}
+
+export interface IncompleteSelectedSoloStreakIsLoadingAction {
+    type: typeof INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADING;
+}
+
+export interface IncompleteSelectedSoloStreakIsLoadedAction {
+    type: typeof INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED;
+}
+
 export type SoloStreakActionTypes =
     | GetLiveSoloStreaksAction
     | GetLiveSoloStreaksFailAction
@@ -631,14 +689,14 @@ export type SoloStreakActionTypes =
     | EditSoloStreakAction
     | EditSoloStreakFailAction
     | ClearEditSoloStreakErrorMessageAction
-    | CreateCompleteSoloStreakTaskAction
-    | CreateCompleteSoloStreakTaskFailAction
-    | CreateCompleteSoloStreakTaskLoadingAction
-    | CreateCompleteSoloStreakTaskLoadedAction
-    | CreateIncompleteSoloStreakTaskAction
-    | CreateIncompleteSoloStreakTaskFailAction
-    | CreateIncompleteSoloStreakTaskLoadingAction
-    | CreateIncompleteSoloStreakTaskLoadedAction
+    | CreateCompleteSoloStreakListTaskAction
+    | CreateCompleteSoloStreakListTaskFailAction
+    | CreateCompleteSoloStreakListTaskLoadingAction
+    | CreateCompleteSoloStreakListTaskLoadedAction
+    | CreateIncompleteSoloStreakListTaskAction
+    | CreateIncompleteSoloStreakListTaskFailAction
+    | CreateIncompleteSoloStreakListTaskLoadingAction
+    | CreateIncompleteSoloStreakListTaskLoadedAction
     | UpdateSoloStreaksTimezonesAction
     | UpdateSoloStreaksTimezonesFailAction
     | ArchiveSoloStreakAction
@@ -668,7 +726,15 @@ export type SoloStreakActionTypes =
     | EditSoloStreakIsLoadedAction
     | CreateSoloStreakErrorAction
     | ClearCreateSoloStreakErrorAction
-    | ClearSelectedSoloStreakAction;
+    | ClearSelectedSoloStreakAction
+    | CompleteSelectedSoloStreakAction
+    | CompleteSelectedSoloStreakFailAction
+    | CompleteSelectedSoloStreakIsLoadingAction
+    | CompleteSelectedSoloStreakIsLoadedAction
+    | IncompleteSelectedSoloStreakAction
+    | IncompleteSelectedSoloStreakFailAction
+    | IncompleteSelectedSoloStreakIsLoadingAction
+    | IncompleteSelectedSoloStreakIsLoadedAction;
 
 export const GET_STREAK_RECOMMENDATIONS = 'GET_STREAK_RECOMMENDATIONS';
 export const GET_STREAK_RECOMMENDATIONS_FAIL = 'GET_STREAK_RECOMMENDATIONS_FAIL';

@@ -3,18 +3,18 @@ import { SoloStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 import {
     GET_LIVE_SOLO_STREAKS,
     CREATE_SOLO_STREAK,
-    CREATE_COMPLETE_SOLO_STREAK_TASK,
+    CREATE_COMPLETE_SOLO_STREAK_LIST_TASK,
     SoloStreakActionTypes,
     EDIT_SOLO_STREAK,
-    CREATE_COMPLETE_SOLO_STREAK_TASK_LOADING,
-    CREATE_COMPLETE_SOLO_STREAK_TASK_LOADED,
+    CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADING,
+    CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADED,
     UPDATE_SOLO_STREAK_TIMEZONES,
-    CREATE_COMPLETE_SOLO_STREAK_TASK_FAIL,
+    CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_FAIL,
     RESTORE_ARCHIVED_SOLO_STREAK,
-    CREATE_INCOMPLETE_SOLO_STREAK_TASK,
-    CREATE_INCOMPLETE_SOLO_STREAK_TASK_FAIL,
-    CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADING,
-    CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADED,
+    CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK,
+    CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_FAIL,
+    CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADING,
+    CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADED,
     GET_ARCHIVED_SOLO_STREAKS,
     ARCHIVE_SOLO_STREAK,
     DELETE_ARCHIVED_SOLO_STREAK,
@@ -46,6 +46,14 @@ import {
     DELETE_ARCHIVED_SOLO_STREAK_FAIL,
     CLEAR_DELETE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE,
     CLEAR_SELECTED_SOLO_STREAK,
+    COMPLETE_SELECTED_SOLO_STREAK,
+    COMPLETE_SELECTED_SOLO_STREAK_IS_LOADING,
+    COMPLETE_SELECTED_SOLO_STREAK_IS_LOADED,
+    COMPLETE_SELECTED_SOLO_STREAK_FAIL,
+    INCOMPLETE_SELECTED_SOLO_STREAK,
+    INCOMPLETE_SELECTED_SOLO_STREAK_FAIL,
+    INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADING,
+    INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED,
 } from '../actions/types';
 import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
 
@@ -95,6 +103,10 @@ const defaultSelectedSoloStreak = {
         totalActivityFeedCount: 0,
         activityFeedItems: [],
     },
+    completeSelectedSoloStreakIsLoading: false,
+    completeSelectedSoloStreakErrorMessage: '',
+    incompleteSelectedSoloStreakIsLoading: false,
+    incompleteSelectedSoloStreakErrorMessage: '',
 };
 
 const initialState: SoloStreakReducerState = {
@@ -130,6 +142,10 @@ export interface SelectedSoloStreak extends SoloStreak {
         totalActivityFeedCount: number;
         activityFeedItems: UserActivityFeedItem[];
     };
+    completeSelectedSoloStreakIsLoading: boolean;
+    completeSelectedSoloStreakErrorMessage: string;
+    incompleteSelectedSoloStreakIsLoading: boolean;
+    incompleteSelectedSoloStreakErrorMessage: string;
 }
 
 export interface SoloStreakListItem extends SoloStreak {
@@ -207,7 +223,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 }),
             };
 
-        case CREATE_COMPLETE_SOLO_STREAK_TASK:
+        case CREATE_COMPLETE_SOLO_STREAK_LIST_TASK:
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
@@ -225,7 +241,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 }),
             };
 
-        case CREATE_COMPLETE_SOLO_STREAK_TASK_FAIL:
+        case CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_FAIL:
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
@@ -239,7 +255,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 }),
             };
 
-        case CREATE_COMPLETE_SOLO_STREAK_TASK_LOADING:
+        case CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADING:
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
@@ -254,7 +270,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 }),
             };
 
-        case CREATE_COMPLETE_SOLO_STREAK_TASK_LOADED:
+        case CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADED:
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
@@ -269,7 +285,56 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 }),
             };
 
-        case CREATE_INCOMPLETE_SOLO_STREAK_TASK:
+        case COMPLETE_SELECTED_SOLO_STREAK:
+            return {
+                ...state,
+                liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
+                    if (soloStreak._id === action.payload.selectedSoloStreakId) {
+                        return {
+                            ...soloStreak,
+                            completedToday: true,
+                            currentStreak: {
+                                ...soloStreak.currentStreak,
+                                numberOfDaysInARow: soloStreak.currentStreak.numberOfDaysInARow + 1,
+                            },
+                        };
+                    }
+                    return soloStreak;
+                }),
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    completedToday: true,
+                },
+            };
+
+        case COMPLETE_SELECTED_SOLO_STREAK_FAIL:
+            return {
+                ...state,
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    completeSelectedSoloStreakErrorMessage: action.payload,
+                },
+            };
+
+        case COMPLETE_SELECTED_SOLO_STREAK_IS_LOADING:
+            return {
+                ...state,
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    completeSelectedSoloStreakIsLoading: true,
+                },
+            };
+
+        case COMPLETE_SELECTED_SOLO_STREAK_IS_LOADED:
+            return {
+                ...state,
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    completeSelectedSoloStreakIsLoading: false,
+                },
+            };
+
+        case CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK:
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
@@ -287,7 +352,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 }),
             };
 
-        case CREATE_INCOMPLETE_SOLO_STREAK_TASK_FAIL:
+        case CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_FAIL:
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
@@ -301,7 +366,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 }),
             };
 
-        case CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADING:
+        case CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADING:
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
@@ -316,7 +381,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 }),
             };
 
-        case CREATE_INCOMPLETE_SOLO_STREAK_TASK_LOADED:
+        case CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADED:
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
@@ -329,6 +394,55 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                     }
                     return soloStreak;
                 }),
+            };
+
+        case INCOMPLETE_SELECTED_SOLO_STREAK:
+            return {
+                ...state,
+                liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
+                    if (soloStreak._id === action.payload.selectedSoloStreakId) {
+                        return {
+                            ...soloStreak,
+                            completedToday: false,
+                            currentStreak: {
+                                ...soloStreak.currentStreak,
+                                numberOfDaysInARow: soloStreak.currentStreak.numberOfDaysInARow - 1,
+                            },
+                        };
+                    }
+                    return soloStreak;
+                }),
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    completedToday: false,
+                },
+            };
+
+        case INCOMPLETE_SELECTED_SOLO_STREAK_FAIL:
+            return {
+                ...state,
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    incompleteSelectedSoloStreakErrorMessage: action.payload,
+                },
+            };
+
+        case INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADING:
+            return {
+                ...state,
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    incompleteSelectedSoloStreakIsLoading: true,
+                },
+            };
+
+        case INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED:
+            return {
+                ...state,
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    incompleteSelectedSoloStreakIsLoading: false,
+                },
             };
 
         case GET_ARCHIVED_SOLO_STREAKS:
