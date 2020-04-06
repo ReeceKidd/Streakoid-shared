@@ -59,6 +59,10 @@ const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
                         totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
                         activityFeedItems: populatedActivityFeedItems,
                     },
+                    completeSelectedTeamMemberStreakIsLoading: false,
+                    completeSelectedTeamMemberStreakErrorMessage: '',
+                    incompleteSelectedTeamMemberStreakIsLoading: false,
+                    incompleteSelectedTeamMemberStreakErrorMessage: '',
                 },
             });
             dispatch({ type: GET_TEAM_MEMBER_STREAK_IS_LOADED });
