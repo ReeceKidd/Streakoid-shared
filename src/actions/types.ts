@@ -815,21 +815,25 @@ export const GET_SELECTED_TEAM_STREAK_IS_LOADING = 'GET_SELECTED_TEAM_STREAK_IS_
 export const GET_SELECTED_TEAM_STREAK_IS_LOADED = 'GET_SELECTED_TEAM_STREAK_IS_LOADED';
 
 export const CREATE_TEAM_STREAK = 'CREATE_TEAM_STREAK';
+
 export const EDIT_TEAM_STREAK = 'EDIT_TEAM_STREAK';
 export const EDIT_TEAM_STREAK_FAIL = 'EDIT_TEAM_STREAK_FAIL';
 export const EDIT_TEAM_STREAK_LOADING = 'EDIT_TEAM_STREAK_LOADING';
 export const EDIT_TEAM_STREAK_LOADED = 'EDIT_TEAM_STREAK_LOADED';
 export const CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE = 'CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE';
+
 export const ADD_FOLLOWER_TO_TEAM_STREAK = 'ADD_FOLLOWER_TO_TEAM_STREAK';
 export const ADD_FOLLOWER_TO_TEAM_STREAK_FAIL = 'ADD_FOLLOWER_TO_TEAM_STREAK_FAIL';
-export const COMPLETE_TEAM_MEMBER_STREAK_TASK = 'COMPLETE_TEAM_MEMBER_STREAK_TASK';
-export const COMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL = 'COMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL';
-export const COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING = 'COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING';
-export const COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED = 'COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED';
-export const INCOMPLETE_TEAM_MEMBER_STREAK_TASK = 'INCOMPLETE_TEAM_MEMBER_STREAK_TASK';
-export const INCOMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL = 'INCOMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL';
-export const INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING = 'INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING';
-export const INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED = 'INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED';
+
+export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK';
+export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL';
+export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING';
+export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED';
+
+export const INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK = 'INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK';
+export const INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL = 'INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL';
+export const INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING = 'INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING';
+export const INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED = 'INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED';
 
 export const CREATE_TEAM_STREAK_IS_LOADING = 'CREATE_TEAM_STREAK_IS_LOADING';
 export const CREATE_TEAM_STREAK_IS_LOADED = 'CREATE_TEAM_STREAK_IS_LOADED';
@@ -855,6 +859,20 @@ export const DELETE_ARCHIVED_TEAM_STREAK_LOADED = 'DELETE_ARCHIVED_TEAM_STREAK_L
 
 export const UPDATE_TEAM_STREAK_TIMEZONE = 'UPDATE_TEAM_STREAK_TIMEZONE';
 export const UPDATE_TEAM_STREAK_TIMEZONE_FAIL = 'UPDATE_TEAM_STREAK_TIMEZONE_FAIL';
+
+export const COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK = 'COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK';
+export const COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL = 'COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL';
+export const COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING =
+    'COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING';
+export const COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED =
+    'COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED';
+
+export const INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK = 'INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK';
+export const INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL = 'INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL';
+export const INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING =
+    'INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING';
+export const INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED =
+    'INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED';
 
 export const CLEAR_SELECTED_TEAM_STREAK = 'CLEAR_SELECTED_TEAM_STREAK';
 
@@ -949,43 +967,43 @@ export interface AddFollowerToTeamStreakFailAction {
     errorMessage: string;
 }
 
-export interface CompleteTeamMemberStreakTaskAction {
-    type: typeof COMPLETE_TEAM_MEMBER_STREAK_TASK;
+export interface CompleteTeamMemberStreakListTaskAction {
+    type: typeof COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK;
     teamMemberStreakId: string;
 }
 
-export interface CompleteTeamMemberStreakTaskFailAction {
-    type: typeof COMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL;
+export interface CompleteTeamMemberStreakListTaskFailAction {
+    type: typeof COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL;
     payload: { teamMemberStreakId: string; errorMessage: string };
 }
 
-export interface CompleteTeamMemberStreakTaskLoadingAction {
-    type: typeof COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING;
+export interface CompleteTeamMemberStreakListTaskLoadingAction {
+    type: typeof COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING;
     teamMemberStreakId: string;
 }
 
-export interface CompleteTeamMemberStreakTaskLoadedAction {
-    type: typeof COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED;
+export interface CompleteTeamMemberStreakListTaskLoadedAction {
+    type: typeof COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED;
     teamMemberStreakId: string;
 }
 
-export interface IncompleteTeamMemberStreakTaskAction {
-    type: typeof INCOMPLETE_TEAM_MEMBER_STREAK_TASK;
+export interface IncompleteTeamMemberStreakListTaskAction {
+    type: typeof INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK;
     teamMemberStreakId: string;
 }
 
-export interface IncompleteTeamMemberStreakTaskFailAction {
-    type: typeof INCOMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL;
+export interface IncompleteTeamMemberStreakListTaskFailAction {
+    type: typeof INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL;
     payload: { teamMemberStreakId: string; errorMessage: string };
 }
 
-export interface IncompleteTeamMemberStreakTaskLoadingAction {
-    type: typeof INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING;
+export interface IncompleteTeamMemberStreakListTaskLoadingAction {
+    type: typeof INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING;
     teamMemberStreakId: string;
 }
 
-export interface IncompleteTeamMemberStreakTaskLoadedAction {
-    type: typeof INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED;
+export interface IncompleteTeamMemberStreakListTaskLoadedAction {
+    type: typeof INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED;
     teamMemberStreakId: string;
 }
 
@@ -1078,6 +1096,46 @@ export interface UpdateTimezoneFailAction {
     payload: string;
 }
 
+export interface CompleteSelectedTeamMemberStreakTaskAction {
+    type: typeof COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK;
+    payload: { selectedTeamMemberStreakId: string };
+}
+
+export interface CompleteSelectedTeamMemberStreakTaskFailAction {
+    type: typeof COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL;
+    payload: { selectedTeamMemberStreakId: string; errorMessage: string };
+}
+
+export interface CompleteSelectedTeamMemberStreakTaskIsLoadingAction {
+    type: typeof COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING;
+    payload: { selectedTeamMemberStreakId: string };
+}
+
+export interface CompleteSelectedTeamMemberStreakTaskIsLoadedAction {
+    type: typeof COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED;
+    payload: { selectedTeamMemberStreakId: string };
+}
+
+export interface IncompleteSelectedTeamMemberStreakTaskAction {
+    type: typeof INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK;
+    payload: { selectedTeamMemberStreakId: string };
+}
+
+export interface IncompleteSelectedTeamMemberStreakTaskFailAction {
+    type: typeof INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL;
+    payload: { selectedTeamMemberStreakId: string; errorMessage: string };
+}
+
+export interface IncompleteSelectedTeamMemberStreakTaskIsLoadingAction {
+    type: typeof INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING;
+    payload: { selectedTeamMemberStreakId: string };
+}
+
+export interface IncompleteSelectedTeamMemberStreakTaskIsLoadedAction {
+    type: typeof INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED;
+    payload: { selectedTeamMemberStreakId: string };
+}
+
 export interface ClearSelectedTeamStreakAction {
     type: typeof CLEAR_SELECTED_TEAM_STREAK;
 }
@@ -1103,14 +1161,14 @@ export type TeamStreakActionTypes =
     | ClearEditTeamStreakErrorMessageAction
     | AddFollowerToTeamStreakAction
     | AddFollowerToTeamStreakFailAction
-    | CompleteTeamMemberStreakTaskAction
-    | CompleteTeamMemberStreakTaskFailAction
-    | CompleteTeamMemberStreakTaskLoadingAction
-    | CompleteTeamMemberStreakTaskLoadedAction
-    | IncompleteTeamMemberStreakTaskAction
-    | IncompleteTeamMemberStreakTaskFailAction
-    | IncompleteTeamMemberStreakTaskLoadingAction
-    | IncompleteTeamMemberStreakTaskLoadedAction
+    | CompleteTeamMemberStreakListTaskAction
+    | CompleteTeamMemberStreakListTaskFailAction
+    | CompleteTeamMemberStreakListTaskLoadingAction
+    | CompleteTeamMemberStreakListTaskLoadedAction
+    | IncompleteTeamMemberStreakListTaskAction
+    | IncompleteTeamMemberStreakListTaskFailAction
+    | IncompleteTeamMemberStreakListTaskLoadingAction
+    | IncompleteTeamMemberStreakListTaskLoadedAction
     | CreateTeamStreakIsLoadingAction
     | CreateTeamStreakIsLoadedAction
     | CreateTeamStreakErrorAction
@@ -1131,6 +1189,14 @@ export type TeamStreakActionTypes =
     | DeleteArchivedTeamStreakLoadedAction
     | UpdateTimezoneAction
     | UpdateTimezoneFailAction
+    | CompleteSelectedTeamMemberStreakTaskAction
+    | CompleteSelectedTeamMemberStreakTaskFailAction
+    | CompleteSelectedTeamMemberStreakTaskIsLoadingAction
+    | CompleteSelectedTeamMemberStreakTaskIsLoadedAction
+    | IncompleteSelectedTeamMemberStreakTaskAction
+    | IncompleteSelectedTeamMemberStreakTaskFailAction
+    | IncompleteSelectedTeamMemberStreakTaskIsLoadingAction
+    | IncompleteSelectedTeamMemberStreakTaskIsLoadedAction
     | ClearSelectedTeamStreakAction;
 
 export const GET_TEAM_MEMBER_STREAK = 'GET_TEAM_MEMBER_STREAK';

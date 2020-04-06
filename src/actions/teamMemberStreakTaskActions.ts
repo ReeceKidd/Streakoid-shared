@@ -1,14 +1,22 @@
 import { Dispatch } from 'redux';
 import {
-    COMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL,
-    COMPLETE_TEAM_MEMBER_STREAK_TASK,
-    COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING,
-    COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED,
-    INCOMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL,
-    INCOMPLETE_TEAM_MEMBER_STREAK_TASK,
-    INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING,
-    INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED,
+    COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL,
+    COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK,
+    COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING,
+    COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED,
+    INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL,
+    INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK,
+    INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING,
+    INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED,
     GET_LIVE_TEAM_STREAKS,
+    COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK,
+    COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING,
+    COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED,
+    COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL,
+    INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL,
+    INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED,
+    INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK,
+    INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -25,7 +33,7 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
         teamMemberStreakId: string;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
-            dispatch({ type: COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING, teamMemberStreakId });
+            dispatch({ type: COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING, teamMemberStreakId });
             const userId = getState().users.currentUser._id;
 
             await streakoid.completeTeamMemberStreakTasks.create({
@@ -35,7 +43,7 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
             });
 
             dispatch({
-                type: COMPLETE_TEAM_MEMBER_STREAK_TASK,
+                type: COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK,
                 teamMemberStreakId,
             });
             const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
@@ -77,18 +85,65 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
                 type: GET_LIVE_TEAM_STREAKS,
                 payload: teamStreaksWithLoadingStates,
             });
-            dispatch({ type: COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED, teamMemberStreakId });
+            dispatch({ type: COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED, teamMemberStreakId });
         } catch (err) {
-            dispatch({ type: COMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED, teamMemberStreakId });
+            dispatch({ type: COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED, teamMemberStreakId });
             if (err.response) {
                 dispatch({
-                    type: COMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL,
+                    type: COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL,
                     payload: { teamMemberStreakId, errorMessage: err.response.data.message },
                 });
             } else {
                 dispatch({
-                    type: COMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL,
+                    type: COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL,
                     payload: { teamMemberStreakId, errorMessage: err.message },
+                });
+            }
+        }
+    };
+
+    const completeSelectedTeamMemberStreakTask = ({
+        teamStreakId,
+        selectedTeamMemberStreakId,
+    }: {
+        teamStreakId: string;
+        selectedTeamMemberStreakId: string;
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
+        try {
+            dispatch({
+                type: COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING,
+                payload: { selectedTeamMemberStreakId },
+            });
+            const userId = getState().users.currentUser._id;
+
+            await streakoid.completeTeamMemberStreakTasks.create({
+                userId,
+                teamStreakId,
+                teamMemberStreakId: selectedTeamMemberStreakId,
+            });
+
+            dispatch({
+                type: COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK,
+                payload: { selectedTeamMemberStreakId },
+            });
+            dispatch({
+                type: COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED,
+                payload: { selectedTeamMemberStreakId },
+            });
+        } catch (err) {
+            dispatch({
+                type: COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED,
+                payload: { selectedTeamMemberStreakId },
+            });
+            if (err.response) {
+                dispatch({
+                    type: COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL,
+                    payload: { selectedTeamMemberStreakId, errorMessage: err.response.data.message },
+                });
+            } else {
+                dispatch({
+                    type: COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL,
+                    payload: { selectedTeamMemberStreakId, errorMessage: err.message },
                 });
             }
         }
@@ -102,7 +157,7 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
         teamMemberStreakId: string;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
-            dispatch({ type: INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADING, teamMemberStreakId });
+            dispatch({ type: INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING, teamMemberStreakId });
             const userId = getState().users.currentUser._id;
 
             await streakoid.incompleteTeamMemberStreakTasks.create({
@@ -151,22 +206,69 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
                 payload: teamStreaksWithLoadingStates,
             });
 
-            dispatch({ type: INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED, teamMemberStreakId });
+            dispatch({ type: INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED, teamMemberStreakId });
             dispatch({
-                type: INCOMPLETE_TEAM_MEMBER_STREAK_TASK,
+                type: INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK,
                 teamMemberStreakId,
             });
         } catch (err) {
-            dispatch({ type: INCOMPLETE_TEAM_MEMBER_STREAK_TASK_LOADED, teamMemberStreakId });
+            dispatch({ type: INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED, teamMemberStreakId });
             if (err.response) {
                 dispatch({
-                    type: INCOMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL,
+                    type: INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL,
                     payload: { teamMemberStreakId, errorMessage: err.response.data.message },
                 });
             } else {
                 dispatch({
-                    type: INCOMPLETE_TEAM_MEMBER_STREAK_TASK_FAIL,
+                    type: INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL,
                     payload: { teamMemberStreakId, errorMessage: err.message },
+                });
+            }
+        }
+    };
+
+    const incompleteSelectedTeamMemberStreakTask = ({
+        teamStreakId,
+        selectedTeamMemberStreakId,
+    }: {
+        teamStreakId: string;
+        selectedTeamMemberStreakId: string;
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
+        try {
+            dispatch({
+                type: INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING,
+                payload: { selectedTeamMemberStreakId },
+            });
+            const userId = getState().users.currentUser._id;
+
+            await streakoid.incompleteTeamMemberStreakTasks.create({
+                userId,
+                teamStreakId,
+                teamMemberStreakId: selectedTeamMemberStreakId,
+            });
+
+            dispatch({
+                type: INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK,
+                payload: { selectedTeamMemberStreakId },
+            });
+            dispatch({
+                type: INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED,
+                payload: { selectedTeamMemberStreakId },
+            });
+        } catch (err) {
+            dispatch({
+                type: INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED,
+                payload: { selectedTeamMemberStreakId },
+            });
+            if (err.response) {
+                dispatch({
+                    type: INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL,
+                    payload: { selectedTeamMemberStreakId, errorMessage: err.response.data.message },
+                });
+            } else {
+                dispatch({
+                    type: INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL,
+                    payload: { selectedTeamMemberStreakId, errorMessage: err.message },
                 });
             }
         }
@@ -174,6 +276,8 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
 
     return {
         completeTeamMemberStreakTask,
+        completeSelectedTeamMemberStreakTask,
         incompleteTeamMemberStreakTask,
+        incompleteSelectedTeamMemberStreakTask,
     };
 };

@@ -41,6 +41,10 @@ const defaultSelectedTeamMemberStreak = {
         totalActivityFeedCount: 0,
         activityFeedItems: [],
     },
+    completeSelectedTeamMemberStreakIsLoading: false,
+    completeSelectedTeamMemberStreakErrorMessage: '',
+    incompleteSelectedTeamMemberStreakIsLoading: false,
+    incompleteSelectedTeamMemberStreakErrorMessage: '',
 };
 
 const initialState: TeamMemberStreakReducerState = {
@@ -63,6 +67,10 @@ export interface SelectedTeamMemberStreak extends TeamMemberStreak {
         totalActivityFeedCount: number;
         activityFeedItems: UserActivityFeedItem[];
     };
+    completeSelectedTeamMemberStreakIsLoading: boolean;
+    completeSelectedTeamMemberStreakErrorMessage: string;
+    incompleteSelectedTeamMemberStreakIsLoading: boolean;
+    incompleteSelectedTeamMemberStreakErrorMessage: string;
 }
 
 const teamMemberStreakReducer = (
