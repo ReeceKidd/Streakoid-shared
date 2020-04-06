@@ -343,6 +343,10 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         members,
                     };
                 }),
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    hasCurrentUserCompletedTaskForTheDay: true,
+                },
             };
 
         case COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL:
@@ -443,6 +447,10 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         members,
                     };
                 }),
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    hasCurrentUserCompletedTaskForTheDay: false,
+                },
             };
 
         case INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL:
