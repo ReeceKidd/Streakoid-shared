@@ -22,7 +22,7 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { PopulatedChallenge, ChallengeMember } from '@streakoid/streakoid-sdk/lib';
-import { ChallengeMemberWithClientData, PopulatedChallengeWithClientData } from '../reducers/challengesReducer';
+import { ChallengeMemberWithClientData, SelectedChallenge } from '../reducers/challengesReducer';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 
@@ -152,14 +152,15 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 averageStreakForChallenge,
                 totalTimesTracked,
             } = await getPopulatedChallengeStats(challenge);
-            const populatedChallenge: PopulatedChallengeWithClientData = {
+            const populatedChallenge: SelectedChallenge = {
                 ...challenge,
-                userIsApartOfChallenge: userIsApartOfChallenge ? true : false,
+                userIsApartOfChallenge: Boolean(userIsApartOfChallenge),
                 members: sortedChallengeMembers,
                 longestCurrentStreakForChallenge,
                 longestEverStreakForChallenge,
                 averageStreakForChallenge: isFinite(averageStreakForChallenge) ? averageStreakForChallenge : 0,
                 totalTimesTracked,
+                usersChallengeStreakId: userIsApartOfChallenge ? userIsApartOfChallenge._id : '',
             };
             dispatch({ type: GET_SELECTED_CHALLENGE, payload: populatedChallenge });
             dispatch({ type: GET_SELECTED_CHALLENGE_IS_LOADED });

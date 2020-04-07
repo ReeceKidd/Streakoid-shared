@@ -22,7 +22,7 @@ export interface ChallengeReducerState {
     challengeList: Challenge[];
     getAllChallengesIsLoading: boolean;
     getAllChallengesErrorMessage: string;
-    selectedChallenge: PopulatedChallengeWithClientData;
+    selectedChallenge: SelectedChallenge;
     getSelectedChallengeIsLoading: boolean;
     getSelectedChallengesErrorMessage: string;
     updateSelectedChallengeIsLoading: boolean;
@@ -31,13 +31,14 @@ export interface ChallengeReducerState {
     joinChallengeErrorMessage: string;
 }
 
-export interface PopulatedChallengeWithClientData extends PopulatedChallenge {
+export interface SelectedChallenge extends PopulatedChallenge {
     userIsApartOfChallenge: boolean;
     longestCurrentStreakForChallenge: number;
     longestEverStreakForChallenge: number;
     averageStreakForChallenge: number;
     totalTimesTracked: number;
     members: ChallengeMemberWithClientData[];
+    usersChallengeStreakId: string;
 }
 
 export interface ChallengeMemberWithClientData extends ChallengeMember {
@@ -70,6 +71,7 @@ const initialState: ChallengeReducerState = {
         averageStreakForChallenge: 0,
         totalTimesTracked: 0,
         numberOfMembers: 0,
+        usersChallengeStreakId: '',
     },
     getSelectedChallengeIsLoading: false,
     getSelectedChallengesErrorMessage: '',
