@@ -29,7 +29,7 @@ import {
 import { UserBadge } from '../reducers/badgesReducer';
 import { NoteWithClientData } from '../reducers/notesReducer';
 import { GetAllPopulatedActivityFeedItemsActionResponse } from './activityFeedItemActions';
-import { PopulatedChallengeWithClientData } from '../reducers/challengesReducer';
+import { SelectedChallenge } from '../reducers/challengesReducer';
 import { SelectedTeamMemberStreak } from '../reducers/teamMemberStreakReducer';
 import {
     SoloStreakLeaderboardItem,
@@ -1736,7 +1736,7 @@ export interface GetChallengesIsLoadedAction {
 
 export interface GetSelectedChallengeAction {
     type: typeof GET_SELECTED_CHALLENGE;
-    payload: PopulatedChallengeWithClientData;
+    payload: SelectedChallenge;
 }
 
 export interface GetSelectedChallengeFailAction {
