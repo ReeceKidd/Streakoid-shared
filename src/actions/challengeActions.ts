@@ -220,6 +220,10 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                     totalActivityFeedCount: 0,
                     activityFeedItems: [],
                 },
+                completeSelectedChallengeStreakIsLoading: false,
+                completeSelectedChallengeStreakErrorMessage: '',
+                incompleteSelectedChallengeStreakIsLoading: false,
+                incompleteSelectedChallengeStreakErrorMessage: '',
             };
             dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADING });
             const sortedChallengeMembers = await getSortedChallengeMembers(challenge._id, challenge.members);
