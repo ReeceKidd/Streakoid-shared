@@ -12,14 +12,14 @@ import {
     GET_ARCHIVED_CHALLENGE_STREAKS_LOADED,
     GET_ARCHIVED_CHALLENGE_STREAKS,
     GET_ARCHIVED_CHALLENGE_STREAKS_FAIL,
-    CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING,
-    CREATE_COMPLETE_CHALLENGE_STREAK_TASK,
-    CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED,
-    CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL,
-    CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING,
-    CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK,
-    CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED,
-    CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL,
+    COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING,
+    COMPLETE_CHALLENGE_STREAK_LIST_TASK,
+    COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED,
+    COMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL,
+    INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING,
+    INCOMPLETE_CHALLENGE_STREAK_LIST_TASK,
+    INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED,
+    INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL,
     GET_CHALLENGE_STREAK_LOADED,
     GET_CHALLENGE_STREAK,
     GET_CHALLENGE_STREAK_LOADING,
@@ -42,6 +42,14 @@ import {
     DELETE_ARCHIVED_CHALLENGE_STREAK_LOADED,
     DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL,
     CLEAR_SELECTED_CHALLENGE_STREAK,
+    COMPLETE_SELECTED_CHALLENGE_STREAK,
+    COMPLETE_SELECTED_CHALLENGE_STREAK_LOADING,
+    COMPLETE_SELECTED_CHALLENGE_STREAK_LOADED,
+    COMPLETE_SELECTED_CHALLENGE_STREAK_FAIL,
+    INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADING,
+    INCOMPLETE_SELECTED_CHALLENGE_STREAK,
+    INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADED,
+    INCOMPLETE_SELECTED_CHALLENGE_STREAK_FAIL,
 } from './types';
 import { sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
@@ -174,6 +182,10 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                     totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
                     activityFeedItems: populatedActivityFeedItems,
                 },
+                completeSelectedChallengeStreakIsLoading: false,
+                completeSelectedChallengeStreakErrorMessage: '',
+                incompleteSelectedChallengeStreakIsLoading: false,
+                incompleteSelectedChallengeStreakErrorMessage: '',
             };
             dispatch({ type: GET_CHALLENGE_STREAK, payload: challengeStreakWithLoadingStates });
             dispatch({ type: GET_CHALLENGE_STREAK_LOADED });
@@ -225,6 +237,10 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                     totalActivityFeedCount: 0,
                     activityFeedItems: [],
                 },
+                completeSelectedChallengeStreakIsLoading: false,
+                completeSelectedChallengeStreakErrorMessage: '',
+                incompleteSelectedChallengeStreakIsLoading: false,
+                incompleteSelectedChallengeStreakErrorMessage: '',
             };
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK_LOADED });
@@ -284,6 +300,10 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                     totalActivityFeedCount: 0,
                     activityFeedItems: [],
                 },
+                completeSelectedChallengeStreakIsLoading: false,
+                completeSelectedChallengeStreakErrorMessage: '',
+                incompleteSelectedChallengeStreakIsLoading: false,
+                incompleteSelectedChallengeStreakErrorMessage: '',
             };
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED });
@@ -324,62 +344,126 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const completeChallengeStreakTask = (challengeStreakId: string) => async (
+    const completeChallengeStreakListTask = (challengeStreakId: string) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING, challengeStreakId });
+            dispatch({ type: COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING, challengeStreakId });
             const userId = getState().users.currentUser._id;
             const completeChallengeStreakTask = await streakoid.completeChallengeStreakTasks.create({
                 challengeStreakId,
                 userId,
             });
             dispatch({
-                type: CREATE_COMPLETE_CHALLENGE_STREAK_TASK,
+                type: COMPLETE_CHALLENGE_STREAK_LIST_TASK,
                 payload: completeChallengeStreakTask.challengeStreakId,
             });
-            dispatch({ type: CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED, challengeStreakId });
+            dispatch({ type: COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED, challengeStreakId });
         } catch (err) {
-            dispatch({ type: CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED, challengeStreakId });
+            dispatch({ type: COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED, challengeStreakId });
             if (err.response) {
                 dispatch({
-                    type: CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL,
+                    type: COMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL,
                     payload: { challengeStreakId, errorMessage: err.response.data.message },
                 });
             } else {
                 dispatch({
-                    type: CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL,
+                    type: COMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL,
                     payload: { challengeStreakId, errorMessage: err.message },
                 });
             }
         }
     };
 
-    const incompleteChallengeStreakTask = (challengeStreakId: string) => async (
+    const completeSelectedChallengeStreakTask = (challengeStreakId: string) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING, challengeStreakId });
+            dispatch({ type: COMPLETE_SELECTED_CHALLENGE_STREAK_LOADING });
+            const userId = getState().users.currentUser._id;
+            const completeChallengeStreakTask = await streakoid.completeChallengeStreakTasks.create({
+                challengeStreakId,
+                userId,
+            });
+            dispatch({
+                type: COMPLETE_SELECTED_CHALLENGE_STREAK,
+                payload: completeChallengeStreakTask.challengeStreakId,
+            });
+            dispatch({ type: COMPLETE_SELECTED_CHALLENGE_STREAK_LOADED });
+        } catch (err) {
+            dispatch({ type: COMPLETE_SELECTED_CHALLENGE_STREAK_LOADED });
+            if (err.response) {
+                dispatch({
+                    type: COMPLETE_SELECTED_CHALLENGE_STREAK_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: COMPLETE_SELECTED_CHALLENGE_STREAK_FAIL,
+                    payload: err.message,
+                });
+            }
+        }
+    };
+
+    const incompleteChallengeStreakListTask = (challengeStreakId: string) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING, challengeStreakId });
             const userId = getState().users.currentUser._id;
             await streakoid.incompleteChallengeStreakTasks.create({ userId, challengeStreakId });
             dispatch({
-                type: CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK,
+                type: INCOMPLETE_CHALLENGE_STREAK_LIST_TASK,
                 payload: challengeStreakId,
             });
-            dispatch({ type: CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED, challengeStreakId });
+            dispatch({ type: INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED, challengeStreakId });
         } catch (err) {
-            dispatch({ type: CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED, challengeStreakId });
+            dispatch({ type: INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED, challengeStreakId });
             if (err.response) {
                 dispatch({
-                    type: CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL,
+                    type: INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL,
                     payload: { challengeStreakId, errorMessage: err.response.data.message },
                 });
             } else {
                 dispatch({
-                    type: CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL,
+                    type: INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL,
                     payload: { challengeStreakId, errorMessage: err.message },
+                });
+            }
+        }
+    };
+
+    const incompleteSelectedChallengeStreakTask = (challengeStreakId: string) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADING });
+            const userId = getState().users.currentUser._id;
+            const completeChallengeStreakTask = await streakoid.incompleteChallengeStreakTasks.create({
+                challengeStreakId,
+                userId,
+            });
+            dispatch({
+                type: INCOMPLETE_SELECTED_CHALLENGE_STREAK,
+                payload: completeChallengeStreakTask.challengeStreakId,
+            });
+            dispatch({ type: INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADED });
+        } catch (err) {
+            dispatch({ type: INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADED });
+            if (err.response) {
+                dispatch({
+                    type: INCOMPLETE_SELECTED_CHALLENGE_STREAK_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: INCOMPLETE_SELECTED_CHALLENGE_STREAK_FAIL,
+                    payload: err.message,
                 });
             }
         }
@@ -423,8 +507,10 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         restoreArchivedChallengeStreak,
         clearRestoreArchivedChallengeStreakErrorMessage,
         deleteArchivedChallengeStreak,
-        completeChallengeStreakTask,
-        incompleteChallengeStreakTask,
+        completeChallengeStreakListTask,
+        completeSelectedChallengeStreakTask,
+        incompleteChallengeStreakListTask,
+        incompleteSelectedChallengeStreakTask,
         updateChallengeStreakTimezones,
         clearSelectedChallengeStreak,
     };

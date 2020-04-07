@@ -1,15 +1,15 @@
 import { ChallengeStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
 import {
-    CREATE_COMPLETE_CHALLENGE_STREAK_TASK,
+    COMPLETE_CHALLENGE_STREAK_LIST_TASK,
     ChallengeStreakActionTypes,
-    CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED,
-    CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING,
-    CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL,
-    CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK,
-    CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL,
-    CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING,
-    CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED,
+    COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED,
+    COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING,
+    COMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL,
+    INCOMPLETE_CHALLENGE_STREAK_LIST_TASK,
+    INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL,
+    INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING,
+    INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED,
     GET_LIVE_CHALLENGE_STREAKS,
     GET_LIVE_CHALLENGE_STREAKS_LOADING,
     GET_LIVE_CHALLENGE_STREAKS_LOADED,
@@ -38,6 +38,14 @@ import {
     RESTORE_ARCHIVED_CHALLENGE_STREAK_FAIL,
     DELETE_ARCHIVED_CHALLENGE_STREAK_FAIL,
     CLEAR_SELECTED_CHALLENGE_STREAK,
+    COMPLETE_SELECTED_CHALLENGE_STREAK,
+    COMPLETE_SELECTED_CHALLENGE_STREAK_FAIL,
+    COMPLETE_SELECTED_CHALLENGE_STREAK_LOADING,
+    COMPLETE_SELECTED_CHALLENGE_STREAK_LOADED,
+    INCOMPLETE_SELECTED_CHALLENGE_STREAK,
+    INCOMPLETE_SELECTED_CHALLENGE_STREAK_FAIL,
+    INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADING,
+    INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADED,
 } from '../actions/types';
 import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
 
@@ -94,6 +102,10 @@ const defaultSelectedChallengeStreak = {
         totalActivityFeedCount: 0,
         activityFeedItems: [],
     },
+    completeSelectedChallengeStreakIsLoading: false,
+    completeSelectedChallengeStreakErrorMessage: '',
+    incompleteSelectedChallengeStreakIsLoading: false,
+    incompleteSelectedChallengeStreakErrorMessage: '',
 };
 
 const initialState: ChallengeStreakReducerState = {
@@ -147,6 +159,10 @@ export interface SelectedChallengeStreak extends ChallengeStreak {
         totalActivityFeedCount: number;
         activityFeedItems: UserActivityFeedItem[];
     };
+    completeSelectedChallengeStreakIsLoading: boolean;
+    completeSelectedChallengeStreakErrorMessage: string;
+    incompleteSelectedChallengeStreakIsLoading: boolean;
+    incompleteSelectedChallengeStreakErrorMessage: string;
 }
 
 const challengeStreakReducer = (
@@ -319,7 +335,7 @@ const challengeStreakReducer = (
                 deleteArchivedChallengeStreakIsLoading: false,
             };
 
-        case CREATE_COMPLETE_CHALLENGE_STREAK_TASK:
+        case COMPLETE_CHALLENGE_STREAK_LIST_TASK:
             return {
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
@@ -337,7 +353,7 @@ const challengeStreakReducer = (
                 }),
             };
 
-        case CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL:
+        case COMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL:
             return {
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
@@ -351,7 +367,7 @@ const challengeStreakReducer = (
                 }),
             };
 
-        case CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING:
+        case COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING:
             return {
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
@@ -366,7 +382,7 @@ const challengeStreakReducer = (
                 }),
             };
 
-        case CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED:
+        case COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED:
             return {
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
@@ -381,7 +397,56 @@ const challengeStreakReducer = (
                 }),
             };
 
-        case CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK:
+        case COMPLETE_SELECTED_CHALLENGE_STREAK:
+            return {
+                ...state,
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
+                    if (challengeStreak._id === action.payload) {
+                        return {
+                            ...challengeStreak,
+                            completedToday: true,
+                            currentStreak: {
+                                ...challengeStreak.currentStreak,
+                                numberOfDaysInARow: challengeStreak.currentStreak.numberOfDaysInARow + 1,
+                            },
+                        };
+                    }
+                    return challengeStreak;
+                }),
+                selectedChallengeStreak: {
+                    ...state.selectedChallengeStreak,
+                    completedToday: true,
+                },
+            };
+
+        case COMPLETE_SELECTED_CHALLENGE_STREAK_FAIL:
+            return {
+                ...state,
+                selectedChallengeStreak: {
+                    ...state.selectedChallengeStreak,
+                    completeSelectedChallengeStreakErrorMessage: action.payload,
+                },
+            };
+
+        case COMPLETE_SELECTED_CHALLENGE_STREAK_LOADING:
+            return {
+                ...state,
+                selectedChallengeStreak: {
+                    ...state.selectedChallengeStreak,
+                    completeSelectedChallengeStreakIsLoading: true,
+                },
+            };
+
+        case COMPLETE_SELECTED_CHALLENGE_STREAK_LOADED:
+            return {
+                ...state,
+                selectedChallengeStreak: {
+                    ...state.selectedChallengeStreak,
+                    completeSelectedChallengeStreakIsLoading: false,
+                },
+            };
+
+        case INCOMPLETE_CHALLENGE_STREAK_LIST_TASK:
             return {
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
@@ -399,7 +464,7 @@ const challengeStreakReducer = (
                 }),
             };
 
-        case CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL:
+        case INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL:
             return {
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
@@ -413,7 +478,7 @@ const challengeStreakReducer = (
                 }),
             };
 
-        case CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING:
+        case INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING:
             return {
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
@@ -428,7 +493,7 @@ const challengeStreakReducer = (
                 }),
             };
 
-        case CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED:
+        case INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED:
             return {
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
@@ -441,6 +506,55 @@ const challengeStreakReducer = (
                     }
                     return challengeStreak;
                 }),
+            };
+
+        case INCOMPLETE_SELECTED_CHALLENGE_STREAK:
+            return {
+                ...state,
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
+                    if (challengeStreak._id === action.payload) {
+                        return {
+                            ...challengeStreak,
+                            completedToday: false,
+                            currentStreak: {
+                                ...challengeStreak.currentStreak,
+                                numberOfDaysInARow: challengeStreak.currentStreak.numberOfDaysInARow - 1,
+                            },
+                        };
+                    }
+                    return challengeStreak;
+                }),
+                selectedChallengeStreak: {
+                    ...state.selectedChallengeStreak,
+                    completedToday: false,
+                },
+            };
+
+        case INCOMPLETE_SELECTED_CHALLENGE_STREAK_FAIL:
+            return {
+                ...state,
+                selectedChallengeStreak: {
+                    ...state.selectedChallengeStreak,
+                    incompleteSelectedChallengeStreakErrorMessage: action.payload,
+                },
+            };
+
+        case INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADING:
+            return {
+                ...state,
+                selectedChallengeStreak: {
+                    ...state.selectedChallengeStreak,
+                    incompleteSelectedChallengeStreakIsLoading: true,
+                },
+            };
+
+        case INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADED:
+            return {
+                ...state,
+                selectedChallengeStreak: {
+                    ...state.selectedChallengeStreak,
+                    incompleteSelectedChallengeStreakIsLoading: false,
+                },
             };
 
         case UPDATE_CHALLENGE_STREAK_TIMEZONES:

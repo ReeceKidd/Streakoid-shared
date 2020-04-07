@@ -493,22 +493,22 @@ export interface CreateCompleteSoloStreakListTaskLoadedAction {
     soloStreakId: string;
 }
 
-export interface CreateIncompleteSoloStreakListTaskAction {
+export interface IncompleteSoloStreakListTaskAction {
     type: typeof CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK;
     payload: string;
 }
 
-export interface CreateIncompleteSoloStreakListTaskFailAction {
+export interface IncompleteSoloStreakListTaskFailAction {
     type: typeof CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_FAIL;
     payload: { soloStreakId: string; errorMessage: string };
 }
 
-export interface CreateIncompleteSoloStreakListTaskLoadingAction {
+export interface IncompleteSoloStreakListTaskLoadingAction {
     type: typeof CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADING;
     soloStreakId: string;
 }
 
-export interface CreateIncompleteSoloStreakListTaskLoadedAction {
+export interface IncompleteSoloStreakListTaskLoadedAction {
     type: typeof CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADED;
     soloStreakId: string;
 }
@@ -693,10 +693,10 @@ export type SoloStreakActionTypes =
     | CreateCompleteSoloStreakListTaskFailAction
     | CreateCompleteSoloStreakListTaskLoadingAction
     | CreateCompleteSoloStreakListTaskLoadedAction
-    | CreateIncompleteSoloStreakListTaskAction
-    | CreateIncompleteSoloStreakListTaskFailAction
-    | CreateIncompleteSoloStreakListTaskLoadingAction
-    | CreateIncompleteSoloStreakListTaskLoadedAction
+    | IncompleteSoloStreakListTaskAction
+    | IncompleteSoloStreakListTaskFailAction
+    | IncompleteSoloStreakListTaskLoadingAction
+    | IncompleteSoloStreakListTaskLoadedAction
     | UpdateSoloStreaksTimezonesAction
     | UpdateSoloStreaksTimezonesFailAction
     | ArchiveSoloStreakAction
@@ -1837,14 +1837,27 @@ export const CREATE_CHALLENGE_STREAK = 'CREATE_CHALLENGE_STREAK';
 export const CREATE_CHALLENGE_STREAK_FAIL = 'CREATE_CHALLENGE_STREAK_FAIL';
 export const CREATE_CHALLENGE_STREAK_LOADING = 'CREATE_CHALLENGE_STREAK_LOADING';
 export const CREATE_CHALLENGE_STREAK_LOADED = 'CREATE_CHALLENGE_STREAK_LOADED';
-export const CREATE_COMPLETE_CHALLENGE_STREAK_TASK = 'CREATE_COMPLETE_CHALLENGE_STREAK_TASK ';
-export const CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL = 'CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL';
-export const CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING = 'CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING';
-export const CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED = 'CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED';
-export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK';
-export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL';
-export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING';
-export const CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED = 'CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED';
+
+export const COMPLETE_CHALLENGE_STREAK_LIST_TASK = 'COMPLETE_CHALLENGE_STREAK_LIST_TASK ';
+export const COMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL = 'COMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL';
+export const COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING = 'COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING';
+export const COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED = 'COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED';
+
+export const COMPLETE_SELECTED_CHALLENGE_STREAK = 'COMPLETE_SELECTED_CHALLENGE_STREAK';
+export const COMPLETE_SELECTED_CHALLENGE_STREAK_FAIL = 'COMPLETE_SELECTED_CHALLENGE_STREAK_FAIL';
+export const COMPLETE_SELECTED_CHALLENGE_STREAK_LOADING = 'COMPLETE_SELECTED_CHALLENGE_STREAK_LOADING';
+export const COMPLETE_SELECTED_CHALLENGE_STREAK_LOADED = 'COMPLETE_SELECTED_CHALLENGE_STREAK_LOADED';
+
+export const INCOMPLETE_CHALLENGE_STREAK_LIST_TASK = 'INCOMPLETE_CHALLENGE_STREAK_LIST_TASK';
+export const INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL = 'INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL';
+export const INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING = 'INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING';
+export const INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED = 'INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED';
+
+export const INCOMPLETE_SELECTED_CHALLENGE_STREAK = 'INCOMPLETE_SELECTED_CHALLENGE_STREAK';
+export const INCOMPLETE_SELECTED_CHALLENGE_STREAK_FAIL = 'INCOMPLETE_SELECTED_CHALLENGE_STREAK_FAIL';
+export const INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADING = 'INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADING';
+export const INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADED = 'INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADED';
+
 export const UPDATE_CHALLENGE_STREAK_TIMEZONES = 'UPDATE_CHALLENGE_STREAK_TIMEZONES';
 export const UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL = 'UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL';
 export const CLEAR_SELECTED_CHALLENGE_STREAK = 'CLEAR_SELECTED_CHALLENGE_STREAK';
@@ -1983,44 +1996,80 @@ export interface CreateChallengeStreakIsLoadedAction {
     type: typeof CREATE_CHALLENGE_STREAK_LOADED;
 }
 
-export interface CreateCompleteChallengeStreakTaskAction {
-    type: typeof CREATE_COMPLETE_CHALLENGE_STREAK_TASK;
+export interface CompleteChallengeStreakListTaskAction {
+    type: typeof COMPLETE_CHALLENGE_STREAK_LIST_TASK;
     payload: string;
 }
 
-export interface CreateCompleteChallengeStreakTaskFailAction {
-    type: typeof CREATE_COMPLETE_CHALLENGE_STREAK_TASK_FAIL;
+export interface CompleteChallengeStreakListTaskFailAction {
+    type: typeof COMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL;
     payload: { challengeStreakId: string; errorMessage: string };
 }
 
-export interface CreateCompleteChallengeStreakTaskLoadingAction {
-    type: typeof CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADING;
+export interface CompleteChallengeStreakListTaskLoadingAction {
+    type: typeof COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING;
     challengeStreakId: string;
 }
 
-export interface CreateCompleteChallengeStreakTaskLoadedAction {
-    type: typeof CREATE_COMPLETE_CHALLENGE_STREAK_TASK_LOADED;
+export interface CompleteChallengeStreakListTaskLoadedAction {
+    type: typeof COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED;
     challengeStreakId: string;
 }
 
-export interface CreateIncompleteChallengeStreakTaskAction {
-    type: typeof CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK;
+export interface CompleteSelectedChallengeStreakTaskAction {
+    type: typeof COMPLETE_SELECTED_CHALLENGE_STREAK;
     payload: string;
 }
 
-export interface CreateIncompleteChallengeStreakTaskFailAction {
-    type: typeof CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_FAIL;
+export interface CompleteSelectedChallengeStreakTaskFailAction {
+    type: typeof COMPLETE_SELECTED_CHALLENGE_STREAK_FAIL;
+    payload: string;
+}
+
+export interface CompleteSelectedChallengeStreakTaskLoadingAction {
+    type: typeof COMPLETE_SELECTED_CHALLENGE_STREAK_LOADING;
+}
+
+export interface CompleteSelectedChallengeStreakTaskLoadedAction {
+    type: typeof COMPLETE_SELECTED_CHALLENGE_STREAK_LOADED;
+}
+
+export interface IncompleteChallengeStreakTaskAction {
+    type: typeof INCOMPLETE_CHALLENGE_STREAK_LIST_TASK;
+    payload: string;
+}
+
+export interface IncompleteChallengeStreakTaskFailAction {
+    type: typeof INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL;
     payload: { challengeStreakId: string; errorMessage: string };
 }
 
-export interface CreateIncompleteChallengeStreakTaskLoadingAction {
-    type: typeof CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADING;
+export interface IncompleteChallengeStreakTaskLoadingAction {
+    type: typeof INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING;
     challengeStreakId: string;
 }
 
-export interface CreateIncompleteChallengeStreakTaskLoadedAction {
-    type: typeof CREATE_INCOMPLETE_CHALLENGE_STREAK_TASK_LOADED;
+export interface IncompleteChallengeStreakTaskLoadedAction {
+    type: typeof INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED;
     challengeStreakId: string;
+}
+
+export interface IncompleteSelectedChallengeStreakTaskAction {
+    type: typeof INCOMPLETE_SELECTED_CHALLENGE_STREAK;
+    payload: string;
+}
+
+export interface IncompleteSelectedChallengeStreakTaskFailAction {
+    type: typeof INCOMPLETE_SELECTED_CHALLENGE_STREAK_FAIL;
+    payload: string;
+}
+
+export interface IncompleteSelectedChallengeStreakTaskLoadingAction {
+    type: typeof INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADING;
+}
+
+export interface IncompleteSelectedChallengeStreakTaskLoadedAction {
+    type: typeof INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADED;
 }
 
 export interface UpdateChallengeStreaksTimezoneAction {
@@ -2068,14 +2117,22 @@ export type ChallengeStreakActionTypes =
     | CreateChallengeStreakFailAction
     | CreateChallengeStreakIsLoadingAction
     | CreateChallengeStreakIsLoadedAction
-    | CreateCompleteChallengeStreakTaskAction
-    | CreateCompleteChallengeStreakTaskFailAction
-    | CreateCompleteChallengeStreakTaskLoadingAction
-    | CreateCompleteChallengeStreakTaskLoadedAction
-    | CreateIncompleteChallengeStreakTaskAction
-    | CreateIncompleteChallengeStreakTaskFailAction
-    | CreateIncompleteChallengeStreakTaskLoadingAction
-    | CreateIncompleteChallengeStreakTaskLoadedAction
+    | CompleteChallengeStreakListTaskAction
+    | CompleteChallengeStreakListTaskFailAction
+    | CompleteChallengeStreakListTaskLoadingAction
+    | CompleteChallengeStreakListTaskLoadedAction
+    | CompleteSelectedChallengeStreakTaskAction
+    | CompleteSelectedChallengeStreakTaskFailAction
+    | CompleteSelectedChallengeStreakTaskLoadingAction
+    | CompleteSelectedChallengeStreakTaskLoadedAction
+    | IncompleteChallengeStreakTaskAction
+    | IncompleteChallengeStreakTaskFailAction
+    | IncompleteChallengeStreakTaskLoadingAction
+    | IncompleteChallengeStreakTaskLoadedAction
+    | IncompleteSelectedChallengeStreakTaskAction
+    | IncompleteSelectedChallengeStreakTaskFailAction
+    | IncompleteSelectedChallengeStreakTaskLoadingAction
+    | IncompleteSelectedChallengeStreakTaskLoadedAction
     | UpdateChallengeStreaksTimezoneAction
     | UpdateChallengeStreaksTimezoneActionFail
     | ClearSelectedChallengeStreakAction;
