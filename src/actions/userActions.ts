@@ -97,8 +97,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         const completeSoloStreakTaskDates = completeSoloStreakTasks.map(
             completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
         );
-        const completeChallengeStreakTasks = await streakoid.completeChallengeStreakTasks.getAll({ userId });
-        const completeChallengeStreakTaskDates = completeChallengeStreakTasks.map(
+        const completeChallengeStreakListTasks = await streakoid.completeChallengeStreakTasks.getAll({ userId });
+        const completeChallengeStreakListTaskDates = completeChallengeStreakListTasks.map(
             completeTask => new Date(completeTask.createdAt).toISOString().split('T')[0],
         );
         const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({ userId });
@@ -107,7 +107,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         );
         const combinedCompletedTasks = [
             ...completeSoloStreakTaskDates,
-            ...completeChallengeStreakTaskDates,
+            ...completeChallengeStreakListTaskDates,
             ...completedTeamMemberStreakTaskDates,
         ];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -156,10 +156,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                         challengeDescription: challenge.description,
                         joinChallengeStreakTaskIsLoading: false,
                         joinChallengeStreakTaskErrorMessage: '',
-                        completeChallengeStreakTaskIsLoading: false,
-                        completeChallengeStreakTaskErrorMessage: '',
-                        incompleteChallengeStreakTaskIsLoading: false,
-                        incompleteChallengeStreakTaskErrorMessage: '',
+                        completeChallengeStreakListTaskIsLoading: false,
+                        completeChallengeStreakListTaskErrorMessage: '',
+                        incompleteChallengeStreakListTaskIsLoading: false,
+                        incompleteChallengeStreakListTaskErrorMessage: '',
                         completedChallengeStreakTaskDates: [],
                         username: user.username,
                         userProfileImage: user.profileImages.originalImageUrl,

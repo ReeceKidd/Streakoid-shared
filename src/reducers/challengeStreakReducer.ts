@@ -86,10 +86,10 @@ const defaultSelectedChallengeStreak = {
     createdAt: '',
     challengeName: '',
     challengeDescription: '',
-    completeChallengeStreakTaskIsLoading: false,
-    completeChallengeStreakTaskErrorMessage: '',
-    incompleteChallengeStreakTaskIsLoading: false,
-    incompleteChallengeStreakTaskErrorMessage: '',
+    completeChallengeStreakListTaskIsLoading: false,
+    completeChallengeStreakListTaskErrorMessage: '',
+    incompleteChallengeStreakListTaskIsLoading: false,
+    incompleteChallengeStreakListTaskErrorMessage: '',
     completedChallengeStreakTaskDates: [],
     username: '',
     userProfileImage: '',
@@ -129,10 +129,10 @@ const initialState: ChallengeStreakReducerState = {
 
 export interface ChallengeStreakListItem extends ChallengeStreak {
     challengeName: string;
-    completeChallengeStreakTaskIsLoading: boolean;
-    completeChallengeStreakTaskErrorMessage: string;
-    incompleteChallengeStreakTaskIsLoading: boolean;
-    incompleteChallengeStreakTaskErrorMessage: string;
+    completeChallengeStreakListTaskIsLoading: boolean;
+    completeChallengeStreakListTaskErrorMessage: string;
+    incompleteChallengeStreakListTaskIsLoading: boolean;
+    incompleteChallengeStreakListTaskErrorMessage: string;
 }
 
 export interface ArchivedChallengeStreakListItem extends ChallengeStreak {
@@ -143,10 +143,10 @@ export interface ArchivedChallengeStreakListItem extends ChallengeStreak {
 export interface SelectedChallengeStreak extends ChallengeStreak {
     challengeName: string;
     challengeDescription: string;
-    completeChallengeStreakTaskIsLoading: boolean;
-    completeChallengeStreakTaskErrorMessage: string;
-    incompleteChallengeStreakTaskIsLoading: boolean;
-    incompleteChallengeStreakTaskErrorMessage: string;
+    completeChallengeStreakListTaskIsLoading: boolean;
+    completeChallengeStreakListTaskErrorMessage: string;
+    incompleteChallengeStreakListTaskIsLoading: boolean;
+    incompleteChallengeStreakListTaskErrorMessage: string;
     completedChallengeStreakTaskDates: Date[];
     username: string;
     userProfileImage: string;
@@ -360,7 +360,7 @@ const challengeStreakReducer = (
                     if (challengeStreak._id === action.payload.challengeStreakId) {
                         return {
                             ...challengeStreak,
-                            createCompleteChallengeStreakTaskErrorMessage: action.payload.errorMessage,
+                            createcompleteChallengeStreakListTaskErrorMessage: action.payload.errorMessage,
                         };
                     }
                     return challengeStreak;
@@ -374,7 +374,7 @@ const challengeStreakReducer = (
                     if (challengeStreak._id === action.challengeStreakId) {
                         const SelectedChallengeStreak = {
                             ...challengeStreak,
-                            completeChallengeStreakTaskIsLoading: true,
+                            completeChallengeStreakListTaskIsLoading: true,
                         };
                         return SelectedChallengeStreak;
                     }
@@ -389,7 +389,7 @@ const challengeStreakReducer = (
                     if (challengeStreak._id === action.challengeStreakId) {
                         const SelectedChallengeStreak = {
                             ...challengeStreak,
-                            completeChallengeStreakTaskIsLoading: false,
+                            completeChallengeStreakListTaskIsLoading: false,
                         };
                         return SelectedChallengeStreak;
                     }
@@ -471,7 +471,7 @@ const challengeStreakReducer = (
                     if (challengeStreak._id === action.payload.challengeStreakId) {
                         return {
                             ...challengeStreak,
-                            createCompleteChallengeStreakTaskErrorMessage: action.payload.errorMessage,
+                            createcompleteChallengeStreakListTaskErrorMessage: action.payload.errorMessage,
                         };
                     }
                     return challengeStreak;
@@ -485,7 +485,7 @@ const challengeStreakReducer = (
                     if (challengeStreak._id === action.challengeStreakId) {
                         const SelectedChallengeStreak = {
                             ...challengeStreak,
-                            incompleteChallengeStreakTaskIsLoading: true,
+                            incompleteChallengeStreakListTaskIsLoading: true,
                         };
                         return SelectedChallengeStreak;
                     }
@@ -500,7 +500,7 @@ const challengeStreakReducer = (
                     if (challengeStreak._id === action.challengeStreakId) {
                         const SelectedChallengeStreak = {
                             ...challengeStreak,
-                            incompleteChallengeStreakTaskIsLoading: false,
+                            incompleteChallengeStreakListTaskIsLoading: false,
                         };
                         return SelectedChallengeStreak;
                     }

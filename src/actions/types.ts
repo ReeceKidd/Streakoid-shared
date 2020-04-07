@@ -2034,22 +2034,22 @@ export interface CompleteSelectedChallengeStreakTaskLoadedAction {
     type: typeof COMPLETE_SELECTED_CHALLENGE_STREAK_LOADED;
 }
 
-export interface IncompleteChallengeStreakTaskAction {
+export interface IncompleteChallengeStreakListTaskAction {
     type: typeof INCOMPLETE_CHALLENGE_STREAK_LIST_TASK;
     payload: string;
 }
 
-export interface IncompleteChallengeStreakTaskFailAction {
+export interface IncompleteChallengeStreakListTaskFailAction {
     type: typeof INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL;
     payload: { challengeStreakId: string; errorMessage: string };
 }
 
-export interface IncompleteChallengeStreakTaskLoadingAction {
+export interface IncompleteChallengeStreakListTaskLoadingAction {
     type: typeof INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING;
     challengeStreakId: string;
 }
 
-export interface IncompleteChallengeStreakTaskLoadedAction {
+export interface IncompleteChallengeStreakListTaskLoadedAction {
     type: typeof INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED;
     challengeStreakId: string;
 }
@@ -2125,10 +2125,10 @@ export type ChallengeStreakActionTypes =
     | CompleteSelectedChallengeStreakTaskFailAction
     | CompleteSelectedChallengeStreakTaskLoadingAction
     | CompleteSelectedChallengeStreakTaskLoadedAction
-    | IncompleteChallengeStreakTaskAction
-    | IncompleteChallengeStreakTaskFailAction
-    | IncompleteChallengeStreakTaskLoadingAction
-    | IncompleteChallengeStreakTaskLoadedAction
+    | IncompleteChallengeStreakListTaskAction
+    | IncompleteChallengeStreakListTaskFailAction
+    | IncompleteChallengeStreakListTaskLoadingAction
+    | IncompleteChallengeStreakListTaskLoadedAction
     | IncompleteSelectedChallengeStreakTaskAction
     | IncompleteSelectedChallengeStreakTaskFailAction
     | IncompleteSelectedChallengeStreakTaskLoadingAction
