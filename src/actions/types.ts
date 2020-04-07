@@ -1754,7 +1754,7 @@ export interface GetSelectedChallengeIsLoadedAction {
 
 export interface UpdateSelectedChallengeAction {
     type: typeof UPDATE_SELECTED_CHALLENGE;
-    payload: PopulatedChallengeWithClientData;
+    payload: SelectedChallenge;
 }
 
 export interface UpdateSelectedChallengeFailAction {
