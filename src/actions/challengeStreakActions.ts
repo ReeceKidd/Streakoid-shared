@@ -56,6 +56,7 @@ import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveChallengeStreaks = () => async (
@@ -151,11 +152,14 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
             const completedChallengeStreakTaskDates = completeChallengeStreakListTasks.map(
                 completeTask => new Date(completeTask.createdAt),
             );
-            const activityFeed = await streakoid.activityFeedItems.getAll({ subjectId: challengeStreak._id });
-            const populatedActivityFeedItems = await Promise.all(
-                activityFeed.activityFeedItems.map(activityFeedItem => {
+            const activityFeed = await streakoid.activityFeedItems.getAll({ challengeStreakId: challengeStreak._id });
+            const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
+                activityFeed.activityFeedItems.map(async activityFeedItem => {
                     return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
                 }),
+            );
+            const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
+                (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
             const challengeStreakWithLoadingStates = {
                 ...challengeStreak,
@@ -180,7 +184,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 numberOfRestarts: pastStreaks.length,
                 activityFeed: {
                     totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
-                    activityFeedItems: populatedActivityFeedItems,
+                    activityFeedItems: supportedPopulatedActivityFeedItems,
                 },
                 completeSelectedChallengeStreakIsLoading: false,
                 completeSelectedChallengeStreakErrorMessage: '',

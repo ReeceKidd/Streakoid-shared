@@ -54,6 +54,7 @@ import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { PopulatedTeamMemberWithClientData } from '../reducers/teamStreakReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveTeamStreaks = () => async (
@@ -216,11 +217,14 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
                 teamStreakId: teamStreak._id,
             });
-            const activityFeed = await streakoid.activityFeedItems.getAll({ subjectId: teamStreak._id });
-            const populatedActivityFeedItems = await Promise.all(
-                activityFeed.activityFeedItems.map(activityFeedItem => {
+            const activityFeed = await streakoid.activityFeedItems.getAll({ teamStreakId: teamStreak._id });
+            const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
+                activityFeed.activityFeedItems.map(async activityFeedItem => {
                     return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
                 }),
+            );
+            const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
+                (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
             const currentUserMemberInfo = members.find(member => member._id == getState().users.currentUser._id);
             const hasCurrentUserCompletedTaskForTheDay =
@@ -234,7 +238,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 totalTimesTracked: totalTimesTracked.length,
                 activityFeed: {
                     totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
-                    activityFeedItems: populatedActivityFeedItems,
+                    activityFeedItems: supportedPopulatedActivityFeedItems,
                 },
                 isCurrentUserApartOfTeamStreak: Boolean(currentUserMemberInfo),
                 hasCurrentUserCompletedTaskForTheDay,

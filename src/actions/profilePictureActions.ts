@@ -30,7 +30,7 @@ const profilePictureActions = (apiUrl: string, getIdToken: () => string | Promis
                 {
                     headers: {
                         [SupportedRequestHeaders.Authorization]: idToken,
-                        [SupportedRequestHeaders.xTimezone]: timezone,
+                        [SupportedRequestHeaders.Timezone]: timezone,
                         'Content-Type': 'multipart/form-data',
                     },
                 },

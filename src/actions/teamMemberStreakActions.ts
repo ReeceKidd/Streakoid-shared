@@ -13,6 +13,7 @@ import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
     const getTeamMemberStreak = (teamMemberStreakId: string) => async (
@@ -30,13 +31,16 @@ const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
                 completeTask => new Date(completeTask.createdAt),
             );
             const activityFeed = await streakoid.activityFeedItems.getAll({
-                subjectId: teamMemberStreak.teamStreakId,
+                teamStreakId: teamMemberStreak.teamStreakId,
                 userIds: [teamMemberStreak.userId],
             });
-            const populatedActivityFeedItems = await Promise.all(
-                activityFeed.activityFeedItems.map(activityFeedItem => {
+            const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
+                activityFeed.activityFeedItems.map(async activityFeedItem => {
                     return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
                 }),
+            );
+            const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
+                (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
             dispatch({
                 type: GET_TEAM_MEMBER_STREAK,
@@ -57,7 +61,7 @@ const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
                     numberOfRestarts: teamMemberStreak.pastStreaks.length,
                     activityFeed: {
                         totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
-                        activityFeedItems: populatedActivityFeedItems,
+                        activityFeedItems: supportedPopulatedActivityFeedItems,
                     },
                     completeSelectedTeamMemberStreakIsLoading: false,
                     completeSelectedTeamMemberStreakErrorMessage: '',

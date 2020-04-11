@@ -68,6 +68,7 @@ import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveSoloStreaks = () => async (
@@ -139,11 +140,14 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             const completedSoloStreakTaskDates = completeSoloStreakTasks.map(
                 completeTask => new Date(completeTask.createdAt),
             );
-            const activityFeed = await streakoid.activityFeedItems.getAll({ subjectId: soloStreak._id });
-            const populatedActivityFeedItems = await Promise.all(
-                activityFeed.activityFeedItems.map(activityFeedItem => {
+            const activityFeed = await streakoid.activityFeedItems.getAll({ soloStreakId: soloStreak._id });
+            const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
+                activityFeed.activityFeedItems.map(async activityFeedItem => {
                     return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
                 }),
+            );
+            const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
+                (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
             const numberOfRestarts = soloStreak.pastStreaks.length;
             dispatch({
@@ -163,7 +167,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                     numberOfRestarts,
                     activityFeed: {
                         totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
-                        activityFeedItems: populatedActivityFeedItems,
+                        activityFeedItems: supportedPopulatedActivityFeedItems,
                     },
                     completeSelectedSoloStreakIsLoading: false,
                     completeSelectedSoloStreakErrorMessage: '',

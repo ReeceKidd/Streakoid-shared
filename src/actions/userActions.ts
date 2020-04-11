@@ -48,6 +48,7 @@ import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak
 import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
 import { FollowingWithClientData } from '../reducers/userReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
@@ -246,10 +247,13 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 selectedUser => selectedUser.userId == user._id,
             );
             const activityFeed = await streakoid.activityFeedItems.getAll({ userIds: [user._id] });
-            const populatedActivityFeedItems = await Promise.all(
-                activityFeed.activityFeedItems.map(activityFeedItem => {
+            const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
+                activityFeed.activityFeedItems.map(async activityFeedItem => {
                     return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
                 }),
+            );
+            const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
+                (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
             const selectedUser = {
                 ...user,
@@ -269,7 +273,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 unfollowUserErrorMessage: '',
                 activityFeed: {
                     totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
-                    activityFeedItems: populatedActivityFeedItems,
+                    activityFeedItems: supportedPopulatedActivityFeedItems,
                 },
             };
             dispatch({ type: GET_USER, payload: selectedUser });
@@ -299,10 +303,13 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 isSelected: false,
             }));
             const activityFeed = await streakoid.activityFeedItems.getAll({ userIds: [user._id] });
-            const populatedActivityFeedItems = await Promise.all(
-                activityFeed.activityFeedItems.map(activityFeedItem => {
+            const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
+                activityFeed.activityFeedItems.map(async activityFeedItem => {
                     return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
                 }),
+            );
+            const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
+                (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
             dispatch({
                 type: GET_CURRENT_USER,
@@ -313,7 +320,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                     userStreakCompleteInfo,
                     activityFeed: {
                         totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
-                        activityFeedItems: populatedActivityFeedItems,
+                        activityFeedItems: supportedPopulatedActivityFeedItems,
                     },
                 },
             });
@@ -350,10 +357,13 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                 isSelected: false,
             }));
             const activityFeed = await streakoid.activityFeedItems.getAll({ userIds: [userId] });
-            const populatedActivityFeedItems = await Promise.all(
-                activityFeed.activityFeedItems.map(activityFeedItem => {
+            const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
+                activityFeed.activityFeedItems.map(async activityFeedItem => {
                     return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
                 }),
+            );
+            const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
+                (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
             dispatch({
                 type: UPDATE_CURRENT_USER,
@@ -364,7 +374,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                     userStreakCompleteInfo,
                     activityFeed: {
                         totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
-                        activityFeedItems: populatedActivityFeedItems,
+                        activityFeedItems: supportedPopulatedActivityFeedItems,
                     },
                 },
             });
