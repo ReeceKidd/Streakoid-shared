@@ -7,7 +7,7 @@ import {
     GET_TEAM_MEMBER_STREAK_IS_LOADED,
     CLEAR_SELECTED_TEAM_MEMBER_STREAK,
 } from '../actions/types';
-import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 export interface TeamMemberStreakReducerState {
     selectedTeamMemberStreak: SelectedTeamMemberStreak;
@@ -65,7 +65,7 @@ export interface SelectedTeamMemberStreak extends TeamMemberStreak {
     numberOfRestarts: number;
     activityFeed: {
         totalActivityFeedCount: number;
-        activityFeedItems: UserActivityFeedItem[];
+        activityFeedItems: ClientActivityFeedItemType[];
     };
     completeSelectedTeamMemberStreakIsLoading: boolean;
     completeSelectedTeamMemberStreakErrorMessage: string;

@@ -49,7 +49,7 @@ import {
     INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED,
 } from '../actions/types';
 import { PopulatedTeamStreak, PopulatedTeamMember, TeamMemberStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
-import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 export interface PopulatedTeamStreakWithClientData extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
@@ -63,7 +63,7 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
     totalTimesTracked: number;
     activityFeed: {
         totalActivityFeedCount: number;
-        activityFeedItems: UserActivityFeedItem[];
+        activityFeedItems: ClientActivityFeedItemType[];
     };
     isCurrentUserApartOfTeamStreak: boolean;
     hasCurrentUserCompletedTaskForTheDay: boolean;

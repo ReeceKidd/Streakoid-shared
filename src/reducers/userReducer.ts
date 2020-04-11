@@ -66,7 +66,7 @@ import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 import { UserBadge } from './badgesReducer';
 import { ChallengeStreakListItem } from './challengeStreakReducer';
 import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
-import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 export interface SelectedUser extends PopulatedUser {
     soloStreaks: SoloStreak[];
@@ -85,7 +85,7 @@ export interface SelectedUser extends PopulatedUser {
     unfollowUserErrorMessage: string;
     activityFeed: {
         totalActivityFeedCount: number;
-        activityFeedItems: UserActivityFeedItem[];
+        activityFeedItems: ClientActivityFeedItemType[];
     };
 }
 
@@ -104,7 +104,7 @@ export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser
     followers: FollowerWithClientData[];
     activityFeed: {
         totalActivityFeedCount: number;
-        activityFeedItems: UserActivityFeedItem[];
+        activityFeedItems: ClientActivityFeedItemType[];
     };
 }
 

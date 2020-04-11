@@ -28,7 +28,6 @@ import {
 } from '../reducers/challengeStreakReducer';
 import { UserBadge } from '../reducers/badgesReducer';
 import { NoteWithClientData } from '../reducers/notesReducer';
-import { GetAllPopulatedActivityFeedItemsActionResponse } from './activityFeedItemActions';
 import { SelectedChallenge } from '../reducers/challengesReducer';
 import { SelectedTeamMemberStreak } from '../reducers/teamMemberStreakReducer';
 import {
@@ -37,6 +36,7 @@ import {
     ChallengeStreakLeaderboardItem,
 } from '../reducers/leaderboardReducer';
 import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -2266,7 +2266,7 @@ export const CLEAR_GLOBAL_ACTIVITY_FEED = 'CLEAR_GLOBAL_ACTIVITY_FEED';
 
 export interface GetFollowingActivityFeedItemsAction {
     type: typeof GET_FOLLOWING_ACTIVITY_FEED;
-    payload: GetAllPopulatedActivityFeedItemsActionResponse;
+    payload: { activityFeedItems: ClientActivityFeedItemType[]; totalCountOfActivityFeedItems: number };
 }
 
 export interface GetFollowingActivityFeedItemsFailAction {
@@ -2288,7 +2288,7 @@ export interface ClearFollowingActivityFeedItemsAction {
 
 export interface GetGlobalActivityFeedItemsAction {
     type: typeof GET_GLOBAL_ACTIVITY_FEED;
-    payload: GetAllPopulatedActivityFeedItemsActionResponse;
+    payload: { activityFeedItems: ClientActivityFeedItemType[]; totalCountOfActivityFeedItems: number };
 }
 
 export interface GetGlobalActivityFeedItemsFailAction {

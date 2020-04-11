@@ -47,7 +47,7 @@ import {
     INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADING,
     INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADED,
 } from '../actions/types';
-import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 export interface ChallengeStreakReducerState {
     liveChallengeStreaks: ChallengeStreakListItem[];
@@ -157,7 +157,7 @@ export interface SelectedChallengeStreak extends ChallengeStreak {
     numberOfRestarts: number;
     activityFeed: {
         totalActivityFeedCount: number;
-        activityFeedItems: UserActivityFeedItem[];
+        activityFeedItems: ClientActivityFeedItemType[];
     };
     completeSelectedChallengeStreakIsLoading: boolean;
     completeSelectedChallengeStreakErrorMessage: string;

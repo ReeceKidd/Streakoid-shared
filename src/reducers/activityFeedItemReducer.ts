@@ -11,15 +11,15 @@ import {
     GET_GLOBAL_ACTIVITY_FEED_LOADED,
     CLEAR_GLOBAL_ACTIVITY_FEED,
 } from '../actions/types';
-import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 export interface ActivityFeedItemReducerState {
-    followingActivityFeed: UserActivityFeedItem[];
+    followingActivityFeed: ClientActivityFeedItemType[];
     totalFollowingActivityFeedItems: number;
     getFollowingActivityFeedLoading: boolean;
     getFollowingActivityFeedErrorMessage: string;
     clearFollowingActivityFeedErrorMessage: string;
-    globalActivityFeed: UserActivityFeedItem[];
+    globalActivityFeed: ClientActivityFeedItemType[];
     totalGlobalActivityFeedItems: number;
     getGlobalActivityFeedLoading: boolean;
     getGlobalActivityFeedErrorMessage: string;

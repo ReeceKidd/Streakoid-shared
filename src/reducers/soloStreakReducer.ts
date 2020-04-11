@@ -55,7 +55,7 @@ import {
     INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADING,
     INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED,
 } from '../actions/types';
-import { UserActivityFeedItem } from '../actions/activityFeedItemActions';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 export interface SoloStreakReducerState {
     liveSoloStreaks: SoloStreakListItem[];
@@ -140,7 +140,7 @@ export interface SelectedSoloStreak extends SoloStreak {
     numberOfRestarts: number;
     activityFeed: {
         totalActivityFeedCount: number;
-        activityFeedItems: UserActivityFeedItem[];
+        activityFeedItems: ClientActivityFeedItemType[];
     };
     completeSelectedSoloStreakIsLoading: boolean;
     completeSelectedSoloStreakErrorMessage: string;

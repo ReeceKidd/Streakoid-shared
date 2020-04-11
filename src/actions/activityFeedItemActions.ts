@@ -3,7 +3,6 @@ import { Dispatch } from 'redux';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 
 import { AppActions } from '..';
-import ActivityFeedItemTypes from '@streakoid/streakoid-sdk/lib/ActivityFeedItemTypes';
 import {
     GET_FOLLOWING_ACTIVITY_FEED_LOADING,
     GET_FOLLOWING_ACTIVITY_FEED,
@@ -17,22 +16,11 @@ import {
     CLEAR_GLOBAL_ACTIVITY_FEED,
 } from './types';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
-
-export interface UserActivityFeedItem {
-    _id: string;
-    activityFeedItemType: ActivityFeedItemTypes;
-    userId: string;
-    userProfileImage: string;
-    username: string;
-    title: string;
-    createdAt: string;
-    description?: string;
-    subjectId?: string;
-    subjectName?: string;
-}
+import { ActivityFeedItemType } from '@streakoid/streakoid-sdk/lib';
+import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
 export interface GetAllPopulatedActivityFeedItemsActionResponse {
-    activityFeedItems: UserActivityFeedItem[];
+    activityFeedItems: ActivityFeedItemType[];
     totalCountOfActivityFeedItems: number;
 }
 
@@ -65,14 +53,17 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
             const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll(
                 query,
             );
-            const populatedActivityFeedItems: UserActivityFeedItem[] = await Promise.all(
+            const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
                 activityFeedItems.map(async activityFeedItem => {
                     return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
                 }),
             );
+            const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
+                (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
+            );
             dispatch({
                 type: GET_FOLLOWING_ACTIVITY_FEED,
-                payload: { activityFeedItems: populatedActivityFeedItems, totalCountOfActivityFeedItems },
+                payload: { activityFeedItems: supportedPopulatedActivityFeedItems, totalCountOfActivityFeedItems },
             });
             dispatch({ type: GET_FOLLOWING_ACTIVITY_FEED_LOADED });
         } catch (err) {
@@ -117,14 +108,17 @@ const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
             const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll(
                 query,
             );
-            const populatedActivityFeedItems: UserActivityFeedItem[] = await Promise.all(
+            const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
                 activityFeedItems.map(async activityFeedItem => {
                     return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
                 }),
             );
+            const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
+                (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
+            );
             dispatch({
                 type: GET_GLOBAL_ACTIVITY_FEED,
-                payload: { activityFeedItems: populatedActivityFeedItems, totalCountOfActivityFeedItems },
+                payload: { activityFeedItems: supportedPopulatedActivityFeedItems, totalCountOfActivityFeedItems },
             });
             dispatch({ type: GET_GLOBAL_ACTIVITY_FEED_LOADED });
         } catch (err) {
