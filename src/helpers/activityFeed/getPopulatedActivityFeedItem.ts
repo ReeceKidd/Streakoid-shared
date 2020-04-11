@@ -293,7 +293,7 @@ export const getPopulatedActivityFeedItem = async (
     }
 
     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.followedUser) {
-        const title = ` followed user.`;
+        const title = ` followed user `;
         const clientActivityFeedItem: FollowedUserClientActivityFeedItem = {
             ...activityFeedItem,
             title,

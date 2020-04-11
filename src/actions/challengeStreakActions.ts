@@ -230,7 +230,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 username: currentUser.username,
                 userProfileImage: currentUser.profileImages.originalImageUrl,
                 longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                averageStreak: getAverageStreak(currentStreak, pastStreaks),
+                averageStreak: getAverageStreak(currentStreak, pastStpreaks),
                 totalTimesTracked: 0,
                 daysSinceStreakCreation: getDaysSinceStreakCreation({
                     createdAt: new Date(createdAt),
