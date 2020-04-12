@@ -203,7 +203,7 @@ const initialState: UserReducerInitialState = {
                 emailNotification: false,
                 reminderTime: 21,
             },
-            friendRequest: {
+            newFollowerUpdates: {
                 pushNotification: false,
                 emailNotification: false,
             },
