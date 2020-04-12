@@ -201,7 +201,8 @@ const initialState: UserReducerInitialState = {
             completeStreaksReminder: {
                 pushNotification: false,
                 emailNotification: false,
-                reminderTime: 21,
+                reminderHour: 21,
+                reminderMinute: 0,
             },
             newFollowerUpdates: {
                 pushNotification: false,
