@@ -111,9 +111,9 @@ export const getPopulatedActivityFeedItem = async (
 
     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.lostSoloStreak) {
         const title = ` lost solo streak of ${
-            activityFeedItem.numberOfDaysLost > 1
-                ? `${activityFeedItem.numberOfDaysLost} day`
-                : `${activityFeedItem.numberOfDaysLost} days`
+            activityFeedItem.numberOfDaysLost === 1
+                ? `${activityFeedItem.numberOfDaysLost} day `
+                : `${activityFeedItem.numberOfDaysLost} days `
         }`;
         const clientActivityFeedItem: LostSoloStreakClientActivityFeedItem = {
             ...activityFeedItem,
@@ -178,9 +178,9 @@ export const getPopulatedActivityFeedItem = async (
 
     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.lostChallengeStreak) {
         const title = ` lost challenge streak of ${
-            activityFeedItem.numberOfDaysLost > 1
-                ? `${activityFeedItem.numberOfDaysLost} day`
-                : `${activityFeedItem.numberOfDaysLost} days`
+            activityFeedItem.numberOfDaysLost === 1
+                ? `${activityFeedItem.numberOfDaysLost} day `
+                : `${activityFeedItem.numberOfDaysLost} days `
         }`;
         const clientActivityFeedItem: LostChallengeStreakClientActivityFeedItem = {
             ...activityFeedItem,
@@ -272,9 +272,9 @@ export const getPopulatedActivityFeedItem = async (
 
     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.lostTeamStreak) {
         const title = ` lost team streak of ${
-            activityFeedItem.numberOfDaysLost > 1
-                ? `${activityFeedItem.numberOfDaysLost} day`
-                : `${activityFeedItem.numberOfDaysLost} days`
+            activityFeedItem.numberOfDaysLost === 1
+                ? `${activityFeedItem.numberOfDaysLost} day `
+                : `${activityFeedItem.numberOfDaysLost} days `
         }`;
         const clientActivityFeedItem: LostTeamStreakClientActivityFeedItem = {
             ...activityFeedItem,
