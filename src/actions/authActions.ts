@@ -101,6 +101,10 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
                         totalActivityFeedCount: 0,
                         activityFeedItems: [],
                     },
+                    addPushNotificationIsLoading: false,
+                    addPushNotificationErrorMessage: '',
+                    removePushNotificationIsLoading: false,
+                    removePushNotificationErrorMessage: '',
                 },
             });
             dispatch({ type: NAVIGATE_TO_HOME });
@@ -173,6 +177,10 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
                         totalActivityFeedCount: 0,
                         activityFeedItems: [],
                     },
+                    addPushNotificationIsLoading: false,
+                    addPushNotificationErrorMessage: '',
+                    removePushNotificationIsLoading: false,
+                    removePushNotificationErrorMessage: '',
                 },
             });
             dispatch({ type: PASSWORD_STORE, password });
@@ -242,6 +250,10 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
                             totalActivityFeedCount: 0,
                             activityFeedItems: [],
                         },
+                        addPushNotificationIsLoading: false,
+                        addPushNotificationErrorMessage: '',
+                        removePushNotificationIsLoading: false,
+                        removePushNotificationErrorMessage: '',
                     },
                 });
                 dispatch({ type: NAVIGATE_TO_WELCOME });
