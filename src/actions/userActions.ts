@@ -595,7 +595,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             const currentUser = getState().users.currentUser;
             const newPushNotifications = [
                 ...currentUser.pushNotifications.filter(
-                    pushNotification => pushNotification._id !== pushNotificationId,
+                    pushNotification => pushNotification.expoId !== pushNotificationId,
                 ),
             ];
 

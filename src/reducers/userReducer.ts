@@ -850,7 +850,7 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                     ...state.currentUser,
                     pushNotifications: [
                         ...state.currentUser.pushNotifications.filter(
-                            pushNotification => pushNotification._id !== action.payload,
+                            pushNotification => pushNotification.expoId !== action.payload,
                         ),
                     ],
                 },
