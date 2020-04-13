@@ -6,6 +6,7 @@ import {
     Challenge,
     Note,
     DatabaseStats,
+    PushNotificationType,
 } from '@streakoid/streakoid-sdk/lib';
 import {
     PopulatedTeamStreakWithClientData,
@@ -1303,6 +1304,16 @@ export const SELECT_FOLLOWER = 'SELECT_FOLLOWER';
 export const UNSELECT_FOLLOWER = 'UNSELECT_FOLLOWER';
 export const CLEAR_SELECTED_FOLLOWERS = 'CLEAR_SELECTED_FOLLOWERS';
 
+export const ADD_PUSH_NOTIFICATION = 'ADD_PUSH_NOTIFICATION';
+export const ADD_PUSH_NOTIFICATION_FAIL = 'ADD_PUSH_NOTIFICATION_FAIL';
+export const ADD_PUSH_NOTIFICATION_IS_LOADING = 'ADD_PUSH_NOTIFICATION_IS_LOADING';
+export const ADD_PUSH_NOTIFICATION_IS_LOADED = 'ADD_PUSH_NOTIFICATION_IS_LOADED';
+
+export const REMOVE_PUSH_NOTIFICATION = 'REMOVE_PUSH_NOTIFICATION';
+export const REMOVE_PUSH_NOTIFICATION_FAIL = 'REMOVE_PUSH_NOTIFICATION_FAIL';
+export const REMOVE_PUSH_NOTIFICATION_IS_LOADING = 'REMOVE_PUSH_NOTIFICATION_IS_LOADING';
+export const REMOVE_PUSH_NOTIFICATION_IS_LOADED = 'REMOVE_PUSH_NOTIFICATION_IS_LOADED';
+
 export interface GetUsersAction {
     type: typeof GET_USERS;
     payload: FormattedUserWithClientData[];
@@ -1557,6 +1568,42 @@ export interface ClearSelectedFollowersAction {
     type: typeof CLEAR_SELECTED_FOLLOWERS;
 }
 
+export interface AddPushNotificationAction {
+    type: typeof ADD_PUSH_NOTIFICATION;
+    payload: PushNotificationType;
+}
+
+export interface AddPushNotificationFailAction {
+    type: typeof ADD_PUSH_NOTIFICATION_FAIL;
+    payload: string;
+}
+
+export interface AddPushNotificationIsLoadingAction {
+    type: typeof ADD_PUSH_NOTIFICATION_IS_LOADING;
+}
+
+export interface AddPushNotificationIsLoadedAction {
+    type: typeof ADD_PUSH_NOTIFICATION_IS_LOADED;
+}
+
+export interface RemovePushNotificationAction {
+    type: typeof REMOVE_PUSH_NOTIFICATION;
+    payload: string;
+}
+
+export interface RemovePushNotificationFailAction {
+    type: typeof REMOVE_PUSH_NOTIFICATION_FAIL;
+    payload: string;
+}
+
+export interface RemovePushNotificationIsLoadingAction {
+    type: typeof REMOVE_PUSH_NOTIFICATION_IS_LOADING;
+}
+
+export interface RemovePushNotificationIsLoadedAction {
+    type: typeof REMOVE_PUSH_NOTIFICATION_IS_LOADED;
+}
+
 export type UserActionTypes =
     | GetUsersAction
     | GetUsersFailAction
@@ -1613,7 +1660,15 @@ export type UserActionTypes =
     | UnfollowerUsersListUserIsLoadedAction
     | SelectFollowerAction
     | UnselectFollowerAction
-    | ClearSelectedFollowersAction;
+    | ClearSelectedFollowersAction
+    | AddPushNotificationAction
+    | AddPushNotificationFailAction
+    | AddPushNotificationIsLoadingAction
+    | AddPushNotificationIsLoadedAction
+    | RemovePushNotificationAction
+    | RemovePushNotificationFailAction
+    | RemovePushNotificationIsLoadingAction
+    | RemovePushNotificationIsLoadedAction;
 
 export const GET_BADGES = 'GET_BADGES';
 export const GET_BADGES_FAIL = 'GET_BADGES_FAIL';

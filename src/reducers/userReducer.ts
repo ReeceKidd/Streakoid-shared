@@ -54,6 +54,14 @@ import {
     UNFOLLOW_SELECTED_USER_IS_LOADED,
     FOLLOW_USERS_LIST_USER,
     UNFOLLOW_USERS_LIST_USER,
+    ADD_PUSH_NOTIFICATION,
+    ADD_PUSH_NOTIFICATION_FAIL,
+    ADD_PUSH_NOTIFICATION_IS_LOADING,
+    ADD_PUSH_NOTIFICATION_IS_LOADED,
+    REMOVE_PUSH_NOTIFICATION,
+    REMOVE_PUSH_NOTIFICATION_FAIL,
+    REMOVE_PUSH_NOTIFICATION_IS_LOADING,
+    REMOVE_PUSH_NOTIFICATION_IS_LOADED,
 } from '../actions/types';
 import {
     SoloStreak,
@@ -106,6 +114,10 @@ export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser
         totalActivityFeedCount: number;
         activityFeedItems: ClientActivityFeedItemType[];
     };
+    addPushNotificationIsLoading: boolean;
+    addPushNotificationErrorMessage: string;
+    removePushNotificationIsLoading: boolean;
+    removePushNotificationErrorMessage: string;
 }
 
 export interface FormattedUserWithClientData extends FormattedUser {
@@ -227,6 +239,10 @@ const initialState: UserReducerInitialState = {
             totalActivityFeedCount: 0,
             activityFeedItems: [],
         },
+        addPushNotificationIsLoading: false,
+        addPushNotificationErrorMessage: '',
+        removePushNotificationIsLoading: false,
+        removePushNotificationErrorMessage: '',
     },
     selectedUser: defaultSelectedUser,
     getUsersIsLoading: false,
@@ -788,6 +804,82 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 selectedUser: {
                     ...state.selectedUser,
                     unfollowUserIsLoading: false,
+                },
+            };
+
+        case ADD_PUSH_NOTIFICATION:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    pushNotifications: [...state.currentUser.pushNotifications, action.payload],
+                },
+            };
+
+        case ADD_PUSH_NOTIFICATION_FAIL:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    addPushNotificationErrorMessage: action.payload,
+                },
+            };
+
+        case ADD_PUSH_NOTIFICATION_IS_LOADING:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    addPushNotificationIsLoading: true,
+                },
+            };
+
+        case ADD_PUSH_NOTIFICATION_IS_LOADED:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    addPushNotificationIsLoading: false,
+                },
+            };
+
+        case REMOVE_PUSH_NOTIFICATION:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    pushNotifications: [
+                        ...state.currentUser.pushNotifications.filter(
+                            pushNotification => pushNotification._id !== action.payload,
+                        ),
+                    ],
+                },
+            };
+
+        case REMOVE_PUSH_NOTIFICATION_FAIL:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    removePushNotificationErrorMessage: action.payload,
+                },
+            };
+
+        case REMOVE_PUSH_NOTIFICATION_IS_LOADING:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    removePushNotificationIsLoading: true,
+                },
+            };
+
+        case REMOVE_PUSH_NOTIFICATION_IS_LOADED:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    removePushNotificationIsLoading: false,
                 },
             };
 

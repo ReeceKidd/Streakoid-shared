@@ -38,6 +38,14 @@ import {
     UNFOLLOW_USERS_LIST_USER_FAIL,
     UNFOLLOW_USERS_LIST_USER_IS_LOADED,
     UNFOLLOW_USERS_LIST_USER,
+    ADD_PUSH_NOTIFICATION_IS_LOADING,
+    ADD_PUSH_NOTIFICATION,
+    ADD_PUSH_NOTIFICATION_IS_LOADED,
+    ADD_PUSH_NOTIFICATION_FAIL,
+    REMOVE_PUSH_NOTIFICATION_IS_LOADING,
+    REMOVE_PUSH_NOTIFICATION_IS_LOADED,
+    REMOVE_PUSH_NOTIFICATION,
+    REMOVE_PUSH_NOTIFICATION_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -322,6 +330,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                         totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
                         activityFeedItems: supportedPopulatedActivityFeedItems,
                     },
+                    addPushNotificationIsLoading: false,
+                    addPushNotificationErrorMessage: '',
+                    removePushNotificationIsLoading: false,
+                    removePushNotificationErrorMessage: '',
                 },
             });
             dispatch({ type: GET_CURRENT_USER_IS_LOADED });
@@ -377,6 +389,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                         totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
                         activityFeedItems: supportedPopulatedActivityFeedItems,
                     },
+                    addPushNotificationIsLoading: false,
+                    addPushNotificationErrorMessage: '',
+                    removePushNotificationIsLoading: false,
+                    removePushNotificationErrorMessage: '',
                 },
             });
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADED });
@@ -541,6 +557,68 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const addPushNotification = (pushNotification: PushNotificationType) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: ADD_PUSH_NOTIFICATION_IS_LOADING });
+            const currentUser = getState().users.currentUser;
+            const newPushNotifications = [...currentUser.pushNotifications, pushNotification];
+
+            await streakoid.user.updateCurrentUser({ updateData: { pushNotifications: newPushNotifications } });
+
+            dispatch({ type: ADD_PUSH_NOTIFICATION, payload: pushNotification });
+            dispatch({ type: ADD_PUSH_NOTIFICATION_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: ADD_PUSH_NOTIFICATION_IS_LOADED });
+            if (err.response) {
+                dispatch({
+                    type: ADD_PUSH_NOTIFICATION_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: ADD_PUSH_NOTIFICATION_FAIL,
+                    payload: err.message,
+                });
+            }
+        }
+    };
+
+    const removePushNotification = (pushNotificationId: string) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: REMOVE_PUSH_NOTIFICATION_IS_LOADING });
+            const currentUser = getState().users.currentUser;
+            const newPushNotifications = [
+                ...currentUser.pushNotifications.filter(
+                    pushNotification => pushNotification._id !== pushNotificationId,
+                ),
+            ];
+
+            await streakoid.user.updateCurrentUser({ updateData: { pushNotifications: newPushNotifications } });
+
+            dispatch({ type: REMOVE_PUSH_NOTIFICATION, payload: pushNotificationId });
+            dispatch({ type: REMOVE_PUSH_NOTIFICATION_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: REMOVE_PUSH_NOTIFICATION_IS_LOADED });
+            if (err.response) {
+                dispatch({
+                    type: REMOVE_PUSH_NOTIFICATION_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: REMOVE_PUSH_NOTIFICATION_FAIL,
+                    payload: err.message,
+                });
+            }
+        }
+    };
+
     return {
         getUsers,
         getUser,
@@ -555,6 +633,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         clearSelectedFollowers,
         followSelectedUser,
         unfollowSelectedUser,
+        addPushNotification,
+        removePushNotification,
     };
 };
 
