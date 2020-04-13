@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { StreakStatus, BadgeTypes } from '@streakoid/streakoid-sdk/lib';
+import { StreakStatus, BadgeTypes, PushNotificationType } from '@streakoid/streakoid-sdk/lib';
 
 import {
     GET_USERS,
@@ -340,6 +340,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         notifications?: Notifications;
         timezone?: string;
         pushNotificationToken?: string;
+        pushNotifications?: PushNotificationType[];
         hasCompletedIntroduction?: boolean;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
