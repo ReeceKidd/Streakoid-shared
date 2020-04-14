@@ -65,7 +65,6 @@ import {
     PopulatedCurrentUser,
     PopulatedUser,
     FormattedUser,
-    PushNotificationTypes,
 } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 import { UserBadge } from './badgesReducer';
@@ -207,13 +206,6 @@ const initialState: UserReducerInitialState = {
         userStreakCompleteInfo: [],
         pushNotificationToken: '',
         pushNotifications: {
-            completeAllStreaksReminder: {
-                enabled: false,
-                expoId: '',
-                reminderHour: 21,
-                reminderMinute: 0,
-                type: PushNotificationTypes.completeAllStreaksReminder,
-            },
             teamStreakUpdates: {
                 enabled: false,
             },
