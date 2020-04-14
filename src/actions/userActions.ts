@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { StreakStatus, BadgeTypes, PushNotificationType } from '@streakoid/streakoid-sdk/lib';
+import { StreakStatus, BadgeTypes, UserPushNotifications } from '@streakoid/streakoid-sdk/lib';
 
 import {
     GET_USERS,
@@ -38,14 +38,10 @@ import {
     UNFOLLOW_USERS_LIST_USER_FAIL,
     UNFOLLOW_USERS_LIST_USER_IS_LOADED,
     UNFOLLOW_USERS_LIST_USER,
-    ADD_PUSH_NOTIFICATION_IS_LOADING,
-    ADD_PUSH_NOTIFICATION,
-    ADD_PUSH_NOTIFICATION_IS_LOADED,
-    ADD_PUSH_NOTIFICATION_FAIL,
-    REMOVE_PUSH_NOTIFICATION_IS_LOADING,
-    REMOVE_PUSH_NOTIFICATION_IS_LOADED,
-    REMOVE_PUSH_NOTIFICATION,
-    REMOVE_PUSH_NOTIFICATION_FAIL,
+    UPDATE_PUSH_NOTIFICATIONS_IS_LOADING,
+    UPDATE_PUSH_NOTIFICATIONS,
+    UPDATE_PUSH_NOTIFICATIONS_IS_LOADED,
+    UPDATE_PUSH_NOTIFICATIONS_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -330,10 +326,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                         totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
                         activityFeedItems: supportedPopulatedActivityFeedItems,
                     },
-                    addPushNotificationIsLoading: false,
-                    addPushNotificationErrorMessage: '',
-                    removePushNotificationIsLoading: false,
-                    removePushNotificationErrorMessage: '',
+                    updatePushNotificationsIsLoading: false,
+                    updatePushNotificationsErrorMessage: '',
                 },
             });
             dispatch({ type: GET_CURRENT_USER_IS_LOADED });
@@ -352,7 +346,6 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         notifications?: Notifications;
         timezone?: string;
         pushNotificationToken?: string;
-        pushNotifications?: PushNotificationType[];
         hasCompletedIntroduction?: boolean;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
@@ -389,10 +382,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                         totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
                         activityFeedItems: supportedPopulatedActivityFeedItems,
                     },
-                    addPushNotificationIsLoading: false,
-                    addPushNotificationErrorMessage: '',
-                    removePushNotificationIsLoading: false,
-                    removePushNotificationErrorMessage: '',
+                    updatePushNotificationsErrorMessage: '',
+                    updatePushNotificationsIsLoading: false,
                 },
             });
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADED });
@@ -557,62 +548,28 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const addPushNotification = (pushNotification: PushNotificationType) => async (
+    const updateCurrentUserPushNotifications = (pushNotifications: UserPushNotifications) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: ADD_PUSH_NOTIFICATION_IS_LOADING });
-            const currentUser = getState().users.currentUser;
-            const newPushNotifications = [...currentUser.pushNotifications, pushNotification];
+            dispatch({ type: UPDATE_PUSH_NOTIFICATIONS_IS_LOADING });
 
-            await streakoid.user.updateCurrentUser({ updateData: { pushNotifications: newPushNotifications } });
+            await streakoid.user.pushNotifications.updatePushNotifications({
+                updateData: pushNotifications,
+            });
 
-            dispatch({ type: ADD_PUSH_NOTIFICATION, payload: pushNotification });
-            dispatch({ type: ADD_PUSH_NOTIFICATION_IS_LOADED });
+            dispatch({ type: UPDATE_PUSH_NOTIFICATIONS, payload: pushNotifications });
+            dispatch({ type: UPDATE_PUSH_NOTIFICATIONS_IS_LOADED });
         } catch (err) {
-            dispatch({ type: ADD_PUSH_NOTIFICATION_IS_LOADED });
+            dispatch({ type: UPDATE_PUSH_NOTIFICATIONS_IS_LOADED });
             if (err.response) {
                 dispatch({
-                    type: ADD_PUSH_NOTIFICATION_FAIL,
+                    type: UPDATE_PUSH_NOTIFICATIONS_FAIL,
                     payload: err.response.data.message,
                 });
             } else {
                 dispatch({
-                    type: ADD_PUSH_NOTIFICATION_FAIL,
-                    payload: err.message,
-                });
-            }
-        }
-    };
-
-    const removePushNotification = (pushNotificationId: string) => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
-        try {
-            dispatch({ type: REMOVE_PUSH_NOTIFICATION_IS_LOADING });
-            const currentUser = getState().users.currentUser;
-            const newPushNotifications = [
-                ...currentUser.pushNotifications.filter(
-                    pushNotification => pushNotification.expoId !== pushNotificationId,
-                ),
-            ];
-
-            await streakoid.user.updateCurrentUser({ updateData: { pushNotifications: newPushNotifications } });
-
-            dispatch({ type: REMOVE_PUSH_NOTIFICATION, payload: pushNotificationId });
-            dispatch({ type: REMOVE_PUSH_NOTIFICATION_IS_LOADED });
-        } catch (err) {
-            dispatch({ type: REMOVE_PUSH_NOTIFICATION_IS_LOADED });
-            if (err.response) {
-                dispatch({
-                    type: REMOVE_PUSH_NOTIFICATION_FAIL,
-                    payload: err.response.data.message,
-                });
-            } else {
-                dispatch({
-                    type: REMOVE_PUSH_NOTIFICATION_FAIL,
+                    type: UPDATE_PUSH_NOTIFICATIONS_FAIL,
                     payload: err.message,
                 });
             }
@@ -633,8 +590,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         clearSelectedFollowers,
         followSelectedUser,
         unfollowSelectedUser,
-        addPushNotification,
-        removePushNotification,
+        updateCurrentUserPushNotifications,
     };
 };
 
