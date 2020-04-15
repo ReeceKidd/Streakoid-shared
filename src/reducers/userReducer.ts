@@ -65,7 +65,6 @@ import {
     PopulatedCurrentUser,
     PopulatedUser,
     FormattedUser,
-    PushNotificationTypes,
 } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
 import { UserBadge } from './badgesReducer';
