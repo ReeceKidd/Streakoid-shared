@@ -69,6 +69,7 @@ import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
+import { PushNotificationTypes } from '@streakoid/streakoid-sdk/lib';
 
 const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveSoloStreaks = () => async (
@@ -131,7 +132,10 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getSoloStreak = (soloStreakId: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getSoloStreak = (soloStreakId: string) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
         try {
             dispatch({ type: GET_SOLO_STREAK_IS_LOADING });
             const soloStreak = await streakoid.soloStreaks.getOne(soloStreakId);
@@ -150,6 +154,15 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                 (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
             const numberOfRestarts = soloStreak.pastStreaks.length;
+            const currentUser = getState().users.currentUser;
+            const customReminderPushNotification =
+                soloStreakOwner._id === currentUser._id
+                    ? currentUser.pushNotifications.customStreakReminders.find(
+                          pushNotification =>
+                              pushNotification.type === PushNotificationTypes.customSoloStreakReminder &&
+                              pushNotification.soloStreakId === soloStreak._id,
+                      )
+                    : undefined;
             dispatch({
                 type: GET_SOLO_STREAK,
                 payload: {
@@ -173,6 +186,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                     completeSelectedSoloStreakErrorMessage: '',
                     incompleteSelectedSoloStreakIsLoading: false,
                     incompleteSelectedSoloStreakErrorMessage: '',
+                    customReminderPushNotification,
                 },
             });
             dispatch({ type: GET_SOLO_STREAK_IS_LOADED });

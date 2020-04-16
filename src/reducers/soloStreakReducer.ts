@@ -146,6 +146,11 @@ export interface SelectedSoloStreak extends SoloStreak {
     completeSelectedSoloStreakErrorMessage: string;
     incompleteSelectedSoloStreakIsLoading: boolean;
     incompleteSelectedSoloStreakErrorMessage: string;
+    customReminderPushNotification?: {
+        reminderHour: number;
+        reminderMinute: number;
+        enabled: boolean;
+    };
 }
 
 export interface SoloStreakListItem extends SoloStreak {
