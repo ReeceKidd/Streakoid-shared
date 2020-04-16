@@ -552,13 +552,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const updateCurrentUserPushNotifications = ({
-        teamStreakUpdates,
-        badgeUpdates,
-        newFollowerUpdates,
-        customStreakReminders,
-        completeAllStreaksReminder,
-    }: {
+    const updateCurrentUserPushNotifications = (updateData: {
         teamStreakUpdates?: { enabled: boolean };
         badgeUpdates?: { enabled: boolean };
         newFollowerUpdates?: { enabled: boolean };
@@ -569,21 +563,13 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: UPDATE_PUSH_NOTIFICATIONS_IS_LOADING });
 
             await streakoid.user.pushNotifications.updatePushNotifications({
-                teamStreakUpdates,
-                badgeUpdates,
-                newFollowerUpdates,
-                customStreakReminders,
-                completeAllStreaksReminder,
+                ...updateData,
             });
 
             dispatch({
                 type: UPDATE_PUSH_NOTIFICATIONS,
                 payload: {
-                    teamStreakUpdates,
-                    badgeUpdates,
-                    newFollowerUpdates,
-                    customStreakReminders,
-                    completeAllStreaksReminder,
+                    ...updateData,
                 },
             });
             dispatch({ type: UPDATE_PUSH_NOTIFICATIONS_IS_LOADED });
