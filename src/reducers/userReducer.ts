@@ -215,6 +215,7 @@ const initialState: UserReducerInitialState = {
             newFollowerUpdates: {
                 enabled: false,
             },
+            customStreakReminders: [],
         },
         hasCompletedIntroduction: true,
         createdAt: '',
@@ -794,7 +795,10 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 ...state,
                 currentUser: {
                     ...state.currentUser,
-                    pushNotifications: action.payload,
+                    pushNotifications: {
+                        ...state.currentUser.pushNotifications,
+                        ...action.payload,
+                    },
                 },
             };
 

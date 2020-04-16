@@ -6,7 +6,6 @@ import {
     Challenge,
     Note,
     DatabaseStats,
-    UserPushNotifications,
 } from '@streakoid/streakoid-sdk/lib';
 import {
     PopulatedTeamStreakWithClientData,
@@ -38,6 +37,10 @@ import {
 } from '../reducers/leaderboardReducer';
 import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
+import {
+    CustomStreakReminder,
+    CompleteAllStreaksReminder,
+} from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -1565,7 +1568,13 @@ export interface ClearSelectedFollowersAction {
 
 export interface UpdatePushNotificationsAction {
     type: typeof UPDATE_PUSH_NOTIFICATIONS;
-    payload: UserPushNotifications;
+    payload: {
+        teamStreakUpdates?: { enabled: boolean };
+        badgeUpdates?: { enabled: boolean };
+        newFollowerUpdates?: { enabled: boolean };
+        customStreakReminders?: CustomStreakReminder[];
+        completeAllStreaksReminder?: CompleteAllStreaksReminder;
+    };
 }
 
 export interface UpdatePushNotificationsFailAction {

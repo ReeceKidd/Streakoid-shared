@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { StreakStatus, BadgeTypes, UserPushNotifications } from '@streakoid/streakoid-sdk/lib';
+import { StreakStatus, BadgeTypes } from '@streakoid/streakoid-sdk/lib';
 
 import {
     GET_USERS,
@@ -53,6 +53,10 @@ import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
 import { FollowingWithClientData } from '../reducers/userReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
+import {
+    CompleteAllStreaksReminder,
+    CustomStreakReminder,
+} from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
@@ -548,17 +552,40 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const updateCurrentUserPushNotifications = (pushNotifications: UserPushNotifications) => async (
-        dispatch: Dispatch<AppActions>,
-    ): Promise<void> => {
+    const updateCurrentUserPushNotifications = ({
+        teamStreakUpdates,
+        badgeUpdates,
+        newFollowerUpdates,
+        customStreakReminders,
+        completeAllStreaksReminder,
+    }: {
+        teamStreakUpdates?: { enabled: boolean };
+        badgeUpdates?: { enabled: boolean };
+        newFollowerUpdates?: { enabled: boolean };
+        customStreakReminders?: CustomStreakReminder[];
+        completeAllStreaksReminder?: CompleteAllStreaksReminder;
+    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: UPDATE_PUSH_NOTIFICATIONS_IS_LOADING });
 
             await streakoid.user.pushNotifications.updatePushNotifications({
-                updateData: pushNotifications,
+                teamStreakUpdates,
+                badgeUpdates,
+                newFollowerUpdates,
+                customStreakReminders,
+                completeAllStreaksReminder,
             });
 
-            dispatch({ type: UPDATE_PUSH_NOTIFICATIONS, payload: pushNotifications });
+            dispatch({
+                type: UPDATE_PUSH_NOTIFICATIONS,
+                payload: {
+                    teamStreakUpdates,
+                    badgeUpdates,
+                    newFollowerUpdates,
+                    customStreakReminders,
+                    completeAllStreaksReminder,
+                },
+            });
             dispatch({ type: UPDATE_PUSH_NOTIFICATIONS_IS_LOADED });
         } catch (err) {
             dispatch({ type: UPDATE_PUSH_NOTIFICATIONS_IS_LOADED });
