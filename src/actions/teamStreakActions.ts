@@ -48,7 +48,7 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
-import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
+import { StreakStatus, PushNotificationTypes } from '@streakoid/streakoid-sdk/lib';
 import { sortTeamStreaks } from '../helpers/sorters/sortStreaks';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
@@ -229,6 +229,15 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const currentUserMemberInfo = members.find(member => member._id == getState().users.currentUser._id);
             const hasCurrentUserCompletedTaskForTheDay =
                 (currentUserMemberInfo && currentUserMemberInfo.teamMemberStreak.completedToday) || false;
+            const currentUser = getState().users.currentUser;
+            const customReminderPushNotification =
+                currentUserMemberInfo && currentUser
+                    ? currentUser.pushNotifications.customStreakReminders.find(
+                          pushNotification =>
+                              pushNotification.type === PushNotificationTypes.customTeamMemberStreakReminder &&
+                              pushNotification.teamStreakId === teamStreak._id,
+                      )
+                    : undefined;
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members,
@@ -242,6 +251,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 },
                 isCurrentUserApartOfTeamStreak: Boolean(currentUserMemberInfo),
                 hasCurrentUserCompletedTaskForTheDay,
+                customReminderPushNotification,
             };
             dispatch({ type: GET_SELECTED_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: GET_SELECTED_TEAM_STREAK_IS_LOADED });

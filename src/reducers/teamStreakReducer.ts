@@ -67,6 +67,11 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
     };
     isCurrentUserApartOfTeamStreak: boolean;
     hasCurrentUserCompletedTaskForTheDay: boolean;
+    customReminderPushNotification?: {
+        reminderHour: number;
+        reminderMinute: number;
+        enabled: boolean;
+    };
 }
 
 export interface PopulatedTeamMemberWithClientData extends PopulatedTeamMember {
