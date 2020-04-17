@@ -159,7 +159,8 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                 soloStreakOwner._id === currentUser._id
                     ? currentUser.pushNotifications.customStreakReminders.find(
                           pushNotification =>
-                              pushNotification.type === PushNotificationTypes.customSoloStreakReminder &&
+                              pushNotification.pushNotificationType ===
+                                  PushNotificationTypes.customSoloStreakReminder &&
                               pushNotification.soloStreakId === soloStreak._id,
                       )
                     : undefined;

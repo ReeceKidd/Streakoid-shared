@@ -168,7 +168,8 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 challengeStreakOwner._id === currentUser._id
                     ? currentUser.pushNotifications.customStreakReminders.find(
                           pushNotification =>
-                              pushNotification.type === PushNotificationTypes.customChallengeStreakReminder &&
+                              pushNotification.pushNotificationType ===
+                                  PushNotificationTypes.customChallengeStreakReminder &&
                               pushNotification.challengeStreakId === challengeStreak._id,
                       )
                     : undefined;

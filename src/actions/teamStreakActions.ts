@@ -234,7 +234,8 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 currentUserMemberInfo && currentUser
                     ? currentUser.pushNotifications.customStreakReminders.find(
                           pushNotification =>
-                              pushNotification.type === PushNotificationTypes.customTeamMemberStreakReminder &&
+                              pushNotification.pushNotificationType ===
+                                  PushNotificationTypes.customTeamMemberStreakReminder &&
                               pushNotification.teamStreakId === teamStreak._id,
                       )
                     : undefined;
