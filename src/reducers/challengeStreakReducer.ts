@@ -163,6 +163,11 @@ export interface SelectedChallengeStreak extends ChallengeStreak {
     completeSelectedChallengeStreakErrorMessage: string;
     incompleteSelectedChallengeStreakIsLoading: boolean;
     incompleteSelectedChallengeStreakErrorMessage: string;
+    customReminderPushNotification?: {
+        reminderHour: number;
+        reminderMinute: number;
+        enabled: boolean;
+    };
 }
 
 const challengeStreakReducer = (

@@ -57,6 +57,7 @@ import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
+import { PushNotificationTypes } from '@streakoid/streakoid-sdk/lib';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveChallengeStreaks = () => async (
@@ -139,6 +140,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
 
     const getChallengeStreak = ({ challengeStreakId }: { challengeStreakId: string }) => async (
         dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_CHALLENGE_STREAK_LOADING });
@@ -161,6 +163,15 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
             const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
                 (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
+            const currentUser = getState().users.currentUser;
+            const customReminderPushNotification =
+                challengeStreakOwner._id === currentUser._id
+                    ? currentUser.pushNotifications.customStreakReminders.find(
+                          pushNotification =>
+                              pushNotification.type === PushNotificationTypes.customChallengeStreakReminder &&
+                              pushNotification.challengeStreakId === challengeStreak._id,
+                      )
+                    : undefined;
             const challengeStreakWithLoadingStates = {
                 ...challengeStreak,
                 challengeName: challenge.name,
@@ -190,6 +201,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 completeSelectedChallengeStreakErrorMessage: '',
                 incompleteSelectedChallengeStreakIsLoading: false,
                 incompleteSelectedChallengeStreakErrorMessage: '',
+                customReminderPushNotification,
             };
             dispatch({ type: GET_CHALLENGE_STREAK, payload: challengeStreakWithLoadingStates });
             dispatch({ type: GET_CHALLENGE_STREAK_LOADED });
