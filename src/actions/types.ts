@@ -42,7 +42,7 @@ import {
     CompleteAllStreaksReminder,
     CustomSoloStreakReminder,
     CustomChallengeStreakReminder,
-    CustomTeamMemberStreakReminder,
+    CustomTeamStreakReminder,
 } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
@@ -1181,7 +1181,7 @@ export interface ClearSelectedTeamStreakAction {
 
 export interface UpdateTeamStreakReminderInfoAction {
     type: typeof UPDATE_TEAM_STREAK_REMINDER_INFO;
-    payload: { customTeamMemberStreakReminder: CustomTeamMemberStreakReminder };
+    payload: { customTeamStreakReminder: CustomTeamStreakReminder };
 }
 
 export interface UpdateTeamStreakReminderInfoFailAction {
