@@ -45,6 +45,10 @@ import {
     GET_SELECTED_TEAM_STREAK_IS_LOADING,
     GET_SELECTED_TEAM_STREAK_IS_LOADED,
     GET_SELECTED_TEAM_STREAK_FAIL,
+    UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING,
+    UPDATE_TEAM_STREAK_REMINDER_INFO,
+    UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
+    UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -52,9 +56,10 @@ import { StreakStatus, PushNotificationTypes } from '@streakoid/streakoid-sdk/li
 import { sortTeamStreaks } from '../helpers/sorters/sortStreaks';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
-import { PopulatedTeamMemberWithClientData } from '../reducers/teamStreakReducer';
+import { PopulatedTeamMemberWithClientData, SelectedTeamStreak } from '../reducers/teamStreakReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
+import { CustomTeamMemberStreakReminder } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveTeamStreaks = () => async (
@@ -230,16 +235,20 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const hasCurrentUserCompletedTaskForTheDay =
                 (currentUserMemberInfo && currentUserMemberInfo.teamMemberStreak.completedToday) || false;
             const currentUser = getState().users.currentUser;
-            const customReminderPushNotification =
-                currentUserMemberInfo && currentUser
-                    ? currentUser.pushNotifications.customStreakReminders.find(
-                          pushNotification =>
-                              pushNotification.pushNotificationType ===
-                                  PushNotificationTypes.customTeamMemberStreakReminder &&
-                              pushNotification.teamStreakId === teamStreak._id,
-                      )
+            const customStreakReminder = currentUserMemberInfo
+                ? currentUser.pushNotifications.customStreakReminders.find(
+                      pushNotification =>
+                          pushNotification.pushNotificationType ===
+                              PushNotificationTypes.customTeamMemberStreakReminder &&
+                          pushNotification.teamMemberStreakId === currentUserMemberInfo.teamMemberStreak._id,
+                  )
+                : undefined;
+            const customTeamMemberStreakReminder =
+                customStreakReminder &&
+                customStreakReminder.pushNotificationType === PushNotificationTypes.customTeamMemberStreakReminder
+                    ? customStreakReminder
                     : undefined;
-            const teamStreakWithLoadingState = {
+            const teamStreakWithLoadingState: SelectedTeamStreak = {
                 ...teamStreak,
                 members,
                 completedTeamMemberStreakTaskDatesWithCounts,
@@ -252,7 +261,9 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 },
                 isCurrentUserApartOfTeamStreak: Boolean(currentUserMemberInfo),
                 hasCurrentUserCompletedTaskForTheDay,
-                customReminderPushNotification,
+                updateCustomTeamMemberStreakReminderErrorMessage: '',
+                updateCustomTeamMemberStreakReminderIsLoading: false,
+                customTeamMemberStreakReminder,
             };
             dispatch({ type: GET_SELECTED_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: GET_SELECTED_TEAM_STREAK_IS_LOADED });
@@ -579,7 +590,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             );
             const hasCurrentUserCompletedTaskForTheDay =
                 (currentUserMemberInfo && currentUserMemberInfo.teamMemberStreak.completedToday) || false;
-            const teamStreakWithLoadingState = {
+            const teamStreakWithLoadingState: SelectedTeamStreak = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
                 completedTeamMemberStreakTaskDatesWithCounts,
@@ -592,6 +603,8 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 },
                 isCurrentUserApartOfTeamStreak: Boolean(currentUserMemberInfo),
                 hasCurrentUserCompletedTaskForTheDay,
+                updateCustomTeamMemberStreakReminderIsLoading: false,
+                updateCustomTeamMemberStreakReminderErrorMessage: '',
             };
             dispatch({ type: UPDATE_TEAM_STREAK_TIMEZONE, payload: teamStreakWithLoadingState });
         } catch (err) {
@@ -644,6 +657,36 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const updateCustomTeamMemberStreakReminder = ({
+        customTeamMemberStreakReminder,
+    }: {
+        customTeamMemberStreakReminder: CustomTeamMemberStreakReminder;
+    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+        try {
+            dispatch({ type: UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING });
+
+            dispatch({
+                type: UPDATE_TEAM_STREAK_REMINDER_INFO,
+                payload: { customTeamMemberStreakReminder },
+            });
+
+            dispatch({ type: UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED });
+        } catch (err) {
+            dispatch({ type: UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED });
+            if (err.response) {
+                dispatch({
+                    type: UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
+                    payload: err.message,
+                });
+            }
+        }
+    };
+
     return {
         getLiveTeamStreaks,
         getArchivedTeamStreaks,
@@ -660,5 +703,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         updateTeamStreakTimezone,
         clearSelectedTeamStreak,
         addFollowerToTeamStreak,
+        updateCustomTeamMemberStreakReminder,
     };
 };

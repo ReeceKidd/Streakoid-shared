@@ -42,6 +42,7 @@ import {
     CompleteAllStreaksReminder,
     CustomSoloStreakReminder,
     CustomChallengeStreakReminder,
+    CustomTeamMemberStreakReminder,
 } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
@@ -909,6 +910,11 @@ export const INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED =
 
 export const CLEAR_SELECTED_TEAM_STREAK = 'CLEAR_SELECTED_TEAM_STREAK';
 
+export const UPDATE_TEAM_STREAK_REMINDER_INFO = 'UPDATE_TEAM_STREAK_REMINDER_INFO';
+export const UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL = 'UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL';
+export const UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING = 'UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING';
+export const UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED = 'UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED';
+
 export interface GetLiveTeamStreaksAction {
     type: typeof GET_LIVE_TEAM_STREAKS;
     payload: PopulatedTeamStreakWithClientData[];
@@ -1173,6 +1179,24 @@ export interface ClearSelectedTeamStreakAction {
     type: typeof CLEAR_SELECTED_TEAM_STREAK;
 }
 
+export interface UpdateTeamStreakReminderInfoAction {
+    type: typeof UPDATE_TEAM_STREAK_REMINDER_INFO;
+    payload: { customTeamMemberStreakReminder: CustomTeamMemberStreakReminder };
+}
+
+export interface UpdateTeamStreakReminderInfoFailAction {
+    type: typeof UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL;
+    payload: string;
+}
+
+export interface UpdateTeamStreakReminderInfoIsLoadingAction {
+    type: typeof UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING;
+}
+
+export interface UpdateTeamStreakReminderInfoIsLoadedAction {
+    type: typeof UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED;
+}
+
 export type TeamStreakActionTypes =
     | GetLiveTeamStreaksAction
     | GetLiveTeamStreaksFailAction
@@ -1230,7 +1254,11 @@ export type TeamStreakActionTypes =
     | IncompleteSelectedTeamMemberStreakTaskFailAction
     | IncompleteSelectedTeamMemberStreakTaskIsLoadingAction
     | IncompleteSelectedTeamMemberStreakTaskIsLoadedAction
-    | ClearSelectedTeamStreakAction;
+    | ClearSelectedTeamStreakAction
+    | UpdateTeamStreakReminderInfoAction
+    | UpdateTeamStreakReminderInfoFailAction
+    | UpdateTeamStreakReminderInfoIsLoadingAction
+    | UpdateTeamStreakReminderInfoIsLoadedAction;
 
 export const GET_TEAM_MEMBER_STREAK = 'GET_TEAM_MEMBER_STREAK';
 export const GET_TEAM_MEMBER_STREAK_FAIL = 'GET_TEAM_MEMBER_STREAK_FAIL';

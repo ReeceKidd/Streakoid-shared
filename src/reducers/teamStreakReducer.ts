@@ -47,9 +47,14 @@ import {
     INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL,
     INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING,
     INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED,
+    UPDATE_TEAM_STREAK_REMINDER_INFO,
+    UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
+    UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING,
+    UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
 } from '../actions/types';
 import { PopulatedTeamStreak, PopulatedTeamMember, TeamMemberStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
+import { CustomTeamMemberStreakReminder } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export interface PopulatedTeamStreakWithClientData extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
@@ -67,11 +72,9 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
     };
     isCurrentUserApartOfTeamStreak: boolean;
     hasCurrentUserCompletedTaskForTheDay: boolean;
-    customReminderPushNotification?: {
-        reminderHour: number;
-        reminderMinute: number;
-        enabled: boolean;
-    };
+    updateCustomTeamMemberStreakReminderIsLoading: boolean;
+    updateCustomTeamMemberStreakReminderErrorMessage: string;
+    customTeamMemberStreakReminder?: CustomTeamMemberStreakReminder;
 }
 
 export interface PopulatedTeamMemberWithClientData extends PopulatedTeamMember {
@@ -136,6 +139,8 @@ const defaultSelectedTeamStreak = {
     },
     isCurrentUserApartOfTeamStreak: false,
     hasCurrentUserCompletedTaskForTheDay: false,
+    updateCustomTeamMemberStreakReminderIsLoading: false,
+    updateCustomTeamMemberStreakReminderErrorMessage: '',
 };
 
 const initialState: TeamStreakReducerState = {
@@ -730,6 +735,46 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                     members: [...state.selectedTeamStreak.members, action.payload],
                 },
             };
+
+        case UPDATE_TEAM_STREAK_REMINDER_INFO: {
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    customTeamMemberStreakReminder: action.payload.customTeamMemberStreakReminder,
+                },
+            };
+        }
+
+        case UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL: {
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    updateCustomTeamMemberStreakReminderErrorMessage: action.payload,
+                },
+            };
+        }
+
+        case UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING: {
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    updateCustomTeamMemberStreakReminderIsLoading: true,
+                },
+            };
+        }
+
+        case UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED: {
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    updateCustomTeamMemberStreakReminderIsLoading: false,
+                },
+            };
+        }
 
         case CLEAR_SELECTED_TEAM_STREAK: {
             return {
