@@ -46,8 +46,13 @@ import {
     INCOMPLETE_SELECTED_CHALLENGE_STREAK_FAIL,
     INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADING,
     INCOMPLETE_SELECTED_CHALLENGE_STREAK_LOADED,
+    UPDATE_CHALLENGE_STREAK_REMINDER_INFO,
+    UPDATE_CHALLENGE_STREAK_REMINDER_INFO_FAIL,
+    UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING,
+    UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
+import { CustomChallengeStreakReminder } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export interface ChallengeStreakReducerState {
     liveChallengeStreaks: ChallengeStreakListItem[];
@@ -106,6 +111,8 @@ const defaultSelectedChallengeStreak = {
     completeSelectedChallengeStreakErrorMessage: '',
     incompleteSelectedChallengeStreakIsLoading: false,
     incompleteSelectedChallengeStreakErrorMessage: '',
+    updateCustomChallengeStreakReminderErrorMessage: '',
+    updateCustomChallengeStreakReminderIsLoading: false,
 };
 
 const initialState: ChallengeStreakReducerState = {
@@ -163,11 +170,9 @@ export interface SelectedChallengeStreak extends ChallengeStreak {
     completeSelectedChallengeStreakErrorMessage: string;
     incompleteSelectedChallengeStreakIsLoading: boolean;
     incompleteSelectedChallengeStreakErrorMessage: string;
-    customReminderPushNotification?: {
-        reminderHour: number;
-        reminderMinute: number;
-        enabled: boolean;
-    };
+    updateCustomChallengeStreakReminderErrorMessage: string;
+    updateCustomChallengeStreakReminderIsLoading: boolean;
+    customChallengeStreakReminder?: CustomChallengeStreakReminder;
 }
 
 const challengeStreakReducer = (
@@ -572,6 +577,46 @@ const challengeStreakReducer = (
                     };
                 }),
             };
+
+        case UPDATE_CHALLENGE_STREAK_REMINDER_INFO: {
+            return {
+                ...state,
+                selectedChallengeStreak: {
+                    ...state.selectedChallengeStreak,
+                    customChallengeStreakReminder: action.payload.customChallengeStreakReminder,
+                },
+            };
+        }
+
+        case UPDATE_CHALLENGE_STREAK_REMINDER_INFO_FAIL: {
+            return {
+                ...state,
+                selectedChallengeStreak: {
+                    ...state.selectedChallengeStreak,
+                    updateCustomChallengeStreakReminderErrorMessage: action.payload,
+                },
+            };
+        }
+
+        case UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING: {
+            return {
+                ...state,
+                selectedChallengeStreak: {
+                    ...state.selectedChallengeStreak,
+                    updateCustomChallengeStreakReminderIsLoading: true,
+                },
+            };
+        }
+
+        case UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED: {
+            return {
+                ...state,
+                selectedChallengeStreak: {
+                    ...state.selectedChallengeStreak,
+                    updateCustomChallengeStreakReminderIsLoading: false,
+                },
+            };
+        }
 
         case CLEAR_SELECTED_CHALLENGE_STREAK:
             return {

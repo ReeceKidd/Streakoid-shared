@@ -41,6 +41,7 @@ import {
     CustomStreakReminder,
     CompleteAllStreaksReminder,
     CustomSoloStreakReminder,
+    CustomChallengeStreakReminder,
 } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
@@ -1927,6 +1928,11 @@ export const UPDATE_CHALLENGE_STREAK_TIMEZONES = 'UPDATE_CHALLENGE_STREAK_TIMEZO
 export const UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL = 'UPDATE_CHALLENGE_STREAK_TIMEZONES_FAIL';
 export const CLEAR_SELECTED_CHALLENGE_STREAK = 'CLEAR_SELECTED_CHALLENGE_STREAK';
 
+export const UPDATE_CHALLENGE_STREAK_REMINDER_INFO = 'UPDATE_CHALLENGE_STREAK_REMINDER_INFO';
+export const UPDATE_CHALLENGE_STREAK_REMINDER_INFO_FAIL = 'UPDATE_CHALLENGE_STREAK_REMINDER_INFO_FAIL';
+export const UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING = 'UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING';
+export const UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED = 'UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED';
+
 export interface GetLiveChallengeStreaksAction {
     type: typeof GET_LIVE_CHALLENGE_STREAKS;
     payload: ChallengeStreakListItem[];
@@ -2151,6 +2157,24 @@ export interface ClearSelectedChallengeStreakAction {
     type: typeof CLEAR_SELECTED_CHALLENGE_STREAK;
 }
 
+export interface UpdateChallengeStreakReminderInfoAction {
+    type: typeof UPDATE_CHALLENGE_STREAK_REMINDER_INFO;
+    payload: { customChallengeStreakReminder: CustomChallengeStreakReminder };
+}
+
+export interface UpdateChallengeStreakReminderInfoFailAction {
+    type: typeof UPDATE_CHALLENGE_STREAK_REMINDER_INFO_FAIL;
+    payload: string;
+}
+
+export interface UpdateChallengeStreakReminderInfoIsLoadingAction {
+    type: typeof UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING;
+}
+
+export interface UpdateChallengeStreakReminderInfoIsLoadedAction {
+    type: typeof UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED;
+}
+
 export type ChallengeStreakActionTypes =
     | GetLiveChallengeStreaksAction
     | GetLiveChallengeStreaksFailAction
@@ -2200,7 +2224,11 @@ export type ChallengeStreakActionTypes =
     | IncompleteSelectedChallengeStreakTaskLoadedAction
     | UpdateChallengeStreaksTimezoneAction
     | UpdateChallengeStreaksTimezoneActionFail
-    | ClearSelectedChallengeStreakAction;
+    | ClearSelectedChallengeStreakAction
+    | UpdateChallengeStreakReminderInfoAction
+    | UpdateChallengeStreakReminderInfoFailAction
+    | UpdateChallengeStreakReminderInfoIsLoadingAction
+    | UpdateChallengeStreakReminderInfoIsLoadedAction;
 
 export const GET_NOTES = 'GET_NOTES';
 export const GET_NOTES_FAIL = 'GET_NOTES_FAIL';
