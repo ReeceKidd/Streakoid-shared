@@ -72,8 +72,8 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
     };
     isCurrentUserApartOfTeamStreak: boolean;
     hasCurrentUserCompletedTaskForTheDay: boolean;
-    updatecustomTeamStreakReminderIsLoading: boolean;
-    updatecustomTeamStreakReminderErrorMessage: string;
+    updateCustomTeamStreakReminderIsLoading: boolean;
+    updateCustomTeamStreakReminderErrorMessage: string;
     customTeamStreakReminder?: CustomTeamStreakReminder;
 }
 
@@ -139,8 +139,8 @@ const defaultSelectedTeamStreak = {
     },
     isCurrentUserApartOfTeamStreak: false,
     hasCurrentUserCompletedTaskForTheDay: false,
-    updatecustomTeamStreakReminderIsLoading: false,
-    updatecustomTeamStreakReminderErrorMessage: '',
+    updateCustomTeamStreakReminderIsLoading: false,
+    updateCustomTeamStreakReminderErrorMessage: '',
 };
 
 const initialState: TeamStreakReducerState = {
@@ -751,7 +751,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    updatecustomTeamStreakReminderErrorMessage: action.payload,
+                    updateCustomTeamStreakReminderErrorMessage: action.payload,
                 },
             };
         }
@@ -761,7 +761,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    updatecustomTeamStreakReminderIsLoading: true,
+                    updateCustomTeamStreakReminderIsLoading: true,
                 },
             };
         }
@@ -771,7 +771,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    updatecustomTeamStreakReminderIsLoading: false,
+                    updateCustomTeamStreakReminderIsLoading: false,
                 },
             };
         }
