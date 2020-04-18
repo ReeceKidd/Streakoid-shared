@@ -40,6 +40,7 @@ import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFe
 import {
     CustomStreakReminder,
     CompleteAllStreaksReminder,
+    CustomSoloStreakReminder,
 } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
@@ -428,6 +429,11 @@ export const INCOMPLETE_SELECTED_SOLO_STREAK_FAIL = 'INCOMPLETE_SELECTED_SOLO_ST
 export const INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADING = 'INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADING';
 export const INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED = 'INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED';
 
+export const REFRESH_SOLO_STREAK_REMINDER_INFO = 'REFRESH_SOLO_STREAK_REMINDER_INFO';
+export const REFRESH_SOLO_STREAK_REMINDER_INFO_FAIL = 'REFRESH_SOLO_STREAK_REMINDER_INFO_FAIL';
+export const REFRESH_SOLO_STREAK_REMINDER_INFO_LOADING = 'REFRESH_SOLO_STREAK_REMINDER_INFO_LOADING';
+export const REFRESH_SOLO_STREAK_REMINDER_INFO_LOADED = 'REFRESH_SOLO_STREAK_REMINDER_INFO_LOADED';
+
 export interface GetLiveSoloStreaksAction {
     type: typeof GET_LIVE_SOLO_STREAKS;
     payload: SoloStreakListItem[];
@@ -682,6 +688,24 @@ export interface IncompleteSelectedSoloStreakIsLoadedAction {
     type: typeof INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED;
 }
 
+export interface RefreshSoloStreakReminderInfoAction {
+    type: typeof REFRESH_SOLO_STREAK_REMINDER_INFO;
+    payload: { customSoloStreakReminder: CustomSoloStreakReminder };
+}
+
+export interface RefreshSoloStreakReminderInfoFailAction {
+    type: typeof REFRESH_SOLO_STREAK_REMINDER_INFO_FAIL;
+    payload: string;
+}
+
+export interface RefreshSoloStreakReminderInfoIsLoadingAction {
+    type: typeof REFRESH_SOLO_STREAK_REMINDER_INFO_LOADING;
+}
+
+export interface RefreshSoloStreakReminderInfoIsLoadedAction {
+    type: typeof REFRESH_SOLO_STREAK_REMINDER_INFO_LOADED;
+}
+
 export type SoloStreakActionTypes =
     | GetLiveSoloStreaksAction
     | GetLiveSoloStreaksFailAction
@@ -738,7 +762,11 @@ export type SoloStreakActionTypes =
     | IncompleteSelectedSoloStreakAction
     | IncompleteSelectedSoloStreakFailAction
     | IncompleteSelectedSoloStreakIsLoadingAction
-    | IncompleteSelectedSoloStreakIsLoadedAction;
+    | IncompleteSelectedSoloStreakIsLoadedAction
+    | RefreshSoloStreakReminderInfoAction
+    | RefreshSoloStreakReminderInfoFailAction
+    | RefreshSoloStreakReminderInfoIsLoadingAction
+    | RefreshSoloStreakReminderInfoIsLoadedAction;
 
 export const GET_STREAK_RECOMMENDATIONS = 'GET_STREAK_RECOMMENDATIONS';
 export const GET_STREAK_RECOMMENDATIONS_FAIL = 'GET_STREAK_RECOMMENDATIONS_FAIL';

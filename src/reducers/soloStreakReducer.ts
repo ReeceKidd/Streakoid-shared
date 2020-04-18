@@ -54,8 +54,13 @@ import {
     INCOMPLETE_SELECTED_SOLO_STREAK_FAIL,
     INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADING,
     INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED,
+    REFRESH_SOLO_STREAK_REMINDER_INFO,
+    REFRESH_SOLO_STREAK_REMINDER_INFO_FAIL,
+    REFRESH_SOLO_STREAK_REMINDER_INFO_LOADING,
+    REFRESH_SOLO_STREAK_REMINDER_INFO_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
+import { CustomSoloStreakReminder } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export interface SoloStreakReducerState {
     liveSoloStreaks: SoloStreakListItem[];
@@ -107,6 +112,8 @@ const defaultSelectedSoloStreak = {
     completeSelectedSoloStreakErrorMessage: '',
     incompleteSelectedSoloStreakIsLoading: false,
     incompleteSelectedSoloStreakErrorMessage: '',
+    refreshReminderPushNotificationIsLoading: false,
+    refreshReminderPushNotificationErrorMessage: '',
 };
 
 const initialState: SoloStreakReducerState = {
@@ -146,11 +153,9 @@ export interface SelectedSoloStreak extends SoloStreak {
     completeSelectedSoloStreakErrorMessage: string;
     incompleteSelectedSoloStreakIsLoading: boolean;
     incompleteSelectedSoloStreakErrorMessage: string;
-    customReminderPushNotification?: {
-        reminderHour: number;
-        reminderMinute: number;
-        enabled: boolean;
-    };
+    refreshReminderPushNotificationIsLoading: boolean;
+    refreshReminderPushNotificationErrorMessage: string;
+    customSoloStreakReminder?: CustomSoloStreakReminder;
 }
 
 export interface SoloStreakListItem extends SoloStreak {
@@ -608,6 +613,46 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 deleteArchivedSoloStreakErrorMessage: action.errorMessage,
             };
+
+        case REFRESH_SOLO_STREAK_REMINDER_INFO: {
+            return {
+                ...state,
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    customSoloStreakReminder: action.payload.customSoloStreakReminder,
+                },
+            };
+        }
+
+        case REFRESH_SOLO_STREAK_REMINDER_INFO_FAIL: {
+            return {
+                ...state,
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    refreshReminderPushNotificationErrorMessage: action.payload,
+                },
+            };
+        }
+
+        case REFRESH_SOLO_STREAK_REMINDER_INFO_LOADING: {
+            return {
+                ...state,
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    refreshReminderPushNotificationIsLoading: true,
+                },
+            };
+        }
+
+        case REFRESH_SOLO_STREAK_REMINDER_INFO_LOADED: {
+            return {
+                ...state,
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    refreshReminderPushNotificationIsLoading: false,
+                },
+            };
+        }
 
         case CLEAR_DELETE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE:
             return {
