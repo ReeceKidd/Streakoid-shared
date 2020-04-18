@@ -63,6 +63,7 @@ import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulat
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { PushNotificationTypes } from '@streakoid/streakoid-sdk/lib';
 import { CustomChallengeStreakReminder } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
+import { SelectedChallengeStreak } from '../reducers/challengeStreakReducer';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveChallengeStreaks = () => async (
@@ -169,7 +170,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
             const currentUser = getState().users.currentUser;
-            const customReminderPushNotification =
+            const customStreakReminder =
                 challengeStreakOwner._id === currentUser._id
                     ? currentUser.pushNotifications.customStreakReminders.find(
                           pushNotification =>
@@ -178,12 +179,15 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                               pushNotification.challengeStreakId === challengeStreak._id,
                       )
                     : undefined;
-            const challengeStreakWithLoadingStates = {
+            const customChallengeStreakReminder =
+                customStreakReminder &&
+                customStreakReminder.pushNotificationType === PushNotificationTypes.customChallengeStreakReminder
+                    ? customStreakReminder
+                    : undefined;
+            const challengeStreakWithLoadingStates: SelectedChallengeStreak = {
                 ...challengeStreak,
                 challengeName: challenge.name,
                 challengeDescription: challenge.description,
-                joinChallengeStreakTaskIsLoading: false,
-                joinChallengeStreakTaskErrorMessage: '',
                 completeChallengeStreakListTaskIsLoading: false,
                 completeChallengeStreakListTaskErrorMessage: '',
                 incompleteChallengeStreakListTaskIsLoading: false,
@@ -207,7 +211,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 completeSelectedChallengeStreakErrorMessage: '',
                 incompleteSelectedChallengeStreakIsLoading: false,
                 incompleteSelectedChallengeStreakErrorMessage: '',
-                customReminderPushNotification,
+                customChallengeStreakReminder,
                 updateCustomChallengeStreakReminderErrorMessage: '',
                 updateCustomChallengeStreakReminderIsLoading: false,
             };
