@@ -60,10 +60,10 @@ import {
     INCOMPLETE_SELECTED_SOLO_STREAK,
     INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED,
     INCOMPLETE_SELECTED_SOLO_STREAK_FAIL,
-    REFRESH_SOLO_STREAK_REMINDER_INFO_LOADING,
-    REFRESH_SOLO_STREAK_REMINDER_INFO_LOADED,
-    REFRESH_SOLO_STREAK_REMINDER_INFO_FAIL,
-    REFRESH_SOLO_STREAK_REMINDER_INFO,
+    UPDATE_SOLO_STREAK_REMINDER_INFO_LOADING,
+    UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED,
+    UPDATE_SOLO_STREAK_REMINDER_INFO_FAIL,
+    UPDATE_SOLO_STREAK_REMINDER_INFO,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -74,6 +74,7 @@ import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDay
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { PushNotificationTypes } from '@streakoid/streakoid-sdk/lib';
+import { CustomSoloStreakReminder } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveSoloStreaks = () => async (
@@ -528,39 +529,30 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const refreshCustomSoloStreakReminder = ({ soloStreakId }: { soloStreakId: string }) => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
+    const updateCustomSoloStreakReminder = ({
+        customSoloStreakReminder,
+    }: {
+        customSoloStreakReminder: CustomSoloStreakReminder;
+    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
-            dispatch({ type: REFRESH_SOLO_STREAK_REMINDER_INFO_LOADING });
-            const currentUser = getState().users.currentUser;
-            const customSoloStreakReminder = currentUser.pushNotifications.customStreakReminders.find(
-                pushNotification =>
-                    pushNotification.pushNotificationType === PushNotificationTypes.customSoloStreakReminder &&
-                    pushNotification.soloStreakId === soloStreakId,
-            );
-            if (
-                customSoloStreakReminder &&
-                customSoloStreakReminder.pushNotificationType === PushNotificationTypes.customSoloStreakReminder
-            ) {
-                dispatch({
-                    type: REFRESH_SOLO_STREAK_REMINDER_INFO,
-                    payload: { customSoloStreakReminder },
-                });
-            }
+            dispatch({ type: UPDATE_SOLO_STREAK_REMINDER_INFO_LOADING });
 
-            dispatch({ type: REFRESH_SOLO_STREAK_REMINDER_INFO_LOADED });
+            dispatch({
+                type: UPDATE_SOLO_STREAK_REMINDER_INFO,
+                payload: { customSoloStreakReminder },
+            });
+
+            dispatch({ type: UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED });
         } catch (err) {
-            dispatch({ type: REFRESH_SOLO_STREAK_REMINDER_INFO_LOADED });
+            dispatch({ type: UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED });
             if (err.response) {
                 dispatch({
-                    type: REFRESH_SOLO_STREAK_REMINDER_INFO_FAIL,
+                    type: UPDATE_SOLO_STREAK_REMINDER_INFO_FAIL,
                     payload: err.response.data.message,
                 });
             } else {
                 dispatch({
-                    type: REFRESH_SOLO_STREAK_REMINDER_INFO_FAIL,
+                    type: UPDATE_SOLO_STREAK_REMINDER_INFO_FAIL,
                     payload: err.message,
                 });
             }
@@ -589,7 +581,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
         clearSelectedSoloStreak,
         completeSelectedSoloStreakTask,
         incompleteSelectedSoloStreakTask,
-        refreshCustomSoloStreakReminder,
+        updateCustomSoloStreakReminder,
     };
 };
 

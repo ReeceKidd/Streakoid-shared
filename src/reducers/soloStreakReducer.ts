@@ -54,10 +54,10 @@ import {
     INCOMPLETE_SELECTED_SOLO_STREAK_FAIL,
     INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADING,
     INCOMPLETE_SELECTED_SOLO_STREAK_IS_LOADED,
-    REFRESH_SOLO_STREAK_REMINDER_INFO,
-    REFRESH_SOLO_STREAK_REMINDER_INFO_FAIL,
-    REFRESH_SOLO_STREAK_REMINDER_INFO_LOADING,
-    REFRESH_SOLO_STREAK_REMINDER_INFO_LOADED,
+    UPDATE_SOLO_STREAK_REMINDER_INFO,
+    UPDATE_SOLO_STREAK_REMINDER_INFO_FAIL,
+    UPDATE_SOLO_STREAK_REMINDER_INFO_LOADING,
+    UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomSoloStreakReminder } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
@@ -614,7 +614,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 deleteArchivedSoloStreakErrorMessage: action.errorMessage,
             };
 
-        case REFRESH_SOLO_STREAK_REMINDER_INFO: {
+        case UPDATE_SOLO_STREAK_REMINDER_INFO: {
             return {
                 ...state,
                 selectedSoloStreak: {
@@ -624,7 +624,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             };
         }
 
-        case REFRESH_SOLO_STREAK_REMINDER_INFO_FAIL: {
+        case UPDATE_SOLO_STREAK_REMINDER_INFO_FAIL: {
             return {
                 ...state,
                 selectedSoloStreak: {
@@ -634,7 +634,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             };
         }
 
-        case REFRESH_SOLO_STREAK_REMINDER_INFO_LOADING: {
+        case UPDATE_SOLO_STREAK_REMINDER_INFO_LOADING: {
             return {
                 ...state,
                 selectedSoloStreak: {
@@ -644,7 +644,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             };
         }
 
-        case REFRESH_SOLO_STREAK_REMINDER_INFO_LOADED: {
+        case UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED: {
             return {
                 ...state,
                 selectedSoloStreak: {
