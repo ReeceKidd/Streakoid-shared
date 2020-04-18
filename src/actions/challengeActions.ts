@@ -225,6 +225,8 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 completeSelectedChallengeStreakErrorMessage: '',
                 incompleteSelectedChallengeStreakIsLoading: false,
                 incompleteSelectedChallengeStreakErrorMessage: '',
+                updateCustomChallengeStreakReminderErrorMessage: '',
+                updateCustomChallengeStreakReminderIsLoading: false,
             };
             dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADING });
             const sortedChallengeMembers = await getSortedChallengeMembers(challenge._id, challenge.members);
