@@ -112,8 +112,8 @@ const defaultSelectedSoloStreak = {
     completeSelectedSoloStreakErrorMessage: '',
     incompleteSelectedSoloStreakIsLoading: false,
     incompleteSelectedSoloStreakErrorMessage: '',
-    refreshReminderPushNotificationIsLoading: false,
-    refreshReminderPushNotificationErrorMessage: '',
+    updateCustomSoloStreakReminderIsLoading: false,
+    updateCustomSoloStreakReminderErrorMessage: '',
 };
 
 const initialState: SoloStreakReducerState = {
@@ -153,8 +153,8 @@ export interface SelectedSoloStreak extends SoloStreak {
     completeSelectedSoloStreakErrorMessage: string;
     incompleteSelectedSoloStreakIsLoading: boolean;
     incompleteSelectedSoloStreakErrorMessage: string;
-    refreshReminderPushNotificationIsLoading: boolean;
-    refreshReminderPushNotificationErrorMessage: string;
+    updateCustomSoloStreakReminderIsLoading: boolean;
+    updateCustomSoloStreakReminderErrorMessage: string;
     customSoloStreakReminder?: CustomSoloStreakReminder;
 }
 
@@ -629,7 +629,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 selectedSoloStreak: {
                     ...state.selectedSoloStreak,
-                    refreshReminderPushNotificationErrorMessage: action.payload,
+                    updateCustomSoloStreakReminderErrorMessage: action.payload,
                 },
             };
         }
@@ -639,7 +639,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 selectedSoloStreak: {
                     ...state.selectedSoloStreak,
-                    refreshReminderPushNotificationIsLoading: true,
+                    updateCustomSoloStreakReminderIsLoading: true,
                 },
             };
         }
@@ -649,7 +649,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 selectedSoloStreak: {
                     ...state.selectedSoloStreak,
-                    refreshReminderPushNotificationIsLoading: false,
+                    updateCustomSoloStreakReminderIsLoading: false,
                 },
             };
         }

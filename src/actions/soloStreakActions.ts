@@ -198,8 +198,8 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                     incompleteSelectedSoloStreakIsLoading: false,
                     incompleteSelectedSoloStreakErrorMessage: '',
                     customSoloStreakReminder,
-                    refreshReminderPushNotificationErrorMessage: '',
-                    refreshReminderPushNotificationIsLoading: false,
+                    updateCustomSoloStreakReminderErrorMessage: '',
+                    updateCustomSoloStreakReminderIsLoading: false,
                 },
             });
             dispatch({ type: GET_SOLO_STREAK_IS_LOADED });
