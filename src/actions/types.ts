@@ -38,11 +38,11 @@ import {
 import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import {
-    CustomStreakReminder,
-    CompleteAllStreaksReminder,
-    CustomSoloStreakReminder,
-    CustomChallengeStreakReminder,
-    CustomTeamStreakReminder,
+    CustomStreakReminderPushNotification,
+    CompleteAllStreaksReminderPushNotification,
+    CustomSoloStreakReminderPushNotification,
+    CustomChallengeStreakReminderPushNotification,
+    CustomTeamStreakReminderPushNotification,
 } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
@@ -692,7 +692,7 @@ export interface IncompleteSelectedSoloStreakIsLoadedAction {
 
 export interface UpdateSoloStreakReminderInfoAction {
     type: typeof UPDATE_SOLO_STREAK_REMINDER_INFO;
-    payload: { customSoloStreakReminder: CustomSoloStreakReminder };
+    payload: { customSoloStreakReminder: CustomSoloStreakReminderPushNotification };
 }
 
 export interface UpdateSoloStreakReminderInfoFailAction {
@@ -1181,7 +1181,7 @@ export interface ClearSelectedTeamStreakAction {
 
 export interface UpdateTeamStreakReminderInfoAction {
     type: typeof UPDATE_TEAM_STREAK_REMINDER_INFO;
-    payload: { customTeamStreakReminder: CustomTeamStreakReminder };
+    payload: { customTeamStreakReminder: CustomTeamStreakReminderPushNotification };
 }
 
 export interface UpdateTeamStreakReminderInfoFailAction {
@@ -1629,8 +1629,8 @@ export interface UpdatePushNotificationsAction {
         teamStreakUpdates?: { enabled: boolean };
         badgeUpdates?: { enabled: boolean };
         newFollowerUpdates?: { enabled: boolean };
-        customStreakReminders?: CustomStreakReminder[];
-        completeAllStreaksReminder?: CompleteAllStreaksReminder;
+        customStreakReminders?: CustomStreakReminderPushNotification[];
+        completeAllStreaksReminder?: CompleteAllStreaksReminderPushNotification;
     };
 }
 
@@ -2187,7 +2187,7 @@ export interface ClearSelectedChallengeStreakAction {
 
 export interface UpdateChallengeStreakReminderInfoAction {
     type: typeof UPDATE_CHALLENGE_STREAK_REMINDER_INFO;
-    payload: { customChallengeStreakReminder: CustomChallengeStreakReminder };
+    payload: { customChallengeStreakReminder: CustomChallengeStreakReminderPushNotification };
 }
 
 export interface UpdateChallengeStreakReminderInfoFailAction {
