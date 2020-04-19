@@ -54,7 +54,7 @@ import {
 } from '../actions/types';
 import { PopulatedTeamStreak, PopulatedTeamMember, TeamMemberStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { CustomTeamStreakReminder } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
+import { CustomTeamStreakReminderPushNotification } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export interface PopulatedTeamStreakWithClientData extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
@@ -72,9 +72,9 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
     };
     isCurrentUserApartOfTeamStreak: boolean;
     hasCurrentUserCompletedTaskForTheDay: boolean;
-    updateCustomTeamStreakReminderIsLoading: boolean;
-    updateCustomTeamStreakReminderErrorMessage: string;
-    customTeamStreakReminder?: CustomTeamStreakReminder;
+    updateCustomTeamStreakReminderPushNotificationIsLoading: boolean;
+    updateCustomTeamStreakReminderPushNotificationErrorMessage: string;
+    customTeamStreakReminder?: CustomTeamStreakReminderPushNotification;
 }
 
 export interface PopulatedTeamMemberWithClientData extends PopulatedTeamMember {
@@ -139,8 +139,8 @@ const defaultSelectedTeamStreak = {
     },
     isCurrentUserApartOfTeamStreak: false,
     hasCurrentUserCompletedTaskForTheDay: false,
-    updateCustomTeamStreakReminderIsLoading: false,
-    updateCustomTeamStreakReminderErrorMessage: '',
+    updateCustomTeamStreakReminderPushNotificationIsLoading: false,
+    updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
 };
 
 const initialState: TeamStreakReducerState = {
@@ -751,7 +751,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    updateCustomTeamStreakReminderErrorMessage: action.payload,
+                    updateCustomTeamStreakReminderPushNotificationErrorMessage: action.payload,
                 },
             };
         }
@@ -761,7 +761,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    updateCustomTeamStreakReminderIsLoading: true,
+                    updateCustomTeamStreakReminderPushNotificationIsLoading: true,
                 },
             };
         }
@@ -771,7 +771,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    updateCustomTeamStreakReminderIsLoading: false,
+                    updateCustomTeamStreakReminderPushNotificationIsLoading: false,
                 },
             };
         }

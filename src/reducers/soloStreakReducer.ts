@@ -60,7 +60,7 @@ import {
     UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { CustomSoloStreakReminder } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
+import { CustomSoloStreakReminderPushNotification } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export interface SoloStreakReducerState {
     liveSoloStreaks: SoloStreakListItem[];
@@ -155,7 +155,7 @@ export interface SelectedSoloStreak extends SoloStreak {
     incompleteSelectedSoloStreakErrorMessage: string;
     updateCustomSoloStreakReminderIsLoading: boolean;
     updateCustomSoloStreakReminderErrorMessage: string;
-    customSoloStreakReminder?: CustomSoloStreakReminder;
+    customSoloStreakReminder?: CustomSoloStreakReminderPushNotification;
 }
 
 export interface SoloStreakListItem extends SoloStreak {

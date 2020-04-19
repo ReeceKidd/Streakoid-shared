@@ -52,7 +52,7 @@ import {
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { CustomChallengeStreakReminder } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
+import { CustomChallengeStreakReminderPushNotification } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 export interface ChallengeStreakReducerState {
     liveChallengeStreaks: ChallengeStreakListItem[];
@@ -111,8 +111,8 @@ const defaultSelectedChallengeStreak = {
     completeSelectedChallengeStreakErrorMessage: '',
     incompleteSelectedChallengeStreakIsLoading: false,
     incompleteSelectedChallengeStreakErrorMessage: '',
-    updateCustomChallengeStreakReminderErrorMessage: '',
-    updateCustomChallengeStreakReminderIsLoading: false,
+    updateCustomChallengeStreakReminderPushNotificationErrorMessage: '',
+    updateCustomChallengeStreakReminderPushNotificationIsLoading: false,
 };
 
 const initialState: ChallengeStreakReducerState = {
@@ -170,9 +170,9 @@ export interface SelectedChallengeStreak extends ChallengeStreak {
     completeSelectedChallengeStreakErrorMessage: string;
     incompleteSelectedChallengeStreakIsLoading: boolean;
     incompleteSelectedChallengeStreakErrorMessage: string;
-    updateCustomChallengeStreakReminderErrorMessage: string;
-    updateCustomChallengeStreakReminderIsLoading: boolean;
-    customChallengeStreakReminder?: CustomChallengeStreakReminder;
+    updateCustomChallengeStreakReminderPushNotificationErrorMessage: string;
+    updateCustomChallengeStreakReminderPushNotificationIsLoading: boolean;
+    customChallengeStreakReminder?: CustomChallengeStreakReminderPushNotification;
 }
 
 const challengeStreakReducer = (
@@ -593,7 +593,7 @@ const challengeStreakReducer = (
                 ...state,
                 selectedChallengeStreak: {
                     ...state.selectedChallengeStreak,
-                    updateCustomChallengeStreakReminderErrorMessage: action.payload,
+                    updateCustomChallengeStreakReminderPushNotificationErrorMessage: action.payload,
                 },
             };
         }
@@ -603,7 +603,7 @@ const challengeStreakReducer = (
                 ...state,
                 selectedChallengeStreak: {
                     ...state.selectedChallengeStreak,
-                    updateCustomChallengeStreakReminderIsLoading: true,
+                    updateCustomChallengeStreakReminderPushNotificationIsLoading: true,
                 },
             };
         }
@@ -613,7 +613,7 @@ const challengeStreakReducer = (
                 ...state,
                 selectedChallengeStreak: {
                     ...state.selectedChallengeStreak,
-                    updateCustomChallengeStreakReminderIsLoading: false,
+                    updateCustomChallengeStreakReminderPushNotificationIsLoading: false,
                 },
             };
         }

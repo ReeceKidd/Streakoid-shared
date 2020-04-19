@@ -74,7 +74,7 @@ import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDay
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { PushNotificationTypes } from '@streakoid/streakoid-sdk/lib';
-import { CustomSoloStreakReminder } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
+import { CustomSoloStreakReminderPushNotification } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveSoloStreaks = () => async (
@@ -532,7 +532,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const updateCustomSoloStreakReminder = ({
         customSoloStreakReminder,
     }: {
-        customSoloStreakReminder: CustomSoloStreakReminder;
+        customSoloStreakReminder: CustomSoloStreakReminderPushNotification;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: UPDATE_SOLO_STREAK_REMINDER_INFO_LOADING });

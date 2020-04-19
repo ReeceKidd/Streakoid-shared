@@ -62,7 +62,7 @@ import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDay
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { PushNotificationTypes } from '@streakoid/streakoid-sdk/lib';
-import { CustomChallengeStreakReminder } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
+import { CustomChallengeStreakReminderPushNotification } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 import { SelectedChallengeStreak } from '../reducers/challengeStreakReducer';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
@@ -212,8 +212,8 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 incompleteSelectedChallengeStreakIsLoading: false,
                 incompleteSelectedChallengeStreakErrorMessage: '',
                 customChallengeStreakReminder,
-                updateCustomChallengeStreakReminderErrorMessage: '',
-                updateCustomChallengeStreakReminderIsLoading: false,
+                updateCustomChallengeStreakReminderPushNotificationIsLoading: false,
+                updateCustomChallengeStreakReminderPushNotificationErrorMessage: '',
             };
             dispatch({ type: GET_CHALLENGE_STREAK, payload: challengeStreakWithLoadingStates });
             dispatch({ type: GET_CHALLENGE_STREAK_LOADED });
@@ -240,12 +240,10 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
             const { currentStreak, pastStreaks, createdAt, timezone } = updatedChallengeStreak;
             const currentUser = getState().users.currentUser;
             const challenge = await streakoid.challenges.getOne({ challengeId: updatedChallengeStreak.challengeId });
-            const challengeStreakWithLoadingState = {
+            const challengeStreakWithLoadingState: SelectedChallengeStreak = {
                 ...updatedChallengeStreak,
                 challengeName: challenge.name,
                 challengeDescription: challenge.description,
-                joinChallengeStreakTaskIsLoading: false,
-                joinChallengeStreakTaskErrorMessage: '',
                 completeChallengeStreakListTaskIsLoading: false,
                 completeChallengeStreakListTaskErrorMessage: '',
                 incompleteChallengeStreakListTaskIsLoading: false,
@@ -269,8 +267,8 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 completeSelectedChallengeStreakErrorMessage: '',
                 incompleteSelectedChallengeStreakIsLoading: false,
                 incompleteSelectedChallengeStreakErrorMessage: '',
-                updateCustomChallengeStreakReminderErrorMessage: '',
-                updateCustomChallengeStreakReminderIsLoading: false,
+                updateCustomChallengeStreakReminderPushNotificationIsLoading: false,
+                updateCustomChallengeStreakReminderPushNotificationErrorMessage: '',
             };
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: ARCHIVE_CHALLENGE_STREAK_LOADED });
@@ -305,12 +303,10 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
             const completeChallengeStreakListTasks = await streakoid.completeChallengeStreakTasks.getAll({
                 challengeStreakId: updatedChallengeStreak._id,
             });
-            const challengeStreakWithLoadingState = {
+            const challengeStreakWithLoadingState: SelectedChallengeStreak = {
                 ...updatedChallengeStreak,
                 challengeName: challenge.name,
                 challengeDescription: challenge.description,
-                joinChallengeStreakTaskIsLoading: false,
-                joinChallengeStreakTaskErrorMessage: '',
                 completeChallengeStreakListTaskIsLoading: false,
                 completeChallengeStreakListTaskErrorMessage: '',
                 incompleteChallengeStreakListTaskIsLoading: false,
@@ -334,8 +330,8 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 completeSelectedChallengeStreakErrorMessage: '',
                 incompleteSelectedChallengeStreakIsLoading: false,
                 incompleteSelectedChallengeStreakErrorMessage: '',
-                updateCustomChallengeStreakReminderErrorMessage: '',
-                updateCustomChallengeStreakReminderIsLoading: false,
+                updateCustomChallengeStreakReminderPushNotificationIsLoading: false,
+                updateCustomChallengeStreakReminderPushNotificationErrorMessage: '',
             };
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED });
@@ -526,10 +522,10 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const updateCustomChallengeStreakReminder = ({
+    const updateCustomChallengeStreakReminderPushNotification = ({
         customChallengeStreakReminder,
     }: {
-        customChallengeStreakReminder: CustomChallengeStreakReminder;
+        customChallengeStreakReminder: CustomChallengeStreakReminderPushNotification;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING });
@@ -574,7 +570,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
         incompleteChallengeStreakListTask,
         incompleteSelectedChallengeStreakTask,
         updateChallengeStreakTimezones,
-        updateCustomChallengeStreakReminder,
+        updateCustomChallengeStreakReminderPushNotification,
         clearSelectedChallengeStreak,
     };
 };

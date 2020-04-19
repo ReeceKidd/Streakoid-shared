@@ -54,8 +54,8 @@ import { FollowingWithClientData } from '../reducers/userReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import {
-    CompleteAllStreaksReminder,
-    CustomStreakReminder,
+    CompleteAllStreaksReminderPushNotification,
+    CustomStreakReminderPushNotification,
 } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
@@ -556,8 +556,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         teamStreakUpdates?: { enabled: boolean };
         badgeUpdates?: { enabled: boolean };
         newFollowerUpdates?: { enabled: boolean };
-        customStreakReminders?: CustomStreakReminder[];
-        completeAllStreaksReminder?: CompleteAllStreaksReminder;
+        customStreakReminders?: CustomStreakReminderPushNotification[];
+        completeAllStreaksReminder?: CompleteAllStreaksReminderPushNotification;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: UPDATE_PUSH_NOTIFICATIONS_IS_LOADING });
