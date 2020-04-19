@@ -25,6 +25,7 @@ import { PopulatedChallenge, ChallengeMember } from '@streakoid/streakoid-sdk/li
 import { ChallengeMemberWithClientData, SelectedChallenge } from '../reducers/challengesReducer';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
+import { SelectedChallengeStreak } from '../reducers/challengeStreakReducer';
 
 export enum GetChallengeSortFields {
     currentStreak = 'currentStreak',
@@ -199,12 +200,10 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 challengeId,
             });
             const challenge = await streakoid.challenges.getOne({ challengeId });
-            const challengeStreakWithLoadingState = {
+            const challengeStreakWithLoadingState: SelectedChallengeStreak = {
                 ...challengeStreak,
                 challengeName: challenge.name,
                 challengeDescription: challenge.description,
-                joinChallengeStreakTaskIsLoading: false,
-                joinChallengeStreakTaskErrorMessage: '',
                 completeChallengeStreakListTaskIsLoading: false,
                 completeChallengeStreakListTaskErrorMessage: '',
                 incompleteChallengeStreakListTaskIsLoading: false,
@@ -225,8 +224,8 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 completeSelectedChallengeStreakErrorMessage: '',
                 incompleteSelectedChallengeStreakIsLoading: false,
                 incompleteSelectedChallengeStreakErrorMessage: '',
-                updateCustomChallengeStreakReminderErrorMessage: '',
-                updateCustomChallengeStreakReminderIsLoading: false,
+                updateCustomChallengeStreakReminderPushNotificationIsLoading: false,
+                updateCustomChallengeStreakReminderPushNotificationErrorMessage: '',
             };
             dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADING });
             const sortedChallengeMembers = await getSortedChallengeMembers(challenge._id, challenge.members);
@@ -236,17 +235,18 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 averageStreakForChallenge,
                 totalTimesTracked,
             } = await getPopulatedChallengeStats(challenge);
+            const updatedSelectedChallenge: SelectedChallenge = {
+                ...getState().challenges.selectedChallenge,
+                userIsApartOfChallenge: true,
+                members: sortedChallengeMembers,
+                longestCurrentStreakForChallenge,
+                longestEverStreakForChallenge,
+                averageStreakForChallenge,
+                totalTimesTracked,
+            };
             dispatch({
                 type: UPDATE_SELECTED_CHALLENGE,
-                payload: {
-                    ...getState().challenges.selectedChallenge,
-                    userIsApartOfChallenge: true,
-                    members: sortedChallengeMembers,
-                    longestCurrentStreakForChallenge,
-                    longestEverStreakForChallenge,
-                    averageStreakForChallenge,
-                    totalTimesTracked,
-                },
+                payload: updatedSelectedChallenge,
             });
             dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADED });
             dispatch({ type: CREATE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
