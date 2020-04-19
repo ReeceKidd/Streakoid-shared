@@ -54,7 +54,7 @@ import {
 } from '../actions/types';
 import { PopulatedTeamStreak, PopulatedTeamMember, TeamMemberStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { CustomTeamStreakReminderPushNotification } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
+import { CustomTeamStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
 
 export interface PopulatedTeamStreakWithClientData extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
@@ -74,7 +74,7 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
     hasCurrentUserCompletedTaskForTheDay: boolean;
     updateCustomTeamStreakReminderPushNotificationIsLoading: boolean;
     updateCustomTeamStreakReminderPushNotificationErrorMessage: string;
-    customTeamStreakReminder?: CustomTeamStreakReminderPushNotification;
+    customTeamStreakReminder?: CustomTeamStreakReminder;
 }
 
 export interface PopulatedTeamMemberWithClientData extends PopulatedTeamMember {

@@ -52,14 +52,14 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
-import { StreakStatus, PushNotificationTypes } from '@streakoid/streakoid-sdk/lib';
+import { StreakStatus, StreakReminderTypes } from '@streakoid/streakoid-sdk/lib';
 import { sortTeamStreaks } from '../helpers/sorters/sortStreaks';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { PopulatedTeamMemberWithClientData, SelectedTeamStreak } from '../reducers/teamStreakReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { CustomTeamStreakReminderPushNotification } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
+import { CustomTeamStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
 
 export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveTeamStreaks = () => async (
@@ -238,13 +238,13 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
             const customStreakReminder = currentUserMemberInfo
                 ? currentUser.pushNotifications.customStreakReminders.find(
                       pushNotification =>
-                          pushNotification.pushNotificationType === PushNotificationTypes.customTeamStreakReminder &&
+                          pushNotification.streakReminderType === StreakReminderTypes.customTeamStreakReminder &&
                           pushNotification.teamStreakId === teamStreak._id,
                   )
                 : undefined;
             const customTeamStreakReminder =
                 customStreakReminder &&
-                customStreakReminder.pushNotificationType === PushNotificationTypes.customTeamStreakReminder
+                customStreakReminder.streakReminderType === StreakReminderTypes.customTeamStreakReminder
                     ? customStreakReminder
                     : undefined;
             const teamStreakWithLoadingState: SelectedTeamStreak = {
@@ -659,7 +659,7 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     const updateCustomTeamStreakReminderPushNotification = ({
         customTeamStreakReminder,
     }: {
-        customTeamStreakReminder: CustomTeamStreakReminderPushNotification;
+        customTeamStreakReminder: CustomTeamStreakReminder;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING });

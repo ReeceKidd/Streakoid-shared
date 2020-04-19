@@ -73,8 +73,8 @@ import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { PushNotificationTypes } from '@streakoid/streakoid-sdk/lib';
-import { CustomSoloStreakReminderPushNotification } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
+import { StreakReminderTypes } from '@streakoid/streakoid-sdk/lib';
+import { CustomSoloStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
 
 const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveSoloStreaks = () => async (
@@ -164,14 +164,13 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                 soloStreakOwner._id === currentUser._id
                     ? currentUser.pushNotifications.customStreakReminders.find(
                           pushNotification =>
-                              pushNotification.pushNotificationType ===
-                                  PushNotificationTypes.customSoloStreakReminder &&
+                              pushNotification.streakReminderType === StreakReminderTypes.customSoloStreakReminder &&
                               pushNotification.soloStreakId === soloStreak._id,
                       )
                     : undefined;
             const customSoloStreakReminder =
                 customStreakReminder &&
-                customStreakReminder.pushNotificationType === PushNotificationTypes.customSoloStreakReminder
+                customStreakReminder.streakReminderType === StreakReminderTypes.customSoloStreakReminder
                     ? customStreakReminder
                     : undefined;
             dispatch({
@@ -532,7 +531,7 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const updateCustomSoloStreakReminder = ({
         customSoloStreakReminder,
     }: {
-        customSoloStreakReminder: CustomSoloStreakReminderPushNotification;
+        customSoloStreakReminder: CustomSoloStreakReminder;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: UPDATE_SOLO_STREAK_REMINDER_INFO_LOADING });

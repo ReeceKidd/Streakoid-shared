@@ -52,7 +52,7 @@ import {
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { CustomChallengeStreakReminderPushNotification } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
+import { CustomChallengeStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
 
 export interface ChallengeStreakReducerState {
     liveChallengeStreaks: ChallengeStreakListItem[];
@@ -172,7 +172,7 @@ export interface SelectedChallengeStreak extends ChallengeStreak {
     incompleteSelectedChallengeStreakErrorMessage: string;
     updateCustomChallengeStreakReminderPushNotificationErrorMessage: string;
     updateCustomChallengeStreakReminderPushNotificationIsLoading: boolean;
-    customChallengeStreakReminder?: CustomChallengeStreakReminderPushNotification;
+    customChallengeStreakReminder?: CustomChallengeStreakReminder;
 }
 
 const challengeStreakReducer = (

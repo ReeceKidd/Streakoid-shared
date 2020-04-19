@@ -61,9 +61,9 @@ import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { PushNotificationTypes } from '@streakoid/streakoid-sdk/lib';
-import { CustomChallengeStreakReminderPushNotification } from '@streakoid/streakoid-sdk/lib/models/PushNotifications';
+import { StreakReminderTypes } from '@streakoid/streakoid-sdk/lib';
 import { SelectedChallengeStreak } from '../reducers/challengeStreakReducer';
+import { CustomChallengeStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveChallengeStreaks = () => async (
@@ -174,14 +174,14 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 challengeStreakOwner._id === currentUser._id
                     ? currentUser.pushNotifications.customStreakReminders.find(
                           pushNotification =>
-                              pushNotification.pushNotificationType ===
-                                  PushNotificationTypes.customChallengeStreakReminder &&
+                              pushNotification.streakReminderType ===
+                                  StreakReminderTypes.customChallengeStreakReminder &&
                               pushNotification.challengeStreakId === challengeStreak._id,
                       )
                     : undefined;
             const customChallengeStreakReminder =
                 customStreakReminder &&
-                customStreakReminder.pushNotificationType === PushNotificationTypes.customChallengeStreakReminder
+                customStreakReminder.streakReminderType === StreakReminderTypes.customChallengeStreakReminder
                     ? customStreakReminder
                     : undefined;
             const challengeStreakWithLoadingStates: SelectedChallengeStreak = {
@@ -525,7 +525,7 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     const updateCustomChallengeStreakReminderPushNotification = ({
         customChallengeStreakReminder,
     }: {
-        customChallengeStreakReminder: CustomChallengeStreakReminderPushNotification;
+        customChallengeStreakReminder: CustomChallengeStreakReminder;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING });
