@@ -76,7 +76,6 @@ export interface ChallengeStreakReducerState {
 const defaultSelectedChallengeStreak = {
     _id: '',
     challengeId: '',
-    badgeId: '',
     userId: '',
     status: StreakStatus.archived,
     completedToday: false,

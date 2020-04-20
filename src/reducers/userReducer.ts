@@ -67,7 +67,6 @@ import {
     FormattedUser,
 } from '@streakoid/streakoid-sdk';
 import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
-import { UserBadge } from './badgesReducer';
 import { ChallengeStreakListItem } from './challengeStreakReducer';
 import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
@@ -76,7 +75,6 @@ export interface SelectedUser extends PopulatedUser {
     soloStreaks: SoloStreak[];
     teamStreaks: PopulatedTeamStreak[];
     challengeStreaks: ChallengeStreakListItem[];
-    userBadges: UserBadge[];
     userStreakCompleteInfo: { date: Date; count: number }[];
     longestEverStreak: number;
     longestCurrentStreak: number;
@@ -133,7 +131,6 @@ const defaultSelectedUser: SelectedUser = {
     friends: [],
     followers: [],
     following: [],
-    badges: [],
     profileImages: {
         originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
     },
@@ -141,7 +138,6 @@ const defaultSelectedUser: SelectedUser = {
     soloStreaks: [],
     teamStreaks: [],
     challengeStreaks: [],
-    userBadges: [],
     userStreakCompleteInfo: [],
     longestEverStreak: 0,
     longestCurrentStreak: 0,
@@ -199,7 +195,6 @@ const initialState: UserReducerInitialState = {
         profileImages: {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         },
-        badges: [],
         friends: [],
         followers: [],
         following: [],
@@ -207,9 +202,6 @@ const initialState: UserReducerInitialState = {
         pushNotificationToken: '',
         pushNotifications: {
             teamStreakUpdates: {
-                enabled: false,
-            },
-            badgeUpdates: {
                 enabled: false,
             },
             newFollowerUpdates: {

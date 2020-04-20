@@ -8,7 +8,6 @@ import { userActions } from './userActions';
 import { profilePictureActions } from './profilePictureActions';
 import { authActions } from './authActions';
 import { streakRecommendationActions } from './streakRecommendationActions';
-import { badgeActions } from './badgeActions';
 import { challengeActions } from './challengeActions';
 import { challengeStreakActions } from './challengeStreakActions';
 import { noteActions } from './noteActions';
@@ -29,7 +28,6 @@ export const getSharedActions = (streakoid: typeof streakoidSDK) => {
         teamMemberStreakActions: teamMemberStreakActions(streakoid),
         userActions: userActions(streakoid),
         streakRecommendationActions: streakRecommendationActions(streakoid),
-        badgeActions: badgeActions(streakoid),
         challengeActions: challengeActions(streakoid),
         challengeStreakActions: challengeStreakActions(streakoid),
         noteActions: noteActions(streakoid),

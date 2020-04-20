@@ -1,12 +1,4 @@
-import {
-    TeamStreak,
-    ProfileImages,
-    FormattedUser,
-    Badge,
-    Challenge,
-    Note,
-    DatabaseStats,
-} from '@streakoid/streakoid-sdk/lib';
+import { TeamStreak, ProfileImages, FormattedUser, Challenge, Note, DatabaseStats } from '@streakoid/streakoid-sdk/lib';
 import {
     PopulatedTeamStreakWithClientData,
     PopulatedTeamMemberWithClientData,
@@ -26,7 +18,6 @@ import {
     ChallengeStreakListItem,
     ArchivedChallengeStreakListItem,
 } from '../reducers/challengeStreakReducer';
-import { UserBadge } from '../reducers/badgesReducer';
 import { NoteWithClientData } from '../reducers/notesReducer';
 import { SelectedChallenge } from '../reducers/challengesReducer';
 import { SelectedTeamMemberStreak } from '../reducers/teamMemberStreakReducer';
@@ -1627,7 +1618,6 @@ export interface UpdatePushNotificationsAction {
     type: typeof UPDATE_PUSH_NOTIFICATIONS;
     payload: {
         teamStreakUpdates?: { enabled: boolean };
-        badgeUpdates?: { enabled: boolean };
         newFollowerUpdates?: { enabled: boolean };
         customStreakReminders?: CustomStreakReminder[];
         completeAllStreaksReminder?: CompleteAllStreaksReminder;
@@ -1708,88 +1698,6 @@ export type UserActionTypes =
     | UpdatePushNotificationsFailAction
     | UpdatePushNotificationsIsLoadingAction
     | UpdatePushNotificationsIsLoadedAction;
-
-export const GET_BADGES = 'GET_BADGES';
-export const GET_BADGES_FAIL = 'GET_BADGES_FAIL';
-export const GET_BADGES_IS_LOADING = 'GET_BADGES_IS_LOADING';
-export const GET_BADGES_IS_LOADED = 'GET_BADGES_IS_LOADED';
-
-export const GET_USER_BADGES = 'GET_USER_BADGES';
-export const GET_USER_BADGES_FAIL = 'GET_USER_BADGES_FAIL';
-export const GET_USER_BADGES_IS_LOADING = 'GET_USER_BADGES_IS_LOADING';
-export const GET_USER_BADGES_IS_LOADED = 'GET_USER_BADGES_IS_LOADED';
-
-export const GET_BADGE = 'GET_BADGE';
-export const GET_BADGE_FAIL = 'GET_BADGE_FAIL';
-export const GET_BADGE_LOADING = 'GET_BADGE_LOADING';
-export const GET_BADGE_LOADED = 'GET_BADGE_LOADED';
-
-export interface GetBadgesAction {
-    type: typeof GET_BADGES;
-    payload: Badge[];
-}
-
-export interface GetBadgesFailAction {
-    type: typeof GET_BADGES_FAIL;
-    payload: string;
-}
-
-export interface GetBadgesIsLoadingAction {
-    type: typeof GET_BADGES_IS_LOADING;
-}
-
-export interface GetBadgesIsLoadedAction {
-    type: typeof GET_BADGES_IS_LOADED;
-}
-
-export interface GetBadgeAction {
-    type: typeof GET_BADGE;
-    payload: UserBadge;
-}
-
-export interface GetBadgeFailAction {
-    type: typeof GET_BADGE_FAIL;
-}
-
-export interface GetBadgeLoadingAction {
-    type: typeof GET_BADGE_LOADING;
-}
-
-export interface GetBadgeLoadedAction {
-    type: typeof GET_BADGE_LOADED;
-}
-
-export interface GetUserBadgesAction {
-    type: typeof GET_USER_BADGES;
-    payload: UserBadge[];
-}
-
-export interface GetUserBadgesFailAction {
-    type: typeof GET_USER_BADGES_FAIL;
-    payload: string;
-}
-
-export interface GetUserBadgesIsLoadingAction {
-    type: typeof GET_USER_BADGES_IS_LOADING;
-}
-
-export interface GetUserBadgesIsLoadedAction {
-    type: typeof GET_USER_BADGES_IS_LOADED;
-}
-
-export type BadgesActionTypes =
-    | GetBadgesAction
-    | GetBadgesFailAction
-    | GetBadgesIsLoadingAction
-    | GetBadgesIsLoadedAction
-    | GetBadgeAction
-    | GetBadgeFailAction
-    | GetBadgeLoadingAction
-    | GetBadgeLoadedAction
-    | GetUserBadgesAction
-    | GetUserBadgesFailAction
-    | GetUserBadgesIsLoadingAction
-    | GetUserBadgesIsLoadedAction;
 
 export const GET_CHALLENGES = 'GET_CHALLENGES';
 export const GET_CHALLENGES_FAIL = 'GET_CHALLENGES_FAIL';
@@ -2561,7 +2469,6 @@ export type AppActions =
     | TeamStreakActionTypes
     | TeamMemberStreakActionTypes
     | UserActionTypes
-    | BadgesActionTypes
     | ChallengeActionTypes
     | ChallengeStreakActionTypes
     | NotesActionTypes

@@ -6,7 +6,6 @@ import { soloStreakReducer } from './reducers/soloStreakReducer';
 import { teamStreakReducer } from './reducers/teamStreakReducer';
 import { userReducer } from './reducers/userReducer';
 import { streakRecommendationReducer } from './reducers/streakRecommendationsReducer';
-import { badgeReducer } from './reducers/badgesReducer';
 import { challengeReducer } from './reducers/challengesReducer';
 import { challengeStreakReducer } from './reducers/challengeStreakReducer';
 import { noteReducer } from './reducers/notesReducer';
@@ -28,7 +27,6 @@ const sharedReducers = {
     teamStreaks: teamStreakReducer,
     users: userReducer,
     streakRecommendations: streakRecommendationReducer,
-    badges: badgeReducer,
     challenges: challengeReducer,
     challengeStreaks: challengeStreakReducer,
     notes: noteReducer,
@@ -52,7 +50,6 @@ export {
     teamStreakReducer,
     teamMemberStreakReducer,
     userReducer,
-    badgeReducer,
     challengeReducer,
     challengeStreakReducer,
     noteReducer,

@@ -16,7 +16,7 @@ import {
     UPDATE_SELECTED_CHALLENGE_IS_LOADING,
     UPDATE_SELECTED_CHALLENGE_IS_LOADED,
 } from '../actions/types';
-import { Challenge, PopulatedChallenge, ChallengeMember, CurrentStreak } from '@streakoid/streakoid-sdk/lib';
+import { Challenge, PopulatedChallenge, ChallengeMember, CurrentStreak } from '@streakoid/streakoid-sdk';
 
 export interface ChallengeReducerState {
     challengeList: Challenge[];
@@ -59,10 +59,7 @@ const initialState: ChallengeReducerState = {
         name: '',
         description: '',
         icon: '',
-        color: '',
-        badgeId: '',
         members: [],
-        levels: [],
         createdAt: '',
         updatedAt: '',
         userIsApartOfChallenge: false,

@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { StreakStatus, BadgeTypes } from '@streakoid/streakoid-sdk/lib';
+import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
 import {
     GET_USERS,
@@ -46,7 +46,6 @@ import {
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import Notifications from '@streakoid/streakoid-sdk/lib/models/Notifications';
-import { sortBadgesByLongestStreak } from './badgeActions';
 import { sortSoloStreaks, sortTeamStreaks, sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
@@ -137,7 +136,6 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: GET_USER_IS_LOADING });
             const users = await streakoid.users.getAll({ username });
             const user = await streakoid.users.getOne(users[0]._id);
-            const { badges } = user;
             const activeSoloStreaks = await streakoid.soloStreaks.getAll({
                 userId: user._id,
                 status: StreakStatus.live,
@@ -169,37 +167,6 @@ const userActions = (streakoid: typeof streakoidSDK) => {
                         completedChallengeStreakTaskDates: [],
                         username: user.username,
                         userProfileImage: user.profileImages.originalImageUrl,
-                    };
-                }),
-            );
-            const userBadges = await Promise.all(
-                badges.map(badge => {
-                    if (badge.badgeType === BadgeTypes.challenge) {
-                        const associatedChallengeStreak = sortedChallengeStreaks.find(
-                            challengeStreak => challengeStreak.badgeId === badge._id,
-                        );
-                        if (!associatedChallengeStreak) {
-                            return {
-                                ...badge,
-                                longestStreak: 0,
-                            };
-                        }
-                        const { pastStreaks, currentStreak } = associatedChallengeStreak;
-                        const pastStreakLengths = pastStreaks.map(pastStreak => pastStreak.numberOfDaysInARow);
-                        const longestPastStreakNumberOfDays = Math.max(...pastStreakLengths);
-                        const longestStreak =
-                            currentStreak.numberOfDaysInARow >= longestPastStreakNumberOfDays
-                                ? currentStreak.numberOfDaysInARow
-                                : longestPastStreakNumberOfDays;
-
-                        return {
-                            ...badge,
-                            longestStreak,
-                        };
-                    }
-                    return {
-                        ...badge,
-                        longestStreak: 0,
                     };
                 }),
             );
@@ -262,7 +229,6 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             );
             const selectedUser = {
                 ...user,
-                userBadges: userBadges.sort(sortBadgesByLongestStreak),
                 soloStreaks: sortedSoloStreaks,
                 teamStreaks: sortedTeamStreaks,
                 challengeStreaks: challengeStreaksWithClientData,
@@ -551,7 +517,6 @@ const userActions = (streakoid: typeof streakoidSDK) => {
 
     const updateCurrentUserPushNotifications = (updateData: {
         teamStreakUpdates?: { enabled: boolean };
-        badgeUpdates?: { enabled: boolean };
         newFollowerUpdates?: { enabled: boolean };
         customStreakReminders?: CustomStreakReminder[];
         completeAllStreaksReminder?: CompleteAllStreaksReminder;
