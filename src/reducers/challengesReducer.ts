@@ -57,6 +57,7 @@ const initialState: ChallengeReducerState = {
     selectedChallenge: {
         _id: '',
         name: '',
+        databaseName: '',
         description: '',
         icon: '',
         color: '',
