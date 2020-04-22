@@ -58,6 +58,7 @@ import {
     UPDATE_PUSH_NOTIFICATIONS_FAIL,
     UPDATE_PUSH_NOTIFICATIONS_IS_LOADING,
     UPDATE_PUSH_NOTIFICATIONS_IS_LOADED,
+    CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
 } from '../actions/types';
 import {
     SoloStreak,
@@ -818,6 +819,15 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 currentUser: {
                     ...state.currentUser,
                     updatePushNotificationsIsLoading: false,
+                },
+            };
+
+        case CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    updatePushNotificationsErrorMessage: '',
                 },
             };
 

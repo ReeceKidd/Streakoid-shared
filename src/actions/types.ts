@@ -1359,6 +1359,7 @@ export const UPDATE_PUSH_NOTIFICATIONS = 'UPDATE_PUSH_NOTIFICATIONS';
 export const UPDATE_PUSH_NOTIFICATIONS_FAIL = 'UPDATE_PUSH_NOTIFICATIONS_FAIL';
 export const UPDATE_PUSH_NOTIFICATIONS_IS_LOADING = 'UPDATE_PUSH_NOTIFICATIONS_IS_LOADING';
 export const UPDATE_PUSH_NOTIFICATIONS_IS_LOADED = 'UPDATE_PUSH_NOTIFICATIONS_IS_LOADED';
+export const CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE = 'CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE';
 
 export interface GetUsersAction {
     type: typeof GET_USERS;
@@ -1637,6 +1638,10 @@ export interface UpdatePushNotificationsIsLoadedAction {
     type: typeof UPDATE_PUSH_NOTIFICATIONS_IS_LOADED;
 }
 
+export interface ClearUpdatePushNotificationsErrorMessage {
+    type: typeof CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE;
+}
+
 export type UserActionTypes =
     | GetUsersAction
     | GetUsersFailAction
@@ -1697,7 +1702,8 @@ export type UserActionTypes =
     | UpdatePushNotificationsAction
     | UpdatePushNotificationsFailAction
     | UpdatePushNotificationsIsLoadingAction
-    | UpdatePushNotificationsIsLoadedAction;
+    | UpdatePushNotificationsIsLoadedAction
+    | ClearUpdatePushNotificationsErrorMessage;
 
 export const GET_CHALLENGES = 'GET_CHALLENGES';
 export const GET_CHALLENGES_FAIL = 'GET_CHALLENGES_FAIL';

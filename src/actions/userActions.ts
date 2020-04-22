@@ -42,6 +42,7 @@ import {
     UPDATE_PUSH_NOTIFICATIONS,
     UPDATE_PUSH_NOTIFICATIONS_IS_LOADED,
     UPDATE_PUSH_NOTIFICATIONS_FAIL,
+    CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -522,6 +523,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         completeAllStreaksReminder?: CompleteAllStreaksReminder;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
+            dispatch({ type: CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE });
             dispatch({ type: UPDATE_PUSH_NOTIFICATIONS_IS_LOADING });
 
             await streakoid.user.pushNotifications.updatePushNotifications({
