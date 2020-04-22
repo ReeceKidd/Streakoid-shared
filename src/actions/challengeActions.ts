@@ -117,11 +117,16 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         };
     };
 
-    // Action Functions
-    const getChallenges = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getChallenges = ({ searchQuery }: { searchQuery?: string }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
         try {
             dispatch({ type: GET_CHALLENGES_IS_LOADING });
-            const challenges = await streakoid.challenges.getAll({});
+            const query: { name?: string } = {};
+            if (searchQuery) {
+                query.name = searchQuery;
+            }
+            const challenges = await streakoid.challenges.getAll(query);
             dispatch({ type: GET_CHALLENGES, payload: challenges });
             dispatch({ type: GET_CHALLENGES_IS_LOADED });
         } catch (err) {
