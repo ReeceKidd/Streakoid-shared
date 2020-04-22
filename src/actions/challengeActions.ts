@@ -117,14 +117,17 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         };
     };
 
-    const getChallenges = ({ searchQuery }: { searchQuery?: string }) => async (
+    const getChallenges = ({ searchQuery, limit }: { searchQuery?: string; limit?: number }) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_CHALLENGES_IS_LOADING });
-            const query: { name?: string } = {};
+            const query: { searchQuery?: string; limit?: number } = {};
             if (searchQuery) {
-                query.name = searchQuery;
+                query.searchQuery = searchQuery;
+            }
+            if (limit) {
+                query.limit = limit;
             }
             const challenges = await streakoid.challenges.getAll(query);
             dispatch({ type: GET_CHALLENGES, payload: challenges });
