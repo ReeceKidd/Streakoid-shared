@@ -519,6 +519,7 @@ const userActions = (streakoid: typeof streakoidSDK) => {
     const updateCurrentUserPushNotifications = (updateData: {
         teamStreakUpdates?: { enabled: boolean };
         newFollowerUpdates?: { enabled: boolean };
+        achievementUpdates?: { enabled: boolean };
         customStreakReminders?: CustomStreakReminder[];
         completeAllStreaksReminder?: CompleteAllStreaksReminder;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
