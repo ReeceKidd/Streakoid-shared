@@ -210,6 +210,9 @@ const initialState: UserReducerInitialState = {
             newFollowerUpdates: {
                 enabled: false,
             },
+            achievementUpdates: {
+                enabled: false,
+            },
             customStreakReminders: [],
         },
         hasCompletedIntroduction: true,
