@@ -5,7 +5,7 @@ import {
     GET_DATABASE_STATS_LOADED,
     DatabaseStatsActionTypes,
 } from '../actions/types';
-import { DatabaseStats } from '@streakoid/streakoid-sdk/lib';
+import { DatabaseStats } from '@streakoid/streakoid-models/lib/Models/DatabaseStats';
 
 export interface DatabaseStatsReducerState {
     stats: DatabaseStats;

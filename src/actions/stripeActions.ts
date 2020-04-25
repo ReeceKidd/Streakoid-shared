@@ -10,7 +10,7 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
-import { PaymentPlans } from '@streakoid/streakoid-sdk/lib';
+import PaymentPlans from '@streakoid/streakoid-models/lib/Types/PaymentPlans';
 
 const stripeActions = (streakoid: typeof streakoidSDK) => {
     const createStripeSubscription = ({ token, paymentPlan }: { token: Token; paymentPlan: PaymentPlans }) => async (
