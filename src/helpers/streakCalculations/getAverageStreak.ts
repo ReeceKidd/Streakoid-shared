@@ -1,4 +1,5 @@
-import { PastStreak, CurrentStreak } from '@streakoid/streakoid-sdk/lib';
+import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
+import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 
 export const getAverageStreak = (currentStreak: CurrentStreak, pastStreaks: PastStreak[]) => {
     let pastStreakSum = 0;

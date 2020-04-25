@@ -1,4 +1,3 @@
-import { TeamStreak, ProfileImages, FormattedUser, Challenge, Note, DatabaseStats } from '@streakoid/streakoid-sdk/lib';
 import {
     PopulatedTeamStreakWithClientData,
     PopulatedTeamMemberWithClientData,
@@ -35,6 +34,12 @@ import {
     CustomTeamStreakReminder,
     CustomChallengeStreakReminder,
 } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
+import { TeamStreak } from '@streakoid/streakoid-models/lib/Models/TeamStreak';
+import { FormattedUser } from '@streakoid/streakoid-models/lib/Models/FormattedUser';
+import { ProfileImages } from '@streakoid/streakoid-models/lib/Models/ProfileImages';
+import { Challenge } from '@streakoid/streakoid-models/lib/Models/Challenge';
+import { Note } from '@streakoid/streakoid-models/lib/Models/Note';
+import { DatabaseStats } from '@streakoid/streakoid-models/lib/Models/DatabaseStats';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';

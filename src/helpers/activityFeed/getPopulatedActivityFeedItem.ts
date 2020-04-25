@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ActivityFeedItemTypes, ActivityFeedItemType } from '@streakoid/streakoid-sdk/lib';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import {
     CreatedSoloStreakClientActivityFeedItem,
@@ -31,6 +30,8 @@ import {
     CreatedAccountClientActivityFeedItem,
     FollowedUserClientActivityFeedItem,
 } from './ClientActivityFeedItem';
+import ActivityFeedItemType from '@streakoid/streakoid-sdk/lib/models/ActivityFeedItemType';
+import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 export const getPopulatedActivityFeedItem = async (

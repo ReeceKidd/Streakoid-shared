@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
-import { PastStreak, CurrentStreak } from '@streakoid/streakoid-sdk/lib';
+import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
+import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
 export const getStreakCompletionString = ({
     pastStreaks,
     currentStreak,

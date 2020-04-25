@@ -52,7 +52,6 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
-import { StreakStatus, StreakReminderTypes } from '@streakoid/streakoid-sdk/lib';
 import { sortTeamStreaks } from '../helpers/sorters/sortStreaks';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
@@ -60,6 +59,8 @@ import { PopulatedTeamMemberWithClientData, SelectedTeamStreak } from '../reduce
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
+import StreakReminderTypes from '@streakoid/streakoid-sdk/lib/StreakReminderTypes';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveTeamStreaks = () => async (

@@ -1,4 +1,5 @@
-import { PastStreak, CurrentStreak } from '@streakoid/streakoid-sdk/lib';
+import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
+import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 
 export const getLongestStreak = (currentStreak: CurrentStreak, pastStreaks: PastStreak[]) => {
     const pastStreakLengths = pastStreaks.map(pastStreak => pastStreak.numberOfDaysInARow);

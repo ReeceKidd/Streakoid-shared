@@ -20,7 +20,7 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
-import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 

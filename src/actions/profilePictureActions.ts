@@ -1,4 +1,3 @@
-import { SupportedRequestHeaders, ProfileImages, RouterCategories } from '@streakoid/streakoid-sdk/lib';
 import {
     UPLOAD_PROFILE_IMAGE,
     UPLOAD_PROFILE_IMAGE_IS_LOADED,
@@ -11,6 +10,9 @@ import {
 import { Dispatch } from 'redux';
 import axios, { AxiosResponse } from 'axios';
 import { AppActions, AppState } from '..';
+import { ProfileImages } from '@streakoid/streakoid-models/lib/Models/ProfileImages';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import SupportedRequestHeaders from '@streakoid/streakoid-models/lib/Types/SupportedRequestHeaders';
 
 const profilePictureActions = (apiUrl: string, getIdToken: () => string | Promise<string | null>) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

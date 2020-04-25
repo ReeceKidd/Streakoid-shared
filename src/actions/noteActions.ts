@@ -23,7 +23,7 @@ import {
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import { NoteWithClientData } from '../reducers/notesReducer';
-import { StreakTypes } from '@streakoid/streakoid-sdk/lib';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 
 const noteActions = (streakoid: typeof streakoidSDK) => {
     const getNotes = ({ subjectId, userId }: { subjectId?: string; userId?: string }) => async (

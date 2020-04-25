@@ -1,5 +1,3 @@
-import { Note } from '@streakoid/streakoid-sdk/lib';
-
 import {
     GET_NOTES,
     GET_NOTES_FAIL,
@@ -20,6 +18,7 @@ import {
     CLEAR_NOTES,
     CREATE_NOTE,
 } from '../actions/types';
+import { Note } from '@streakoid/streakoid-models/lib/Models/Note';
 
 export interface NoteReducerState {
     notes: NoteWithClientData[];

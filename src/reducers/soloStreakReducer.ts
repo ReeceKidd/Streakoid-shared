@@ -1,5 +1,3 @@
-import { SoloStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
-
 import {
     GET_LIVE_SOLO_STREAKS,
     CREATE_SOLO_STREAK,
@@ -61,6 +59,8 @@ import {
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomSoloStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
 
 export interface SoloStreakReducerState {
     liveSoloStreaks: SoloStreakListItem[];

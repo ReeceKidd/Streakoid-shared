@@ -13,7 +13,7 @@ import {
     GET_CHALLENGE_STREAK_LEADERBOARD_LOADED,
     GET_CHALLENGE_STREAK_LEADERBOARD_LOADING,
 } from '../actions/types';
-import { PopulatedTeamMember } from '@streakoid/streakoid-sdk/lib';
+import { PopulatedTeamMember } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamMember';
 
 export interface LeaderboardReducerState {
     soloStreakLeaderboard: SoloStreakLeaderboardItem[];

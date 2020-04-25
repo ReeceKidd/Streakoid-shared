@@ -1,5 +1,4 @@
 import { Dispatch } from 'redux';
-import { StreakStatus } from '@streakoid/streakoid-sdk/lib';
 
 import {
     GET_USERS,
@@ -54,6 +53,7 @@ import { FollowingWithClientData } from '../reducers/userReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomStreakReminder, CompleteAllStreaksReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (

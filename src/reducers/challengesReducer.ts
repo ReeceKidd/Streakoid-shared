@@ -16,7 +16,10 @@ import {
     UPDATE_SELECTED_CHALLENGE_IS_LOADING,
     UPDATE_SELECTED_CHALLENGE_IS_LOADED,
 } from '../actions/types';
-import { Challenge, PopulatedChallenge, ChallengeMember, CurrentStreak } from '@streakoid/streakoid-sdk';
+import { Challenge } from '@streakoid/streakoid-models/lib/Models/Challenge';
+import { PopulatedChallenge } from '@streakoid/streakoid-models/lib/Models/PopulatedChallenge';
+import { ChallengeMember } from '@streakoid/streakoid-models/lib/Models/ChallengeMember';
+import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
 
 export interface ChallengeReducerState {
     challengeList: Challenge[];

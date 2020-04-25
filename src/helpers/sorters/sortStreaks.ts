@@ -1,5 +1,7 @@
-import { ChallengeStreak, SoloStreak, PopulatedTeamStreak } from '@streakoid/streakoid-sdk/lib';
 import moment from 'moment-timezone';
+import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
+import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/ChallengeStreak';
+import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamStreak';
 
 export const sortByCurrentStreak = (
     streakA: SoloStreak | ChallengeStreak | PopulatedTeamStreak,

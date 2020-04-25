@@ -1,5 +1,3 @@
-import { TeamMemberStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
-
 import {
     TeamMemberStreakActionTypes,
     GET_TEAM_MEMBER_STREAK,
@@ -8,6 +6,8 @@ import {
     CLEAR_SELECTED_TEAM_MEMBER_STREAK,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMemberStreak';
 
 export interface TeamMemberStreakReducerState {
     selectedTeamMemberStreak: SelectedTeamMemberStreak;

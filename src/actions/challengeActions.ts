@@ -21,11 +21,12 @@ import {
     UPDATE_SELECTED_CHALLENGE,
 } from './types';
 import { AppActions, AppState } from '..';
-import { PopulatedChallenge, ChallengeMember } from '@streakoid/streakoid-sdk/lib';
 import { ChallengeMemberWithClientData, SelectedChallenge } from '../reducers/challengesReducer';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { SelectedChallengeStreak } from '../reducers/challengeStreakReducer';
+import { ChallengeMember } from '@streakoid/streakoid-models/lib/Models/ChallengeMember';
+import { PopulatedChallenge } from '@streakoid/streakoid-models/lib/Models/PopulatedChallenge';
 
 export enum GetChallengeSortFields {
     currentStreak = 'currentStreak',

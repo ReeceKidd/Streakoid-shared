@@ -16,8 +16,8 @@ import {
     CLEAR_GLOBAL_ACTIVITY_FEED,
 } from './types';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
-import { ActivityFeedItemType } from '@streakoid/streakoid-sdk/lib';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
+import ActivityFeedItemType from '@streakoid/streakoid-sdk/lib/models/ActivityFeedItemType';
 
 export interface GetAllPopulatedActivityFeedItemsActionResponse {
     activityFeedItems: ActivityFeedItemType[];

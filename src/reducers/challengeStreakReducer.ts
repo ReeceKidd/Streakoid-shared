@@ -1,5 +1,3 @@
-import { ChallengeStreak, StreakStatus } from '@streakoid/streakoid-sdk/lib';
-
 import {
     COMPLETE_CHALLENGE_STREAK_LIST_TASK,
     ChallengeStreakActionTypes,
@@ -53,6 +51,8 @@ import {
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomChallengeStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/ChallengeStreak';
 
 export interface ChallengeStreakReducerState {
     liveChallengeStreaks: ChallengeStreakListItem[];
@@ -66,7 +66,7 @@ export interface ChallengeStreakReducerState {
     getArchivedChallengeStreaksErrorMessage: string;
     archiveChallengeStreakIsLoading: boolean;
     archiveChallengeStreakErrorMessage: string;
-    createChallengeStreakErrorMessge: string;
+    createChallengeStreakErrorMessage: string;
     restoreArchivedChallengeStreakIsLoading: boolean;
     restoreArchivedChallengeStreakErrorMessage: string;
     deleteArchivedChallengeStreakIsLoading: boolean;
@@ -126,7 +126,7 @@ const initialState: ChallengeStreakReducerState = {
     getArchivedChallengeStreaksErrorMessage: '',
     archiveChallengeStreakIsLoading: false,
     archiveChallengeStreakErrorMessage: '',
-    createChallengeStreakErrorMessge: '',
+    createChallengeStreakErrorMessage: '',
     restoreArchivedChallengeStreakIsLoading: false,
     restoreArchivedChallengeStreakErrorMessage: '',
     deleteArchivedChallengeStreakIsLoading: false,
@@ -260,7 +260,7 @@ const challengeStreakReducer = (
         case CREATE_CHALLENGE_STREAK_FAIL: {
             return {
                 ...state,
-                createChallengeStreakErrorMessge: '',
+                createChallengeStreakErrorMessage: '',
             };
         }
 

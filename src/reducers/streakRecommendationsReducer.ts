@@ -10,7 +10,7 @@ import {
     SELECT_STREAK_RECOMMENDATION_IS_LOADING,
     SELECT_STREAK_RECOMMENDATION_IS_LOADED,
 } from '../actions/types';
-import { Challenge } from '@streakoid/streakoid-sdk/lib';
+import { Challenge } from '@streakoid/streakoid-models/lib/Models/Challenge';
 
 export interface StreakRecommendationReducerState {
     streakRecommendations: StreakRecommendationWithClientData[];

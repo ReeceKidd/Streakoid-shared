@@ -61,9 +61,9 @@ import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { StreakReminderTypes } from '@streakoid/streakoid-sdk/lib';
 import { SelectedChallengeStreak } from '../reducers/challengeStreakReducer';
 import { CustomChallengeStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
+import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveChallengeStreaks = () => async (
