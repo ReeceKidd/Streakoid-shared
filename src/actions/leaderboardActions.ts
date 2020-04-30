@@ -13,6 +13,10 @@ import {
     GET_CHALLENGE_STREAK_LEADERBOARD,
     GET_CHALLENGE_STREAK_LEADERBOARD_LOADED,
     GET_CHALLENGE_STREAK_LEADERBOARD_FAIL,
+    GET_USER_LEADERBOARD_LOADING,
+    GET_USER_LEADERBOARD,
+    GET_USER_LEADERBOARD_LOADED,
+    GET_USER_LEADERBOARD_FAIL,
 } from './types';
 import { AppActions } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -156,10 +160,30 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
+    const getUserLeaderboard = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+        try {
+            dispatch({ type: GET_USER_LEADERBOARD_LOADING });
+            const users = await streakoid.users.getAll({
+                limit: 25,
+            });
+
+            dispatch({ type: GET_USER_LEADERBOARD, payload: users });
+            dispatch({ type: GET_USER_LEADERBOARD_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_USER_LEADERBOARD_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_USER_LEADERBOARD_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: GET_USER_LEADERBOARD_FAIL, payload: err.message });
+            }
+        }
+    };
+
     return {
         getSoloStreakLeaderboard,
         getTeamStreakLeaderboard,
         getChallengeStreakLeaderboard,
+        getUserLeaderboard,
     };
 };
 

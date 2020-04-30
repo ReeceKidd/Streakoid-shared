@@ -2375,6 +2375,11 @@ export const GET_CHALLENGE_STREAK_LEADERBOARD_FAIL = 'GET_CHALLENGE_STREAK_LEADE
 export const GET_CHALLENGE_STREAK_LEADERBOARD_LOADING = 'GET_CHALLENGE_STREAK_LEADERBOARD_LOADING';
 export const GET_CHALLENGE_STREAK_LEADERBOARD_LOADED = 'GET_CHALLENGE_STREAK_LEADERBOARD_LOADED';
 
+export const GET_USER_LEADERBOARD = 'GET_USER_LEADERBOARD';
+export const GET_USER_LEADERBOARD_FAIL = 'GET_USER_LEADERBOARD_FAIL';
+export const GET_USER_LEADERBOARD_LOADING = 'GET_USER_LEADERBOARD_LOADING';
+export const GET_USER_LEADERBOARD_LOADED = 'GET_USER_LEADERBOARD_LOADED';
+
 export interface GetSoloStreakLeaderboardAction {
     type: typeof GET_SOLO_STREAK_LEADERBOARD;
     payload: SoloStreakLeaderboardItem[];
@@ -2429,6 +2434,24 @@ export interface GetChallengeStreakLeaderboardLoadedAction {
     type: typeof GET_CHALLENGE_STREAK_LEADERBOARD_LOADED;
 }
 
+export interface GetUserLeaderboardAction {
+    type: typeof GET_USER_LEADERBOARD;
+    payload: FormattedUser[];
+}
+
+export interface GetUserLeaderboardFailAction {
+    type: typeof GET_USER_LEADERBOARD_FAIL;
+    payload: string;
+}
+
+export interface GetUserLeaderboardLoadingAction {
+    type: typeof GET_USER_LEADERBOARD_LOADING;
+}
+
+export interface GetUserLeaderboardLoadedAction {
+    type: typeof GET_USER_LEADERBOARD_LOADED;
+}
+
 export type LeaderboardActionTypes =
     | GetSoloStreakLeaderboardAction
     | GetSoloStreakLeaderboardFailAction
@@ -2441,7 +2464,11 @@ export type LeaderboardActionTypes =
     | GetChallengeStreakLeaderboardAction
     | GetChallengeStreakLeaderboardFailAction
     | GetChallengeStreakLeaderboardLoadingAction
-    | GetChallengeStreakLeaderboardLoadedAction;
+    | GetChallengeStreakLeaderboardLoadedAction
+    | GetUserLeaderboardAction
+    | GetUserLeaderboardLoadingAction
+    | GetUserLeaderboardLoadedAction
+    | GetUserLeaderboardFailAction;
 
 export const GET_DATABASE_STATS = 'GET_DATABASE_STATS';
 export const GET_DATABASE_STATS_FAIL = 'GET_DATABASE_STATS_FAIL';

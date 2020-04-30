@@ -12,8 +12,13 @@ import {
     GET_CHALLENGE_STREAK_LEADERBOARD_FAIL,
     GET_CHALLENGE_STREAK_LEADERBOARD_LOADED,
     GET_CHALLENGE_STREAK_LEADERBOARD_LOADING,
+    GET_USER_LEADERBOARD,
+    GET_USER_LEADERBOARD_FAIL,
+    GET_USER_LEADERBOARD_LOADING,
+    GET_USER_LEADERBOARD_LOADED,
 } from '../actions/types';
 import { PopulatedTeamMember } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamMember';
+import { FormattedUser } from '@streakoid/streakoid-models/lib/Models/FormattedUser';
 
 export interface LeaderboardReducerState {
     soloStreakLeaderboard: SoloStreakLeaderboardItem[];
@@ -25,6 +30,9 @@ export interface LeaderboardReducerState {
     challengeStreakLeaderboard: ChallengeStreakLeaderboardItem[];
     getChallengeStreakLeaderboardIsLoading: boolean;
     getChallengeStreakLeaderboardErrorMessage: string;
+    userLeaderboard: FormattedUser[];
+    getUserLeaderboardIsLoading: boolean;
+    getUserLeaderboardErrorMessage: string;
 }
 
 export interface SoloStreakLeaderboardItem {
@@ -63,6 +71,9 @@ const initialState: LeaderboardReducerState = {
     challengeStreakLeaderboard: [],
     getChallengeStreakLeaderboardIsLoading: false,
     getChallengeStreakLeaderboardErrorMessage: '',
+    userLeaderboard: [],
+    getUserLeaderboardIsLoading: false,
+    getUserLeaderboardErrorMessage: '',
 };
 
 export interface LeaderboardWithClientData {
@@ -142,6 +153,30 @@ const leaderboardReducer = (state = initialState, action: LeaderboardActionTypes
             return {
                 ...state,
                 getChallengeStreakLeaderboardIsLoading: false,
+            };
+
+        case GET_USER_LEADERBOARD:
+            return {
+                ...state,
+                userLeaderboard: action.payload,
+            };
+
+        case GET_USER_LEADERBOARD_FAIL:
+            return {
+                ...state,
+                getUserLeaderboardErrorMessage: action.payload,
+            };
+
+        case GET_USER_LEADERBOARD_LOADING:
+            return {
+                ...state,
+                getUserLeaderboardIsLoading: true,
+            };
+
+        case GET_USER_LEADERBOARD_LOADED:
+            return {
+                ...state,
+                getUserLeaderboardIsLoading: false,
             };
 
         default:
