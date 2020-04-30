@@ -129,6 +129,7 @@ const defaultSelectedUser: SelectedUser = {
     userType: UserTypes.basic,
     followers: [],
     following: [],
+    totalStreakCompletes: 0,
     achievements: [],
     profileImages: {
         originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
@@ -196,6 +197,7 @@ const initialState: UserReducerInitialState = {
         },
         followers: [],
         following: [],
+        totalStreakCompletes: 0,
         achievements: [],
         userStreakCompleteInfo: [],
         pushNotificationToken: '',
