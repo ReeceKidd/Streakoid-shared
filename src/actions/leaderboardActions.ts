@@ -164,19 +164,12 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getGlobalUserLeaderboard = ({ userIds }: { userIds?: string[] }) => async (
-        dispatch: Dispatch<AppActions>,
-    ): Promise<void> => {
+    const getGlobalUserLeaderboard = ({  }: {}) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_GLOBAL_USER_LEADERBOARD_LOADING });
-            let query: { limit: number; userIds?: string[] } = { limit: 25 };
-            if (userIds) {
-                query = {
-                    ...query,
-                    userIds,
-                };
-            }
-            const users = await streakoid.users.getAll(query);
+            const maximumNumberOfUsersToDisplay = 25;
+
+            const users = await streakoid.users.getAll({ limit: maximumNumberOfUsersToDisplay });
 
             dispatch({ type: GET_GLOBAL_USER_LEADERBOARD, payload: users });
             dispatch({ type: GET_GLOBAL_USER_LEADERBOARD_LOADED });
@@ -196,7 +189,9 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: GET_FOLLOWING_LEADERBOARD_LOADING });
 
-            const users = await streakoid.users.getAll({ limit: 25, userIds });
+            const maximumNumberOfUsersToDisplay = 25;
+
+            const users = await streakoid.users.getAll({ limit: maximumNumberOfUsersToDisplay, userIds });
 
             dispatch({ type: GET_FOLLOWING_LEADERBOARD, payload: users });
             dispatch({ type: GET_FOLLOWING_LEADERBOARD_LOADED });
