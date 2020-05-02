@@ -12,10 +12,14 @@ import {
     GET_CHALLENGE_STREAK_LEADERBOARD_FAIL,
     GET_CHALLENGE_STREAK_LEADERBOARD_LOADED,
     GET_CHALLENGE_STREAK_LEADERBOARD_LOADING,
-    GET_USER_LEADERBOARD,
-    GET_USER_LEADERBOARD_FAIL,
-    GET_USER_LEADERBOARD_LOADING,
-    GET_USER_LEADERBOARD_LOADED,
+    GET_GLOBAL_USER_LEADERBOARD,
+    GET_GLOBAL_USER_LEADERBOARD_FAIL,
+    GET_GLOBAL_USER_LEADERBOARD_LOADING,
+    GET_GLOBAL_USER_LEADERBOARD_LOADED,
+    GET_FOLLOWING_LEADERBOARD,
+    GET_FOLLOWING_LEADERBOARD_FAIL,
+    GET_FOLLOWING_LEADERBOARD_LOADING,
+    GET_FOLLOWING_LEADERBOARD_LOADED,
 } from '../actions/types';
 import { PopulatedTeamMember } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamMember';
 import { FormattedUser } from '@streakoid/streakoid-models/lib/Models/FormattedUser';
@@ -30,9 +34,12 @@ export interface LeaderboardReducerState {
     challengeStreakLeaderboard: ChallengeStreakLeaderboardItem[];
     getChallengeStreakLeaderboardIsLoading: boolean;
     getChallengeStreakLeaderboardErrorMessage: string;
-    userLeaderboard: FormattedUser[];
-    getUserLeaderboardIsLoading: boolean;
-    getUserLeaderboardErrorMessage: string;
+    globalUserLeaderboard: FormattedUser[];
+    getGlobalUserLeaderboardIsLoading: boolean;
+    getGlobalUserLeaderboardErrorMessage: string;
+    followingLeaderboard: FormattedUser[];
+    getFollowingLeaderboardIsLoading: boolean;
+    getFollowingLeaderboardErrorMessage: string;
 }
 
 export interface SoloStreakLeaderboardItem {
@@ -71,9 +78,12 @@ const initialState: LeaderboardReducerState = {
     challengeStreakLeaderboard: [],
     getChallengeStreakLeaderboardIsLoading: false,
     getChallengeStreakLeaderboardErrorMessage: '',
-    userLeaderboard: [],
-    getUserLeaderboardIsLoading: false,
-    getUserLeaderboardErrorMessage: '',
+    globalUserLeaderboard: [],
+    getGlobalUserLeaderboardIsLoading: false,
+    getGlobalUserLeaderboardErrorMessage: '',
+    followingLeaderboard: [],
+    getFollowingLeaderboardIsLoading: false,
+    getFollowingLeaderboardErrorMessage: '',
 };
 
 export interface LeaderboardWithClientData {
@@ -155,28 +165,52 @@ const leaderboardReducer = (state = initialState, action: LeaderboardActionTypes
                 getChallengeStreakLeaderboardIsLoading: false,
             };
 
-        case GET_USER_LEADERBOARD:
+        case GET_GLOBAL_USER_LEADERBOARD:
             return {
                 ...state,
-                userLeaderboard: action.payload,
+                globalUserLeaderboard: action.payload,
             };
 
-        case GET_USER_LEADERBOARD_FAIL:
+        case GET_GLOBAL_USER_LEADERBOARD_FAIL:
             return {
                 ...state,
-                getUserLeaderboardErrorMessage: action.payload,
+                getGlobalUserLeaderboardErrorMessage: action.payload,
             };
 
-        case GET_USER_LEADERBOARD_LOADING:
+        case GET_GLOBAL_USER_LEADERBOARD_LOADING:
             return {
                 ...state,
-                getUserLeaderboardIsLoading: true,
+                getGlobalUserLeaderboardIsLoading: true,
             };
 
-        case GET_USER_LEADERBOARD_LOADED:
+        case GET_GLOBAL_USER_LEADERBOARD_LOADED:
             return {
                 ...state,
-                getUserLeaderboardIsLoading: false,
+                getGlobalUserLeaderboardIsLoading: false,
+            };
+
+        case GET_FOLLOWING_LEADERBOARD:
+            return {
+                ...state,
+                followingLeaderboard: action.payload,
+            };
+
+        case GET_FOLLOWING_LEADERBOARD_FAIL:
+            return {
+                ...state,
+                getFollowingLeaderboardErrorMessage: action.payload,
+            };
+
+        case GET_FOLLOWING_LEADERBOARD_LOADING:
+            return {
+                ...state,
+                getFollowingLeaderboardIsLoading: true,
+            };
+
+        case GET_FOLLOWING_LEADERBOARD_LOADED:
+            return {
+                ...state,
+                getFollowingLeaderboardIsLoading: false,
             };
 
         default:

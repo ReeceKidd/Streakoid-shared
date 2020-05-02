@@ -2375,10 +2375,15 @@ export const GET_CHALLENGE_STREAK_LEADERBOARD_FAIL = 'GET_CHALLENGE_STREAK_LEADE
 export const GET_CHALLENGE_STREAK_LEADERBOARD_LOADING = 'GET_CHALLENGE_STREAK_LEADERBOARD_LOADING';
 export const GET_CHALLENGE_STREAK_LEADERBOARD_LOADED = 'GET_CHALLENGE_STREAK_LEADERBOARD_LOADED';
 
-export const GET_USER_LEADERBOARD = 'GET_USER_LEADERBOARD';
-export const GET_USER_LEADERBOARD_FAIL = 'GET_USER_LEADERBOARD_FAIL';
-export const GET_USER_LEADERBOARD_LOADING = 'GET_USER_LEADERBOARD_LOADING';
-export const GET_USER_LEADERBOARD_LOADED = 'GET_USER_LEADERBOARD_LOADED';
+export const GET_GLOBAL_USER_LEADERBOARD = 'GET_GLOBAL_USER_LEADERBOARD';
+export const GET_GLOBAL_USER_LEADERBOARD_FAIL = 'GET_GLOBAL_USER_LEADERBOARD_FAIL';
+export const GET_GLOBAL_USER_LEADERBOARD_LOADING = 'GET_GLOBAL_USER_LEADERBOARD_LOADING';
+export const GET_GLOBAL_USER_LEADERBOARD_LOADED = 'GET_GLOBAL_USER_LEADERBOARD_LOADED';
+
+export const GET_FOLLOWING_LEADERBOARD = 'GET_FOLLOWING_LEADERBOARD';
+export const GET_FOLLOWING_LEADERBOARD_FAIL = 'GET_FOLLOWING_LEADERBOARD_FAIL';
+export const GET_FOLLOWING_LEADERBOARD_LOADING = 'GET_FOLLOWING_LEADERBOARD_LOADING';
+export const GET_FOLLOWING_LEADERBOARD_LOADED = 'GET_FOLLOWING_LEADERBOARD_LOADED';
 
 export interface GetSoloStreakLeaderboardAction {
     type: typeof GET_SOLO_STREAK_LEADERBOARD;
@@ -2434,22 +2439,40 @@ export interface GetChallengeStreakLeaderboardLoadedAction {
     type: typeof GET_CHALLENGE_STREAK_LEADERBOARD_LOADED;
 }
 
-export interface GetUserLeaderboardAction {
-    type: typeof GET_USER_LEADERBOARD;
+export interface GetGlobalUserLeaderboardAction {
+    type: typeof GET_GLOBAL_USER_LEADERBOARD;
     payload: FormattedUser[];
 }
 
-export interface GetUserLeaderboardFailAction {
-    type: typeof GET_USER_LEADERBOARD_FAIL;
+export interface GetGlobalUserLeaderboardFailAction {
+    type: typeof GET_GLOBAL_USER_LEADERBOARD_FAIL;
     payload: string;
 }
 
-export interface GetUserLeaderboardLoadingAction {
-    type: typeof GET_USER_LEADERBOARD_LOADING;
+export interface GetGlobalUserLeaderboardLoadingAction {
+    type: typeof GET_GLOBAL_USER_LEADERBOARD_LOADING;
 }
 
-export interface GetUserLeaderboardLoadedAction {
-    type: typeof GET_USER_LEADERBOARD_LOADED;
+export interface GetGlobalUserLeaderboardLoadedAction {
+    type: typeof GET_GLOBAL_USER_LEADERBOARD_LOADED;
+}
+
+export interface GetFollowingLeaderboardAction {
+    type: typeof GET_FOLLOWING_LEADERBOARD;
+    payload: FormattedUser[];
+}
+
+export interface GetFollowingLeaderboardFailAction {
+    type: typeof GET_FOLLOWING_LEADERBOARD_FAIL;
+    payload: string;
+}
+
+export interface GetFollowingLeaderboardLoadingAction {
+    type: typeof GET_FOLLOWING_LEADERBOARD_LOADING;
+}
+
+export interface GetFollowingLeaderboardLoadedAction {
+    type: typeof GET_FOLLOWING_LEADERBOARD_LOADED;
 }
 
 export type LeaderboardActionTypes =
@@ -2465,10 +2488,14 @@ export type LeaderboardActionTypes =
     | GetChallengeStreakLeaderboardFailAction
     | GetChallengeStreakLeaderboardLoadingAction
     | GetChallengeStreakLeaderboardLoadedAction
-    | GetUserLeaderboardAction
-    | GetUserLeaderboardLoadingAction
-    | GetUserLeaderboardLoadedAction
-    | GetUserLeaderboardFailAction;
+    | GetGlobalUserLeaderboardAction
+    | GetGlobalUserLeaderboardLoadingAction
+    | GetGlobalUserLeaderboardLoadedAction
+    | GetGlobalUserLeaderboardFailAction
+    | GetFollowingLeaderboardAction
+    | GetFollowingLeaderboardFailAction
+    | GetFollowingLeaderboardLoadingAction
+    | GetFollowingLeaderboardLoadedAction;
 
 export const GET_DATABASE_STATS = 'GET_DATABASE_STATS';
 export const GET_DATABASE_STATS_FAIL = 'GET_DATABASE_STATS_FAIL';

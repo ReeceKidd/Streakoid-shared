@@ -13,10 +13,14 @@ import {
     GET_CHALLENGE_STREAK_LEADERBOARD,
     GET_CHALLENGE_STREAK_LEADERBOARD_LOADED,
     GET_CHALLENGE_STREAK_LEADERBOARD_FAIL,
-    GET_USER_LEADERBOARD_LOADING,
-    GET_USER_LEADERBOARD,
-    GET_USER_LEADERBOARD_LOADED,
-    GET_USER_LEADERBOARD_FAIL,
+    GET_GLOBAL_USER_LEADERBOARD_LOADING,
+    GET_GLOBAL_USER_LEADERBOARD,
+    GET_GLOBAL_USER_LEADERBOARD_LOADED,
+    GET_GLOBAL_USER_LEADERBOARD_FAIL,
+    GET_FOLLOWING_LEADERBOARD_LOADING,
+    GET_FOLLOWING_LEADERBOARD,
+    GET_FOLLOWING_LEADERBOARD_LOADED,
+    GET_FOLLOWING_LEADERBOARD_FAIL,
 } from './types';
 import { AppActions } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -160,21 +164,48 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getUserLeaderboard = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getGlobalUserLeaderboard = ({ userIds }: { userIds?: string[] }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
         try {
-            dispatch({ type: GET_USER_LEADERBOARD_LOADING });
-            const users = await streakoid.users.getAll({
-                limit: 25,
-            });
+            dispatch({ type: GET_GLOBAL_USER_LEADERBOARD_LOADING });
+            let query: { limit: number; userIds?: string[] } = { limit: 25 };
+            if (userIds) {
+                query = {
+                    ...query,
+                    userIds,
+                };
+            }
+            const users = await streakoid.users.getAll(query);
 
-            dispatch({ type: GET_USER_LEADERBOARD, payload: users });
-            dispatch({ type: GET_USER_LEADERBOARD_LOADED });
+            dispatch({ type: GET_GLOBAL_USER_LEADERBOARD, payload: users });
+            dispatch({ type: GET_GLOBAL_USER_LEADERBOARD_LOADED });
         } catch (err) {
-            dispatch({ type: GET_USER_LEADERBOARD_LOADED });
+            dispatch({ type: GET_GLOBAL_USER_LEADERBOARD_LOADED });
             if (err.response) {
-                dispatch({ type: GET_USER_LEADERBOARD_FAIL, payload: err.response.data.message });
+                dispatch({ type: GET_GLOBAL_USER_LEADERBOARD_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: GET_USER_LEADERBOARD_FAIL, payload: err.message });
+                dispatch({ type: GET_GLOBAL_USER_LEADERBOARD_FAIL, payload: err.message });
+            }
+        }
+    };
+
+    const getFollowingLeaderboard = ({ userIds }: { userIds: string[] }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: GET_FOLLOWING_LEADERBOARD_LOADING });
+
+            const users = await streakoid.users.getAll({ limit: 25, userIds });
+
+            dispatch({ type: GET_FOLLOWING_LEADERBOARD, payload: users });
+            dispatch({ type: GET_FOLLOWING_LEADERBOARD_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_FOLLOWING_LEADERBOARD_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_FOLLOWING_LEADERBOARD_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: GET_FOLLOWING_LEADERBOARD_FAIL, payload: err.message });
             }
         }
     };
@@ -183,7 +214,8 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
         getSoloStreakLeaderboard,
         getTeamStreakLeaderboard,
         getChallengeStreakLeaderboard,
-        getUserLeaderboard,
+        getGlobalUserLeaderboard,
+        getFollowingLeaderboard,
     };
 };
 
