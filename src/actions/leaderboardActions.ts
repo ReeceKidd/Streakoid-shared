@@ -128,15 +128,11 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
             const leaderboardItems: ChallengeStreakLeaderboardItem[] = await Promise.all(
                 challengeStreaks.map(async challengeStreak => {
                     try {
-                        const challenge = await streakoid.challenges.getOne({
-                            challengeId: challengeStreak.challengeId,
-                        });
-                        const challengeStreakOwner = await streakoid.users.getOne(challengeStreak.userId);
                         return {
                             streakId: challengeStreak._id,
-                            challengeName: challenge.name,
-                            username: challengeStreakOwner.username,
-                            userProfileImage: challengeStreakOwner.profileImages.originalImageUrl,
+                            challengeName: challengeStreak.challengeName,
+                            username: challengeStreak.username,
+                            userProfileImage: challengeStreak.userProfileImage,
                             currentStreakNumberOfDaysInARow: challengeStreak.currentStreak.numberOfDaysInARow,
                             streakCreatedAt: new Date(challengeStreak.createdAt),
                         };
