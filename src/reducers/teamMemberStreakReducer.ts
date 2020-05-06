@@ -33,7 +33,6 @@ const defaultSelectedTeamMemberStreak = {
     teamStreakName: '',
     teamStreakDescription: '',
     longestStreak: 0,
-    averageStreak: 0,
     totalTimesTracked: 0,
     daysSinceStreakCreation: 0,
     numberOfRestarts: 0,
@@ -59,7 +58,6 @@ export interface SelectedTeamMemberStreak extends TeamMemberStreak {
     teamStreakName: string;
     teamStreakDescription?: string;
     longestStreak: number;
-    averageStreak: number;
     totalTimesTracked: number;
     daysSinceStreakCreation: number;
     numberOfRestarts: number;

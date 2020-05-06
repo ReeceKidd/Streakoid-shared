@@ -69,7 +69,6 @@ import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import { sortSoloStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
-import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
@@ -181,7 +180,6 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
                     userProfileImage: soloStreakOwner.profileImages.originalImageUrl,
                     completedSoloStreakTaskDates,
                     longestStreak: getLongestStreak(soloStreak.currentStreak, soloStreak.pastStreaks),
-                    averageStreak: getAverageStreak(soloStreak.currentStreak, soloStreak.pastStreaks),
                     totalTimesTracked: completeSoloStreakTasks.length,
                     daysSinceStreakCreation: getDaysSinceStreakCreation({
                         createdAt: new Date(soloStreak.createdAt),

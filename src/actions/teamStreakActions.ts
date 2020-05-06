@@ -53,7 +53,6 @@ import {
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import { sortTeamStreaks } from '../helpers/sorters/sortStreaks';
-import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { PopulatedTeamMemberWithClientData, SelectedTeamStreak } from '../reducers/teamStreakReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
@@ -92,7 +91,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                                     completeTeamMemberStreakTaskErrorMessage: '',
                                     incompleteTeamMemberStreakTaskIsLoading: false,
                                     incompleteTeamMemberStreakTaskErrorMessage: '',
-                                    averageStreak: getAverageStreak(currentStreak, pastStreaks),
                                     longestStreak: getLongestStreak(currentStreak, pastStreaks),
                                     totalTimesTracked: totalTimesTracked.length,
                                 },
@@ -145,7 +143,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                                     completeTeamMemberStreakTaskErrorMessage: '',
                                     incompleteTeamMemberStreakTaskIsLoading: false,
                                     incompleteTeamMemberStreakTaskErrorMessage: '',
-                                    averageStreak: getAverageStreak(currentStreak, pastStreaks),
                                     longestStreak: getLongestStreak(currentStreak, pastStreaks),
                                     totalTimesTracked: totalTimesTracked.length,
                                 },
@@ -184,7 +181,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                         teamStreakId: teamStreak._id,
                     });
                     const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                    const averageStreak = getAverageStreak(currentStreak, pastStreaks);
                     const longestStreak = getLongestStreak(currentStreak, pastStreaks);
                     return {
                         ...member,
@@ -194,7 +190,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                             completeTeamMemberStreakTaskErrorMessage: '',
                             incompleteTeamMemberStreakTaskIsLoading: false,
                             incompleteTeamMemberStreakTaskErrorMessage: '',
-                            averageStreak,
                             longestStreak,
                             totalTimesTracked: totalTimesTracked.length,
                         },
@@ -252,7 +247,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 ...teamStreak,
                 members,
                 completedTeamMemberStreakTaskDatesWithCounts,
-                averageStreak: getAverageStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
                 longestStreak: getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
                 totalTimesTracked: totalTimesTracked.length,
                 activityFeed: {
@@ -326,7 +320,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                             completeTeamMemberStreakTaskErrorMessage: '',
                             incompleteTeamMemberStreakTaskIsLoading: false,
                             incompleteTeamMemberStreakTaskErrorMessage: '',
-                            averageStreak: getAverageStreak(currentStreak, pastStreaks),
                             longestStreak: getLongestStreak(currentStreak, pastStreaks),
                             totalTimesTracked: totalTimesTracked.length,
                         },
@@ -416,7 +409,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                             incompleteTeamMemberStreakTaskIsLoading: false,
                             incompleteTeamMemberStreakTaskErrorMessage: '',
                             longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                            averageStreak: getAverageStreak(currentStreak, pastStreaks),
                             totalTimesTracked: totalTimesTracked.length,
                         },
                     };
@@ -469,7 +461,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                             incompleteTeamMemberStreakTaskIsLoading: false,
                             incompleteTeamMemberStreakTaskErrorMessage: '',
                             longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                            averageStreak: getAverageStreak(currentStreak, pastStreaks),
                             totalTimesTracked: totalTimesTracked.length,
                         },
                     };
@@ -557,7 +548,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                             incompleteTeamMemberStreakTaskIsLoading: false,
                             incompleteTeamMemberStreakTaskErrorMessage: '',
                             longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                            averageStreak: getAverageStreak(currentStreak, pastStreaks),
                             totalTimesTracked: totalTimesTracked.length,
                         },
                     };
@@ -594,7 +584,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
                 completedTeamMemberStreakTaskDatesWithCounts,
-                averageStreak: getAverageStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
                 longestStreak: getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
                 totalTimesTracked: totalTimesTracked.length,
                 activityFeed: {
@@ -643,7 +632,6 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
                     incompleteTeamMemberStreakTaskIsLoading: false,
                     incompleteTeamMemberStreakTaskErrorMessage: '',
                     longestStreak: 0,
-                    averageStreak: 0,
                     totalTimesTracked: 0,
                 },
             };

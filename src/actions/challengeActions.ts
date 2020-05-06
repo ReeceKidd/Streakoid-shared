@@ -23,7 +23,6 @@ import {
 import { AppActions, AppState } from '..';
 import { ChallengeMemberWithClientData, SelectedChallenge } from '../reducers/challengesReducer';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
-import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { SelectedChallengeStreak } from '../reducers/challengeStreakReducer';
 import { ChallengeMember } from '@streakoid/streakoid-models/lib/Models/ChallengeMember';
 import { PopulatedChallenge } from '@streakoid/streakoid-models/lib/Models/PopulatedChallenge';
@@ -58,7 +57,6 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                     profileImage: user.profileImages.originalImageUrl,
                     currentStreak: userChallengeStreak.currentStreak,
                     longestStreak: getLongestStreak(userChallengeStreak.currentStreak, userChallengeStreak.pastStreaks),
-                    averageStreak: getAverageStreak(userChallengeStreak.currentStreak, userChallengeStreak.pastStreaks),
                     totalTimesTracked: totalTimesTracked.length,
                     challengeStreakId: userChallengeStreak._id,
                     joinedChallenge: new Date(userChallengeStreak.createdAt),
@@ -102,19 +100,14 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 ? longestPastStreakForChallenge
                 : longestCurrentStreakForChallenge;
         let totalStreaksSum = 0;
-        let totalNumberOfStreaks = 0;
         challengeStreaks.map(challengeStreak => {
             challengeStreak.pastStreaks.map(pastStreak => (totalStreaksSum += pastStreak.numberOfDaysInARow));
             totalStreaksSum += challengeStreak.currentStreak.numberOfDaysInARow;
-            // Plus one for the current length.
-            totalNumberOfStreaks += challengeStreak.pastStreaks.length + 1;
         });
-        const averageStreakForChallenge = totalNumberOfStreaks / totalStreaksSum;
         return {
             totalTimesTracked,
             longestCurrentStreakForChallenge,
             longestEverStreakForChallenge,
-            averageStreakForChallenge,
         };
     };
 
@@ -159,7 +152,6 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
             const {
                 longestCurrentStreakForChallenge,
                 longestEverStreakForChallenge,
-                averageStreakForChallenge,
                 totalTimesTracked,
             } = await getPopulatedChallengeStats(challenge);
             const populatedChallenge: SelectedChallenge = {
@@ -168,7 +160,6 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 members: sortedChallengeMembers,
                 longestCurrentStreakForChallenge,
                 longestEverStreakForChallenge,
-                averageStreakForChallenge: isFinite(averageStreakForChallenge) ? averageStreakForChallenge : 0,
                 totalTimesTracked,
                 usersChallengeStreakId: userIsApartOfChallenge ? userIsApartOfChallenge._id : '',
             };
@@ -221,7 +212,6 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 username: currentUser.username,
                 userProfileImage: currentUser.profileImages.originalImageUrl,
                 longestStreak: 0,
-                averageStreak: 0,
                 totalTimesTracked: 0,
                 daysSinceStreakCreation: 0,
                 numberOfRestarts: 0,
@@ -241,7 +231,6 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
             const {
                 longestCurrentStreakForChallenge,
                 longestEverStreakForChallenge,
-                averageStreakForChallenge,
                 totalTimesTracked,
             } = await getPopulatedChallengeStats(challenge);
             const updatedSelectedChallenge: SelectedChallenge = {
@@ -250,7 +239,6 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
                 members: sortedChallengeMembers,
                 longestCurrentStreakForChallenge,
                 longestEverStreakForChallenge,
-                averageStreakForChallenge,
                 totalTimesTracked,
             };
             dispatch({

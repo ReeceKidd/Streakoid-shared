@@ -22,7 +22,6 @@ import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
-import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 
 export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
     const completeTeamMemberStreakTask = ({
@@ -65,7 +64,6 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
                                     incompleteTeamMemberStreakTaskIsLoading: false,
                                     incompleteTeamMemberStreakTaskErrorMessage: '',
                                     longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                                    averageStreak: getAverageStreak(currentStreak, pastStreaks),
                                     totalTimesTracked: totalTimesTracked.length,
                                 },
                             };
@@ -185,7 +183,6 @@ export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
                                     incompleteTeamMemberStreakTaskIsLoading: false,
                                     incompleteTeamMemberStreakTaskErrorMessage: '',
                                     longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                                    averageStreak: getAverageStreak(currentStreak, pastStreaks),
                                     totalTimesTracked: totalTimesTracked.length,
                                 },
                             };

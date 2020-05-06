@@ -38,7 +38,6 @@ export interface SelectedChallenge extends PopulatedChallenge {
     userIsApartOfChallenge: boolean;
     longestCurrentStreakForChallenge: number;
     longestEverStreakForChallenge: number;
-    averageStreakForChallenge: number;
     totalTimesTracked: number;
     members: ChallengeMemberWithClientData[];
     usersChallengeStreakId: string;
@@ -48,7 +47,6 @@ export interface ChallengeMemberWithClientData extends ChallengeMember {
     challengeStreakId: string;
     currentStreak: CurrentStreak;
     longestStreak: number;
-    averageStreak: number;
     totalTimesTracked: number;
     joinedChallenge: Date;
 }
@@ -70,7 +68,6 @@ const initialState: ChallengeReducerState = {
         userIsApartOfChallenge: false,
         longestCurrentStreakForChallenge: 0,
         longestEverStreakForChallenge: 0,
-        averageStreakForChallenge: 0,
         totalTimesTracked: 0,
         numberOfMembers: 0,
         usersChallengeStreakId: '',

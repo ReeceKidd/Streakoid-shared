@@ -57,7 +57,6 @@ import {
 } from './types';
 import { sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
-import { getAverageStreak } from '../helpers/streakCalculations/getAverageStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
@@ -196,7 +195,6 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 username: challengeStreakOwner.username,
                 userProfileImage: challengeStreakOwner.profileImages.originalImageUrl,
                 longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                averageStreak: getAverageStreak(currentStreak, pastStreaks),
                 totalTimesTracked: completeChallengeStreakListTasks.length,
                 daysSinceStreakCreation: getDaysSinceStreakCreation({
                     createdAt: new Date(createdAt),
@@ -252,7 +250,6 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 username: currentUser.username,
                 userProfileImage: currentUser.profileImages.originalImageUrl,
                 longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                averageStreak: getAverageStreak(currentStreak, pastStreaks),
                 totalTimesTracked: 0,
                 daysSinceStreakCreation: getDaysSinceStreakCreation({
                     createdAt: new Date(createdAt),
@@ -315,7 +312,6 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
                 username: currentUser.username,
                 userProfileImage: currentUser.profileImages.originalImageUrl,
                 longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                averageStreak: getAverageStreak(currentStreak, pastStreaks),
                 totalTimesTracked: completeChallengeStreakListTasks.length,
                 daysSinceStreakCreation: getDaysSinceStreakCreation({
                     createdAt: new Date(createdAt),

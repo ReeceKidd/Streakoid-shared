@@ -67,7 +67,6 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
     completedTeamMemberStreakTaskDatesWithCounts: { date: Date; count: number }[];
     longestStreak: number;
-    averageStreak: number;
     totalTimesTracked: number;
     activityFeed: {
         totalActivityFeedCount: number;
@@ -90,7 +89,6 @@ interface SelectedTeamMemberStreak extends TeamMemberStreak {
     incompleteTeamMemberStreakTaskIsLoading: boolean;
     incompleteTeamMemberStreakTaskErrorMessage: string;
     longestStreak: number;
-    averageStreak: number;
     totalTimesTracked: number;
 }
 
@@ -134,7 +132,6 @@ const defaultSelectedTeamStreak = {
     updatedAt: '',
     completedTeamMemberStreakTaskDatesWithCounts: [],
     longestStreak: 0,
-    averageStreak: 0,
     totalTimesTracked: 0,
     activityFeed: {
         totalActivityFeedCount: 0,
