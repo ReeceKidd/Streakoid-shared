@@ -394,6 +394,9 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     ): Promise<void> => {
         try {
             const userId = getState().users.currentUser._id;
+            if (!userId) {
+                return;
+            }
             const soloStreaks = await streakoid.soloStreaks.getAll({ userId });
             await Promise.all(
                 soloStreaks.map(soloStreak => {

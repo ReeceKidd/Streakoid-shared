@@ -499,6 +499,9 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
     ): Promise<void> => {
         try {
             const userId = getState().users.currentUser._id;
+            if (!userId) {
+                return;
+            }
             const challengeStreaks = await streakoid.challengeStreaks.getAll({ userId });
             await Promise.all(
                 challengeStreaks.map(challengeStreak => {
