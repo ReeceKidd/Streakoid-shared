@@ -33,7 +33,7 @@
     },
     "dependencies": {
         "@streakoid/streakoid-models": "^1.0.20",
-        "@streakoid/streakoid-sdk": "^1.0.508",
+        "@streakoid/streakoid-sdk": "^1.0.509",
         "@types/form-data": "^2.5.0",
         "@types/moment-timezone": "^0.5.12",
         "@types/node-fetch": "^2.5.2",
