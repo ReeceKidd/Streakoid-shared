@@ -175,7 +175,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const joinChallenge = ({ challengeId, isAppleDevice }: { challengeId: string; isAppleDevice?: boolean }) => async (
+    const joinChallenge = ({ challengeId }: { challengeId: string }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
@@ -183,18 +183,6 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: JOIN_CHALLENGE_LOADING });
             const currentUser = getState().users.currentUser;
             const userId = currentUser._id;
-            const isPayingMember = getState().users.currentUser.membershipInformation.isPayingMember;
-            if (!isPayingMember && !isAppleDevice) {
-                const userChallengeStreaks = await streakoid.challengeStreaks.getAll({
-                    userId,
-                });
-                const challengeLimitForFreeAccounts = 2;
-                if (userChallengeStreaks.length >= challengeLimitForFreeAccounts) {
-                    dispatch({ type: NAVIGATE_TO_STREAK_LIMIT_REACHED });
-                    dispatch({ type: JOIN_CHALLENGE_LOADED });
-                    return;
-                }
-            }
             const challengeStreak = await streakoid.challengeStreaks.create({
                 userId,
                 challengeId,

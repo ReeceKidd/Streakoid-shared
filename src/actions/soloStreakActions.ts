@@ -215,27 +215,17 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
         streakName,
         streakDescription,
         numberOfMinutes,
-        isAppleDevice,
     }: {
         streakName: string;
         streakDescription?: string;
         numberOfMinutes?: number;
-        isAppleDevice?: boolean;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: CREATE_SOLO_STREAK_IS_LOADING });
             dispatch({ type: CLEAR_CREATE_SOLO_STREAK_ERROR });
             const userId = getState().users.currentUser._id;
-            const isPayingMember = getState().users.currentUser.membershipInformation.isPayingMember;
-            if (!isPayingMember && !isAppleDevice) {
-                const userSoloStreaks = await streakoid.soloStreaks.getAll({ userId, status: StreakStatus.live });
-                const soloStreaksLimitForFreeAccounts = 2;
-                if (userSoloStreaks.length >= soloStreaksLimitForFreeAccounts) {
-                    dispatch({ type: NAVIGATE_TO_STREAK_LIMIT_REACHED });
-                    dispatch({ type: CREATE_SOLO_STREAK_IS_LOADED });
-                    return;
-                }
-            }
+            dispatch({ type: NAVIGATE_TO_STREAK_LIMIT_REACHED });
+            dispatch({ type: CREATE_SOLO_STREAK_IS_LOADED });
             const soloStreak = await streakoid.soloStreaks.create({
                 userId,
                 streakName,

@@ -276,27 +276,15 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         members,
         streakDescription,
         numberOfMinutes,
-        isAppleDevice,
     }: {
         streakName: string;
         members: { memberId: string }[];
         streakDescription?: string;
         numberOfMinutes?: number;
-        isAppleDevice?: boolean;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: CREATE_TEAM_STREAK_IS_LOADING });
             const userId = getState().users.currentUser._id;
-            const isPayingMember = getState().users.currentUser.membershipInformation.isPayingMember;
-            if (!isPayingMember && !isAppleDevice) {
-                const userTeamStreaks = await streakoid.teamMemberStreaks.getAll({ userId });
-                const teamStreaksLimitForFreeAccounts = 2;
-                if (userTeamStreaks.length >= teamStreaksLimitForFreeAccounts) {
-                    dispatch({ type: NAVIGATE_TO_STREAK_LIMIT_REACHED });
-                    dispatch({ type: CREATE_TEAM_STREAK_IS_LOADED });
-                    return;
-                }
-            }
             members = [{ memberId: userId }, ...members];
             const teamStreak = await streakoid.teamStreaks.create({
                 creatorId: userId,
