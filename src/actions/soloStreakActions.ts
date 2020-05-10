@@ -50,7 +50,6 @@ import {
     DELETE_ARCHIVED_SOLO_STREAK_FAIL,
     NAVIGATE_TO_SOLO_STREAKS,
     NAVIGATE_TO_SPECIFIC_SOLO_STREAK,
-    NAVIGATE_TO_STREAK_LIMIT_REACHED,
     CLEAR_SELECTED_SOLO_STREAK,
     COMPLETE_SELECTED_SOLO_STREAK_IS_LOADING,
     COMPLETE_SELECTED_SOLO_STREAK,
@@ -224,8 +223,6 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: CREATE_SOLO_STREAK_IS_LOADING });
             dispatch({ type: CLEAR_CREATE_SOLO_STREAK_ERROR });
             const userId = getState().users.currentUser._id;
-            dispatch({ type: NAVIGATE_TO_STREAK_LIMIT_REACHED });
-            dispatch({ type: CREATE_SOLO_STREAK_IS_LOADED });
             const soloStreak = await streakoid.soloStreaks.create({
                 userId,
                 streakName,
