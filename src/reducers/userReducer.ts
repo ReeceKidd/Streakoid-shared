@@ -203,6 +203,7 @@ const initialState: UserReducerInitialState = {
         achievements: [],
         userStreakCompleteInfo: [],
         pushNotificationToken: '',
+        endpointArn: '',
         pushNotifications: {
             teamStreakUpdates: {
                 enabled: false,
