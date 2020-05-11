@@ -54,6 +54,7 @@ import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulat
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomStreakReminder, CompleteAllStreaksReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
@@ -313,7 +314,10 @@ const userActions = (streakoid: typeof streakoidSDK) => {
         email?: string;
         notifications?: Notifications;
         timezone?: string;
-        pushNotificationToken?: string;
+        pushNotification?: {
+            pushNotificationToken: string;
+            deviceType: PushNotificationSupportedDeviceTypes;
+        };
         hasCompletedIntroduction?: boolean;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
