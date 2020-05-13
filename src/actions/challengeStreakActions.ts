@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import StreakStatus from '@streakoid/streakoid-sdk/lib/StreakStatus';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -61,7 +61,7 @@ import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDay
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { SelectedChallengeStreak } from '../reducers/challengeStreakReducer';
-import { CustomChallengeStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
+import { CustomChallengeStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 
 const challengeStreakActions = (streakoid: typeof streakoidSDK) => {

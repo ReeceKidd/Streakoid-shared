@@ -27,7 +27,7 @@ import {
     RestoredTeamStreakActivityFeedItem,
     DeletedTeamStreakActivityFeedItem,
     FollowedUserActivityFeedItem,
-} from '@streakoid/streakoid-sdk/lib/models/ActivityFeedItemType';
+} from '@streakoid/streakoid-models/lib/Models/ActivityFeedItemType';
 
 export interface CreatedSoloStreakClientActivityFeedItem extends CreatedSoloStreakActivityFeedItem {
     title: string;

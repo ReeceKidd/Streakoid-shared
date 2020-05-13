@@ -1,5 +1,4 @@
 import { Dispatch } from 'redux';
-import StreakStatus from '@streakoid/streakoid-sdk/lib/StreakStatus';
 
 import {
     GET_SOLO_STREAK,
@@ -71,8 +70,9 @@ import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { CustomSoloStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
-import StreakReminderTypes from '@streakoid/streakoid-sdk/lib/StreakReminderTypes';
+import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
+import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 const soloStreakActions = (streakoid: typeof streakoidSDK) => {
     const getLiveSoloStreaks = () => async (

@@ -30,8 +30,9 @@ import {
     CreatedAccountClientActivityFeedItem,
     FollowedUserClientActivityFeedItem,
 } from './ClientActivityFeedItem';
-import ActivityFeedItemType from '@streakoid/streakoid-sdk/lib/models/ActivityFeedItemType';
+import { ActivityFeedItemType } from '@streakoid/streakoid-models/lib/Models/ActivityFeedItemType';
 import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 export const getPopulatedActivityFeedItem = async (
