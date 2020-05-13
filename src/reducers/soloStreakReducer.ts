@@ -58,7 +58,7 @@ import {
     UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { CustomSoloStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
+import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
 

@@ -53,7 +53,7 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { CustomTeamStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
+import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamStreak';
 import { PopulatedTeamMember } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamMember';
 import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMemberStreak';

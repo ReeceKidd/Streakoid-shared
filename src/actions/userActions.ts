@@ -45,16 +45,18 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
-import Notifications from '@streakoid/streakoid-sdk/lib/models/Notifications';
 import { sortSoloStreaks, sortTeamStreaks, sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
-import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
 import { FollowingWithClientData } from '../reducers/userReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { CustomStreakReminder, CompleteAllStreaksReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
+import {
+    CustomStreakReminder,
+    CompleteAllStreaksReminder,
+} from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
+import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
@@ -312,10 +314,9 @@ const userActions = (streakoid: typeof streakoidSDK) => {
 
     const updateCurrentUser = (updateData: {
         email?: string;
-        notifications?: Notifications;
         timezone?: string;
         pushNotification?: {
-            pushNotificationToken: string;
+            token: string;
             deviceType: PushNotificationSupportedDeviceTypes;
         };
         hasCompletedIntroduction?: boolean;

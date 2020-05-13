@@ -50,7 +50,7 @@ import {
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { CustomChallengeStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
+import { CustomChallengeStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/ChallengeStreak';
 

@@ -60,15 +60,16 @@ import {
     UPDATE_PUSH_NOTIFICATIONS_IS_LOADED,
     CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
 } from '../actions/types';
-import UserTypes from '@streakoid/streakoid-sdk/lib/userTypes';
+import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import { ChallengeStreakListItem } from './challengeStreakReducer';
-import BasicUser from '@streakoid/streakoid-sdk/lib/models/BasicUser';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { PopulatedCurrentUser } from '@streakoid/streakoid-models/lib/Models/PopulatedCurrentUser';
 import { FormattedUser } from '@streakoid/streakoid-models/lib/Models/FormattedUser';
 import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
 import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamStreak';
 import { PopulatedUser } from '@streakoid/streakoid-models/lib/Models/PopulatedUser';
+import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
+import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 
 export interface SelectedUser extends PopulatedUser {
     soloStreaks: SoloStreak[];
@@ -202,8 +203,11 @@ const initialState: UserReducerInitialState = {
         totalLiveStreaks: 0,
         achievements: [],
         userStreakCompleteInfo: [],
-        pushNotificationToken: '',
-        endpointArn: '',
+        pushNotification: {
+            token: '',
+            deviceType: PushNotificationSupportedDeviceTypes.android,
+            endpointArn: '',
+        },
         pushNotifications: {
             teamStreakUpdates: {
                 enabled: false,

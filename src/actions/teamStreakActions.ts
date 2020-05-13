@@ -56,8 +56,8 @@ import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak
 import { PopulatedTeamMemberWithClientData, SelectedTeamStreak } from '../reducers/teamStreakReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { CustomTeamStreakReminder } from '@streakoid/streakoid-sdk/lib/models/StreakReminders';
-import StreakReminderTypes from '@streakoid/streakoid-sdk/lib/StreakReminderTypes';
+import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
+import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
