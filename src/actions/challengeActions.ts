@@ -64,9 +64,7 @@ const challengeActions = (streakoid: typeof streakoidSDK) => {
             }),
         );
         const sortedChallengeMembers = populatedChallengeMembers.sort((challengeMemberA, challengeMemberB) => {
-            return (
-                challengeMemberB.currentStreak.numberOfDaysInARow - challengeMemberA.currentStreak.numberOfDaysInARow
-            );
+            return challengeMemberB.totalTimesTracked - challengeMemberA.totalTimesTracked;
         });
         return sortedChallengeMembers;
     };
