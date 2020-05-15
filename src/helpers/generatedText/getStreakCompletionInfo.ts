@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
-export const getStreakCompletionString = ({
+export const getStreakCompletionInfo = ({
     pastStreaks,
     currentStreak,
     timezone,
@@ -13,31 +13,31 @@ export const getStreakCompletionString = ({
     createdAt: Date;
 }) => {
     const currentTime = moment().tz(timezone);
-    let streakCompletionString;
-    let streakCompletionStringError = false;
     if (currentStreak.numberOfDaysInARow > 0) {
-        streakCompletionString = `Days in a row: ${currentStreak.numberOfDaysInARow}`;
+        return {
+            currentStreak,
+        };
     }
     if (currentStreak.numberOfDaysInARow === 0) {
         if (pastStreaks.length === 0) {
-            const howManyDaysSinceUserCreatedStreak = Math.floor(
+            const daysSinceUserCreatedStreak = Math.floor(
                 moment.duration(currentTime.diff(createdAt)).asDays(),
             ).toFixed(0);
-            streakCompletionString = `Days since creation: ${howManyDaysSinceUserCreatedStreak}`;
-            streakCompletionStringError = true;
+            return {
+                daysSinceUserCreatedStreak,
+            };
         } else {
             const mostRecentPastStreak = pastStreaks[pastStreaks.length - 1];
 
             const lastTimeUserCompletedStreak = moment(mostRecentPastStreak.endDate).tz(timezone);
 
-            const howManyDaysSinceUserCompletedStreak = Math.floor(
+            const daysSinceUserCompletedStreak = Math.floor(
                 moment.duration(currentTime.diff(lastTimeUserCompletedStreak)).asDays() + 1,
             ).toFixed(0);
 
-            streakCompletionString = `Days since completion: ${howManyDaysSinceUserCompletedStreak}`;
-            streakCompletionStringError = true;
+            return {
+                daysSinceUserCompletedStreak,
+            };
         }
     }
-
-    return { error: streakCompletionStringError, string: streakCompletionString };
 };
