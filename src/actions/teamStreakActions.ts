@@ -68,6 +68,9 @@ export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADING });
             const userId = getState().users.currentUser._id;
+            if (!userId) {
+                return;
+            }
             const teamStreaks = await streakoid.teamStreaks.getAll({
                 memberId: userId,
                 status: StreakStatus.live,

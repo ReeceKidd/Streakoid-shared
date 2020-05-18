@@ -82,6 +82,9 @@ const soloStreakActions = (streakoid: typeof streakoidSDK) => {
         try {
             dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING });
             const userId = getState().users.currentUser._id;
+            if (!userId) {
+                return;
+            }
             const soloStreaks = await streakoid.soloStreaks.getAll({
                 userId,
                 status: StreakStatus.live,

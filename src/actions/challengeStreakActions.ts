@@ -73,6 +73,9 @@ const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
             dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_LOADING });
             const currentUser = getState().users.currentUser;
             const userId = currentUser._id;
+            if (!userId) {
+                return;
+            }
             const challengeStreaks = await streakoid.challengeStreaks.getAll({
                 userId,
                 status: StreakStatus.live,
