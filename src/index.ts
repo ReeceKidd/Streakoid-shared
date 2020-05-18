@@ -19,7 +19,6 @@ import { getSharedActions } from './actions/getSharedActions';
 import CognitoPayload from './cognitoPayload';
 import { getCountdownString } from './helpers/countdown/getCountdownString';
 import { getIdToken } from './helpers/auth/getIdToken';
-import { getStreakCompletionString } from './helpers/streakInfo/getStreakCompletionString';
 import { getStreakCompletionInfo } from './helpers/streakInfo/getStreakCompletionInfo';
 
 const sharedReducers = {
@@ -59,6 +58,5 @@ export {
     getSharedActions,
     getCountdownString,
     getIdToken,
-    getStreakCompletionString,
     getStreakCompletionInfo,
 };
