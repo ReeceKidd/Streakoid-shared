@@ -20,9 +20,9 @@ export const getStreakCompletionInfo = ({
     }
     if (currentStreak.numberOfDaysInARow === 0) {
         if (pastStreaks.length === 0) {
-            const daysSinceUserCreatedStreak = Math.floor(
-                moment.duration(currentTime.diff(createdAt)).asDays(),
-            ).toFixed(0);
+            const daysSinceUserCreatedStreak = Number(
+                Math.floor(moment.duration(currentTime.diff(createdAt)).asDays()).toFixed(0),
+            );
             return {
                 daysSinceUserCreatedStreak,
             };
@@ -31,9 +31,9 @@ export const getStreakCompletionInfo = ({
 
             const lastTimeUserCompletedStreak = moment(mostRecentPastStreak.endDate).tz(timezone);
 
-            const daysSinceUserCompletedStreak = Math.floor(
-                moment.duration(currentTime.diff(lastTimeUserCompletedStreak)).asDays() + 1,
-            ).toFixed(0);
+            const daysSinceUserCompletedStreak = Number(
+                Math.floor(moment.duration(currentTime.diff(lastTimeUserCompletedStreak)).asDays() + 1).toFixed(0),
+            );
 
             return {
                 daysSinceUserCompletedStreak,
