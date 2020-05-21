@@ -160,12 +160,13 @@ const leaderboardActions = (streakoid: typeof streakoidSDK) => {
         }
     };
 
-    const getGlobalUserLeaderboard = ({  }: {}) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const getGlobalUserLeaderboard = ({ limit }: { limit: number }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
         try {
             dispatch({ type: GET_GLOBAL_USER_LEADERBOARD_LOADING });
-            const maximumNumberOfUsersToDisplay = 25;
 
-            const users = await streakoid.users.getAll({ limit: maximumNumberOfUsersToDisplay });
+            const users = await streakoid.users.getAll({ limit });
 
             dispatch({ type: GET_GLOBAL_USER_LEADERBOARD, payload: users });
             dispatch({ type: GET_GLOBAL_USER_LEADERBOARD_LOADED });
