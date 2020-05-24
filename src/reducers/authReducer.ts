@@ -3,7 +3,6 @@ import {
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     SESSION_EXPIRED,
-    REGISTER_FAIL,
     CLEAR_LOG_IN_ERROR_MESSAGE,
     CLEAR_REGISTRATION_ERROR_MESSAGE,
     AuthActionTypes,
@@ -20,6 +19,7 @@ import {
     CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE,
     UPDATE_PASSWORD_SUCCESS,
     CLEAR_UPDATE_PASSWORD_SUCCESS_MESSAGE,
+    REGISTER_FAIL,
     REGISTER_IS_LOADING,
     REGISTER_IS_LOADED,
     LOGIN_IS_LOADING,
@@ -34,6 +34,9 @@ import {
     PASSWORD_CLEAR,
     REFRESH_TOKEN,
     REFRESH_TOKEN_FAIL,
+    REGISTER_TEMPORARY_USER_FAIL,
+    REGISTER_TEMPORARY_USER_IS_LOADING,
+    REGISTER_TEMPORARY_USER_IS_LOADED,
 } from '../actions/types';
 
 export interface AuthState {
@@ -43,7 +46,11 @@ export interface AuthState {
     username: string;
     refreshToken: string;
     loginErrorMessage: string;
+    loginIsLoading: boolean;
     registerErrorMessage: string;
+    registerIsLoading: boolean;
+    registerTemporaryUserErrorMessage: string;
+    registerTemporaryUserIsLoading: boolean;
     idTokenExpiryTime?: number;
     password: string;
     refreshTokenErrorMessage: string;
@@ -54,8 +61,6 @@ export interface AuthState {
     forgotPasswordErrorMessage: string;
     updatePasswordSuccessMessage: string;
     updatePasswordErrorMessage: string;
-    registerIsLoading: boolean;
-    loginIsLoading: boolean;
     verifyUserIsLoading: boolean;
     forgotPasswordIsLoading: boolean;
     updatePasswordIsLoading: boolean;
@@ -68,7 +73,11 @@ const initialState: AuthState = {
     username: '',
     refreshToken: '',
     loginErrorMessage: '',
+    loginIsLoading: false,
     registerErrorMessage: '',
+    registerIsLoading: false,
+    registerTemporaryUserErrorMessage: '',
+    registerTemporaryUserIsLoading: false,
     password: '',
     refreshTokenErrorMessage: '',
     verifyUserErrorMessage: '',
@@ -78,8 +87,6 @@ const initialState: AuthState = {
     forgotPasswordErrorMessage: '',
     updatePasswordSuccessMessage: '',
     updatePasswordErrorMessage: '',
-    registerIsLoading: false,
-    loginIsLoading: false,
     verifyUserIsLoading: false,
     forgotPasswordIsLoading: false,
     updatePasswordIsLoading: false,
@@ -126,13 +133,6 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
             return {
                 ...state,
                 refreshTokenErrorMessage: action.payload,
-            };
-        }
-
-        case REGISTER_FAIL: {
-            return {
-                ...state,
-                registerErrorMessage: action.errorMessage,
             };
         }
 
@@ -232,6 +232,13 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
                 updatePasswordErrorMessage: '',
             };
 
+        case REGISTER_FAIL: {
+            return {
+                ...state,
+                registerErrorMessage: action.errorMessage,
+            };
+        }
+
         case REGISTER_IS_LOADING:
             return {
                 ...state,
@@ -242,6 +249,25 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
             return {
                 ...state,
                 registerIsLoading: false,
+            };
+
+        case REGISTER_TEMPORARY_USER_FAIL: {
+            return {
+                ...state,
+                registerTemporaryUserErrorMessage: action.errorMessage,
+            };
+        }
+
+        case REGISTER_TEMPORARY_USER_IS_LOADING:
+            return {
+                ...state,
+                registerTemporaryUserIsLoading: true,
+            };
+
+        case REGISTER_TEMPORARY_USER_IS_LOADED:
+            return {
+                ...state,
+                registerTemporaryUserIsLoading: false,
             };
 
         case LOGIN_IS_LOADING:

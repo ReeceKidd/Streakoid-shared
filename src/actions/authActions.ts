@@ -41,6 +41,9 @@ import {
     REFRESH_TOKEN,
     REFRESH_TOKEN_FAIL,
     NAVIGATE_TO_WELCOME,
+    REGISTER_TEMPORARY_USER_IS_LOADING,
+    REGISTER_TEMPORARY_USER_IS_LOADED,
+    REGISTER_TEMPORARY_USER_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
@@ -153,23 +156,12 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             const lowercaseUsername = username.toLowerCase();
             await Auth.signUp({ username: lowercaseUsername, password, attributes: { email } });
             const user = await streakoidRegistration.users.create({ username: lowercaseUsername, email });
-            const followingWithClientData = user.following.map(following => ({
-                ...following,
-                followUserIsLoading: false,
-                followUserErrorMessage: '',
-                unfollowUserIsLoading: false,
-                unfollowUserErrorMessage: '',
-            }));
-            const followersWithClientData = user.followers.map(follower => ({
-                ...follower,
-                isSelected: false,
-            }));
             dispatch({
                 type: UPDATE_CURRENT_USER,
                 payload: {
                     ...user,
-                    following: followingWithClientData,
-                    followers: followersWithClientData,
+                    following: [],
+                    followers: [],
                     userStreakCompleteInfo: [],
                     activityFeed: {
                         totalActivityFeedCount: 0,
@@ -188,6 +180,38 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
                 dispatch({ type: REGISTER_FAIL, errorMessage: err.response.data.message });
             } else {
                 dispatch({ type: REGISTER_FAIL, errorMessage: err.message });
+            }
+        }
+    };
+
+    const registerTemporaryUser = ({ userIdentifier }: { userIdentifier: string }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: REGISTER_TEMPORARY_USER_IS_LOADING });
+            const user = await streakoidRegistration.users.createTemporary({ userIdentifier });
+            dispatch({
+                type: UPDATE_CURRENT_USER,
+                payload: {
+                    ...user,
+                    following: [],
+                    followers: [],
+                    userStreakCompleteInfo: [],
+                    activityFeed: {
+                        totalActivityFeedCount: 0,
+                        activityFeedItems: [],
+                    },
+                    updatePushNotificationsErrorMessage: '',
+                    updatePushNotificationsIsLoading: false,
+                },
+            });
+            dispatch({ type: REGISTER_TEMPORARY_USER_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: REGISTER_TEMPORARY_USER_IS_LOADED });
+            if (err.response) {
+                dispatch({ type: REGISTER_TEMPORARY_USER_FAIL, errorMessage: err.response.data.message });
+            } else {
+                dispatch({ type: REGISTER_TEMPORARY_USER_FAIL, errorMessage: err.message });
             }
         }
     };
@@ -355,6 +379,7 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
         clearLoginErrorMessage,
         refreshToken,
         registerUser,
+        registerTemporaryUser,
         clearRegisterErrorMessage,
         verifyUser,
         clearVerifyUserErrorMessage,
