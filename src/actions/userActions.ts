@@ -57,6 +57,7 @@ import {
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
+import { Onboarding } from '@streakoid/streakoid-models/lib/Models/Onboarding';
 
 const userActions = (streakoid: typeof streakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
@@ -319,7 +320,9 @@ const userActions = (streakoid: typeof streakoidSDK) => {
             token: string;
             deviceType: PushNotificationSupportedDeviceTypes;
         };
-        hasCompletedIntroduction?: boolean;
+        hasCompletedTutorial?: boolean;
+        onboarding?: Onboarding;
+        hasCompletedOnboarding?: boolean;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADING });
