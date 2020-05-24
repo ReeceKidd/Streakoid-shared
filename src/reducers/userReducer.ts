@@ -70,6 +70,8 @@ import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/Popu
 import { PopulatedUser } from '@streakoid/streakoid-models/lib/Models/PopulatedUser';
 import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
+import WhatBestDescribesYouTypes from '@streakoid/streakoid-models/lib/Types/WhatBestDescribesYouTypes';
+import WhyDoYouWantToBuildNewHabitsTypes from '@streakoid/streakoid-models/lib/Types/WhyDoYouWantToBuildNewHabitsTypes';
 
 export interface SelectedUser extends PopulatedUser {
     soloStreaks: SoloStreak[];
@@ -220,7 +222,12 @@ const initialState: UserReducerInitialState = {
             },
             customStreakReminders: [],
         },
-        hasCompletedIntroduction: true,
+        hasCompletedTutorial: true,
+        onboarding: {
+            whatBestDescribesYouChoice: WhatBestDescribesYouTypes.competitor,
+            whyDoYouWantToBuildNewHabitsChoice: WhyDoYouWantToBuildNewHabitsTypes.education,
+        },
+        hasCompletedOnboarding: true,
         createdAt: '',
         updatedAt: '',
         activityFeed: {
