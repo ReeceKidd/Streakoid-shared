@@ -45,10 +45,10 @@ export interface LeaderboardReducerState {
 export interface SoloStreakLeaderboardItem {
     streakName: string;
     streakId: string;
-    username: string;
     userProfileImage: string;
     currentStreakNumberOfDaysInARow: number;
     streakCreatedAt: Date;
+    username?: string;
 }
 
 export interface TeamStreakLeaderboardItem {
@@ -62,10 +62,10 @@ export interface TeamStreakLeaderboardItem {
 export interface ChallengeStreakLeaderboardItem {
     challengeName: string;
     streakId: string;
-    username: string;
     userProfileImage: string;
     currentStreakNumberOfDaysInARow: number;
     streakCreatedAt: Date;
+    username?: string;
 }
 
 const initialState: LeaderboardReducerState = {

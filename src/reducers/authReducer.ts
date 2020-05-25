@@ -43,7 +43,6 @@ export interface AuthState {
     isAuthenticated: boolean;
     idToken: string;
     accessToken: string;
-    username: string;
     refreshToken: string;
     loginErrorMessage: string;
     loginIsLoading: boolean;
@@ -64,6 +63,7 @@ export interface AuthState {
     verifyUserIsLoading: boolean;
     forgotPasswordIsLoading: boolean;
     updatePasswordIsLoading: boolean;
+    username?: string;
 }
 
 const initialState: AuthState = {
