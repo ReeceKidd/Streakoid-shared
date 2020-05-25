@@ -315,6 +315,8 @@ const userActions = (streakoid: typeof streakoidSDK) => {
 
     const updateCurrentUser = (updateData: {
         email?: string;
+        username?: string;
+        name?: string;
         timezone?: string;
         pushNotification?: {
             token: string;
