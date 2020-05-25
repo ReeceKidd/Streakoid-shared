@@ -153,7 +153,6 @@ export interface SelectedChallengeStreak extends ChallengeStreak {
     incompleteChallengeStreakListTaskIsLoading: boolean;
     incompleteChallengeStreakListTaskErrorMessage: string;
     completedChallengeStreakTaskDates: Date[];
-    username: string;
     userProfileImage: string;
     longestStreak: number;
     totalTimesTracked: number;
@@ -170,6 +169,7 @@ export interface SelectedChallengeStreak extends ChallengeStreak {
     updateCustomChallengeStreakReminderPushNotificationErrorMessage: string;
     updateCustomChallengeStreakReminderPushNotificationIsLoading: boolean;
     customChallengeStreakReminder?: CustomChallengeStreakReminder;
+    username?: string;
 }
 
 const challengeStreakReducer = (

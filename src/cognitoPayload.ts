@@ -3,7 +3,7 @@ interface CognitoPayload {
     idTokenExpiryTime: number;
     accessToken: string;
     refreshToken: string;
-    username: string;
+    username?: string;
 }
 
 export default CognitoPayload;

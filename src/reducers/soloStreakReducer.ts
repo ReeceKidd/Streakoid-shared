@@ -137,7 +137,6 @@ const initialState: SoloStreakReducerState = {
 
 export interface SelectedSoloStreak extends SoloStreak {
     completedSoloStreakTaskDates: Date[];
-    username: string;
     userProfileImage: string;
     longestStreak: number;
     totalTimesTracked: number;
@@ -154,6 +153,7 @@ export interface SelectedSoloStreak extends SoloStreak {
     updateCustomSoloStreakReminderIsLoading: boolean;
     updateCustomSoloStreakReminderErrorMessage: string;
     customSoloStreakReminder?: CustomSoloStreakReminder;
+    username?: string;
 }
 
 export interface SoloStreakListItem extends SoloStreak {

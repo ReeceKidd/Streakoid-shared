@@ -53,7 +53,6 @@ const initialState: TeamMemberStreakReducerState = {
 
 export interface SelectedTeamMemberStreak extends TeamMemberStreak {
     completedTeamMemberStreakTaskDates: Date[];
-    username: string;
     userProfileImage: string;
     teamStreakName: string;
     teamStreakDescription?: string;
@@ -69,6 +68,7 @@ export interface SelectedTeamMemberStreak extends TeamMemberStreak {
     completeSelectedTeamMemberStreakErrorMessage: string;
     incompleteSelectedTeamMemberStreakIsLoading: boolean;
     incompleteSelectedTeamMemberStreakErrorMessage: string;
+    username?: string;
 }
 
 const teamMemberStreakReducer = (

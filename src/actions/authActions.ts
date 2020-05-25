@@ -229,11 +229,14 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
             let { username } = getState().users.currentUser;
             const { password } = getState().auth;
 
-            await Auth.confirmSignUp(username, verificationCode, {
-                forceAliasCreation: true,
-            });
-            if (password) {
-                username = username.toLowerCase();
+            if (username) {
+                await Auth.confirmSignUp(username, verificationCode, {
+                    forceAliasCreation: true,
+                });
+            }
+            if (password && username) {
+                username = username && username.toLowerCase();
+
                 const cognitoUser = await Auth.signIn(username, password);
                 const { idToken, refreshToken, accessToken } = cognitoUser.signInUserSession;
                 const idTokenJwt = idToken.jwtToken;
@@ -301,8 +304,10 @@ const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: type
         try {
             const { username } = getState().users.currentUser;
             const successMessage = `Code was resent to: ${email}`;
-            await Auth.resendSignUp(username);
-            dispatch({ type: RESEND_CODE_SUCCESS, successMessage });
+            if (username) {
+                await Auth.resendSignUp(username);
+                dispatch({ type: RESEND_CODE_SUCCESS, successMessage });
+            }
         } catch (err) {
             if (err.response) {
                 dispatch({ type: RESEND_CODE_FAIL, errorMessage: err.response.data.message });
