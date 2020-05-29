@@ -1,6 +1,6 @@
 {
     "name": "@streakoid/streakoid-shared",
-    "version": "1.0.503",
+    "version": "1.0.504",
     "description": "Streakoid Shared",
     "main": "lib/index.js",
     "types": "lib",
@@ -14,7 +14,7 @@
         "preversion": "npm run lint",
         "version": "git add -A src",
         "postversion": "git push --no-verify && git push --no-verify --tags",
-        "update": "npm version patch && npm publish",
+        "update": "git push && npm version patch && npm publish",
         "streakoid": "rm -rf node_modules/@streakoid/ && npm i @streakoid/streakoid-sdk @streakoid/streakoid-models"
     },
     "author": "reecekidd",
