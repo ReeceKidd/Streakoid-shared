@@ -158,9 +158,9 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const REGISTER_IS_LOADING = 'REGISTER_IS_LOADING';
 export const REGISTER_IS_LOADED = 'REGISTER_ISLOADED';
 
-export const REGISTER_TEMPORARY_USER_FAIL = 'REGISTER_TEMPORARY_USER_FAIL';
-export const REGISTER_TEMPORARY_USER_IS_LOADING = 'REGISTER_TEMPORARY_USER_IS_LOADING';
-export const REGISTER_TEMPORARY_USER_IS_LOADED = 'REGISTER_TEMPORARY_USER_IS_LOADED';
+export const REGISTER_WITH_IDENTIFIER_USER_FAIL = 'REGISTER_WITH_IDENTIFIER_USER_FAIL';
+export const REGISTER_WITH_IDENTIFIER_USER_IS_LOADING = 'REGISTER_WITH_IDENTIFIER_USER_IS_LOADING';
+export const REGISTER_WITH_IDENTIFIER_USER_IS_LOADED = 'REGISTER_WITH_IDENTIFIER_USER_IS_LOADED';
 
 export const LOGIN_IS_LOADING = 'LOGIN_IS_LOADING';
 export const LOGIN_IS_LOADED = 'LOGIN_IS_LOADED';
@@ -285,17 +285,17 @@ export interface RegisterIsLoadedAction {
     type: typeof REGISTER_IS_LOADED;
 }
 
-export interface RegisterTemporaryUserFailAction {
-    type: typeof REGISTER_TEMPORARY_USER_FAIL;
+export interface RegisterWithIdentifierUserFailAction {
+    type: typeof REGISTER_WITH_IDENTIFIER_USER_FAIL;
     errorMessage: string;
 }
 
-export interface RegisterTemporaryUserIsLoadingAction {
-    type: typeof REGISTER_TEMPORARY_USER_IS_LOADING;
+export interface RegisterWithIdentifierUserIsLoadingAction {
+    type: typeof REGISTER_WITH_IDENTIFIER_USER_IS_LOADING;
 }
 
-export interface RegisterTemporaryUserIsLoadedAction {
-    type: typeof REGISTER_TEMPORARY_USER_IS_LOADED;
+export interface RegisterWithIdentifierUserIsLoadedAction {
+    type: typeof REGISTER_WITH_IDENTIFIER_USER_IS_LOADED;
 }
 
 export interface LoginIsLoadingAction {
@@ -364,9 +364,9 @@ export type AuthActionTypes =
     | RegisterFailAction
     | RegisterIsLoadingAction
     | RegisterIsLoadedAction
-    | RegisterTemporaryUserFailAction
-    | RegisterTemporaryUserIsLoadingAction
-    | RegisterTemporaryUserIsLoadedAction
+    | RegisterWithIdentifierUserFailAction
+    | RegisterWithIdentifierUserIsLoadingAction
+    | RegisterWithIdentifierUserIsLoadedAction
     | LoginIsLoadingAction
     | LoginIsLoadedAction
     | VerifyUserIsLoadingAction

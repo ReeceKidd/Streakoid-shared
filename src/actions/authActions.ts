@@ -41,9 +41,9 @@ import {
     REFRESH_TOKEN,
     REFRESH_TOKEN_FAIL,
     NAVIGATE_TO_WELCOME,
-    REGISTER_TEMPORARY_USER_IS_LOADING,
-    REGISTER_TEMPORARY_USER_IS_LOADED,
-    REGISTER_TEMPORARY_USER_FAIL,
+    REGISTER_WITH_IDENTIFIER_USER_IS_LOADING,
+    REGISTER_WITH_IDENTIFIER_USER_IS_LOADED,
+    REGISTER_WITH_IDENTIFIER_USER_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
@@ -184,12 +184,12 @@ const authActions = (streakoid: StreakoidSDK, streakoidRegistration: StreakoidSD
         }
     };
 
-    const registerTemporaryUser = ({ userIdentifier }: { userIdentifier: string }) => async (
+    const registerWithUserIdentifier = ({ userIdentifier }: { userIdentifier: string }) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
         try {
-            dispatch({ type: REGISTER_TEMPORARY_USER_IS_LOADING });
-            const user = await streakoidRegistration.users.createTemporary({ userIdentifier });
+            dispatch({ type: REGISTER_WITH_IDENTIFIER_USER_IS_LOADING });
+            const user = await streakoidRegistration.users.createWithIdentifier({ userIdentifier });
             dispatch({
                 type: UPDATE_CURRENT_USER,
                 payload: {
@@ -205,13 +205,13 @@ const authActions = (streakoid: StreakoidSDK, streakoidRegistration: StreakoidSD
                     updatePushNotificationsIsLoading: false,
                 },
             });
-            dispatch({ type: REGISTER_TEMPORARY_USER_IS_LOADED });
+            dispatch({ type: REGISTER_WITH_IDENTIFIER_USER_IS_LOADED });
         } catch (err) {
-            dispatch({ type: REGISTER_TEMPORARY_USER_IS_LOADED });
+            dispatch({ type: REGISTER_WITH_IDENTIFIER_USER_IS_LOADED });
             if (err.response) {
-                dispatch({ type: REGISTER_TEMPORARY_USER_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: REGISTER_WITH_IDENTIFIER_USER_FAIL, errorMessage: err.response.data.message });
             } else {
-                dispatch({ type: REGISTER_TEMPORARY_USER_FAIL, errorMessage: err.message });
+                dispatch({ type: REGISTER_WITH_IDENTIFIER_USER_FAIL, errorMessage: err.message });
             }
         }
     };
@@ -384,7 +384,7 @@ const authActions = (streakoid: StreakoidSDK, streakoidRegistration: StreakoidSD
         clearLoginErrorMessage,
         refreshToken,
         registerUser,
-        registerTemporaryUser,
+        registerWithUserIdentifier,
         clearRegisterErrorMessage,
         verifyUser,
         clearVerifyUserErrorMessage,

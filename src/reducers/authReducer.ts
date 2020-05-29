@@ -34,9 +34,9 @@ import {
     PASSWORD_CLEAR,
     REFRESH_TOKEN,
     REFRESH_TOKEN_FAIL,
-    REGISTER_TEMPORARY_USER_FAIL,
-    REGISTER_TEMPORARY_USER_IS_LOADING,
-    REGISTER_TEMPORARY_USER_IS_LOADED,
+    REGISTER_WITH_IDENTIFIER_USER_FAIL,
+    REGISTER_WITH_IDENTIFIER_USER_IS_LOADING,
+    REGISTER_WITH_IDENTIFIER_USER_IS_LOADED,
 } from '../actions/types';
 
 export interface AuthState {
@@ -48,8 +48,8 @@ export interface AuthState {
     loginIsLoading: boolean;
     registerErrorMessage: string;
     registerIsLoading: boolean;
-    registerTemporaryUserErrorMessage: string;
-    registerTemporaryUserIsLoading: boolean;
+    registerWithIdentifierUserErrorMessage: string;
+    registerWithIdentifierUserIsLoading: boolean;
     idTokenExpiryTime?: number;
     password: string;
     refreshTokenErrorMessage: string;
@@ -76,8 +76,8 @@ const initialState: AuthState = {
     loginIsLoading: false,
     registerErrorMessage: '',
     registerIsLoading: false,
-    registerTemporaryUserErrorMessage: '',
-    registerTemporaryUserIsLoading: false,
+    registerWithIdentifierUserErrorMessage: '',
+    registerWithIdentifierUserIsLoading: false,
     password: '',
     refreshTokenErrorMessage: '',
     verifyUserErrorMessage: '',
@@ -251,23 +251,23 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
                 registerIsLoading: false,
             };
 
-        case REGISTER_TEMPORARY_USER_FAIL: {
+        case REGISTER_WITH_IDENTIFIER_USER_FAIL: {
             return {
                 ...state,
-                registerTemporaryUserErrorMessage: action.errorMessage,
+                registerWithIdentifierUserErrorMessage: action.errorMessage,
             };
         }
 
-        case REGISTER_TEMPORARY_USER_IS_LOADING:
+        case REGISTER_WITH_IDENTIFIER_USER_IS_LOADING:
             return {
                 ...state,
-                registerTemporaryUserIsLoading: true,
+                registerWithIdentifierUserIsLoading: true,
             };
 
-        case REGISTER_TEMPORARY_USER_IS_LOADED:
+        case REGISTER_WITH_IDENTIFIER_USER_IS_LOADED:
             return {
                 ...state,
-                registerTemporaryUserIsLoading: false,
+                registerWithIdentifierUserIsLoading: false,
             };
 
         case LOGIN_IS_LOADING:
