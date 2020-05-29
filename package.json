@@ -34,7 +34,7 @@
     },
     "dependencies": {
         "@streakoid/streakoid-models": "^1.0.41",
-        "@streakoid/streakoid-sdk": "^1.0.519",
+        "@streakoid/streakoid-sdk": "^1.0.529",
         "@types/form-data": "^2.5.0",
         "@types/moment-timezone": "^0.5.12",
         "@types/node-fetch": "^2.5.2",
