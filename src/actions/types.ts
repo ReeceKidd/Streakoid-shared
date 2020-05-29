@@ -40,6 +40,7 @@ import { Challenge } from '@streakoid/streakoid-models/lib/Models/Challenge';
 import { Note } from '@streakoid/streakoid-models/lib/Models/Note';
 import { DatabaseStats } from '@streakoid/streakoid-models/lib/Models/DatabaseStats';
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
+import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamStreak';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
@@ -994,7 +995,7 @@ export interface CreateTeamStreakAction {
 
 export interface EditTeamStreakAction {
     type: typeof EDIT_TEAM_STREAK;
-    payload: TeamStreak;
+    payload: PopulatedTeamStreak;
 }
 
 export interface EditTeamStreakFailAction {
