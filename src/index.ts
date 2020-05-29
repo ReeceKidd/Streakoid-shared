@@ -33,7 +33,7 @@ const sharedReducers = {
     activityFeed: activityFeedReducer,
     teamMemberStreaks: teamMemberStreakReducer,
     leaderboards: leaderboardReducer,
-    dabatabaseStats: databaseStatsReducer,
+    databaseStats: databaseStatsReducer,
 };
 
 const sharedReducer = combineReducers({
