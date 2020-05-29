@@ -33,7 +33,6 @@ import {
     CustomTeamStreakReminder,
     CustomChallengeStreakReminder,
 } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
-import { TeamStreak } from '@streakoid/streakoid-models/lib/Models/TeamStreak';
 import { FormattedUser } from '@streakoid/streakoid-models/lib/Models/FormattedUser';
 import { ProfileImages } from '@streakoid/streakoid-models/lib/Models/ProfileImages';
 import { Challenge } from '@streakoid/streakoid-models/lib/Models/Challenge';
