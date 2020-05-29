@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 
 import {
     GET_CHALLENGES,
@@ -36,7 +36,7 @@ export enum GetChallengeSortOrder {
     descending = 'descending',
 }
 
-const challengeActions = (streakoid: typeof streakoidSDK) => {
+const challengeActions = (streakoid: StreakoidSDK) => {
     // Helper functions
     const getSortedChallengeMembers = async (challengeId: string, challengeMembers: ChallengeMember[]) => {
         const populatedChallengeMembers = await Promise.all(

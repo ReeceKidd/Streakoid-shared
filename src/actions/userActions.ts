@@ -44,7 +44,7 @@ import {
     CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
 } from './types';
 import { AppActions, AppState } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import { sortSoloStreaks, sortTeamStreaks, sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { FollowingWithClientData } from '../reducers/userReducer';
@@ -59,7 +59,7 @@ import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/li
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 import { Onboarding } from '@streakoid/streakoid-models/lib/Models/Onboarding';
 
-const userActions = (streakoid: typeof streakoidSDK) => {
+const userActions = (streakoid: StreakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,

@@ -8,13 +8,13 @@ import {
     CLEAR_SELECTED_TEAM_MEMBER_STREAK,
 } from './types';
 import { AppActions } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 
-const teamMemberStreakActions = (streakoid: typeof streakoidSDK) => {
+const teamMemberStreakActions = (streakoid: StreakoidSDK) => {
     const getTeamMemberStreak = (teamMemberStreakId: string) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {

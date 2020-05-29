@@ -9,10 +9,10 @@ import {
     NAVIGATE_TO_THANK_YOU,
 } from './types';
 import { AppActions, AppState } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import PaymentPlans from '@streakoid/streakoid-models/lib/Types/PaymentPlans';
 
-const stripeActions = (streakoid: typeof streakoidSDK) => {
+const stripeActions = (streakoid: StreakoidSDK) => {
     const createStripeSubscription = ({ token, paymentPlan }: { token: Token; paymentPlan: PaymentPlans }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,

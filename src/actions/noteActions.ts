@@ -21,11 +21,11 @@ import {
     CLEAR_NOTES,
 } from './types';
 import { AppActions, AppState } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import { NoteWithClientData } from '../reducers/notesReducer';
 import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 
-const noteActions = (streakoid: typeof streakoidSDK) => {
+const noteActions = (streakoid: StreakoidSDK) => {
     const getNotes = ({ subjectId, userId }: { subjectId?: string; userId?: string }) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {

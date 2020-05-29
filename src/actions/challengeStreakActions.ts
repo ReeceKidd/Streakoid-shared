@@ -2,7 +2,7 @@ import { Dispatch } from 'redux';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 import { AppActions, AppState } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import {
     GET_LIVE_CHALLENGE_STREAKS_LOADING,
     GET_LIVE_CHALLENGE_STREAKS_LOADED,
@@ -64,7 +64,7 @@ import { SelectedChallengeStreak } from '../reducers/challengeStreakReducer';
 import { CustomChallengeStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 
-const challengeStreakActions = (streakoid: typeof streakoidSDK) => {
+const challengeStreakActions = (streakoid: StreakoidSDK) => {
     const getLiveChallengeStreaks = () => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,

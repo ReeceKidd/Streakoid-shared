@@ -64,7 +64,7 @@ import {
     UPDATE_SOLO_STREAK_REMINDER_INFO,
 } from './types';
 import { AppActions, AppState } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import { sortSoloStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
@@ -74,7 +74,7 @@ import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
-const soloStreakActions = (streakoid: typeof streakoidSDK) => {
+const soloStreakActions = (streakoid: StreakoidSDK) => {
     const getLiveSoloStreaks = () => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,

@@ -50,7 +50,7 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import { sortTeamStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { PopulatedTeamMemberWithClientData, SelectedTeamStreak } from '../reducers/teamStreakReducer';
@@ -60,7 +60,7 @@ import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
-export const teamStreakActions = (streakoid: typeof streakoidSDK) => {
+export const teamStreakActions = (streakoid: StreakoidSDK) => {
     const getLiveTeamStreaks = () => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,

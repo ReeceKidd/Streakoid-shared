@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Dispatch } from 'redux';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 
 import { AppActions } from '..';
 import {
@@ -24,7 +24,7 @@ export interface GetAllPopulatedActivityFeedItemsActionResponse {
     totalCountOfActivityFeedItems: number;
 }
 
-const activityFeedItemActions = (streakoid: typeof streakoidSDK) => {
+const activityFeedItemActions = (streakoid: StreakoidSDK) => {
     const getFollowingActivityFeedItems = ({
         limit,
         createdAtBefore,

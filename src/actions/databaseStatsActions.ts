@@ -7,9 +7,9 @@ import {
     GET_DATABASE_STATS_LOADED,
 } from './types';
 import { AppActions } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 
-const databaseStatsActions = (streakoid: typeof streakoidSDK) => {
+const databaseStatsActions = (streakoid: StreakoidSDK) => {
     const getStats = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_DATABASE_STATS_LOADING });

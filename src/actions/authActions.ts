@@ -46,8 +46,8 @@ import {
     REGISTER_TEMPORARY_USER_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
 import CognitoPayload from '../cognitoPayload';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 
 Amplify.configure({
     Auth: {
@@ -58,7 +58,7 @@ Amplify.configure({
     },
 });
 
-const authActions = (streakoid: typeof streakoidSDK, streakoidRegistration: typeof streakoidSDK) => {
+const authActions = (streakoid: StreakoidSDK, streakoidRegistration: StreakoidSDK) => {
     const loginUser = ({ emailOrUsername, password }: { emailOrUsername: string; password: string }) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {

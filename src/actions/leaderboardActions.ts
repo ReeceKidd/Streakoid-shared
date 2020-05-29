@@ -23,7 +23,7 @@ import {
     GET_FOLLOWING_LEADERBOARD_FAIL,
 } from './types';
 import { AppActions } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import { GetAllSoloStreaksSortFields } from '@streakoid/streakoid-sdk/lib/soloStreaks';
 import { GetAllTeamStreaksSortFields } from '@streakoid/streakoid-sdk/lib/teamStreaks';
 import {
@@ -33,7 +33,7 @@ import {
 } from '../reducers/leaderboardReducer';
 import { GetAllChallengeStreaksSortFields } from '@streakoid/streakoid-sdk/lib/challengeStreak';
 
-const leaderboardActions = (streakoid: typeof streakoidSDK) => {
+const leaderboardActions = (streakoid: StreakoidSDK) => {
     const getSoloStreakLeaderboard = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_SOLO_STREAK_LEADERBOARD_LOADING });

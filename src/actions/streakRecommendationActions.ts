@@ -12,10 +12,10 @@ import {
     SELECT_STREAK_RECOMMENDATION_IS_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import { StreakRecommendationWithClientData } from '../reducers/streakRecommendationsReducer';
 
-const streakRecommendationActions = (streakoid: typeof streakoidSDK) => {
+const streakRecommendationActions = (streakoid: StreakoidSDK) => {
     const getStreakRecommendations = ({
         limit,
         random,

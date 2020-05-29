@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import {
     CreatedSoloStreakClientActivityFeedItem,
     CompletedSoloStreakClientActivityFeedItem,
@@ -35,10 +35,7 @@ import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/Activit
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-export const getPopulatedActivityFeedItem = async (
-    streakoid: typeof streakoidSDK,
-    activityFeedItem: ActivityFeedItemType,
-) => {
+export const getPopulatedActivityFeedItem = async (streakoid: StreakoidSDK, activityFeedItem: ActivityFeedItemType) => {
     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.createdSoloStreak) {
         const title = ` created solo streak: `;
         const clientActivityFeedItem: CreatedSoloStreakClientActivityFeedItem = {

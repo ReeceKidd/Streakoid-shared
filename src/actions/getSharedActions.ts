@@ -1,4 +1,4 @@
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import { emailActions } from './emailActions';
 import { soloStreakActions } from './soloStreakActions';
 import { stripeActions } from './stripeActions';
@@ -16,7 +16,7 @@ import { teamMemberStreakActions } from './teamMemberStreakActions';
 import { leaderboardActions } from './leaderboardActions';
 import { databaseStatsActions } from './databaseStatsActions';
 
-export const getSharedActions = (streakoid: typeof streakoidSDK) => {
+export const getSharedActions = (streakoid: StreakoidSDK) => {
     return {
         authActions,
         profilePictureActions,

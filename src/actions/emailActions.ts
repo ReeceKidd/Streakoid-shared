@@ -13,9 +13,9 @@ import {
     CLEAR_SEND_CANCEL_MEMBERSHIP_EMAIL_MESSAGES,
 } from './types';
 import { AppActions, AppState } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 
-const emailActions = (streakoid: typeof streakoidSDK) => {
+const emailActions = (streakoid: StreakoidSDK) => {
     const sendContactUsEmail = ({ name, email, message }: { name: string; email: string; message: string }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,

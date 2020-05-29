@@ -19,11 +19,11 @@ import {
     INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING,
 } from './types';
 import { AppActions, AppState } from '..';
-import { streakoid as streakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoid';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 
-export const teamMemberStreakTaskActions = (streakoid: typeof streakoidSDK) => {
+export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
     const completeTeamMemberStreakTask = ({
         teamStreakId,
         teamMemberStreakId,
