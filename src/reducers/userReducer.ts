@@ -224,7 +224,6 @@ const initialState: UserReducerInitialState = {
         },
         hasCompletedTutorial: true,
         onboarding: {
-            whatBestDescribesYouChoice: WhatBestDescribesYouTypes.competitor,
             whyDoYouWantToBuildNewHabitsChoice: WhyDoYouWantToBuildNewHabitsTypes.education,
         },
         hasCompletedOnboarding: true,
