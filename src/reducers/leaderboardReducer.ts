@@ -48,7 +48,7 @@ export interface SoloStreakLeaderboardItem {
     userProfileImage: string;
     currentStreakNumberOfDaysInARow: number;
     streakCreatedAt: Date;
-    username?: string;
+    username: string;
 }
 
 export interface TeamStreakLeaderboardItem {
@@ -65,7 +65,7 @@ export interface ChallengeStreakLeaderboardItem {
     userProfileImage: string;
     currentStreakNumberOfDaysInARow: number;
     streakCreatedAt: Date;
-    username?: string;
+    username: string;
 }
 
 const initialState: LeaderboardReducerState = {

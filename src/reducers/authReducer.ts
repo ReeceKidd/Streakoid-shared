@@ -63,7 +63,7 @@ export interface AuthState {
     verifyUserIsLoading: boolean;
     forgotPasswordIsLoading: boolean;
     updatePasswordIsLoading: boolean;
-    username?: string;
+    username: string;
 }
 
 const initialState: AuthState = {

@@ -153,7 +153,7 @@ export interface SelectedSoloStreak extends SoloStreak {
     updateCustomSoloStreakReminderIsLoading: boolean;
     updateCustomSoloStreakReminderErrorMessage: string;
     customSoloStreakReminder?: CustomSoloStreakReminder;
-    username?: string;
+    username: string;
 }
 
 export interface SoloStreakListItem extends SoloStreak {

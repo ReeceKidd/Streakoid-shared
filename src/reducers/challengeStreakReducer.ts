@@ -169,7 +169,7 @@ export interface SelectedChallengeStreak extends ChallengeStreak {
     updateCustomChallengeStreakReminderPushNotificationErrorMessage: string;
     updateCustomChallengeStreakReminderPushNotificationIsLoading: boolean;
     customChallengeStreakReminder?: CustomChallengeStreakReminder;
-    username?: string;
+    username: string;
 }
 
 const challengeStreakReducer = (

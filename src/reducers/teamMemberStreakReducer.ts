@@ -68,7 +68,7 @@ export interface SelectedTeamMemberStreak extends TeamMemberStreak {
     completeSelectedTeamMemberStreakErrorMessage: string;
     incompleteSelectedTeamMemberStreakIsLoading: boolean;
     incompleteSelectedTeamMemberStreakErrorMessage: string;
-    username?: string;
+    username: string;
 }
 
 const teamMemberStreakReducer = (
