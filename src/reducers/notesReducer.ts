@@ -54,7 +54,7 @@ const initialState: NoteReducerState = {
 export interface NoteWithClientData extends Note {
     deleteNoteIsLoading: boolean;
     noteCreatorProfilePicture: string;
-    noteCreatorusername: string;
+    noteCreatorUsername: string;
 }
 
 const noteReducer = (state = initialState, action: NotesActionTypes): NoteReducerState => {
