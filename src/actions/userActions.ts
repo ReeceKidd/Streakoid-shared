@@ -313,18 +313,23 @@ const userActions = (streakoid: StreakoidSDK) => {
         }
     };
 
-    const updateCurrentUser = (updateData: {
-        email?: string;
-        username: string;
-        name?: string;
-        timezone?: string;
-        pushNotification?: {
-            token: string;
-            deviceType: PushNotificationSupportedDeviceTypes;
+    const updateCurrentUser = ({
+        updateData,
+    }: {
+        updateData?: {
+            email?: string;
+            username?: string;
+            name?: string;
+            timezone?: string;
+            pushNotification?: {
+                deviceType: PushNotificationSupportedDeviceTypes;
+                token: string;
+            };
+            hasCompletedTutorial?: boolean;
+            hasCompletedIntroduction?: boolean;
+            onboarding?: Onboarding;
+            hasCompletedOnboarding?: boolean;
         };
-        hasCompletedTutorial?: boolean;
-        onboarding?: Onboarding;
-        hasCompletedOnboarding?: boolean;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADING });
