@@ -59,9 +59,15 @@ Amplify.configure({
 });
 
 const authActions = (streakoid: StreakoidSDK, streakoidRegistration: StreakoidSDK) => {
-    const loginUser = ({ emailOrUsername, password }: { emailOrUsername: string; password: string }) => async (
-        dispatch: Dispatch<AppActions>,
-    ): Promise<void> => {
+    const loginUser = ({
+        emailOrUsername,
+        password,
+        redirectToHomeOnLogin,
+    }: {
+        emailOrUsername: string;
+        password: string;
+        redirectToHomeOnLogin: boolean;
+    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: LOGIN_IS_LOADING });
 
@@ -108,7 +114,9 @@ const authActions = (streakoid: StreakoidSDK, streakoidRegistration: StreakoidSD
                     updatePushNotificationsIsLoading: false,
                 },
             });
-            dispatch({ type: NAVIGATE_TO_HOME });
+            if (redirectToHomeOnLogin) {
+                dispatch({ type: NAVIGATE_TO_HOME });
+            }
             dispatch({ type: LOGIN_IS_LOADED });
         } catch (err) {
             dispatch({ type: LOGIN_IS_LOADED });
