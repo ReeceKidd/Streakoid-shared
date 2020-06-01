@@ -60,18 +60,18 @@ Amplify.configure({
 
 const authActions = (streakoid: StreakoidSDK) => {
     const loginUser = ({
-        email,
+        emailOrCognitoUsername,
         password,
         redirectToHomeOnLogin,
     }: {
-        email: string;
+        emailOrCognitoUsername: string;
         password: string;
         redirectToHomeOnLogin: boolean;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: LOGIN_IS_LOADING });
 
-            const cognitoUser = await Auth.signIn(email.toLowerCase(), password);
+            const cognitoUser = await Auth.signIn(emailOrCognitoUsername.toLowerCase(), password);
             const { idToken, refreshToken, accessToken } = cognitoUser.signInUserSession;
             const idTokenJwt = idToken.jwtToken;
             const idTokenExpiryTime = idToken.payload.exp;
