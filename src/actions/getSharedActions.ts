@@ -18,8 +18,8 @@ import { databaseStatsActions } from './databaseStatsActions';
 
 export const getSharedActions = (streakoid: StreakoidSDK) => {
     return {
-        authActions,
         profilePictureActions,
+        authActions: authActions(streakoid),
         emailActions: emailActions(streakoid),
         soloStreakActions: soloStreakActions(streakoid),
         stripeActions: stripeActions(streakoid),
