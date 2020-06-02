@@ -228,18 +228,32 @@ const authActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_REGISTRATION_ERROR_MESSAGE,
     });
 
+    const updateUserEmailAttribute = ({ email }: { email: string }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADING });
+            const currentUser = await Auth.currentAuthenticatedUser();
+            await Auth.updateUserAttributes(currentUser, { email });
+            await Auth.verifyUserAttribute(currentUser, 'email');
+            dispatch({ type: UPDATE_USER_ATTRIBUTES, payload: { email } });
+            dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADED });
+            if (err.response) {
+                dispatch({ type: UPDATE_USER_ATTRIBUTES_FAIL, payload: { errorMessage: err.response.data.message } });
+            } else {
+                dispatch({ type: UPDATE_USER_ATTRIBUTES_FAIL, payload: { errorMessage: err.message } });
+            }
+        }
+    };
+
     const verifyEmail = ({ verificationCode }: { verificationCode: string }) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: VERIFY_EMAIL_IS_LOADING });
-            const { username } = getState().users.currentUser;
-
-            await Auth.confirmSignUp(username, verificationCode, {
-                forceAliasCreation: true,
-            });
-
+            await Auth.verifyCurrentUserAttributeSubmit('email', verificationCode);
             dispatch({ type: VERIFY_EMAIL_IS_LOADED });
         } catch (err) {
             dispatch({ type: VERIFY_EMAIL_IS_LOADED });
@@ -282,29 +296,6 @@ const authActions = (streakoid: StreakoidSDK) => {
     const clearResendCodeErrorMessage = (): AppActions => ({
         type: CLEAR_RESEND_CODE_ERROR_MESSAGE,
     });
-
-    const updateUserAttributes = ({ email }: { email: string }) => async (
-        dispatch: Dispatch<AppActions>,
-    ): Promise<void> => {
-        try {
-            dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADING });
-            const currentUser = await Auth.currentAuthenticatedUser();
-            console.log('currentUser', currentUser);
-            const result = await Auth.updateUserAttributes(currentUser, { email });
-            console.log('updateUserAttribute', result);
-            const verify = await Auth.verifyUserAttribute(currentUser, 'email');
-            console.log('verify', verify);
-            dispatch({ type: UPDATE_USER_ATTRIBUTES, payload: { email } });
-            dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADED });
-        } catch (err) {
-            dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADED });
-            if (err.response) {
-                dispatch({ type: UPDATE_USER_ATTRIBUTES_FAIL, payload: { errorMessage: err.response.data.message } });
-            } else {
-                dispatch({ type: UPDATE_USER_ATTRIBUTES_FAIL, payload: { errorMessage: err.message } });
-            }
-        }
-    };
 
     const forgotPassword = (emailOrUsername: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
@@ -367,12 +358,12 @@ const authActions = (streakoid: StreakoidSDK) => {
         registerUser,
         registerWithUserIdentifier,
         clearRegisterErrorMessage,
+        updateUserEmailAttribute,
         verifyEmail,
         clearVerifyUserErrorMessage,
         resendCode,
         clearResendCodeSuccessMessage,
         clearResendCodeErrorMessage,
-        updateUserAttributes,
         forgotPassword,
         clearForgotPasswordErrorMessage,
         updatePassword,
