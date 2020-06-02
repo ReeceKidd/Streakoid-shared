@@ -182,10 +182,14 @@ export const FORGOT_PASSWORD_IS_LOADED = 'FORGOT_PASSWORD_IS_LOADED';
 export const PASSWORD_STORE = 'PASSWORD_STORE';
 export const PASSWORD_CLEAR = 'PASSWORD_CLEAR';
 
-export const UPDATE_USER_ATTRIBUTES = 'UPDATE_USER_ATTRIBUTES';
-export const UPDATE_USER_ATTRIBUTES_FAIL = 'UPDATE_USER_ATTRIBUTES_FAIL';
-export const UPDATE_USER_ATTRIBUTES_IS_LOADING = 'UPDATE_USER_ATTRIBUTES_IS_LOADING';
-export const UPDATE_USER_ATTRIBUTES_IS_LOADED = 'UPDATE_USER_ATTRIBUTES_IS_LOADED';
+export const UPDATE_USER_PASSWORD_FAIL = 'UPDATE_USER_PASSWORD_FAIL';
+export const UPDATE_USER_PASSWORD_IS_LOADING = 'UPDATE_USER_PASSWORD_IS_LOADING';
+export const UPDATE_USER_PASSWORD_IS_LOADED = 'UPDATE_USER_PASSWORD_IS_LOADED';
+
+export const UPDATE_USER_EMAIL_ATTRIBUTE = 'UPDATE_USER_EMAIL_ATTRIBUTE';
+export const UPDATE_USER_EMAIL_ATTRIBUTE_FAIL = 'UPDATE_USER_EMAIL_ATTRIBUTE_FAIL';
+export const UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING = 'UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING';
+export const UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED = 'UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED';
 
 export interface LoginSuccessAction {
     type: typeof LOGIN_SUCCESS;
@@ -353,22 +357,35 @@ export interface PasswordClearAction {
     type: typeof PASSWORD_CLEAR;
 }
 
+export interface UpdateUserPasswordFailAction {
+    type: typeof UPDATE_USER_PASSWORD_FAIL;
+    payload: { errorMessage: string };
+}
+
+export interface UpdateUserPasswordIsLoadingAction {
+    type: typeof UPDATE_USER_PASSWORD_IS_LOADING;
+}
+
+export interface UpdateUserPasswordIsLoadedAction {
+    type: typeof UPDATE_USER_PASSWORD_IS_LOADED;
+}
+
 export interface UpdateUserAttributesAction {
-    type: typeof UPDATE_USER_ATTRIBUTES;
+    type: typeof UPDATE_USER_EMAIL_ATTRIBUTE;
     payload: { email?: string; username?: string };
 }
 
 export interface UpdateUserAttributesFailAction {
-    type: typeof UPDATE_USER_ATTRIBUTES_FAIL;
+    type: typeof UPDATE_USER_EMAIL_ATTRIBUTE_FAIL;
     payload: { errorMessage: string };
 }
 
 export interface UpdateUserAttributesIsLoadingAction {
-    type: typeof UPDATE_USER_ATTRIBUTES_IS_LOADING;
+    type: typeof UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING;
 }
 
 export interface UpdateUserAttributesIsLoadedAction {
-    type: typeof UPDATE_USER_ATTRIBUTES_IS_LOADED;
+    type: typeof UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED;
 }
 
 export type AuthActionTypes =
@@ -409,6 +426,9 @@ export type AuthActionTypes =
     | NewPasswordIsLoadedAction
     | PasswordStoreAction
     | PasswordClearAction
+    | UpdateUserPasswordFailAction
+    | UpdateUserPasswordIsLoadingAction
+    | UpdateUserPasswordIsLoadedAction
     | UpdateUserAttributesAction
     | UpdateUserAttributesFailAction
     | UpdateUserAttributesIsLoadingAction

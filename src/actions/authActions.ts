@@ -41,10 +41,13 @@ import {
     REGISTER_WITH_IDENTIFIER_USER_IS_LOADING,
     REGISTER_WITH_IDENTIFIER_USER_IS_LOADED,
     REGISTER_WITH_IDENTIFIER_USER_FAIL,
-    UPDATE_USER_ATTRIBUTES_IS_LOADING,
-    UPDATE_USER_ATTRIBUTES_IS_LOADED,
-    UPDATE_USER_ATTRIBUTES_FAIL,
-    UPDATE_USER_ATTRIBUTES,
+    UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING,
+    UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED,
+    UPDATE_USER_EMAIL_ATTRIBUTE_FAIL,
+    UPDATE_USER_EMAIL_ATTRIBUTE,
+    UPDATE_USER_PASSWORD_IS_LOADING,
+    UPDATE_USER_PASSWORD_IS_LOADED,
+    UPDATE_USER_PASSWORD_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
@@ -228,21 +231,47 @@ const authActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_REGISTRATION_ERROR_MESSAGE,
     });
 
+    const updateUserPassword = ({ newPassword }: { newPassword: string }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            const oldPassword = getState().users.currentUser.temporaryPassword;
+            dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADING });
+            const currentUser = await Auth.currentAuthenticatedUser();
+            await Auth.changePassword(currentUser, oldPassword, newPassword);
+            dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADED });
+            if (err.response) {
+                dispatch({
+                    type: UPDATE_USER_PASSWORD_FAIL,
+                    payload: { errorMessage: err.response.data.message },
+                });
+            } else {
+                dispatch({ type: UPDATE_USER_PASSWORD_FAIL, payload: { errorMessage: err.message } });
+            }
+        }
+    };
+
     const updateUserEmailAttribute = ({ email }: { email: string }) => async (
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
         try {
-            dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADING });
+            dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING });
             const currentUser = await Auth.currentAuthenticatedUser();
             await Auth.updateUserAttributes(currentUser, { email });
-            dispatch({ type: UPDATE_USER_ATTRIBUTES, payload: { email } });
-            dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADED });
+            dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE, payload: { email } });
+            dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED });
         } catch (err) {
-            dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADED });
+            dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED });
             if (err.response) {
-                dispatch({ type: UPDATE_USER_ATTRIBUTES_FAIL, payload: { errorMessage: err.response.data.message } });
+                dispatch({
+                    type: UPDATE_USER_EMAIL_ATTRIBUTE_FAIL,
+                    payload: { errorMessage: err.response.data.message },
+                });
             } else {
-                dispatch({ type: UPDATE_USER_ATTRIBUTES_FAIL, payload: { errorMessage: err.message } });
+                dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_FAIL, payload: { errorMessage: err.message } });
             }
         }
     };
@@ -357,6 +386,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         registerUser,
         registerWithUserIdentifier,
         clearRegisterErrorMessage,
+        updateUserPassword,
         updateUserEmailAttribute,
         verifyEmail,
         clearVerifyUserErrorMessage,
