@@ -263,7 +263,7 @@ const authActions = (streakoid: StreakoidSDK) => {
             dispatch({ type: UPDATE_USERNAME_ATTRIBUTE_IS_LOADING });
             const currentUser = await Auth.currentAuthenticatedUser();
             // eslint-disable-next-line @typescript-eslint/camelcase
-            await Auth.updateUserAttributes(currentUser, { preffered_username: username });
+            await Auth.updateUserAttributes(currentUser, { preferred_username: username });
             dispatch({ type: UPDATE_USERNAME_ATTRIBUTE_IS_LOADED });
         } catch (err) {
             dispatch({ type: UPDATE_USERNAME_ATTRIBUTE_IS_LOADED });
