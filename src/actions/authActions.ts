@@ -36,11 +36,8 @@ import {
     NAVIGATE_TO_LOGIN,
     NAVIGATE_TO_UPDATE_PASSWORD,
     NAVIGATE_TO_VERIFY_USER,
-    PASSWORD_STORE,
-    PASSWORD_CLEAR,
     REFRESH_TOKEN,
     REFRESH_TOKEN_FAIL,
-    NAVIGATE_TO_WELCOME,
     REGISTER_WITH_IDENTIFIER_USER_IS_LOADING,
     REGISTER_WITH_IDENTIFIER_USER_IS_LOADED,
     REGISTER_WITH_IDENTIFIER_USER_FAIL,
@@ -179,7 +176,6 @@ const authActions = (streakoid: StreakoidSDK) => {
                     updatePushNotificationsIsLoading: false,
                 },
             });
-            dispatch({ type: PASSWORD_STORE, password });
             dispatch({ type: REGISTER_IS_LOADED });
             dispatch({ type: NAVIGATE_TO_VERIFY_USER });
         } catch (err) {
@@ -228,68 +224,18 @@ const authActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_REGISTRATION_ERROR_MESSAGE,
     });
 
-    const verifyUser = (verificationCode: string) => async (
+    const verifyUser = ({ verificationCode }: { verificationCode: string }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: VERIFY_USER_IS_LOADING });
-            let { username } = getState().users.currentUser;
-            const { password } = getState().auth;
+            const { username } = getState().users.currentUser;
 
-            if (username) {
-                await Auth.confirmSignUp(username, verificationCode, {
-                    forceAliasCreation: true,
-                });
-            }
-            if (password && username) {
-                username = username && username.toLowerCase();
+            await Auth.confirmSignUp(username, verificationCode, {
+                forceAliasCreation: true,
+            });
 
-                const cognitoUser = await Auth.signIn(username, password);
-                const { idToken, refreshToken, accessToken } = cognitoUser.signInUserSession;
-                const idTokenJwt = idToken.jwtToken;
-                const idTokenExpiryTime = idToken.payload.exp;
-                const refreshTokenJwt = refreshToken.token;
-                const accessTokenJwt = accessToken.jwtToken;
-                const cognitoPayload: CognitoPayload = {
-                    idToken: idTokenJwt,
-                    idTokenExpiryTime,
-                    refreshToken: refreshTokenJwt,
-                    accessToken: accessTokenJwt,
-                    username,
-                };
-
-                dispatch({ type: LOGIN_SUCCESS, payload: cognitoPayload });
-                const user = await streakoid.user.getCurrentUser();
-                const followingWithClientData = user.following.map(following => ({
-                    ...following,
-                    unfollowUserIsLoading: false,
-                    unfollowUserErrorMessage: '',
-                }));
-                const followersWithClientData = user.followers.map(follower => ({
-                    ...follower,
-                    isSelected: false,
-                }));
-                dispatch({
-                    type: UPDATE_CURRENT_USER,
-                    payload: {
-                        ...user,
-                        following: followingWithClientData,
-                        followers: followersWithClientData,
-                        userStreakCompleteInfo: [],
-                        activityFeed: {
-                            totalActivityFeedCount: 0,
-                            activityFeedItems: [],
-                        },
-                        updatePushNotificationsErrorMessage: '',
-                        updatePushNotificationsIsLoading: false,
-                    },
-                });
-                dispatch({ type: NAVIGATE_TO_WELCOME });
-                dispatch({ type: PASSWORD_CLEAR });
-            } else {
-                dispatch({ type: NAVIGATE_TO_LOGIN });
-            }
             dispatch({ type: VERIFY_USER_IS_LOADED });
         } catch (err) {
             dispatch({ type: VERIFY_USER_IS_LOADED });
