@@ -132,27 +132,36 @@ export type NavigationActionTypes =
     | NavigateToSpecificChallengeStreakAction;
 
 export const AUTH_ERROR = 'AUTH_ERROR';
+
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOGIN_IS_LOADING = 'LOGIN_IS_LOADING';
+export const LOGIN_IS_LOADED = 'LOGIN_IS_LOADED';
+export const CLEAR_LOG_IN_ERROR_MESSAGE = 'CLEAR_LOGIN_ERROR_MESSAGE';
+
 export const REFRESH_TOKEN = 'REFRESH_TOKEN';
 export const REFRESH_TOKEN_FAIL = 'REFRESH_TOKEN_FAIL';
+
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const CLEAR_LOG_IN_ERROR_MESSAGE = 'CLEAR_LOGIN_ERROR_MESSAGE';
+
 export const SESSION_EXPIRED = 'SESSION_EXPIRED';
 export const CLEAR_REGISTRATION_ERROR_MESSAGE = 'CLEAR_REGISTRATION_ERROR_MESSAGE';
-export const VERIFY_EMAIL_FAIL = 'VERIFY_EMAIL_FAIL';
-export const CLEAR_VERIFY_EMAIL_ERROR_MESSAGE = 'CLEAR_VERIFY_EMAIL_ERROR_MESSAGE';
+
 export const RESEND_CODE_SUCCESS = 'RESEND_CODE_SUCCESS';
 export const RESEND_CODE_FAIL = 'RESEND_CODE_FAIL';
 export const CLEAR_RESEND_CODE_SUCCESS_MESSAGE = 'CLEAR_RESEND_CODE_SUCCESS_MESSAGE';
 export const CLEAR_RESEND_CODE_ERROR_MESSAGE = 'CLEAR_RESEND_CODE_ERROR_MESSAGE';
+
 export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
 export const FORGOT_PASSWORD_FAIL = 'FORGOT_PASSWORD_FAIL';
 export const CLEAR_FORGOT_PASSWORD_ERROR_MESSAGE = 'CLEAR_FORGOT_PASSWORD_ERROR_MESSAGE';
+
 export const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS';
 export const CLEAR_UPDATE_PASSWORD_SUCCESS_MESSAGE = 'CLEAR_UPDATE_PASSWORD_SUCCESS_MESSAGE';
 export const UPDATE_PASSWORD_FAIL = 'UPDATE_PASSWORD_FAIL';
 export const CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE = 'CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE';
+export const UPDATE_PASSWORD_IS_LOADING = 'UPDATE_PASSWORD_IS_LOADING';
+export const UPDATE_PASSWORD_IS_LOADED = 'UPDATE_PASSWORD_IS_LOADED';
 
 export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const REGISTER_IS_LOADING = 'REGISTER_IS_LOADING';
@@ -162,16 +171,21 @@ export const REGISTER_WITH_IDENTIFIER_USER_FAIL = 'REGISTER_WITH_IDENTIFIER_USER
 export const REGISTER_WITH_IDENTIFIER_USER_IS_LOADING = 'REGISTER_WITH_IDENTIFIER_USER_IS_LOADING';
 export const REGISTER_WITH_IDENTIFIER_USER_IS_LOADED = 'REGISTER_WITH_IDENTIFIER_USER_IS_LOADED';
 
-export const LOGIN_IS_LOADING = 'LOGIN_IS_LOADING';
-export const LOGIN_IS_LOADED = 'LOGIN_IS_LOADED';
+export const VERIFY_EMAIL_FAIL = 'VERIFY_EMAIL_FAIL';
+export const CLEAR_VERIFY_EMAIL_ERROR_MESSAGE = 'CLEAR_VERIFY_EMAIL_ERROR_MESSAGE';
 export const VERIFY_EMAIL_IS_LOADING = 'VERIFY_CODE_IS_LOADING';
 export const VERIFY_EMAIL_IS_LOADED = 'VERIFY_CODE_IS_LOADED';
+
 export const FORGOT_PASSWORD_IS_LOADING = 'FORGOT_PASSWORD_IS_LOADING';
 export const FORGOT_PASSWORD_IS_LOADED = 'FORGOT_PASSWORD_IS_LOADED';
-export const UPDATE_PASSWORD_IS_LOADING = 'UPDATE_PASSWORD_IS_LOADING';
-export const UPDATE_PASSWORD_IS_LOADED = 'UPDATE_PASSWORD_IS_LOADED';
+
 export const PASSWORD_STORE = 'PASSWORD_STORE';
 export const PASSWORD_CLEAR = 'PASSWORD_CLEAR';
+
+export const UPDATE_USER_ATTRIBUTES = 'UPDATE_USER_ATTRIBUTES';
+export const UPDATE_USER_ATTRIBUTES_FAIL = 'UPDATE_USER_ATTRIBUTES_FAIL';
+export const UPDATE_USER_ATTRIBUTES_IS_LOADING = 'UPDATE_USER_ATTRIBUTES_IS_LOADING';
+export const UPDATE_USER_ATTRIBUTES_IS_LOADED = 'UPDATE_USER_ATTRIBUTES_IS_LOADED';
 
 export interface LoginSuccessAction {
     type: typeof LOGIN_SUCCESS;
@@ -339,6 +353,24 @@ export interface PasswordClearAction {
     type: typeof PASSWORD_CLEAR;
 }
 
+export interface UpdateUserAttributesAction {
+    type: typeof UPDATE_USER_ATTRIBUTES;
+    payload: { email?: string; username?: string };
+}
+
+export interface UpdateUserAttributesFailAction {
+    type: typeof UPDATE_USER_ATTRIBUTES_FAIL;
+    payload: { errorMessage: string };
+}
+
+export interface UpdateUserAttributesIsLoadingAction {
+    type: typeof UPDATE_USER_ATTRIBUTES_IS_LOADING;
+}
+
+export interface UpdateUserAttributesIsLoadedAction {
+    type: typeof UPDATE_USER_ATTRIBUTES_IS_LOADED;
+}
+
 export type AuthActionTypes =
     | LoginSuccessAction
     | LoginFailAction
@@ -376,7 +408,11 @@ export type AuthActionTypes =
     | NewPasswordIsLoadingAction
     | NewPasswordIsLoadedAction
     | PasswordStoreAction
-    | PasswordClearAction;
+    | PasswordClearAction
+    | UpdateUserAttributesAction
+    | UpdateUserAttributesFailAction
+    | UpdateUserAttributesIsLoadingAction
+    | UpdateUserAttributesIsLoadedAction;
 
 export const GET_LIVE_SOLO_STREAKS = 'GET_LIVE_SOLO_STREAKS';
 export const GET_LIVE_SOLO_STREAKS_FAIL = 'GET_LIVE_SOLO_STREAKS_FAIL';

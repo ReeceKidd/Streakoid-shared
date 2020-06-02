@@ -41,6 +41,10 @@ import {
     REGISTER_WITH_IDENTIFIER_USER_IS_LOADING,
     REGISTER_WITH_IDENTIFIER_USER_IS_LOADED,
     REGISTER_WITH_IDENTIFIER_USER_FAIL,
+    UPDATE_USER_ATTRIBUTES_IS_LOADING,
+    UPDATE_USER_ATTRIBUTES_IS_LOADED,
+    UPDATE_USER_ATTRIBUTES_FAIL,
+    UPDATE_USER_ATTRIBUTES,
 } from './types';
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
@@ -279,6 +283,26 @@ const authActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_RESEND_CODE_ERROR_MESSAGE,
     });
 
+    const updateUserAttributes = ({ email }: { email: string }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADING });
+            const currentUser = await Auth.currentAuthenticatedUser();
+            await Auth.updateUserAttributes(currentUser, { email });
+            await Auth.verifyUserAttribute(currentUser, 'email');
+            dispatch({ type: UPDATE_USER_ATTRIBUTES, payload: { email } });
+            dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADED });
+            if (err.response) {
+                dispatch({ type: UPDATE_USER_ATTRIBUTES_FAIL, payload: { errorMessage: err.response.data.message } });
+            } else {
+                dispatch({ type: UPDATE_USER_ATTRIBUTES_FAIL, payload: { errorMessage: err.message } });
+            }
+        }
+    };
+
     const forgotPassword = (emailOrUsername: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: FORGOT_PASSWORD_IS_LOADING });
@@ -345,6 +369,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         resendCode,
         clearResendCodeSuccessMessage,
         clearResendCodeErrorMessage,
+        updateUserAttributes,
         forgotPassword,
         clearForgotPasswordErrorMessage,
         updatePassword,
