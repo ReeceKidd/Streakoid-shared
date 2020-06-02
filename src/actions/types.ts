@@ -186,10 +186,13 @@ export const UPDATE_USER_PASSWORD_FAIL = 'UPDATE_USER_PASSWORD_FAIL';
 export const UPDATE_USER_PASSWORD_IS_LOADING = 'UPDATE_USER_PASSWORD_IS_LOADING';
 export const UPDATE_USER_PASSWORD_IS_LOADED = 'UPDATE_USER_PASSWORD_IS_LOADED';
 
-export const UPDATE_USER_EMAIL_ATTRIBUTE = 'UPDATE_USER_EMAIL_ATTRIBUTE';
 export const UPDATE_USER_EMAIL_ATTRIBUTE_FAIL = 'UPDATE_USER_EMAIL_ATTRIBUTE_FAIL';
 export const UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING = 'UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING';
 export const UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED = 'UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED';
+
+export const UPDATE_USERNAME_ATTRIBUTE_FAIL = 'UPDATE_USERNAME_ATTRIBUTE_FAIL';
+export const UPDATE_USERNAME_ATTRIBUTE_IS_LOADING = 'UPDATE_USERNAME_ATTRIBUTE_IS_LOADING';
+export const UPDATE_USERNAME_ATTRIBUTE_IS_LOADED = 'UPDATE_USERNAME_ATTRIBUTE_IS_LOADED';
 
 export interface LoginSuccessAction {
     type: typeof LOGIN_SUCCESS;
@@ -370,22 +373,30 @@ export interface UpdateUserPasswordIsLoadedAction {
     type: typeof UPDATE_USER_PASSWORD_IS_LOADED;
 }
 
-export interface UpdateUserAttributesAction {
-    type: typeof UPDATE_USER_EMAIL_ATTRIBUTE;
-    payload: { email?: string; username?: string };
-}
-
-export interface UpdateUserAttributesFailAction {
+export interface UpdateUserEmailAttributeFailAction {
     type: typeof UPDATE_USER_EMAIL_ATTRIBUTE_FAIL;
     payload: { errorMessage: string };
 }
 
-export interface UpdateUserAttributesIsLoadingAction {
+export interface UpdateUserEmailAttributeIsLoadingAction {
     type: typeof UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING;
 }
 
-export interface UpdateUserAttributesIsLoadedAction {
+export interface UpdateUserEmailAttributeIsLoadedAction {
     type: typeof UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED;
+}
+
+export interface UpdateUsernameAttributeFailAction {
+    type: typeof UPDATE_USERNAME_ATTRIBUTE_FAIL;
+    payload: { errorMessage: string };
+}
+
+export interface UpdateUsernameAttributeIsLoadingAction {
+    type: typeof UPDATE_USERNAME_ATTRIBUTE_IS_LOADING;
+}
+
+export interface UpdateUsernameAttributeIsLoadedAction {
+    type: typeof UPDATE_USERNAME_ATTRIBUTE_IS_LOADED;
 }
 
 export type AuthActionTypes =
@@ -429,10 +440,12 @@ export type AuthActionTypes =
     | UpdateUserPasswordFailAction
     | UpdateUserPasswordIsLoadingAction
     | UpdateUserPasswordIsLoadedAction
-    | UpdateUserAttributesAction
-    | UpdateUserAttributesFailAction
-    | UpdateUserAttributesIsLoadingAction
-    | UpdateUserAttributesIsLoadedAction;
+    | UpdateUserEmailAttributeFailAction
+    | UpdateUserEmailAttributeIsLoadingAction
+    | UpdateUserEmailAttributeIsLoadedAction
+    | UpdateUsernameAttributeFailAction
+    | UpdateUsernameAttributeIsLoadingAction
+    | UpdateUsernameAttributeIsLoadedAction;
 
 export const GET_LIVE_SOLO_STREAKS = 'GET_LIVE_SOLO_STREAKS';
 export const GET_LIVE_SOLO_STREAKS_FAIL = 'GET_LIVE_SOLO_STREAKS_FAIL';
