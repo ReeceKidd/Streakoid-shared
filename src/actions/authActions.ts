@@ -13,14 +13,14 @@ import {
     REGISTER_IS_LOADED,
     LOGIN_IS_LOADED,
     LOGIN_IS_LOADING,
-    VERIFY_USER_IS_LOADING,
-    VERIFY_USER_IS_LOADED,
-    VERIFY_USER_FAIL,
+    VERIFY_EMAIL_IS_LOADING,
+    VERIFY_EMAIL_IS_LOADED,
+    VERIFY_EMAIL_FAIL,
     RESEND_CODE_SUCCESS,
     RESEND_CODE_FAIL,
     CLEAR_RESEND_CODE_ERROR_MESSAGE,
     CLEAR_RESEND_CODE_SUCCESS_MESSAGE,
-    CLEAR_VERIFY_USER_ERROR_MESSAGE,
+    CLEAR_VERIFY_EMAIL_ERROR_MESSAGE,
     FORGOT_PASSWORD_SUCCESS,
     FORGOT_PASSWORD_FAIL,
     FORGOT_PASSWORD_IS_LOADING,
@@ -35,7 +35,7 @@ import {
     NAVIGATE_TO_HOME,
     NAVIGATE_TO_LOGIN,
     NAVIGATE_TO_UPDATE_PASSWORD,
-    NAVIGATE_TO_VERIFY_USER,
+    NAVIGATE_TO_VERIFY_EMAIL,
     REFRESH_TOKEN,
     REFRESH_TOKEN_FAIL,
     REGISTER_WITH_IDENTIFIER_USER_IS_LOADING,
@@ -177,7 +177,7 @@ const authActions = (streakoid: StreakoidSDK) => {
                 },
             });
             dispatch({ type: REGISTER_IS_LOADED });
-            dispatch({ type: NAVIGATE_TO_VERIFY_USER });
+            dispatch({ type: NAVIGATE_TO_VERIFY_EMAIL });
         } catch (err) {
             dispatch({ type: REGISTER_IS_LOADED });
             if (err.response) {
@@ -224,31 +224,31 @@ const authActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_REGISTRATION_ERROR_MESSAGE,
     });
 
-    const verifyUser = ({ verificationCode }: { verificationCode: string }) => async (
+    const verifyEmail = ({ verificationCode }: { verificationCode: string }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: VERIFY_USER_IS_LOADING });
+            dispatch({ type: VERIFY_EMAIL_IS_LOADING });
             const { username } = getState().users.currentUser;
 
             await Auth.confirmSignUp(username, verificationCode, {
                 forceAliasCreation: true,
             });
 
-            dispatch({ type: VERIFY_USER_IS_LOADED });
+            dispatch({ type: VERIFY_EMAIL_IS_LOADED });
         } catch (err) {
-            dispatch({ type: VERIFY_USER_IS_LOADED });
+            dispatch({ type: VERIFY_EMAIL_IS_LOADED });
             if (err.response) {
-                dispatch({ type: VERIFY_USER_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: VERIFY_EMAIL_FAIL, errorMessage: err.response.data.message });
             } else {
-                dispatch({ type: VERIFY_USER_FAIL, errorMessage: err.message });
+                dispatch({ type: VERIFY_EMAIL_FAIL, errorMessage: err.message });
             }
         }
     };
 
     const clearVerifyUserErrorMessage = (): AppActions => ({
-        type: CLEAR_VERIFY_USER_ERROR_MESSAGE,
+        type: CLEAR_VERIFY_EMAIL_ERROR_MESSAGE,
     });
 
     const resendCode = ({ email }: { email: string }) => async (
@@ -340,7 +340,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         registerUser,
         registerWithUserIdentifier,
         clearRegisterErrorMessage,
-        verifyUser,
+        verifyEmail,
         clearVerifyUserErrorMessage,
         resendCode,
         clearResendCodeSuccessMessage,

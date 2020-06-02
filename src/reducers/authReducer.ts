@@ -10,8 +10,8 @@ import {
     RESEND_CODE_FAIL,
     CLEAR_RESEND_CODE_SUCCESS_MESSAGE,
     CLEAR_RESEND_CODE_ERROR_MESSAGE,
-    VERIFY_USER_FAIL,
-    CLEAR_VERIFY_USER_ERROR_MESSAGE,
+    VERIFY_EMAIL_FAIL,
+    CLEAR_VERIFY_EMAIL_ERROR_MESSAGE,
     FORGOT_PASSWORD_SUCCESS,
     FORGOT_PASSWORD_FAIL,
     CLEAR_FORGOT_PASSWORD_ERROR_MESSAGE,
@@ -24,8 +24,8 @@ import {
     REGISTER_IS_LOADED,
     LOGIN_IS_LOADING,
     LOGIN_IS_LOADED,
-    VERIFY_USER_IS_LOADING,
-    VERIFY_USER_IS_LOADED,
+    VERIFY_EMAIL_IS_LOADING,
+    VERIFY_EMAIL_IS_LOADED,
     FORGOT_PASSWORD_IS_LOADING,
     FORGOT_PASSWORD_IS_LOADED,
     UPDATE_PASSWORD_IS_LOADING,
@@ -53,14 +53,14 @@ export interface AuthState {
     idTokenExpiryTime?: number;
     password: string;
     refreshTokenErrorMessage: string;
-    verifyUserErrorMessage: string;
+    verifyEmailErrorMessage: string;
     resendCodeSuccessMessage: string;
     resendCodeErrorMessage: string;
     forgotPasswordEmailDestination: string;
     forgotPasswordErrorMessage: string;
     updatePasswordSuccessMessage: string;
     updatePasswordErrorMessage: string;
-    verifyUserIsLoading: boolean;
+    verifyEmailIsLoading: boolean;
     forgotPasswordIsLoading: boolean;
     updatePasswordIsLoading: boolean;
     username: string;
@@ -80,14 +80,14 @@ const initialState: AuthState = {
     registerWithIdentifierUserIsLoading: false,
     password: '',
     refreshTokenErrorMessage: '',
-    verifyUserErrorMessage: '',
+    verifyEmailErrorMessage: '',
     resendCodeSuccessMessage: '',
     resendCodeErrorMessage: '',
     forgotPasswordEmailDestination: '',
     forgotPasswordErrorMessage: '',
     updatePasswordSuccessMessage: '',
     updatePasswordErrorMessage: '',
-    verifyUserIsLoading: false,
+    verifyEmailIsLoading: false,
     forgotPasswordIsLoading: false,
     updatePasswordIsLoading: false,
 };
@@ -152,16 +152,16 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
         case LOGOUT_SUCCESS:
             return initialState;
 
-        case VERIFY_USER_FAIL:
+        case VERIFY_EMAIL_FAIL:
             return {
                 ...state,
-                verifyUserErrorMessage: action.errorMessage,
+                verifyEmailErrorMessage: action.errorMessage,
             };
 
-        case CLEAR_VERIFY_USER_ERROR_MESSAGE:
+        case CLEAR_VERIFY_EMAIL_ERROR_MESSAGE:
             return {
                 ...state,
-                verifyUserErrorMessage: '',
+                verifyEmailErrorMessage: '',
             };
 
         case RESEND_CODE_SUCCESS:
@@ -282,16 +282,16 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
                 loginIsLoading: false,
             };
 
-        case VERIFY_USER_IS_LOADING:
+        case VERIFY_EMAIL_IS_LOADING:
             return {
                 ...state,
-                verifyUserIsLoading: true,
+                verifyEmailIsLoading: true,
             };
 
-        case VERIFY_USER_IS_LOADED:
+        case VERIFY_EMAIL_IS_LOADED:
             return {
                 ...state,
-                verifyUserIsLoading: false,
+                verifyEmailIsLoading: false,
             };
 
         case FORGOT_PASSWORD_IS_LOADING:

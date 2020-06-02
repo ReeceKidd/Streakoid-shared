@@ -42,7 +42,7 @@ import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamStreak';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
-export const NAVIGATE_TO_VERIFY_USER = 'NAVIGATE_TO_VERIFY_USER';
+export const NAVIGATE_TO_VERIFY_EMAIL = 'NAVIGATE_TO_VERIFY_EMAIL';
 export const NAVIGATE_TO_LOGIN = 'NAVIGATE_TO_LOGIN';
 export const NAVIGATE_TO_UPDATE_PASSWORD = 'NAVIGATE_TO_UPDATE_PASSWORD';
 export const NAVIGATE_TO_SOLO_STREAKS = 'NAVIGATE_TO_SOLO_STREAKS';
@@ -61,7 +61,7 @@ export interface NavigateToHomeAction {
 }
 
 export interface NavigateToVerifyUserAction {
-    type: typeof NAVIGATE_TO_VERIFY_USER;
+    type: typeof NAVIGATE_TO_VERIFY_EMAIL;
 }
 
 export interface NavigateToLoginAction {
@@ -140,8 +140,8 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const CLEAR_LOG_IN_ERROR_MESSAGE = 'CLEAR_LOGIN_ERROR_MESSAGE';
 export const SESSION_EXPIRED = 'SESSION_EXPIRED';
 export const CLEAR_REGISTRATION_ERROR_MESSAGE = 'CLEAR_REGISTRATION_ERROR_MESSAGE';
-export const VERIFY_USER_FAIL = 'VERIFY_USER_FAIL';
-export const CLEAR_VERIFY_USER_ERROR_MESSAGE = 'CLEAR_VERIFY_USER_ERROR_MESSAGE';
+export const VERIFY_EMAIL_FAIL = 'VERIFY_EMAIL_FAIL';
+export const CLEAR_VERIFY_EMAIL_ERROR_MESSAGE = 'CLEAR_VERIFY_EMAIL_ERROR_MESSAGE';
 export const RESEND_CODE_SUCCESS = 'RESEND_CODE_SUCCESS';
 export const RESEND_CODE_FAIL = 'RESEND_CODE_FAIL';
 export const CLEAR_RESEND_CODE_SUCCESS_MESSAGE = 'CLEAR_RESEND_CODE_SUCCESS_MESSAGE';
@@ -164,8 +164,8 @@ export const REGISTER_WITH_IDENTIFIER_USER_IS_LOADED = 'REGISTER_WITH_IDENTIFIER
 
 export const LOGIN_IS_LOADING = 'LOGIN_IS_LOADING';
 export const LOGIN_IS_LOADED = 'LOGIN_IS_LOADED';
-export const VERIFY_USER_IS_LOADING = 'VERIFY_CODE_IS_LOADING';
-export const VERIFY_USER_IS_LOADED = 'VERIFY_CODE_IS_LOADED';
+export const VERIFY_EMAIL_IS_LOADING = 'VERIFY_CODE_IS_LOADING';
+export const VERIFY_EMAIL_IS_LOADED = 'VERIFY_CODE_IS_LOADED';
 export const FORGOT_PASSWORD_IS_LOADING = 'FORGOT_PASSWORD_IS_LOADING';
 export const FORGOT_PASSWORD_IS_LOADED = 'FORGOT_PASSWORD_IS_LOADED';
 export const UPDATE_PASSWORD_IS_LOADING = 'UPDATE_PASSWORD_IS_LOADING';
@@ -214,12 +214,12 @@ export interface ClearRegistrationErrorMessageAction {
 }
 
 export interface VerifyUserFailAction {
-    type: typeof VERIFY_USER_FAIL;
+    type: typeof VERIFY_EMAIL_FAIL;
     errorMessage: string;
 }
 
 export interface ClearVerifyUserErrorMessageAction {
-    type: typeof CLEAR_VERIFY_USER_ERROR_MESSAGE;
+    type: typeof CLEAR_VERIFY_EMAIL_ERROR_MESSAGE;
 }
 
 export interface ResendCodeSuccessAction {
@@ -307,11 +307,11 @@ export interface LoginIsLoadedAction {
 }
 
 export interface VerifyUserIsLoadingAction {
-    type: typeof VERIFY_USER_IS_LOADING;
+    type: typeof VERIFY_EMAIL_IS_LOADING;
 }
 
 export interface VerifyUserIsLoadedAction {
-    type: typeof VERIFY_USER_IS_LOADED;
+    type: typeof VERIFY_EMAIL_IS_LOADED;
 }
 
 export interface ForgotPasswordIsLoadingAction {
