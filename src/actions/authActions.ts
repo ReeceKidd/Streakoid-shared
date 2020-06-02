@@ -289,8 +289,11 @@ const authActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADING });
             const currentUser = await Auth.currentAuthenticatedUser();
-            await Auth.updateUserAttributes(currentUser, { email });
-            await Auth.verifyUserAttribute(currentUser, 'email');
+            console.log('currentUser', currentUser);
+            const result = await Auth.updateUserAttributes(currentUser, { email });
+            console.log('updateUserAttribute', result);
+            const verify = await Auth.verifyUserAttribute(currentUser, 'email');
+            console.log('verify', verify);
             dispatch({ type: UPDATE_USER_ATTRIBUTES, payload: { email } });
             dispatch({ type: UPDATE_USER_ATTRIBUTES_IS_LOADED });
         } catch (err) {
