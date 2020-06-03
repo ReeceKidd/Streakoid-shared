@@ -55,6 +55,7 @@ export const NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK = 'NAVIGATE_TO_SPECIFIC_CHALL
 export const NAVIGATE_TO_PAYMENT = 'NAVIGATE_TO_PAYMENT';
 export const NAVIGATE_TO_STREAK_LIMIT_REACHED = 'NAVIGATE_TO_STREAK_LIMIT_REACHED';
 export const NAVIGATE_TO_WELCOME = 'NAVIGATE_TO_WELCOME';
+export const NAVIGATE_TO_CHOOSE_PASSWORD = 'NAVIGATE_TO_CHOOSE_PASSWORD';
 
 export interface NavigateToHomeAction {
     type: typeof NAVIGATE_TO_HOME;
@@ -115,6 +116,10 @@ export interface NavigateToSpecificChallengeStreakAction {
     payload: string;
 }
 
+export interface NavigateToChoosePasswordAction {
+    type: typeof NAVIGATE_TO_CHOOSE_PASSWORD;
+}
+
 export type NavigationActionTypes =
     | NavigateToHomeAction
     | NavigateToVerifyUserAction
@@ -129,7 +134,8 @@ export type NavigationActionTypes =
     | NavigateToPaymentAction
     | NavigateToStreakLimitReachedAction
     | NavigateToChallengeStreakAction
-    | NavigateToSpecificChallengeStreakAction;
+    | NavigateToSpecificChallengeStreakAction
+    | NavigateToChoosePasswordAction;
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 

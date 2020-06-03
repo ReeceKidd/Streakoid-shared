@@ -158,6 +158,18 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
                 verifyEmailErrorMessage: action.errorMessage,
             };
 
+        case VERIFY_EMAIL_IS_LOADING:
+            return {
+                ...state,
+                verifyEmailIsLoading: true,
+            };
+
+        case VERIFY_EMAIL_IS_LOADED:
+            return {
+                ...state,
+                verifyEmailIsLoading: false,
+            };
+
         case CLEAR_VERIFY_EMAIL_ERROR_MESSAGE:
             return {
                 ...state,
@@ -280,18 +292,6 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
             return {
                 ...state,
                 loginIsLoading: false,
-            };
-
-        case VERIFY_EMAIL_IS_LOADING:
-            return {
-                ...state,
-                verifyEmailIsLoading: true,
-            };
-
-        case VERIFY_EMAIL_IS_LOADED:
-            return {
-                ...state,
-                verifyEmailIsLoading: false,
             };
 
         case FORGOT_PASSWORD_IS_LOADING:

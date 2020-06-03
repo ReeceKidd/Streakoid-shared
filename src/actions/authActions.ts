@@ -50,6 +50,7 @@ import {
     UPDATE_USERNAME_ATTRIBUTE_FAIL,
     UPDATE_USERNAME_ATTRIBUTE_IS_LOADED,
     UPDATE_USERNAME_ATTRIBUTE_IS_LOADING,
+    NAVIGATE_TO_CHOOSE_PASSWORD,
 } from './types';
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
@@ -297,13 +298,20 @@ const authActions = (streakoid: StreakoidSDK) => {
         }
     };
 
-    const verifyEmail = ({ verificationCode }: { verificationCode: string }) => async (
-        dispatch: Dispatch<AppActions>,
-    ): Promise<void> => {
+    const verifyEmail = ({
+        verificationCode,
+        navigateToChoosePassword,
+    }: {
+        verificationCode: string;
+        navigateToChoosePassword: boolean;
+    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: VERIFY_EMAIL_IS_LOADING });
             await Auth.verifyCurrentUserAttributeSubmit('email', verificationCode);
             dispatch({ type: VERIFY_EMAIL_IS_LOADED });
+            if (navigateToChoosePassword) {
+                dispatch({ type: NAVIGATE_TO_CHOOSE_PASSWORD });
+            }
         } catch (err) {
             dispatch({ type: VERIFY_EMAIL_IS_LOADED });
             if (err.response) {
