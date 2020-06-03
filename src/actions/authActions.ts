@@ -3,13 +3,10 @@ import Amplify, { Auth } from 'aws-amplify';
 
 import {
     LOGIN_SUCCESS,
-    REGISTER_FAIL,
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     CLEAR_LOG_IN_ERROR_MESSAGE,
     CLEAR_REGISTRATION_ERROR_MESSAGE,
-    REGISTER_IS_LOADING,
-    REGISTER_IS_LOADED,
     LOGIN_IS_LOADED,
     LOGIN_IS_LOADING,
     VERIFY_EMAIL_IS_LOADING,
@@ -157,47 +154,6 @@ const authActions = (streakoid: StreakoidSDK) => {
                 dispatch({ type: REFRESH_TOKEN_FAIL, payload: err.response.data.message });
             } else {
                 dispatch({ type: REFRESH_TOKEN_FAIL, payload: err.message });
-            }
-        }
-    };
-
-    const registerUser = ({
-        username,
-        email,
-        password,
-    }: {
-        username: string;
-        email: string;
-        password: string;
-    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
-        try {
-            dispatch({ type: REGISTER_IS_LOADING });
-            const lowercaseUsername = username.toLowerCase();
-            await Auth.signUp({ username: lowercaseUsername, password, attributes: { email } });
-            const user = await streakoid.users.create({ username: lowercaseUsername, email });
-            dispatch({
-                type: UPDATE_CURRENT_USER,
-                payload: {
-                    ...user,
-                    following: [],
-                    followers: [],
-                    userStreakCompleteInfo: [],
-                    activityFeed: {
-                        totalActivityFeedCount: 0,
-                        activityFeedItems: [],
-                    },
-                    updatePushNotificationsErrorMessage: '',
-                    updatePushNotificationsIsLoading: false,
-                },
-            });
-            dispatch({ type: REGISTER_IS_LOADED });
-            dispatch({ type: NAVIGATE_TO_VERIFY_EMAIL });
-        } catch (err) {
-            dispatch({ type: REGISTER_IS_LOADED });
-            if (err.response) {
-                dispatch({ type: REGISTER_FAIL, errorMessage: err.response.data.message });
-            } else {
-                dispatch({ type: REGISTER_FAIL, errorMessage: err.message });
             }
         }
     };
@@ -452,7 +408,6 @@ const authActions = (streakoid: StreakoidSDK) => {
         loginUser,
         clearLoginErrorMessage,
         refreshToken,
-        registerUser,
         registerWithUserIdentifier,
         clearRegisterErrorMessage,
         updateUserPassword,

@@ -4,7 +4,6 @@ import {
     LOGOUT_SUCCESS,
     SESSION_EXPIRED,
     CLEAR_LOG_IN_ERROR_MESSAGE,
-    CLEAR_REGISTRATION_ERROR_MESSAGE,
     AuthActionTypes,
     RESEND_CODE_SUCCESS,
     RESEND_CODE_FAIL,
@@ -19,9 +18,6 @@ import {
     CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE,
     UPDATE_PASSWORD_SUCCESS,
     CLEAR_UPDATE_PASSWORD_SUCCESS_MESSAGE,
-    REGISTER_FAIL,
-    REGISTER_IS_LOADING,
-    REGISTER_IS_LOADED,
     LOGIN_IS_LOADING,
     LOGIN_IS_LOADED,
     VERIFY_EMAIL_IS_LOADING,
@@ -30,8 +26,6 @@ import {
     FORGOT_PASSWORD_IS_LOADED,
     UPDATE_PASSWORD_IS_LOADING,
     UPDATE_PASSWORD_IS_LOADED,
-    PASSWORD_STORE,
-    PASSWORD_CLEAR,
     REFRESH_TOKEN,
     REFRESH_TOKEN_FAIL,
     REGISTER_WITH_IDENTIFIER_USER_FAIL,
@@ -50,12 +44,9 @@ export interface AuthState {
     refreshToken: string;
     loginErrorMessage: string;
     loginIsLoading: boolean;
-    registerErrorMessage: string;
-    registerIsLoading: boolean;
     registerWithIdentifierUserErrorMessage: string;
     registerWithIdentifierUserIsLoading: boolean;
     idTokenExpiryTime?: number;
-    password: string;
     refreshTokenErrorMessage: string;
     verifyEmailErrorMessage: string;
     resendCodeSuccessMessage: string;
@@ -80,11 +71,8 @@ const initialState: AuthState = {
     refreshToken: '',
     loginErrorMessage: '',
     loginIsLoading: false,
-    registerErrorMessage: '',
-    registerIsLoading: false,
     registerWithIdentifierUserErrorMessage: '',
     registerWithIdentifierUserIsLoading: false,
-    password: '',
     refreshTokenErrorMessage: '',
     verifyEmailErrorMessage: '',
     resendCodeSuccessMessage: '',
@@ -141,13 +129,6 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
             return {
                 ...state,
                 refreshTokenErrorMessage: action.payload,
-            };
-        }
-
-        case CLEAR_REGISTRATION_ERROR_MESSAGE: {
-            return {
-                ...state,
-                registerErrorMessage: '',
             };
         }
 
@@ -252,25 +233,6 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
                 updatePasswordErrorMessage: '',
             };
 
-        case REGISTER_FAIL: {
-            return {
-                ...state,
-                registerErrorMessage: action.errorMessage,
-            };
-        }
-
-        case REGISTER_IS_LOADING:
-            return {
-                ...state,
-                registerIsLoading: true,
-            };
-
-        case REGISTER_IS_LOADED:
-            return {
-                ...state,
-                registerIsLoading: false,
-            };
-
         case REGISTER_WITH_IDENTIFIER_USER_FAIL: {
             return {
                 ...state,
@@ -324,18 +286,6 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
             return {
                 ...state,
                 updatePasswordIsLoading: false,
-            };
-
-        case PASSWORD_STORE:
-            return {
-                ...state,
-                password: action.password,
-            };
-
-        case PASSWORD_CLEAR:
-            return {
-                ...state,
-                password: '',
             };
 
         case UPDATE_USER_EMAIL_ATTRIBUTE_FAIL:

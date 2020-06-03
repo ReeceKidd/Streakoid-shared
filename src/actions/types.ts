@@ -175,10 +175,6 @@ export const UPDATE_PASSWORD_IS_LOADED = 'UPDATE_PASSWORD_IS_LOADED';
 export const CLEAR_UPDATE_PASSWORD_SUCCESS_MESSAGE = 'CLEAR_UPDATE_PASSWORD_SUCCESS_MESSAGE';
 export const CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE = 'CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE';
 
-export const REGISTER_FAIL = 'REGISTER_FAIL';
-export const REGISTER_IS_LOADING = 'REGISTER_IS_LOADING';
-export const REGISTER_IS_LOADED = 'REGISTER_ISLOADED';
-
 export const REGISTER_WITH_IDENTIFIER_USER_FAIL = 'REGISTER_WITH_IDENTIFIER_USER_FAIL';
 export const REGISTER_WITH_IDENTIFIER_USER_IS_LOADING = 'REGISTER_WITH_IDENTIFIER_USER_IS_LOADING';
 export const REGISTER_WITH_IDENTIFIER_USER_IS_LOADED = 'REGISTER_WITH_IDENTIFIER_USER_IS_LOADED';
@@ -190,9 +186,6 @@ export const VERIFY_EMAIL_IS_LOADED = 'VERIFY_CODE_IS_LOADED';
 
 export const FORGOT_PASSWORD_IS_LOADING = 'FORGOT_PASSWORD_IS_LOADING';
 export const FORGOT_PASSWORD_IS_LOADED = 'FORGOT_PASSWORD_IS_LOADED';
-
-export const PASSWORD_STORE = 'PASSWORD_STORE';
-export const PASSWORD_CLEAR = 'PASSWORD_CLEAR';
 
 export const UPDATE_USER_PASSWORD_FAIL = 'UPDATE_USER_PASSWORD_FAIL';
 export const UPDATE_USER_PASSWORD_IS_LOADING = 'UPDATE_USER_PASSWORD_IS_LOADING';
@@ -306,19 +299,6 @@ export interface ClearUpdatePasswordErrorMessage {
     type: typeof CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE;
 }
 
-export interface RegisterFailAction {
-    type: typeof REGISTER_FAIL;
-    errorMessage: string;
-}
-
-export interface RegisterIsLoadingAction {
-    type: typeof REGISTER_IS_LOADING;
-}
-
-export interface RegisterIsLoadedAction {
-    type: typeof REGISTER_IS_LOADED;
-}
-
 export interface RegisterWithIdentifierUserFailAction {
     type: typeof REGISTER_WITH_IDENTIFIER_USER_FAIL;
     errorMessage: string;
@@ -362,15 +342,6 @@ export interface NewPasswordIsLoadingAction {
 
 export interface NewPasswordIsLoadedAction {
     type: typeof UPDATE_PASSWORD_IS_LOADED;
-}
-
-export interface PasswordStoreAction {
-    type: typeof PASSWORD_STORE;
-    password: string;
-}
-
-export interface PasswordClearAction {
-    type: typeof PASSWORD_CLEAR;
 }
 
 export interface UpdateUserPasswordFailAction {
@@ -438,9 +409,6 @@ export type AuthActionTypes =
     | ClearUpdatePasswordSuccessMessage
     | UpdatePasswordFailAction
     | ClearUpdatePasswordErrorMessage
-    | RegisterFailAction
-    | RegisterIsLoadingAction
-    | RegisterIsLoadedAction
     | RegisterWithIdentifierUserFailAction
     | RegisterWithIdentifierUserIsLoadingAction
     | RegisterWithIdentifierUserIsLoadedAction
@@ -452,8 +420,6 @@ export type AuthActionTypes =
     | ForgotPasswordIsLoadedAction
     | NewPasswordIsLoadingAction
     | NewPasswordIsLoadedAction
-    | PasswordStoreAction
-    | PasswordClearAction
     | UpdateUserPasswordFailAction
     | UpdateUserPasswordIsLoadingAction
     | UpdateUserPasswordIsLoadedAction
