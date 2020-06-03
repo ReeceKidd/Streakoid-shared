@@ -335,6 +335,7 @@ const userActions = (streakoid: StreakoidSDK) => {
         };
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
+            dispatch({ type: CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE });
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADING });
             const updatedUser = await streakoid.user.updateCurrentUser({ updateData });
             const userId = getState().users.currentUser._id;

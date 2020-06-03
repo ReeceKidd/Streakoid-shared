@@ -282,6 +282,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
         try {
+            dispatch({ type: CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE });
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING });
             const currentUser = await Auth.currentAuthenticatedUser();
             await Auth.updateUserAttributes(currentUser, { email });
