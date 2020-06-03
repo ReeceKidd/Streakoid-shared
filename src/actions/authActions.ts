@@ -313,6 +313,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         navigateToChoosePassword: boolean;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
+            dispatch({ type: CLEAR_VERIFY_EMAIL_ERROR_MESSAGE });
             dispatch({ type: VERIFY_EMAIL_IS_LOADING });
             await Auth.verifyCurrentUserAttributeSubmit('email', verificationCode);
             dispatch({ type: VERIFY_EMAIL_IS_LOADED });
