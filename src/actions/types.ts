@@ -195,6 +195,7 @@ export const UPDATE_USER_PASSWORD_IS_LOADED = 'UPDATE_USER_PASSWORD_IS_LOADED';
 export const UPDATE_USER_EMAIL_ATTRIBUTE_FAIL = 'UPDATE_USER_EMAIL_ATTRIBUTE_FAIL';
 export const UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING = 'UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING';
 export const UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED = 'UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED';
+export const CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE = 'CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE';
 
 export const UPDATE_USERNAME_ATTRIBUTE_FAIL = 'UPDATE_USERNAME_ATTRIBUTE_FAIL';
 export const UPDATE_USERNAME_ATTRIBUTE_IS_LOADING = 'UPDATE_USERNAME_ATTRIBUTE_IS_LOADING';
@@ -392,6 +393,10 @@ export interface UpdateUserEmailAttributeIsLoadedAction {
     type: typeof UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED;
 }
 
+export interface ClearUpdateUserEmailAttributeErrorMessageAction {
+    type: typeof CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE;
+}
+
 export interface UpdateUsernameAttributeFailAction {
     type: typeof UPDATE_USERNAME_ATTRIBUTE_FAIL;
     payload: { errorMessage: string };
@@ -449,6 +454,7 @@ export type AuthActionTypes =
     | UpdateUserEmailAttributeFailAction
     | UpdateUserEmailAttributeIsLoadingAction
     | UpdateUserEmailAttributeIsLoadedAction
+    | ClearUpdateUserEmailAttributeErrorMessageAction
     | UpdateUsernameAttributeFailAction
     | UpdateUsernameAttributeIsLoadingAction
     | UpdateUsernameAttributeIsLoadedAction;
@@ -1412,6 +1418,7 @@ export const UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER';
 export const UPDATE_CURRENT_USER_FAIL = 'UPDATE_CURRENT_USER_FAIL';
 export const UPDATE_CURRENT_USER_IS_LOADING = 'UPDATE_CURRENT_USER_IS_LOADING';
 export const UPDATE_CURRENT_USER_IS_LOADED = 'UPDATE_CURRENT_USER_IS_LOADED';
+export const CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE = 'CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE';
 
 export const GET_CURRENT_USER = 'GET_CURRENT_USER';
 export const GET_CURRENT_USER_FAIL = 'GET_CURRENT_USER_FAIL';
@@ -1551,6 +1558,10 @@ export interface UpdateCurrentUserIsLoadingAction {
 
 export interface UpdateCurrentUserIsLoadedAction {
     type: typeof UPDATE_CURRENT_USER_IS_LOADED;
+}
+
+export interface ClearUpdateCurrentUserErrorMessageAction {
+    type: typeof CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE;
 }
 
 export interface GetCurrentUserAction {
@@ -1765,6 +1776,7 @@ export type UserActionTypes =
     | UpdateCurrentUserFailAction
     | UpdateCurrentUserIsLoadingAction
     | UpdateCurrentUserIsLoadedAction
+    | ClearUpdateCurrentUserErrorMessageAction
     | GetCurrentUserAction
     | GetCurrentUserFailAction
     | GetCurrentUserIsLoadingAction

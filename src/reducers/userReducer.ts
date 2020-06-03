@@ -59,6 +59,7 @@ import {
     UPDATE_PUSH_NOTIFICATIONS_IS_LOADING,
     UPDATE_PUSH_NOTIFICATIONS_IS_LOADED,
     CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
+    CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE,
 } from '../actions/types';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import { ChallengeStreakListItem } from './challengeStreakReducer';
@@ -357,6 +358,12 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
             return {
                 ...state,
                 updateCurrentUserIsLoading: false,
+            };
+
+        case CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE:
+            return {
+                ...state,
+                updateCurrentUserErrorMessage: '',
             };
 
         case CREATE_STRIPE_SUBSCRIPTION_FAIL:

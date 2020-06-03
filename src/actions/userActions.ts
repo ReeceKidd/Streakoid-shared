@@ -42,6 +42,7 @@ import {
     UPDATE_PUSH_NOTIFICATIONS_IS_LOADED,
     UPDATE_PUSH_NOTIFICATIONS_FAIL,
     CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
+    CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -381,6 +382,10 @@ const userActions = (streakoid: StreakoidSDK) => {
         }
     };
 
+    const clearUpdateCurrentUserErrorMessage = (): AppActions => ({
+        type: CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE,
+    });
+
     const clearSelectedUser = (): AppActions => ({
         type: CLEAR_SELECTED_USER,
     });
@@ -577,6 +582,7 @@ const userActions = (streakoid: StreakoidSDK) => {
         getCurrentUser,
         getUserStreakCompleteInfo,
         updateCurrentUser,
+        clearUpdateCurrentUserErrorMessage,
         followUsersListUser,
         unfollowUsersListUser,
         clearSelectedUser,

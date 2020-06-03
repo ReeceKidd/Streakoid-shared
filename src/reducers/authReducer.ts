@@ -40,6 +40,7 @@ import {
     UPDATE_USER_EMAIL_ATTRIBUTE_FAIL,
     UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING,
     UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED,
+    CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE,
 } from '../actions/types';
 
 export interface AuthState {
@@ -353,6 +354,12 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
             return {
                 ...state,
                 updateEmailAttributeIsLoading: false,
+            };
+
+        case CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE:
+            return {
+                ...state,
+                updateEmailAttributeErrorMessage: '',
             };
 
         default:

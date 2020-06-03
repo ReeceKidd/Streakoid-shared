@@ -51,6 +51,7 @@ import {
     UPDATE_USERNAME_ATTRIBUTE_IS_LOADED,
     UPDATE_USERNAME_ATTRIBUTE_IS_LOADING,
     NAVIGATE_TO_CHOOSE_PASSWORD,
+    CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE,
 } from './types';
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
@@ -299,6 +300,10 @@ const authActions = (streakoid: StreakoidSDK) => {
         }
     };
 
+    const clearUpdateUserEmailAttribueErrorMessage = (): AppActions => ({
+        type: CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE,
+    });
+
     const verifyEmail = ({
         verificationCode,
         navigateToChoosePassword,
@@ -419,6 +424,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         updateUserPassword,
         updateUsernameAttribute,
         updateUserEmailAttribute,
+        clearUpdateUserEmailAttribueErrorMessage,
         verifyEmail,
         clearVerifyUserErrorMessage,
         resendCode,
