@@ -42,7 +42,6 @@ import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamStreak';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
-export const NAVIGATE_TO_VERIFY_EMAIL = 'NAVIGATE_TO_VERIFY_EMAIL';
 export const NAVIGATE_TO_LOGIN = 'NAVIGATE_TO_LOGIN';
 export const NAVIGATE_TO_UPDATE_PASSWORD = 'NAVIGATE_TO_UPDATE_PASSWORD';
 export const NAVIGATE_TO_SOLO_STREAKS = 'NAVIGATE_TO_SOLO_STREAKS';
@@ -55,6 +54,7 @@ export const NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK = 'NAVIGATE_TO_SPECIFIC_CHALL
 export const NAVIGATE_TO_PAYMENT = 'NAVIGATE_TO_PAYMENT';
 export const NAVIGATE_TO_STREAK_LIMIT_REACHED = 'NAVIGATE_TO_STREAK_LIMIT_REACHED';
 export const NAVIGATE_TO_WELCOME = 'NAVIGATE_TO_WELCOME';
+export const NAVIGATE_TO_VERIFY_EMAIL = 'NAVIGATE_TO_VERIFY_EMAIL';
 export const NAVIGATE_TO_CHOOSE_PASSWORD = 'NAVIGATE_TO_CHOOSE_PASSWORD';
 
 export interface NavigateToHomeAction {
