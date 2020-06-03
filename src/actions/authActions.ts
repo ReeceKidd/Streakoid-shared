@@ -233,12 +233,10 @@ const authActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_REGISTRATION_ERROR_MESSAGE,
     });
 
-    const updateUserPassword = ({ newPassword }: { newPassword: string }) => async (
+    const updateUserPassword = ({ newPassword, oldPassword }: { newPassword: string; oldPassword: string }) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
     ): Promise<void> => {
         try {
-            const oldPassword = getState().users.currentUser.temporaryPassword;
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADING });
             const currentUser = await Auth.currentAuthenticatedUser();
             await Auth.changePassword(currentUser, oldPassword, newPassword);
