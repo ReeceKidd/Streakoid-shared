@@ -37,6 +37,9 @@ import {
     REGISTER_WITH_IDENTIFIER_USER_FAIL,
     REGISTER_WITH_IDENTIFIER_USER_IS_LOADING,
     REGISTER_WITH_IDENTIFIER_USER_IS_LOADED,
+    UPDATE_USER_EMAIL_ATTRIBUTE_FAIL,
+    UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING,
+    UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED,
 } from '../actions/types';
 
 export interface AuthState {
@@ -64,6 +67,8 @@ export interface AuthState {
     forgotPasswordIsLoading: boolean;
     updatePasswordIsLoading: boolean;
     username: string;
+    updateEmailAttributeIsLoading: boolean;
+    updateEmailAttributeErrorMessage: string;
 }
 
 const initialState: AuthState = {
@@ -90,6 +95,8 @@ const initialState: AuthState = {
     verifyEmailIsLoading: false,
     forgotPasswordIsLoading: false,
     updatePasswordIsLoading: false,
+    updateEmailAttributeIsLoading: false,
+    updateEmailAttributeErrorMessage: '',
 };
 
 const authReducer = (state: AuthState = initialState, action: AuthActionTypes): AuthState => {
@@ -328,6 +335,24 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
             return {
                 ...state,
                 password: '',
+            };
+
+        case UPDATE_USER_EMAIL_ATTRIBUTE_FAIL:
+            return {
+                ...state,
+                updateEmailAttributeErrorMessage: action.payload.errorMessage,
+            };
+
+        case UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING:
+            return {
+                ...state,
+                updateEmailAttributeIsLoading: true,
+            };
+
+        case UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED:
+            return {
+                ...state,
+                updateEmailAttributeIsLoading: false,
             };
 
         default:
