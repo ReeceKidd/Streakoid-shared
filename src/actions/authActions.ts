@@ -8,7 +8,6 @@ import {
     LOGOUT_SUCCESS,
     CLEAR_LOG_IN_ERROR_MESSAGE,
     CLEAR_REGISTRATION_ERROR_MESSAGE,
-    UPDATE_CURRENT_USER,
     REGISTER_IS_LOADING,
     REGISTER_IS_LOADED,
     LOGIN_IS_LOADED,
@@ -53,10 +52,12 @@ import {
     NAVIGATE_TO_CHOOSE_PASSWORD,
     CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE,
     NAVIGATE_TO_COMPLETED_REGISTRATION,
+    UPDATE_CURRENT_USER,
 } from './types';
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
+import { PopulatedCurrentUserWithClientData } from '../reducers/userReducer';
 
 Amplify.configure({
     Auth: {
@@ -295,12 +296,19 @@ const authActions = (streakoid: StreakoidSDK) => {
 
     const updateUserEmailAttribute = ({ email }: { email: string }) => async (
         dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE });
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING });
+            await streakoid.user.updateCurrentUser({ updateData: { email } });
             const currentUser = await Auth.currentAuthenticatedUser();
             await Auth.updateUserAttributes(currentUser, { email });
+            const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
+                ...getState().users.currentUser,
+                email,
+            };
+            dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED });
             dispatch({ type: NAVIGATE_TO_VERIFY_EMAIL });
         } catch (err) {
