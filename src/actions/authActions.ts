@@ -58,6 +58,7 @@ import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import { PopulatedCurrentUserWithClientData } from '../reducers/userReducer';
+import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 
 Amplify.configure({
     Auth: {
@@ -240,19 +241,27 @@ const authActions = (streakoid: StreakoidSDK) => {
     const updateUserPassword = ({
         newPassword,
         oldPassword,
-        navigateToCompletedRegistration,
+        isPartOfRegistration,
     }: {
         newPassword: string;
         oldPassword: string;
-        navigateToCompletedRegistration: boolean;
-    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+        isPartOfRegistration: boolean;
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE });
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADING });
             const currentUser = await Auth.currentAuthenticatedUser();
+            if (isPartOfRegistration) {
+                await streakoid.user.updateCurrentUser({ updateData: { userType: UserTypes.basic } });
+                const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
+                    ...getState().users.currentUser,
+                    userType: UserTypes.basic,
+                };
+                dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
+            }
             await Auth.changePassword(currentUser, oldPassword, newPassword);
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADED });
-            if (navigateToCompletedRegistration) {
+            if (isPartOfRegistration) {
                 dispatch({ type: NAVIGATE_TO_COMPLETED_REGISTRATION });
             }
         } catch (err) {
@@ -301,14 +310,14 @@ const authActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE });
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING });
-            await streakoid.user.updateCurrentUser({ updateData: { email } });
             const currentUser = await Auth.currentAuthenticatedUser();
-            await Auth.updateUserAttributes(currentUser, { email });
+            await streakoid.user.updateCurrentUser({ updateData: { email } });
             const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                 ...getState().users.currentUser,
                 email,
             };
             dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
+            await Auth.updateUserAttributes(currentUser, { email });
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED });
             dispatch({ type: NAVIGATE_TO_VERIFY_EMAIL });
         } catch (err) {
