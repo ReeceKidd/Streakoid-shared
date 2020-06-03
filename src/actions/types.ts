@@ -56,6 +56,7 @@ export const NAVIGATE_TO_STREAK_LIMIT_REACHED = 'NAVIGATE_TO_STREAK_LIMIT_REACHE
 export const NAVIGATE_TO_WELCOME = 'NAVIGATE_TO_WELCOME';
 export const NAVIGATE_TO_VERIFY_EMAIL = 'NAVIGATE_TO_VERIFY_EMAIL';
 export const NAVIGATE_TO_CHOOSE_PASSWORD = 'NAVIGATE_TO_CHOOSE_PASSWORD';
+export const NAVIGATE_TO_COMPLETED_REGISTRATION = 'NAVIGATE_TO_COMPLETED_REGISTRATION';
 
 export interface NavigateToHomeAction {
     type: typeof NAVIGATE_TO_HOME;
@@ -120,6 +121,10 @@ export interface NavigateToChoosePasswordAction {
     type: typeof NAVIGATE_TO_CHOOSE_PASSWORD;
 }
 
+export interface NavigateToCompletedRegistrationAction {
+    type: typeof NAVIGATE_TO_COMPLETED_REGISTRATION;
+}
+
 export type NavigationActionTypes =
     | NavigateToHomeAction
     | NavigateToVerifyUserAction
@@ -135,7 +140,8 @@ export type NavigationActionTypes =
     | NavigateToStreakLimitReachedAction
     | NavigateToChallengeStreakAction
     | NavigateToSpecificChallengeStreakAction
-    | NavigateToChoosePasswordAction;
+    | NavigateToChoosePasswordAction
+    | NavigateToCompletedRegistrationAction;
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 
@@ -163,11 +169,11 @@ export const FORGOT_PASSWORD_FAIL = 'FORGOT_PASSWORD_FAIL';
 export const CLEAR_FORGOT_PASSWORD_ERROR_MESSAGE = 'CLEAR_FORGOT_PASSWORD_ERROR_MESSAGE';
 
 export const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS';
-export const CLEAR_UPDATE_PASSWORD_SUCCESS_MESSAGE = 'CLEAR_UPDATE_PASSWORD_SUCCESS_MESSAGE';
 export const UPDATE_PASSWORD_FAIL = 'UPDATE_PASSWORD_FAIL';
-export const CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE = 'CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE';
 export const UPDATE_PASSWORD_IS_LOADING = 'UPDATE_PASSWORD_IS_LOADING';
 export const UPDATE_PASSWORD_IS_LOADED = 'UPDATE_PASSWORD_IS_LOADED';
+export const CLEAR_UPDATE_PASSWORD_SUCCESS_MESSAGE = 'CLEAR_UPDATE_PASSWORD_SUCCESS_MESSAGE';
+export const CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE = 'CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE';
 
 export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const REGISTER_IS_LOADING = 'REGISTER_IS_LOADING';

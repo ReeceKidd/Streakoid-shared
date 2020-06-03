@@ -52,6 +52,7 @@ import {
     UPDATE_USERNAME_ATTRIBUTE_IS_LOADING,
     NAVIGATE_TO_CHOOSE_PASSWORD,
     CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE,
+    NAVIGATE_TO_COMPLETED_REGISTRATION,
 } from './types';
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
@@ -235,14 +236,24 @@ const authActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_REGISTRATION_ERROR_MESSAGE,
     });
 
-    const updateUserPassword = ({ newPassword, oldPassword }: { newPassword: string; oldPassword: string }) => async (
-        dispatch: Dispatch<AppActions>,
-    ): Promise<void> => {
+    const updateUserPassword = ({
+        newPassword,
+        oldPassword,
+        navigateToCompletedRegistration,
+    }: {
+        newPassword: string;
+        oldPassword: string;
+        navigateToCompletedRegistration: boolean;
+    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
+            dispatch({ type: CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE });
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADING });
             const currentUser = await Auth.currentAuthenticatedUser();
             await Auth.changePassword(currentUser, oldPassword, newPassword);
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADED });
+            if (navigateToCompletedRegistration) {
+                dispatch({ type: NAVIGATE_TO_COMPLETED_REGISTRATION });
+            }
         } catch (err) {
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADED });
             if (err.response) {
@@ -255,6 +266,10 @@ const authActions = (streakoid: StreakoidSDK) => {
             }
         }
     };
+
+    const clearUpdateUserPasswordErrorMessage = (): AppActions => ({
+        type: CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE,
+    });
 
     const updateUsernameAttribute = ({ username }: { username: string }) => async (
         dispatch: Dispatch<AppActions>,
@@ -424,6 +439,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         registerWithUserIdentifier,
         clearRegisterErrorMessage,
         updateUserPassword,
+        clearUpdateUserPasswordErrorMessage,
         updateUsernameAttribute,
         updateUserEmailAttribute,
         clearUpdateUserEmailAttribueErrorMessage,
