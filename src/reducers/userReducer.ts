@@ -189,6 +189,7 @@ const initialState: UserReducerInitialState = {
         _id: '',
         email: '',
         username: '',
+        hasUsernameBeenCustomized: false,
         temporaryPassword: '',
         membershipInformation: {
             isPayingMember: false,

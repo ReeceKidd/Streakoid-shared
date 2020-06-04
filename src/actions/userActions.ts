@@ -321,7 +321,9 @@ const userActions = (streakoid: StreakoidSDK) => {
         updateData?: {
             email?: string;
             username?: string;
-            name?: string;
+            firstName?: string;
+            lastName?: string;
+            hasUsernameBeenCustomized?: boolean;
             timezone?: string;
             pushNotification?: {
                 deviceType: PushNotificationSupportedDeviceTypes;
