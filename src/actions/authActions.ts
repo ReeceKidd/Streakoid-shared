@@ -275,7 +275,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         }
     };
 
-    const clearUpdateUsernameAttribueErrorMessage = (): AppActions => ({
+    const clearUpdateUsernameAttributeErrorMessage = (): AppActions => ({
         type: CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE,
     });
 
@@ -433,7 +433,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         updateUserPassword,
         clearUpdateUserPasswordErrorMessage,
         updateUsernameAttribute,
-        clearUpdateUsernameAttribueErrorMessage,
+        clearUpdateUsernameAttributeErrorMessage,
         updateUserEmailAttribute,
         clearUpdateUserEmailAttribueErrorMessage,
         verifyEmail,
