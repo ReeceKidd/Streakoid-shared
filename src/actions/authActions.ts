@@ -50,6 +50,7 @@ import {
     CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE,
     NAVIGATE_TO_COMPLETED_REGISTRATION,
     UPDATE_CURRENT_USER,
+    NAVIGATE_TO_CHOOSE_A_PROFILE_PICTURE,
 } from './types';
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
@@ -237,15 +238,28 @@ const authActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE,
     });
 
-    const updateUsernameAttribute = ({ username }: { username: string }) => async (
-        dispatch: Dispatch<AppActions>,
-    ): Promise<void> => {
+    const updateUsernameAttribute = ({
+        username,
+        navigateToChooseAProfilePicture,
+    }: {
+        username: string;
+        navigateToChooseAProfilePicture: boolean;
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: UPDATE_USERNAME_ATTRIBUTE_IS_LOADING });
             const currentUser = await Auth.currentAuthenticatedUser();
+            await streakoid.user.updateCurrentUser({ updateData: { username } });
+            const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
+                ...getState().users.currentUser,
+                username,
+            };
+            dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
             // eslint-disable-next-line @typescript-eslint/camelcase
             await Auth.updateUserAttributes(currentUser, { preferred_username: username });
             dispatch({ type: UPDATE_USERNAME_ATTRIBUTE_IS_LOADED });
+            if (navigateToChooseAProfilePicture) {
+                dispatch({ type: NAVIGATE_TO_CHOOSE_A_PROFILE_PICTURE });
+            }
         } catch (err) {
             dispatch({ type: UPDATE_USERNAME_ATTRIBUTE_IS_LOADED });
             if (err.response) {
