@@ -318,7 +318,7 @@ const userActions = (streakoid: StreakoidSDK) => {
     const updateCurrentUser = ({
         updateData,
     }: {
-        updateData?: {
+        updateData: {
             email?: string;
             username?: string;
             firstName?: string;
@@ -329,6 +329,7 @@ const userActions = (streakoid: StreakoidSDK) => {
                 deviceType: PushNotificationSupportedDeviceTypes;
                 token: string;
             };
+            hasProfileImageBeenCustomized?: boolean;
             hasCompletedTutorial?: boolean;
             hasCompletedIntroduction?: boolean;
             onboarding?: Onboarding;
@@ -339,40 +340,12 @@ const userActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE });
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADING });
-            const updatedUser = await streakoid.user.updateCurrentUser({ updateData });
-            const userId = getState().users.currentUser._id;
-            const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId });
-            const followingWithClientData = updatedUser.following.map(following => ({
-                ...following,
-                unfollowUserIsLoading: false,
-                unfollowUserErrorMessage: '',
-            }));
-            const followersWithClientData = updatedUser.followers.map(follower => ({
-                ...follower,
-                isSelected: false,
-            }));
-            const activityFeed = await streakoid.activityFeedItems.getAll({ userIds: [userId] });
-            const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
-                activityFeed.activityFeedItems.map(async activityFeedItem => {
-                    return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
-                }),
-            );
-            const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
-                (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
-            );
+            await streakoid.user.updateCurrentUser({ updateData });
             dispatch({
                 type: UPDATE_CURRENT_USER,
                 payload: {
-                    ...updatedUser,
-                    following: followingWithClientData,
-                    followers: followersWithClientData,
-                    userStreakCompleteInfo,
-                    activityFeed: {
-                        totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
-                        activityFeedItems: supportedPopulatedActivityFeedItems,
-                    },
-                    updatePushNotificationsErrorMessage: '',
-                    updatePushNotificationsIsLoading: false,
+                    ...getState().users.currentUser,
+                    ...updateData,
                 },
             });
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADED });
