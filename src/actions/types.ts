@@ -205,6 +205,7 @@ export const CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE = 'CLEAR_UPDATE_USE
 export const UPDATE_USERNAME_ATTRIBUTE_FAIL = 'UPDATE_USERNAME_ATTRIBUTE_FAIL';
 export const UPDATE_USERNAME_ATTRIBUTE_IS_LOADING = 'UPDATE_USERNAME_ATTRIBUTE_IS_LOADING';
 export const UPDATE_USERNAME_ATTRIBUTE_IS_LOADED = 'UPDATE_USERNAME_ATTRIBUTE_IS_LOADED';
+export const CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE = 'CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE';
 
 export interface LoginSuccessAction {
     type: typeof LOGIN_SUCCESS;
@@ -393,6 +394,10 @@ export interface UpdateUsernameAttributeIsLoadedAction {
     type: typeof UPDATE_USERNAME_ATTRIBUTE_IS_LOADED;
 }
 
+export interface ClearUpdateUsernameAttributeErrorMessageAction {
+    type: typeof CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE;
+}
+
 export type AuthActionTypes =
     | LoginSuccessAction
     | LoginFailAction
@@ -435,7 +440,8 @@ export type AuthActionTypes =
     | ClearUpdateUserEmailAttributeErrorMessageAction
     | UpdateUsernameAttributeFailAction
     | UpdateUsernameAttributeIsLoadingAction
-    | UpdateUsernameAttributeIsLoadedAction;
+    | UpdateUsernameAttributeIsLoadedAction
+    | ClearUpdateUsernameAttributeErrorMessageAction;
 
 export const GET_LIVE_SOLO_STREAKS = 'GET_LIVE_SOLO_STREAKS';
 export const GET_LIVE_SOLO_STREAKS_FAIL = 'GET_LIVE_SOLO_STREAKS_FAIL';

@@ -35,6 +35,10 @@ import {
     UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING,
     UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED,
     CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE,
+    UPDATE_USERNAME_ATTRIBUTE_FAIL,
+    UPDATE_USERNAME_ATTRIBUTE_IS_LOADING,
+    UPDATE_USERNAME_ATTRIBUTE_IS_LOADED,
+    CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE,
 } from '../actions/types';
 
 export interface AuthState {
@@ -61,6 +65,8 @@ export interface AuthState {
     username: string;
     updateEmailAttributeIsLoading: boolean;
     updateEmailAttributeErrorMessage: string;
+    updateUsernameAttributeIsLoading: boolean;
+    updateUsernameAttributeErrorMessage: string;
 }
 
 const initialState: AuthState = {
@@ -86,6 +92,8 @@ const initialState: AuthState = {
     updatePasswordIsLoading: false,
     updateEmailAttributeIsLoading: false,
     updateEmailAttributeErrorMessage: '',
+    updateUsernameAttributeIsLoading: false,
+    updateUsernameAttributeErrorMessage: '',
 };
 
 const authReducer = (state: AuthState = initialState, action: AuthActionTypes): AuthState => {
@@ -310,6 +318,30 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
             return {
                 ...state,
                 updateEmailAttributeErrorMessage: '',
+            };
+
+        case UPDATE_USERNAME_ATTRIBUTE_FAIL:
+            return {
+                ...state,
+                updateUsernameAttributeErrorMessage: action.payload.errorMessage,
+            };
+
+        case UPDATE_USERNAME_ATTRIBUTE_IS_LOADING:
+            return {
+                ...state,
+                updateUsernameAttributeIsLoading: true,
+            };
+
+        case UPDATE_USERNAME_ATTRIBUTE_IS_LOADED:
+            return {
+                ...state,
+                updateUsernameAttributeIsLoading: false,
+            };
+
+        case CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE:
+            return {
+                ...state,
+                updateUsernameAttributeErrorMessage: '',
             };
 
         default:

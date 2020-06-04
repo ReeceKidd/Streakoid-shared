@@ -51,6 +51,7 @@ import {
     NAVIGATE_TO_COMPLETED_REGISTRATION,
     UPDATE_CURRENT_USER,
     NAVIGATE_TO_CHOOSE_A_PROFILE_PICTURE,
+    CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE,
 } from './types';
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
@@ -246,6 +247,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         navigateToChooseAProfilePicture: boolean;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
+            dispatch({ type: CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE });
             dispatch({ type: UPDATE_USERNAME_ATTRIBUTE_IS_LOADING });
             const currentUser = await Auth.currentAuthenticatedUser();
             await streakoid.user.updateCurrentUser({ updateData: { username } });
@@ -272,6 +274,10 @@ const authActions = (streakoid: StreakoidSDK) => {
             }
         }
     };
+
+    const clearUpdateUsernameAttribueErrorMessage = (): AppActions => ({
+        type: CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE,
+    });
 
     const updateUserEmailAttribute = ({ email }: { email: string }) => async (
         dispatch: Dispatch<AppActions>,
@@ -427,6 +433,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         updateUserPassword,
         clearUpdateUserPasswordErrorMessage,
         updateUsernameAttribute,
+        clearUpdateUsernameAttribueErrorMessage,
         updateUserEmailAttribute,
         clearUpdateUserEmailAttribueErrorMessage,
         verifyEmail,
