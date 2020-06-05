@@ -17,11 +17,15 @@ import SupportedRequestHeaders from '@streakoid/streakoid-models/lib/Types/Suppo
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import { PopulatedCurrentUserWithClientData } from '../reducers/userReducer';
 
-const profilePictureActions = (
-    apiUrl: string,
-    getIdToken: () => string | Promise<string | null>,
-    streakoid: StreakoidSDK,
-) => {
+const profilePictureActions = ({
+    apiUrl,
+    getIdToken,
+    streakoid,
+}: {
+    apiUrl: string;
+    getIdToken: () => string | Promise<string | null>;
+    streakoid: StreakoidSDK;
+}) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const uploadProfileImage = ({ formData }: { formData: any }) => async (
         dispatch: Dispatch<AppActions>,

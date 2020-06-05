@@ -16,9 +16,17 @@ import { teamMemberStreakActions } from './teamMemberStreakActions';
 import { leaderboardActions } from './leaderboardActions';
 import { databaseStatsActions } from './databaseStatsActions';
 
-export const getSharedActions = (streakoid: StreakoidSDK) => {
+export const getSharedActions = ({
+    streakoid,
+    getIdToken,
+    profilePictureApiUrl,
+}: {
+    streakoid: StreakoidSDK;
+    getIdToken: () => Promise<string>;
+    profilePictureApiUrl: string;
+}) => {
     return {
-        profilePictureActions,
+        profilePictureActions: profilePictureActions({ apiUrl: profilePictureApiUrl, getIdToken, streakoid }),
         authActions: authActions(streakoid),
         emailActions: emailActions(streakoid),
         soloStreakActions: soloStreakActions(streakoid),
