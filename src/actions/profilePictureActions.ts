@@ -6,6 +6,7 @@ import {
     UPLOAD_PROFILE_IMAGE_FAIL,
     CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES,
     UPLOAD_PROFILE_IMAGE_IS_LOADING,
+    UPDATE_CURRENT_USER,
 } from './types';
 import { Dispatch } from 'redux';
 import axios, { AxiosResponse } from 'axios';
@@ -13,8 +14,14 @@ import { AppActions, AppState } from '..';
 import { ProfileImages } from '@streakoid/streakoid-models/lib/Models/ProfileImages';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import SupportedRequestHeaders from '@streakoid/streakoid-models/lib/Types/SupportedRequestHeaders';
+import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
+import { PopulatedCurrentUserWithClientData } from '../reducers/userReducer';
 
-const profilePictureActions = (apiUrl: string, getIdToken: () => string | Promise<string | null>) => {
+const profilePictureActions = (
+    apiUrl: string,
+    getIdToken: () => string | Promise<string | null>,
+    streakoid: StreakoidSDK,
+) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const uploadProfileImage = ({ formData }: { formData: any }) => async (
         dispatch: Dispatch<AppActions>,
@@ -38,6 +45,12 @@ const profilePictureActions = (apiUrl: string, getIdToken: () => string | Promis
                 },
             );
             const profileImages = response.data;
+            await streakoid.user.updateCurrentUser({ updateData: { hasProfileImageBeenCustomized: true } });
+            const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
+                ...getState().users.currentUser,
+                hasProfileImageBeenCustomized: true,
+            };
+            dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
             dispatch({ type: UPLOAD_PROFILE_IMAGE, payload: profileImages });
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADED });
         } catch (error) {
