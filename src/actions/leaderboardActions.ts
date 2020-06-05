@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from 'redux';
 
 import {
@@ -41,7 +42,7 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                 sortField: GetAllSoloStreaksSortFields.currentStreak,
                 active: true,
             });
-            const leaderboardItems: SoloStreakLeaderboardItem[] = await Promise.all(
+            const leaderboardItems: (SoloStreakLeaderboardItem | null)[] = await Promise.all(
                 soloStreaks.map(async soloStreak => {
                     try {
                         const user = await streakoid.users.getOne(soloStreak.userId);
@@ -54,18 +55,15 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                             streakCreatedAt: new Date(soloStreak.createdAt),
                         };
                     } catch (err) {
-                        return {
-                            streakId: soloStreak._id,
-                            streakName: soloStreak.streakName,
-                            username: '',
-                            userProfileImage: '',
-                            currentStreakNumberOfDaysInARow: soloStreak.currentStreak.numberOfDaysInARow,
-                            streakCreatedAt: new Date(soloStreak.createdAt),
-                        };
+                        return null;
                     }
                 }),
             );
-            dispatch({ type: GET_SOLO_STREAK_LEADERBOARD, payload: leaderboardItems });
+            dispatch({
+                type: GET_SOLO_STREAK_LEADERBOARD,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                payload: leaderboardItems.filter(item => item !== null) as any,
+            });
             dispatch({ type: GET_SOLO_STREAK_LEADERBOARD_LOADED });
         } catch (err) {
             dispatch({ type: GET_SOLO_STREAK_LEADERBOARD_LOADED });
@@ -84,7 +82,7 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                 sortField: GetAllTeamStreaksSortFields.currentStreak,
                 active: true,
             });
-            const leaderboardItems: TeamStreakLeaderboardItem[] = await Promise.all(
+            const leaderboardItems: (TeamStreakLeaderboardItem | null)[] = await Promise.all(
                 teamStreaks.map(async teamStreak => {
                     try {
                         return {
@@ -95,19 +93,15 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                             members: teamStreak.members,
                         };
                     } catch (err) {
-                        return {
-                            streakId: teamStreak._id,
-                            streakName: teamStreak.streakName,
-                            username: '',
-                            userProfileImage: '',
-                            currentStreakNumberOfDaysInARow: teamStreak.currentStreak.numberOfDaysInARow,
-                            streakCreatedAt: new Date(teamStreak.createdAt),
-                            members: teamStreak.members,
-                        };
+                        return null;
                     }
                 }),
             );
-            dispatch({ type: GET_TEAM_STREAK_LEADERBOARD, payload: leaderboardItems });
+            dispatch({
+                type: GET_TEAM_STREAK_LEADERBOARD,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                payload: leaderboardItems.filter(item => item !== null) as any,
+            });
             dispatch({ type: GET_TEAM_STREAK_LEADERBOARD_LOADED });
         } catch (err) {
             dispatch({ type: GET_TEAM_STREAK_LEADERBOARD_LOADED });
@@ -125,7 +119,7 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                 sortField: GetAllChallengeStreaksSortFields.currentStreak,
                 active: true,
             });
-            const leaderboardItems: ChallengeStreakLeaderboardItem[] = await Promise.all(
+            const leaderboardItems: (ChallengeStreakLeaderboardItem | null)[] = await Promise.all(
                 challengeStreaks.map(async challengeStreak => {
                     try {
                         return {
@@ -137,18 +131,14 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                             streakCreatedAt: new Date(challengeStreak.createdAt),
                         };
                     } catch (err) {
-                        return {
-                            streakId: '',
-                            challengeName: '',
-                            username: '',
-                            userProfileImage: '',
-                            currentStreakNumberOfDaysInARow: 0,
-                            streakCreatedAt: new Date(),
-                        };
+                        return null;
                     }
                 }),
             );
-            dispatch({ type: GET_CHALLENGE_STREAK_LEADERBOARD, payload: leaderboardItems });
+            dispatch({
+                type: GET_CHALLENGE_STREAK_LEADERBOARD,
+                payload: leaderboardItems.filter(item => item !== null) as any,
+            });
             dispatch({ type: GET_CHALLENGE_STREAK_LEADERBOARD_LOADED });
         } catch (err) {
             dispatch({ type: GET_CHALLENGE_STREAK_LEADERBOARD_LOADED });
