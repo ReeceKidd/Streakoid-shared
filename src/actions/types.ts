@@ -63,7 +63,7 @@ export interface NavigateToHomeAction {
     type: typeof NAVIGATE_TO_HOME;
 }
 
-export interface NavigateToVerifyUserAction {
+export interface NavigateToVerifyEmailAction {
     type: typeof NAVIGATE_TO_VERIFY_EMAIL;
 }
 
@@ -132,7 +132,7 @@ export interface NavigateToChooseAProfilePictureAction {
 
 export type NavigationActionTypes =
     | NavigateToHomeAction
-    | NavigateToVerifyUserAction
+    | NavigateToVerifyEmailAction
     | NavigateToLoginAction
     | NavigateToUpdatePasswordAction
     | NavigateToSoloStreaksAction
@@ -184,6 +184,11 @@ export const CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE = 'CLEAR_UPDATE_PASSWORD_ERROR_
 export const REGISTER_WITH_IDENTIFIER_USER_FAIL = 'REGISTER_WITH_IDENTIFIER_USER_FAIL';
 export const REGISTER_WITH_IDENTIFIER_USER_IS_LOADING = 'REGISTER_WITH_IDENTIFIER_USER_IS_LOADING';
 export const REGISTER_WITH_IDENTIFIER_USER_IS_LOADED = 'REGISTER_WITH_IDENTIFIER_USER_IS_LOADED';
+
+export const VERIFY_EMAIL_FAIL = 'VERIFY_EMAIL_FAIL';
+export const CLEAR_VERIFY_EMAIL_ERROR_MESSAGE = 'CLEAR_VERIFY_EMAIL_ERROR_MESSAGE';
+export const VERIFY_EMAIL_IS_LOADING = 'VERIFY_EMAIL_IS_LOADING';
+export const VERIFY_EMAIL_IS_LOADED = 'VERIFY_EMAIL_IS_LOADED';
 
 export const FORGOT_PASSWORD_IS_LOADING = 'FORGOT_PASSWORD_IS_LOADING';
 export const FORGOT_PASSWORD_IS_LOADED = 'FORGOT_PASSWORD_IS_LOADED';
@@ -240,6 +245,15 @@ export interface SessionExpiredAction {
 
 export interface ClearRegistrationErrorMessageAction {
     type: typeof CLEAR_REGISTRATION_ERROR_MESSAGE;
+}
+
+export interface VerifyEmailFailAction {
+    type: typeof VERIFY_EMAIL_FAIL;
+    errorMessage: string;
+}
+
+export interface ClearVerifyEmailErrorMessageAction {
+    type: typeof CLEAR_VERIFY_EMAIL_ERROR_MESSAGE;
 }
 
 export interface ResendCodeSuccessAction {
@@ -311,6 +325,14 @@ export interface LoginIsLoadingAction {
 
 export interface LoginIsLoadedAction {
     type: typeof LOGIN_IS_LOADED;
+}
+
+export interface VerifyEmailIsLoadingAction {
+    type: typeof VERIFY_EMAIL_IS_LOADING;
+}
+
+export interface VerifyEmailIsLoadedAction {
+    type: typeof VERIFY_EMAIL_IS_LOADED;
 }
 
 export interface ForgotPasswordIsLoadingAction {
@@ -385,6 +407,8 @@ export type AuthActionTypes =
     | ClearLogInErrorMessageAction
     | SessionExpiredAction
     | ClearRegistrationErrorMessageAction
+    | VerifyEmailFailAction
+    | ClearVerifyEmailErrorMessageAction
     | ResendCodeSuccessAction
     | ResendCodeFailAction
     | ClearResendCodeSuccessMessage
@@ -401,6 +425,8 @@ export type AuthActionTypes =
     | RegisterWithIdentifierUserIsLoadedAction
     | LoginIsLoadingAction
     | LoginIsLoadedAction
+    | VerifyEmailIsLoadingAction
+    | VerifyEmailIsLoadedAction
     | ForgotPasswordIsLoadingAction
     | ForgotPasswordIsLoadedAction
     | NewPasswordIsLoadingAction
