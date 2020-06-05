@@ -5,7 +5,6 @@ import { stripeActions } from './stripeActions';
 import { teamMemberStreakTaskActions } from './teamMemberStreakTaskActions';
 import { teamStreakActions } from './teamStreakActions';
 import { userActions } from './userActions';
-import { profilePictureActions } from './profilePictureActions';
 import { authActions } from './authActions';
 import { streakRecommendationActions } from './streakRecommendationActions';
 import { challengeActions } from './challengeActions';
@@ -15,18 +14,11 @@ import { activityFeedItemActions } from './activityFeedItemActions';
 import { teamMemberStreakActions } from './teamMemberStreakActions';
 import { leaderboardActions } from './leaderboardActions';
 import { databaseStatsActions } from './databaseStatsActions';
+import { profilePictureActions } from './profilePictureActions';
 
-export const getSharedActions = ({
-    streakoid,
-    getIdToken,
-    profilePictureApiUrl,
-}: {
-    streakoid: StreakoidSDK;
-    getIdToken: () => Promise<string>;
-    profilePictureApiUrl: string;
-}) => {
+export const getSharedActions = ({ streakoid }: { streakoid: StreakoidSDK }) => {
     return {
-        profilePictureActions: profilePictureActions({ apiUrl: profilePictureApiUrl, getIdToken, streakoid }),
+        profilePictureActions,
         authActions: authActions(streakoid),
         emailActions: emailActions(streakoid),
         soloStreakActions: soloStreakActions(streakoid),

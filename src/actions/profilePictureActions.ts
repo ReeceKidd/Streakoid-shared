@@ -23,7 +23,7 @@ const profilePictureActions = ({
     streakoid,
 }: {
     apiUrl: string;
-    getIdToken: () => string | Promise<string | null>;
+    getIdToken: () => Promise<string | null>;
     streakoid: StreakoidSDK;
 }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
