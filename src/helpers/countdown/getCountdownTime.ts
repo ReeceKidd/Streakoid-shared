@@ -15,8 +15,9 @@ export const getCountdownTime = (timezone: string) => {
         hoursTillEndOfDay,
         minutesTillEndOfDay,
     });
+    const oneHour = 60;
     return {
         hoursDifference,
-        minutesDifference,
+        minutesDifference: minutesDifference === oneHour ? minutesDifference - 1 : minutesDifference,
     };
 };
