@@ -9,8 +9,6 @@ import {
     RESEND_CODE_FAIL,
     CLEAR_RESEND_CODE_SUCCESS_MESSAGE,
     CLEAR_RESEND_CODE_ERROR_MESSAGE,
-    VERIFY_EMAIL_FAIL,
-    CLEAR_VERIFY_EMAIL_ERROR_MESSAGE,
     FORGOT_PASSWORD_SUCCESS,
     FORGOT_PASSWORD_FAIL,
     CLEAR_FORGOT_PASSWORD_ERROR_MESSAGE,
@@ -20,8 +18,6 @@ import {
     CLEAR_UPDATE_PASSWORD_SUCCESS_MESSAGE,
     LOGIN_IS_LOADING,
     LOGIN_IS_LOADED,
-    VERIFY_EMAIL_IS_LOADING,
-    VERIFY_EMAIL_IS_LOADED,
     FORGOT_PASSWORD_IS_LOADING,
     FORGOT_PASSWORD_IS_LOADED,
     UPDATE_PASSWORD_IS_LOADING,
@@ -148,30 +144,6 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
 
         case LOGOUT_SUCCESS:
             return initialState;
-
-        case VERIFY_EMAIL_FAIL:
-            return {
-                ...state,
-                verifyEmailErrorMessage: action.errorMessage,
-            };
-
-        case VERIFY_EMAIL_IS_LOADING:
-            return {
-                ...state,
-                verifyEmailIsLoading: true,
-            };
-
-        case VERIFY_EMAIL_IS_LOADED:
-            return {
-                ...state,
-                verifyEmailIsLoading: false,
-            };
-
-        case CLEAR_VERIFY_EMAIL_ERROR_MESSAGE:
-            return {
-                ...state,
-                verifyEmailErrorMessage: '',
-            };
 
         case RESEND_CODE_SUCCESS:
             return {

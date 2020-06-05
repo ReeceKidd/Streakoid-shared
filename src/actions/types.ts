@@ -185,11 +185,6 @@ export const REGISTER_WITH_IDENTIFIER_USER_FAIL = 'REGISTER_WITH_IDENTIFIER_USER
 export const REGISTER_WITH_IDENTIFIER_USER_IS_LOADING = 'REGISTER_WITH_IDENTIFIER_USER_IS_LOADING';
 export const REGISTER_WITH_IDENTIFIER_USER_IS_LOADED = 'REGISTER_WITH_IDENTIFIER_USER_IS_LOADED';
 
-export const VERIFY_EMAIL_FAIL = 'VERIFY_EMAIL_FAIL';
-export const CLEAR_VERIFY_EMAIL_ERROR_MESSAGE = 'CLEAR_VERIFY_EMAIL_ERROR_MESSAGE';
-export const VERIFY_EMAIL_IS_LOADING = 'VERIFY_EMAIL_IS_LOADING';
-export const VERIFY_EMAIL_IS_LOADED = 'VERIFY_EMAIL_IS_LOADED';
-
 export const FORGOT_PASSWORD_IS_LOADING = 'FORGOT_PASSWORD_IS_LOADING';
 export const FORGOT_PASSWORD_IS_LOADED = 'FORGOT_PASSWORD_IS_LOADED';
 
@@ -245,15 +240,6 @@ export interface SessionExpiredAction {
 
 export interface ClearRegistrationErrorMessageAction {
     type: typeof CLEAR_REGISTRATION_ERROR_MESSAGE;
-}
-
-export interface VerifyUserFailAction {
-    type: typeof VERIFY_EMAIL_FAIL;
-    errorMessage: string;
-}
-
-export interface ClearVerifyUserErrorMessageAction {
-    type: typeof CLEAR_VERIFY_EMAIL_ERROR_MESSAGE;
 }
 
 export interface ResendCodeSuccessAction {
@@ -325,14 +311,6 @@ export interface LoginIsLoadingAction {
 
 export interface LoginIsLoadedAction {
     type: typeof LOGIN_IS_LOADED;
-}
-
-export interface VerifyUserIsLoadingAction {
-    type: typeof VERIFY_EMAIL_IS_LOADING;
-}
-
-export interface VerifyUserIsLoadedAction {
-    type: typeof VERIFY_EMAIL_IS_LOADED;
 }
 
 export interface ForgotPasswordIsLoadingAction {
@@ -407,8 +385,6 @@ export type AuthActionTypes =
     | ClearLogInErrorMessageAction
     | SessionExpiredAction
     | ClearRegistrationErrorMessageAction
-    | VerifyUserFailAction
-    | ClearVerifyUserErrorMessageAction
     | ResendCodeSuccessAction
     | ResendCodeFailAction
     | ClearResendCodeSuccessMessage
@@ -425,8 +401,6 @@ export type AuthActionTypes =
     | RegisterWithIdentifierUserIsLoadedAction
     | LoginIsLoadingAction
     | LoginIsLoadedAction
-    | VerifyUserIsLoadingAction
-    | VerifyUserIsLoadedAction
     | ForgotPasswordIsLoadingAction
     | ForgotPasswordIsLoadedAction
     | NewPasswordIsLoadingAction

@@ -9,14 +9,10 @@ import {
     CLEAR_REGISTRATION_ERROR_MESSAGE,
     LOGIN_IS_LOADED,
     LOGIN_IS_LOADING,
-    VERIFY_EMAIL_IS_LOADING,
-    VERIFY_EMAIL_IS_LOADED,
-    VERIFY_EMAIL_FAIL,
     RESEND_CODE_SUCCESS,
     RESEND_CODE_FAIL,
     CLEAR_RESEND_CODE_ERROR_MESSAGE,
     CLEAR_RESEND_CODE_SUCCESS_MESSAGE,
-    CLEAR_VERIFY_EMAIL_ERROR_MESSAGE,
     FORGOT_PASSWORD_SUCCESS,
     FORGOT_PASSWORD_FAIL,
     FORGOT_PASSWORD_IS_LOADING,
@@ -46,7 +42,6 @@ import {
     UPDATE_USERNAME_ATTRIBUTE_FAIL,
     UPDATE_USERNAME_ATTRIBUTE_IS_LOADED,
     UPDATE_USERNAME_ATTRIBUTE_IS_LOADING,
-    NAVIGATE_TO_CHOOSE_PASSWORD,
     CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE,
     NAVIGATE_TO_COMPLETED_REGISTRATION,
     UPDATE_CURRENT_USER,
@@ -323,35 +318,6 @@ const authActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE,
     });
 
-    const verifyEmail = ({
-        verificationCode,
-        navigateToChoosePassword,
-    }: {
-        verificationCode: string;
-        navigateToChoosePassword: boolean;
-    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
-        try {
-            dispatch({ type: CLEAR_VERIFY_EMAIL_ERROR_MESSAGE });
-            dispatch({ type: VERIFY_EMAIL_IS_LOADING });
-            await Auth.verifyCurrentUserAttributeSubmit('email', verificationCode);
-            dispatch({ type: VERIFY_EMAIL_IS_LOADED });
-            if (navigateToChoosePassword) {
-                dispatch({ type: NAVIGATE_TO_CHOOSE_PASSWORD });
-            }
-        } catch (err) {
-            dispatch({ type: VERIFY_EMAIL_IS_LOADED });
-            if (err.response) {
-                dispatch({ type: VERIFY_EMAIL_FAIL, errorMessage: err.response.data.message });
-            } else {
-                dispatch({ type: VERIFY_EMAIL_FAIL, errorMessage: err.message });
-            }
-        }
-    };
-
-    const clearVerifyUserErrorMessage = (): AppActions => ({
-        type: CLEAR_VERIFY_EMAIL_ERROR_MESSAGE,
-    });
-
     const resendCode = ({ email }: { email: string }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
@@ -446,8 +412,6 @@ const authActions = (streakoid: StreakoidSDK) => {
         clearUpdateUsernameAttributeErrorMessage,
         updateUserEmailAttribute,
         clearUpdateUserEmailAttribueErrorMessage,
-        verifyEmail,
-        clearVerifyUserErrorMessage,
         resendCode,
         clearResendCodeSuccessMessage,
         clearResendCodeErrorMessage,
