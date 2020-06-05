@@ -249,16 +249,25 @@ const authActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE });
             dispatch({ type: UPDATE_USERNAME_ATTRIBUTE_IS_LOADING });
-            const currentUser = await Auth.currentAuthenticatedUser();
-            await streakoid.user.updateCurrentUser({ updateData: { username, hasUsernameBeenCustomized: true } });
-            const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
-                ...getState().users.currentUser,
-                username,
-                hasUsernameBeenCustomized: true,
-            };
-            dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            await Auth.updateUserAttributes(currentUser, { preferred_username: username });
+            if (username !== getState().users.currentUser.username) {
+                const currentUser = await Auth.currentAuthenticatedUser();
+                await streakoid.user.updateCurrentUser({ updateData: { username, hasUsernameBeenCustomized: true } });
+                const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
+                    ...getState().users.currentUser,
+                    username,
+                    hasUsernameBeenCustomized: true,
+                };
+                dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
+                // eslint-disable-next-line @typescript-eslint/camelcase
+                await Auth.updateUserAttributes(currentUser, { preferred_username: username });
+            } else {
+                await streakoid.user.updateCurrentUser({ updateData: { hasUsernameBeenCustomized: true } });
+                const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
+                    ...getState().users.currentUser,
+                    hasUsernameBeenCustomized: true,
+                };
+                dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
+            }
             dispatch({ type: UPDATE_USERNAME_ATTRIBUTE_IS_LOADED });
             if (navigateToChooseAProfilePicture) {
                 dispatch({ type: NAVIGATE_TO_CHOOSE_A_PROFILE_PICTURE });
