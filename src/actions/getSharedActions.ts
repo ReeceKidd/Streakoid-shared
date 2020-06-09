@@ -19,7 +19,7 @@ import { profilePictureActions } from './profilePictureActions';
 export const getSharedActions = ({ streakoid }: { streakoid: StreakoidSDK }) => {
     return {
         profilePictureActions,
-        authActions: authActions(streakoid),
+        authActions,
         emailActions: emailActions(streakoid),
         soloStreakActions: soloStreakActions(streakoid),
         stripeActions: stripeActions(streakoid),

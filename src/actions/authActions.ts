@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from 'redux';
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify, { AuthClass } from 'aws-amplify';
 
 import {
     LOGIN_SUCCESS,
@@ -68,7 +69,7 @@ Amplify.configure({
     },
 });
 
-const authActions = (streakoid: StreakoidSDK) => {
+const authActions = ({ streakoid, auth }: { streakoid: StreakoidSDK; auth: AuthClass }) => {
     const loginUser = ({
         emailOrCognitoUsername,
         password,
@@ -81,7 +82,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: LOGIN_IS_LOADING });
 
-            const cognitoUser = await Auth.signIn(emailOrCognitoUsername.toLowerCase(), password);
+            const cognitoUser = await auth.signIn(emailOrCognitoUsername.toLowerCase(), password);
             const { idToken, refreshToken, accessToken } = cognitoUser.signInUserSession;
             const idTokenJwt = idToken.jwtToken;
             const idTokenExpiryTime = idToken.payload.exp;
@@ -142,7 +143,7 @@ const authActions = (streakoid: StreakoidSDK) => {
 
     const refreshToken = () => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
-            const session = await Auth.currentSession();
+            const session = await auth.currentSession();
             const cognitoPayload: CognitoPayload = {
                 idToken: session.getIdToken().getJwtToken(),
                 idTokenExpiryTime: session.getIdToken().getExpiration(),
@@ -208,7 +209,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE });
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADING });
-            const currentUser = await Auth.currentAuthenticatedUser();
+            const currentUser = await auth.currentAuthenticatedUser();
             if (isPartOfRegistration) {
                 await streakoid.user.updateCurrentUser({ updateData: { userType: UserTypes.basic } });
                 const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
@@ -217,7 +218,7 @@ const authActions = (streakoid: StreakoidSDK) => {
                 };
                 dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
             }
-            await Auth.changePassword(currentUser, oldPassword, newPassword);
+            await auth.changePassword(currentUser, oldPassword, newPassword);
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADED });
             if (isPartOfRegistration) {
                 dispatch({ type: NAVIGATE_TO_COMPLETED_REGISTRATION });
@@ -250,7 +251,7 @@ const authActions = (streakoid: StreakoidSDK) => {
             dispatch({ type: CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE });
             dispatch({ type: UPDATE_USERNAME_ATTRIBUTE_IS_LOADING });
             if (username !== getState().users.currentUser.username) {
-                const currentUser = await Auth.currentAuthenticatedUser();
+                const currentUser = await auth.currentAuthenticatedUser();
                 await streakoid.user.updateCurrentUser({ updateData: { username, hasUsernameBeenCustomized: true } });
                 const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                     ...getState().users.currentUser,
@@ -259,7 +260,7 @@ const authActions = (streakoid: StreakoidSDK) => {
                 };
                 dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
                 // eslint-disable-next-line @typescript-eslint/camelcase
-                await Auth.updateUserAttributes(currentUser, { preferred_username: username });
+                await auth.updateUserAttributes(currentUser, { preferred_username: username });
             } else {
                 await streakoid.user.updateCurrentUser({ updateData: { hasUsernameBeenCustomized: true } });
                 const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
@@ -296,14 +297,14 @@ const authActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE });
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING });
-            const currentUser = await Auth.currentAuthenticatedUser();
+            const currentUser = await auth.currentAuthenticatedUser();
             await streakoid.user.updateCurrentUser({ updateData: { email } });
             const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                 ...getState().users.currentUser,
                 email,
             };
             dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
-            await Auth.updateUserAttributes(currentUser, { email });
+            await auth.updateUserAttributes(currentUser, { email });
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED });
             dispatch({ type: NAVIGATE_TO_VERIFY_EMAIL });
         } catch (err) {
@@ -333,7 +334,7 @@ const authActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: CLEAR_VERIFY_EMAIL_ERROR_MESSAGE });
             dispatch({ type: VERIFY_EMAIL_IS_LOADING });
-            await Auth.verifyCurrentUserAttributeSubmit('email', verificationCode);
+            await auth.verifyCurrentUserAttributeSubmit('email', verificationCode);
             dispatch({ type: VERIFY_EMAIL_IS_LOADED });
             if (navigateToChoosePassword) {
                 dispatch({ type: NAVIGATE_TO_CHOOSE_PASSWORD });
@@ -360,7 +361,7 @@ const authActions = (streakoid: StreakoidSDK) => {
             const { username } = getState().users.currentUser;
             const successMessage = `Code was resent to: ${email}`;
             if (username) {
-                await Auth.resendSignUp(username);
+                await auth.resendSignUp(username);
                 dispatch({ type: RESEND_CODE_SUCCESS, successMessage });
             }
         } catch (err) {
@@ -383,7 +384,7 @@ const authActions = (streakoid: StreakoidSDK) => {
     const forgotPassword = (emailOrUsername: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: FORGOT_PASSWORD_IS_LOADING });
-            const { CodeDeliveryDetails } = await Auth.forgotPassword(emailOrUsername.toLowerCase());
+            const { CodeDeliveryDetails } = await auth.forgotPassword(emailOrUsername.toLowerCase());
             const { Destination } = CodeDeliveryDetails;
             const payload = { forgotPasswordEmailDesitnation: Destination, username: emailOrUsername };
             dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload });
@@ -408,7 +409,7 @@ const authActions = (streakoid: StreakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: UPDATE_PASSWORD_IS_LOADING });
-            await Auth.forgotPasswordSubmit(emailOrUsername, code, newPassword);
+            await auth.forgotPasswordSubmit(emailOrUsername, code, newPassword);
             dispatch({ type: UPDATE_PASSWORD_SUCCESS, successMessage: 'Updated password' });
             dispatch({ type: NAVIGATE_TO_LOGIN });
             dispatch({ type: UPDATE_PASSWORD_IS_LOADED });
