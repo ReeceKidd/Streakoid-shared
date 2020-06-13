@@ -15,6 +15,7 @@ import { leaderboardReducer } from './reducers/leaderboardReducer';
 import { databaseStatsReducer } from './reducers/databaseStatsReducer';
 
 import { AppActions } from './actions/types';
+import { authActions } from './actions/authActions';
 import { getSharedActions } from './actions/getSharedActions';
 import CognitoPayload from './cognitoPayload';
 import { getCountdownString } from './helpers/countdown/getCountdownString';
@@ -55,6 +56,7 @@ export {
     noteReducer,
     AppActions,
     CognitoPayload,
+    authActions,
     getSharedActions,
     getCountdownString,
     getIdToken,

@@ -5,7 +5,6 @@ import { stripeActions } from './stripeActions';
 import { teamMemberStreakTaskActions } from './teamMemberStreakTaskActions';
 import { teamStreakActions } from './teamStreakActions';
 import { userActions } from './userActions';
-import { authActions } from './authActions';
 import { streakRecommendationActions } from './streakRecommendationActions';
 import { challengeActions } from './challengeActions';
 import { challengeStreakActions } from './challengeStreakActions';
@@ -19,7 +18,6 @@ import { profilePictureActions } from './profilePictureActions';
 export const getSharedActions = ({ streakoid }: { streakoid: StreakoidSDK }) => {
     return {
         profilePictureActions,
-        authActions,
         emailActions: emailActions(streakoid),
         soloStreakActions: soloStreakActions(streakoid),
         stripeActions: stripeActions(streakoid),
