@@ -69,7 +69,15 @@ Amplify.configure({
     },
 });
 
-const authActions = ({ streakoid, auth }: { streakoid: StreakoidSDK; auth: AuthClass }) => {
+const authActions = ({
+    unauthenticatedStreakoid,
+    authenticatedStreakoid,
+    auth,
+}: {
+    unauthenticatedStreakoid: StreakoidSDK;
+    authenticatedStreakoid: StreakoidSDK;
+    auth: AuthClass;
+}) => {
     const loginUser = ({
         emailOrCognitoUsername,
         password,
@@ -98,7 +106,7 @@ const authActions = ({ streakoid, auth }: { streakoid: StreakoidSDK; auth: AuthC
 
             dispatch({ type: LOGIN_SUCCESS, payload: cognitoPayload });
 
-            const user = await streakoid.user.getCurrentUser();
+            const user = await authenticatedStreakoid.user.getCurrentUser();
             const followingWithClientData = user.following.map(following => ({
                 ...following,
                 followUserIsLoading: false,
@@ -166,7 +174,7 @@ const authActions = ({ streakoid, auth }: { streakoid: StreakoidSDK; auth: AuthC
     ): Promise<void> => {
         try {
             dispatch({ type: REGISTER_WITH_IDENTIFIER_USER_IS_LOADING });
-            const user = await streakoid.users.createWithIdentifier({ userIdentifier });
+            const user = await unauthenticatedStreakoid.users.createWithIdentifier({ userIdentifier });
             dispatch({
                 type: UPDATE_CURRENT_USER,
                 payload: {
@@ -211,7 +219,7 @@ const authActions = ({ streakoid, auth }: { streakoid: StreakoidSDK; auth: AuthC
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADING });
             const currentUser = await auth.currentAuthenticatedUser();
             if (isPartOfRegistration) {
-                await streakoid.user.updateCurrentUser({ updateData: { userType: UserTypes.basic } });
+                await authenticatedStreakoid.user.updateCurrentUser({ updateData: { userType: UserTypes.basic } });
                 const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                     ...getState().users.currentUser,
                     userType: UserTypes.basic,
@@ -252,7 +260,9 @@ const authActions = ({ streakoid, auth }: { streakoid: StreakoidSDK; auth: AuthC
             dispatch({ type: UPDATE_USERNAME_ATTRIBUTE_IS_LOADING });
             if (username !== getState().users.currentUser.username) {
                 const currentUser = await auth.currentAuthenticatedUser();
-                await streakoid.user.updateCurrentUser({ updateData: { username, hasUsernameBeenCustomized: true } });
+                await authenticatedStreakoid.user.updateCurrentUser({
+                    updateData: { username, hasUsernameBeenCustomized: true },
+                });
                 const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                     ...getState().users.currentUser,
                     username,
@@ -262,7 +272,9 @@ const authActions = ({ streakoid, auth }: { streakoid: StreakoidSDK; auth: AuthC
                 // eslint-disable-next-line @typescript-eslint/camelcase
                 await auth.updateUserAttributes(currentUser, { preferred_username: username });
             } else {
-                await streakoid.user.updateCurrentUser({ updateData: { hasUsernameBeenCustomized: true } });
+                await authenticatedStreakoid.user.updateCurrentUser({
+                    updateData: { hasUsernameBeenCustomized: true },
+                });
                 const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                     ...getState().users.currentUser,
                     hasUsernameBeenCustomized: true,
@@ -298,7 +310,7 @@ const authActions = ({ streakoid, auth }: { streakoid: StreakoidSDK; auth: AuthC
             dispatch({ type: CLEAR_UPDATE_USER_EMAIL_ATTRIBUTE_ERROR_MESSAGE });
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING });
             const currentUser = await auth.currentAuthenticatedUser();
-            await streakoid.user.updateCurrentUser({ updateData: { email } });
+            await authenticatedStreakoid.user.updateCurrentUser({ updateData: { email } });
             const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                 ...getState().users.currentUser,
                 email,
