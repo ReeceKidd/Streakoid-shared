@@ -69,7 +69,7 @@ Amplify.configure({
     },
 });
 
-const authActions = ({
+const getAuthActions = ({
     unauthenticatedStreakoid,
     authenticatedStreakoid,
     auth,
@@ -473,4 +473,4 @@ const authActions = ({
     };
 };
 
-export { authActions };
+export { getAuthActions };
