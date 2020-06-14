@@ -48,6 +48,7 @@ const profilePictureActions = ({
                     },
                 },
             );
+            console.log('response', response);
             const profileImages = response.data;
             await streakoid.user.updateCurrentUser({ updateData: { hasProfileImageBeenCustomized: true } });
             const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
@@ -58,6 +59,8 @@ const profilePictureActions = ({
             dispatch({ type: UPLOAD_PROFILE_IMAGE, payload: profileImages });
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADED });
         } catch (error) {
+            console.log(error);
+            console.log(error);
             if (error.response && error.response.status === 401) {
                 dispatch({ type: NAVIGATE_TO_LOGIN });
                 dispatch({ type: SESSION_EXPIRED });
