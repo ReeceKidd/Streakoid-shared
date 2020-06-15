@@ -83,7 +83,7 @@ const profilePictureActions = ({
             const { timezone } = currentUser;
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADING });
             const idToken = await getIdToken();
-            await fetch(`${apiUrl}/v1/${RouterCategories.profileImages}`, {
+            const response = await fetch(`${apiUrl}/v1/${RouterCategories.profileImages}`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -92,6 +92,7 @@ const profilePictureActions = ({
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            console.log('response', response);
             await streakoid.user.updateCurrentUser({ updateData: { hasProfileImageBeenCustomized: true } });
             const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                 ...getState().users.currentUser,
