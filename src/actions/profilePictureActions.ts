@@ -100,8 +100,6 @@ const profilePictureActions = ({
             dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADED });
         } catch (error) {
-            console.log(error);
-            console.log(error);
             if (error.response && error.response.status === 401) {
                 dispatch({ type: NAVIGATE_TO_LOGIN });
                 dispatch({ type: SESSION_EXPIRED });
