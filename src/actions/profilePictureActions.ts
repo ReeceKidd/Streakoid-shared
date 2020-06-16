@@ -11,7 +11,6 @@ import {
 } from './types';
 import { Dispatch } from 'redux';
 import axios, { AxiosResponse } from 'axios';
-import RNFetchBlob from 'rn-fetch-blob';
 import { AppActions, AppState } from '..';
 import { ProfileImages } from '@streakoid/streakoid-models/lib/Models/ProfileImages';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
@@ -75,37 +74,13 @@ const profilePictureActions = ({
     };
 
     const mobileUploadProfileImage = ({
-        fileName,
-        type,
-        uri,
+        uploadProfilePictureFunction,
     }: {
-        fileName: string;
-        type: string;
-        uri: string;
+        uploadProfilePictureFunction: () => Promise<void>;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
-            const { users } = getState();
-            const { currentUser } = users;
-            const { timezone } = currentUser;
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADING });
-            const idToken = await getIdToken();
-            await RNFetchBlob.fetch(
-                'POST',
-                `${apiUrl}/v1/${RouterCategories.profileImages}`,
-                {
-                    [SupportedRequestHeaders.Authorization]: idToken || '',
-                    [SupportedRequestHeaders.Timezone]: timezone,
-                    'Content-Type': 'multipart/form-data',
-                },
-                [
-                    {
-                        name: 'image',
-                        filename: fileName,
-                        type,
-                        data: RNFetchBlob.wrap(uri),
-                    },
-                ],
-            );
+            await uploadProfilePictureFunction();
             await streakoid.user.updateCurrentUser({ updateData: { hasProfileImageBeenCustomized: true } });
             const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                 ...getState().users.currentUser,
