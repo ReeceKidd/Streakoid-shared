@@ -103,6 +103,11 @@ const profilePictureActions = ({
         }
     };
 
+    const defineUploadProfileImageFailError = (error: string): AppActions => ({
+        type: UPLOAD_PROFILE_IMAGE_FAIL,
+        payload: error,
+    });
+
     const clearUploadProfileImageMessages = (): AppActions => ({
         type: CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES,
     });
@@ -110,6 +115,7 @@ const profilePictureActions = ({
     return {
         webUploadProfileImage,
         mobileUploadProfileImage,
+        defineUploadProfileImageFailError,
         clearUploadProfileImageMessages,
     };
 };
