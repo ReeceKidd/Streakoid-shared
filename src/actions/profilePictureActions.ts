@@ -11,6 +11,7 @@ import {
 } from './types';
 import { Dispatch } from 'redux';
 import axios, { AxiosResponse } from 'axios';
+import RNFetchBlob from 'rn-fetch-blob';
 import { AppActions, AppState } from '..';
 import { ProfileImages } from '@streakoid/streakoid-models/lib/Models/ProfileImages';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
@@ -73,26 +74,38 @@ const profilePictureActions = ({
         }
     };
 
-    const mobileUploadProfileImage = ({ formData }: { formData: any }) => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
+    const mobileUploadProfileImage = ({
+        fileName,
+        type,
+        uri,
+    }: {
+        fileName: string;
+        type: string;
+        uri: string;
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             const { users } = getState();
             const { currentUser } = users;
             const { timezone } = currentUser;
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADING });
             const idToken = await getIdToken();
-            const response = await fetch(`${apiUrl}/v1/${RouterCategories.profileImages}`, {
-                method: 'POST',
-                body: formData,
-                headers: {
+            await RNFetchBlob.fetch(
+                'POST',
+                `${apiUrl}/v1/${RouterCategories.profileImages}`,
+                {
                     [SupportedRequestHeaders.Authorization]: idToken || '',
                     [SupportedRequestHeaders.Timezone]: timezone,
                     'Content-Type': 'multipart/form-data',
                 },
-            });
-            console.log('response', response);
+                [
+                    {
+                        name: 'image',
+                        filename: fileName,
+                        type,
+                        data: RNFetchBlob.wrap(uri),
+                    },
+                ],
+            );
             await streakoid.user.updateCurrentUser({ updateData: { hasProfileImageBeenCustomized: true } });
             const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                 ...getState().users.currentUser,
