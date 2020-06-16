@@ -310,7 +310,6 @@ const getAuthActions = ({
                 };
                 dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
             }
-
             await auth.updateUserAttributes(currentUser, { email });
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED });
             dispatch({ type: NAVIGATE_TO_VERIFY_EMAIL });
