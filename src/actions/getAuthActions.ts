@@ -53,6 +53,7 @@ import {
     UPDATE_CURRENT_USER,
     NAVIGATE_TO_CHOOSE_A_PROFILE_PICTURE,
     CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE,
+    NAVIGATE_TO_CHOOSE_A_PATH,
 } from './types';
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
@@ -82,10 +83,12 @@ const getAuthActions = ({
         emailOrCognitoUsername,
         password,
         redirectToHomeOnLogin,
+        redirectToChooseAPathOnLogin,
     }: {
         emailOrCognitoUsername: string;
         password: string;
         redirectToHomeOnLogin: boolean;
+        redirectToChooseAPathOnLogin: boolean;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: LOGIN_IS_LOADING });
@@ -135,6 +138,9 @@ const getAuthActions = ({
             });
             if (redirectToHomeOnLogin) {
                 dispatch({ type: NAVIGATE_TO_HOME });
+            }
+            if (redirectToChooseAPathOnLogin) {
+                dispatch({ type: NAVIGATE_TO_CHOOSE_A_PATH });
             }
             dispatch({ type: LOGIN_IS_LOADED });
         } catch (err) {

@@ -58,6 +58,7 @@ export const NAVIGATE_TO_VERIFY_EMAIL = 'NAVIGATE_TO_VERIFY_EMAIL';
 export const NAVIGATE_TO_CHOOSE_PASSWORD = 'NAVIGATE_TO_CHOOSE_PASSWORD';
 export const NAVIGATE_TO_COMPLETED_REGISTRATION = 'NAVIGATE_TO_COMPLETED_REGISTRATION';
 export const NAVIGATE_TO_CHOOSE_A_PROFILE_PICTURE = 'NAVIGATE_TO_CHOOSE_A_PROFILE_PICTURE';
+export const NAVIGATE_TO_CHOOSE_A_PATH = 'NAVIGATE_TO_CHOOSE_A_PATH';
 
 export interface NavigateToHomeAction {
     type: typeof NAVIGATE_TO_HOME;
@@ -130,6 +131,10 @@ export interface NavigateToChooseAProfilePictureAction {
     type: typeof NAVIGATE_TO_CHOOSE_A_PROFILE_PICTURE;
 }
 
+export interface NavigateToChooseAPathAction {
+    type: typeof NAVIGATE_TO_CHOOSE_A_PATH;
+}
+
 export type NavigationActionTypes =
     | NavigateToHomeAction
     | NavigateToVerifyEmailAction
@@ -147,7 +152,8 @@ export type NavigationActionTypes =
     | NavigateToSpecificChallengeStreakAction
     | NavigateToChoosePasswordAction
     | NavigateToCompletedRegistrationAction
-    | NavigateToChooseAProfilePictureAction;
+    | NavigateToChooseAProfilePictureAction
+    | NavigateToChooseAPathAction;
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 
