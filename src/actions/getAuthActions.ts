@@ -206,32 +206,23 @@ const getAuthActions = ({
         type: CLEAR_REGISTRATION_ERROR_MESSAGE,
     });
 
-    const updateUserPassword = ({
-        newPassword,
-        oldPassword,
-        isPartOfRegistration,
-    }: {
-        newPassword: string;
-        oldPassword: string;
-        isPartOfRegistration: boolean;
-    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
+    const updateUserPassword = ({ newPassword, oldPassword }: { newPassword: string; oldPassword: string }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
         try {
             dispatch({ type: CLEAR_UPDATE_PASSWORD_ERROR_MESSAGE });
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADING });
             const currentUser = await auth.currentAuthenticatedUser();
-            if (isPartOfRegistration) {
-                await authenticatedStreakoid.user.updateCurrentUser({ updateData: { userType: UserTypes.basic } });
-                const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
-                    ...getState().users.currentUser,
-                    userType: UserTypes.basic,
-                };
-                dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
-            }
             await auth.changePassword(currentUser, oldPassword, newPassword);
+            await authenticatedStreakoid.user.updateCurrentUser({ updateData: { userType: UserTypes.basic } });
+            const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
+                ...getState().users.currentUser,
+                userType: UserTypes.basic,
+            };
+            dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADED });
-            if (isPartOfRegistration) {
-                dispatch({ type: NAVIGATE_TO_COMPLETED_REGISTRATION });
-            }
+            dispatch({ type: NAVIGATE_TO_COMPLETED_REGISTRATION });
         } catch (err) {
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADED });
             if (err.response) {
