@@ -73,22 +73,20 @@ const profilePictureActions = ({
         }
     };
 
-    const mobileUploadProfileImage = ({
-        uploadProfilePictureFunction,
-    }: {
-        uploadProfilePictureFunction: () => Promise<void>;
-    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
+    const mobileUploadProfileImage = ({ profileImages }: { profileImages: ProfileImages }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
         try {
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADING });
-            const result = await uploadProfilePictureFunction();
-            console.log('result', result);
+
             await streakoid.user.updateCurrentUser({ updateData: { hasProfileImageBeenCustomized: true } });
             const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                 ...getState().users.currentUser,
                 hasProfileImageBeenCustomized: true,
             };
             dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
-            dispatch({ type: UPLOAD_PROFILE_IMAGE });
+            dispatch({ type: UPLOAD_PROFILE_IMAGE, payload: profileImages });
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADED });
         } catch (error) {
             if (error.response && error.response.status === 401) {
