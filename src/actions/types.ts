@@ -1634,7 +1634,7 @@ export interface ClearSendCancelMembershipEmailMessagesAction {
 
 export interface UploadProfileImageAction {
     type: typeof UPLOAD_PROFILE_IMAGE;
-    payload: ProfileImages;
+    payload?: ProfileImages;
 }
 
 export interface UploadProfileImageFailAction {

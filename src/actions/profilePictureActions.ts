@@ -80,19 +80,22 @@ const profilePictureActions = ({
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADING });
-            await uploadProfilePictureFunction();
+            const result = await uploadProfilePictureFunction();
+            console.log('result', result);
             await streakoid.user.updateCurrentUser({ updateData: { hasProfileImageBeenCustomized: true } });
             const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                 ...getState().users.currentUser,
                 hasProfileImageBeenCustomized: true,
             };
             dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
+            dispatch({ type: UPLOAD_PROFILE_IMAGE });
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADED });
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 dispatch({ type: NAVIGATE_TO_LOGIN });
                 dispatch({ type: SESSION_EXPIRED });
             }
+
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADED });
             if (error.response) {
                 dispatch({ type: UPLOAD_PROFILE_IMAGE_FAIL, payload: error.response.data.message });
