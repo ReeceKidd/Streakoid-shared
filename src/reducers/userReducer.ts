@@ -189,7 +189,6 @@ const initialState: UserReducerInitialState = {
         _id: '',
         email: '',
         username: '',
-        cognitoUsername: '',
         hasUsernameBeenCustomized: false,
         temporaryPassword: '',
         membershipInformation: {
@@ -225,13 +224,15 @@ const initialState: UserReducerInitialState = {
             },
             customStreakReminders: [],
         },
-        hasCompletedTutorial: true,
         onboarding: {
             whyDoYouWantToBuildNewHabitsChoice: WhyDoYouWantToBuildNewHabitsTypes.education,
         },
-        hasProfileImageBeenCustomized: true,
+        hasCompletedTutorial: true,
         hasCompletedOnboarding: true,
+        hasProfileImageBeenCustomized: true,
         hasCompletedIntroduction: true,
+        hasCustomPassword: false,
+        hasVerifiedEmail: false,
         createdAt: '',
         updatedAt: '',
         activityFeed: {
