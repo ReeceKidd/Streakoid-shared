@@ -48,6 +48,7 @@ import {
     UPDATE_CURRENT_USER,
     NAVIGATE_TO_CHOOSE_A_PROFILE_PICTURE,
     CLEAR_UPDATE_USERNAME_ATTRIBUTE_ERROR_MESSAGE,
+    NAVIGATE_TO_VERIFY_EMAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
@@ -298,15 +299,15 @@ const getAuthActions = ({
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING });
             const currentUser = await auth.currentAuthenticatedUser();
             await auth.updateUserAttributes(currentUser, { email });
-            if (email !== getState().users.currentUser.email) {
-                await authenticatedStreakoid.user.updateCurrentUser({ updateData: { email } });
-                const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
-                    ...getState().users.currentUser,
-                    email,
-                };
-                dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
-            }
+
+            await authenticatedStreakoid.user.updateCurrentUser({ updateData: { email } });
+            const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
+                ...getState().users.currentUser,
+                email,
+            };
+            dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED });
+            dispatch({ type: NAVIGATE_TO_VERIFY_EMAIL });
         } catch (err) {
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED });
             if (err.response) {
