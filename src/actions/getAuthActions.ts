@@ -299,12 +299,14 @@ const getAuthActions = ({
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADING });
             const currentUser = await auth.currentAuthenticatedUser();
             await auth.updateUserAttributes(currentUser, { email });
-            await authenticatedStreakoid.user.updateCurrentUser({ updateData: { email } });
-            const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
-                ...getState().users.currentUser,
-                email,
-            };
-            dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
+            if (email !== getState().users.currentUser.email) {
+                await authenticatedStreakoid.user.updateCurrentUser({ updateData: { email } });
+                const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
+                    ...getState().users.currentUser,
+                    email,
+                };
+                dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
+            }
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED });
             dispatch({ type: NAVIGATE_TO_VERIFY_EMAIL });
         } catch (err) {
