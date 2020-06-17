@@ -21,7 +21,6 @@ import {
     ARCHIVE_TEAM_STREAK_FAIL,
     CLEAR_ARCHIVE_TEAM_STREAK_ERROR_MESSAGE,
     NAVIGATE_TO_SPECIFIC_TEAM_STREAK,
-    NAVIGATE_TO_TEAM_STREAKS,
     GET_ARCHIVED_TEAM_STREAKS_IS_LOADING,
     GET_ARCHIVED_TEAM_STREAKS_FAIL,
     GET_ARCHIVED_TEAM_STREAKS,
@@ -322,7 +321,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             };
             dispatch({ type: CREATE_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: CREATE_TEAM_STREAK_IS_LOADED });
-            dispatch({ type: NAVIGATE_TO_TEAM_STREAKS });
         } catch (err) {
             dispatch({ type: CREATE_TEAM_STREAK_IS_LOADED });
             if (err.response) {
@@ -410,7 +408,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             };
             dispatch({ type: ARCHIVE_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: ARCHIVE_TEAM_STREAK_IS_LOADED });
-            dispatch({ type: NAVIGATE_TO_TEAM_STREAKS });
         } catch (err) {
             dispatch({ type: ARCHIVE_TEAM_STREAK_IS_LOADED });
             if (err.response) {
@@ -466,7 +463,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             };
             dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK_LOADED });
-            dispatch({ type: NAVIGATE_TO_TEAM_STREAKS });
         } catch (err) {
             dispatch({ type: RESTORE_ARCHIVED_TEAM_STREAK_LOADED });
             if (err.response) {
@@ -492,7 +488,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             });
             dispatch({ type: DELETE_ARCHIVED_TEAM_STREAK, payload: teamStreakId });
             dispatch({ type: DELETE_ARCHIVED_TEAM_STREAK_LOADED });
-            dispatch({ type: NAVIGATE_TO_TEAM_STREAKS });
         } catch (err) {
             dispatch({ type: DELETE_ARCHIVED_TEAM_STREAK_LOADED });
             if (err.response) {

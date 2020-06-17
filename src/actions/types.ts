@@ -44,10 +44,8 @@ import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/Popu
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_LOGIN = 'NAVIGATE_TO_LOGIN';
 export const NAVIGATE_TO_UPDATE_PASSWORD = 'NAVIGATE_TO_UPDATE_PASSWORD';
-export const NAVIGATE_TO_SOLO_STREAKS = 'NAVIGATE_TO_SOLO_STREAKS';
 export const NAVIGATE_TO_SPECIFIC_SOLO_STREAK = 'NAVIGATE_TO_SPECIFIC_SOLO_STREAK';
 export const NAVIGATE_TO_THANK_YOU = 'NAVIGATE_TO_THANK_YOU';
-export const NAVIGATE_TO_TEAM_STREAKS = 'NAVIGATE_TO_TEAM_STREAKS';
 export const NAVIGATE_TO_SPECIFIC_TEAM_STREAK = 'NAVIGATE_TO_SPECIFIC_TEAM_STREAK';
 export const NAVIGATE_TO_CHALLENGE_STREAKS = 'NAVIGATE_TO_CHALLENGE_STREAKS';
 export const NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK = 'NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK';
@@ -75,10 +73,6 @@ export interface NavigateToUpdatePasswordAction {
     type: typeof NAVIGATE_TO_UPDATE_PASSWORD;
 }
 
-export interface NavigateToSoloStreaksAction {
-    type: typeof NAVIGATE_TO_SOLO_STREAKS;
-}
-
 export interface NavigateToSpecificSoloStreakAction {
     type: typeof NAVIGATE_TO_SPECIFIC_SOLO_STREAK;
     payload: string;
@@ -86,10 +80,6 @@ export interface NavigateToSpecificSoloStreakAction {
 
 export interface NavigateToThankYouAction {
     type: typeof NAVIGATE_TO_THANK_YOU;
-}
-
-export interface NavigateToTeamStreakAction {
-    type: typeof NAVIGATE_TO_TEAM_STREAKS;
 }
 
 export interface NavigateToSpecificTeamStreakAction {
@@ -135,11 +125,9 @@ export type NavigationActionTypes =
     | NavigateToVerifyEmailAction
     | NavigateToLoginAction
     | NavigateToUpdatePasswordAction
-    | NavigateToSoloStreaksAction
     | NavigateToSpecificSoloStreakAction
     | NavigateToWelcomeAction
     | NavigateToThankYouAction
-    | NavigateToTeamStreakAction
     | NavigateToSpecificTeamStreakAction
     | NavigateToPaymentAction
     | NavigateToStreakLimitReachedAction
