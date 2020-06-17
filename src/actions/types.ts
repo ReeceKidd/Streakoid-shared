@@ -165,11 +165,6 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const SESSION_EXPIRED = 'SESSION_EXPIRED';
 export const CLEAR_REGISTRATION_ERROR_MESSAGE = 'CLEAR_REGISTRATION_ERROR_MESSAGE';
 
-export const RESEND_CODE_SUCCESS = 'RESEND_CODE_SUCCESS';
-export const RESEND_CODE_FAIL = 'RESEND_CODE_FAIL';
-export const CLEAR_RESEND_CODE_SUCCESS_MESSAGE = 'CLEAR_RESEND_CODE_SUCCESS_MESSAGE';
-export const CLEAR_RESEND_CODE_ERROR_MESSAGE = 'CLEAR_RESEND_CODE_ERROR_MESSAGE';
-
 export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
 export const FORGOT_PASSWORD_FAIL = 'FORGOT_PASSWORD_FAIL';
 export const CLEAR_FORGOT_PASSWORD_ERROR_MESSAGE = 'CLEAR_FORGOT_PASSWORD_ERROR_MESSAGE';
@@ -254,24 +249,6 @@ export interface VerifyEmailFailAction {
 
 export interface ClearVerifyEmailErrorMessageAction {
     type: typeof CLEAR_VERIFY_EMAIL_ERROR_MESSAGE;
-}
-
-export interface ResendCodeSuccessAction {
-    type: typeof RESEND_CODE_SUCCESS;
-    successMessage: string;
-}
-
-export interface ResendCodeFailAction {
-    type: typeof RESEND_CODE_FAIL;
-    errorMessage: string;
-}
-
-export interface ClearResendCodeSuccessMessage {
-    type: typeof CLEAR_RESEND_CODE_SUCCESS_MESSAGE;
-}
-
-export interface ClearResendCodeErrorMessage {
-    type: typeof CLEAR_RESEND_CODE_ERROR_MESSAGE;
 }
 
 export interface ForgotPasswordSuccessAction {
@@ -409,10 +386,6 @@ export type AuthActionTypes =
     | ClearRegistrationErrorMessageAction
     | VerifyEmailFailAction
     | ClearVerifyEmailErrorMessageAction
-    | ResendCodeSuccessAction
-    | ResendCodeFailAction
-    | ClearResendCodeSuccessMessage
-    | ClearResendCodeErrorMessage
     | ForgotPasswordSuccessAction
     | ForgotPasswordFailAction
     | ClearForgotPasswordErrorMessage

@@ -13,10 +13,6 @@ import {
     VERIFY_EMAIL_IS_LOADING,
     VERIFY_EMAIL_IS_LOADED,
     VERIFY_EMAIL_FAIL,
-    RESEND_CODE_SUCCESS,
-    RESEND_CODE_FAIL,
-    CLEAR_RESEND_CODE_ERROR_MESSAGE,
-    CLEAR_RESEND_CODE_SUCCESS_MESSAGE,
     CLEAR_VERIFY_EMAIL_ERROR_MESSAGE,
     FORGOT_PASSWORD_SUCCESS,
     FORGOT_PASSWORD_FAIL,
@@ -357,34 +353,6 @@ const getAuthActions = ({
         type: CLEAR_VERIFY_EMAIL_ERROR_MESSAGE,
     });
 
-    const resendCode = ({ email }: { email: string }) => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
-        try {
-            const { username } = getState().users.currentUser;
-            const successMessage = `Code was resent to: ${email}`;
-            if (username) {
-                await auth.resendSignUp(username);
-                dispatch({ type: RESEND_CODE_SUCCESS, successMessage });
-            }
-        } catch (err) {
-            if (err.response) {
-                dispatch({ type: RESEND_CODE_FAIL, errorMessage: err.response.data.message });
-            } else {
-                dispatch({ type: RESEND_CODE_FAIL, errorMessage: err.message });
-            }
-        }
-    };
-
-    const clearResendCodeSuccessMessage = (): AppActions => ({
-        type: CLEAR_RESEND_CODE_SUCCESS_MESSAGE,
-    });
-
-    const clearResendCodeErrorMessage = (): AppActions => ({
-        type: CLEAR_RESEND_CODE_ERROR_MESSAGE,
-    });
-
     const forgotPassword = (emailOrUsername: string) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: FORGOT_PASSWORD_IS_LOADING });
@@ -453,9 +421,6 @@ const getAuthActions = ({
         clearUpdateUserEmailAttribueErrorMessage,
         verifyEmail,
         clearVerifyUserErrorMessage,
-        resendCode,
-        clearResendCodeSuccessMessage,
-        clearResendCodeErrorMessage,
         forgotPassword,
         clearForgotPasswordErrorMessage,
         updatePassword,
