@@ -227,7 +227,7 @@ const initialState: UserReducerInitialState = {
         onboarding: {
             whyDoYouWantToBuildNewHabitsChoice: WhyDoYouWantToBuildNewHabitsTypes.education,
         },
-        hasCompletedTutorial: true,
+        hasCompletedTutorial: false,
         hasCompletedOnboarding: true,
         hasProfileImageBeenCustomized: true,
         hasCompletedIntroduction: true,
