@@ -28,7 +28,6 @@ import {
     NAVIGATE_TO_HOME,
     NAVIGATE_TO_LOGIN,
     NAVIGATE_TO_UPDATE_PASSWORD,
-    NAVIGATE_TO_VERIFY_EMAIL,
     REFRESH_TOKEN,
     REFRESH_TOKEN_FAIL,
     REGISTER_WITH_IDENTIFIER_USER_IS_LOADING,
@@ -308,7 +307,6 @@ const getAuthActions = ({
                 dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
             }
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED });
-            dispatch({ type: NAVIGATE_TO_VERIFY_EMAIL });
         } catch (err) {
             dispatch({ type: UPDATE_USER_EMAIL_ATTRIBUTE_IS_LOADED });
             if (err.response) {
