@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from 'redux';
-import Amplify, { AuthClass } from 'aws-amplify';
 
 import {
     LOGIN_SUCCESS,
@@ -55,15 +54,7 @@ import CognitoPayload from '../cognitoPayload';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import { PopulatedCurrentUserWithClientData } from '../reducers/userReducer';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
-
-Amplify.configure({
-    Auth: {
-        mandatorySignIn: true,
-        region: 'eu-west-1',
-        userPoolId: 'eu-west-1_jzNG2ske9',
-        userPoolWebClientId: '68agp8bcm9bidhh4p97rj1ke1g',
-    },
-});
+import { AuthClass } from 'aws-amplify';
 
 const getAuthActions = ({
     unauthenticatedStreakoid,
