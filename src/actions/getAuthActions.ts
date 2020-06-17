@@ -211,10 +211,14 @@ const getAuthActions = ({
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADING });
             const currentUser = await auth.currentAuthenticatedUser();
             await auth.changePassword(currentUser, oldPassword, newPassword);
-            await authenticatedStreakoid.user.updateCurrentUser({ updateData: { userType: UserTypes.basic } });
+            const hasCustomPassword = true;
+            await authenticatedStreakoid.user.updateCurrentUser({
+                updateData: { userType: UserTypes.basic, hasCustomPassword },
+            });
             const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                 ...getState().users.currentUser,
                 userType: UserTypes.basic,
+                hasCustomPassword,
             };
             dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
             dispatch({ type: UPDATE_USER_PASSWORD_IS_LOADED });
@@ -331,11 +335,18 @@ const getAuthActions = ({
     }: {
         verificationCode: string;
         navigateToChoosePassword: boolean;
-    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: CLEAR_VERIFY_EMAIL_ERROR_MESSAGE });
             dispatch({ type: VERIFY_EMAIL_IS_LOADING });
             await auth.verifyCurrentUserAttributeSubmit('email', verificationCode);
+            const hasVerifiedEmail = true;
+            await authenticatedStreakoid.user.updateCurrentUser({ updateData: { hasVerifiedEmail } });
+            const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
+                ...getState().users.currentUser,
+                hasVerifiedEmail,
+            };
+            dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
             dispatch({ type: VERIFY_EMAIL_IS_LOADED });
             if (navigateToChoosePassword) {
                 dispatch({ type: NAVIGATE_TO_CHOOSE_PASSWORD });
