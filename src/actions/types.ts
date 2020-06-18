@@ -49,7 +49,6 @@ export const NAVIGATE_TO_SPECIFIC_SOLO_STREAK = 'NAVIGATE_TO_SPECIFIC_SOLO_STREA
 export const NAVIGATE_TO_THANK_YOU = 'NAVIGATE_TO_THANK_YOU';
 export const NAVIGATE_TO_TEAM_STREAKS = 'NAVIGATE_TO_TEAM_STREAKS';
 export const NAVIGATE_TO_SPECIFIC_TEAM_STREAK = 'NAVIGATE_TO_SPECIFIC_TEAM_STREAK';
-export const NAVIGATE_TO_CHALLENGE_STREAKS = 'NAVIGATE_TO_CHALLENGE_STREAKS';
 export const NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK = 'NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK';
 export const NAVIGATE_TO_PAYMENT = 'NAVIGATE_TO_PAYMENT';
 export const NAVIGATE_TO_STREAK_LIMIT_REACHED = 'NAVIGATE_TO_STREAK_LIMIT_REACHED';
@@ -109,10 +108,6 @@ export interface NavigateToStreakLimitReachedAction {
     type: typeof NAVIGATE_TO_STREAK_LIMIT_REACHED;
 }
 
-export interface NavigateToChallengeStreakAction {
-    type: typeof NAVIGATE_TO_CHALLENGE_STREAKS;
-}
-
 export interface NavigateToSpecificChallengeStreakAction {
     type: typeof NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK;
     payload: string;
@@ -143,7 +138,6 @@ export type NavigationActionTypes =
     | NavigateToSpecificTeamStreakAction
     | NavigateToPaymentAction
     | NavigateToStreakLimitReachedAction
-    | NavigateToChallengeStreakAction
     | NavigateToSpecificChallengeStreakAction
     | NavigateToChoosePasswordAction
     | NavigateToCompletedRegistrationAction
