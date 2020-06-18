@@ -53,6 +53,7 @@ const profilePictureActions = ({
             const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
                 ...getState().users.currentUser,
                 hasProfileImageBeenCustomized: true,
+                profileImages,
             };
             dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
             dispatch({ type: UPLOAD_PROFILE_IMAGE, payload: profileImages });
