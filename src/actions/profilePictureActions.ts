@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
     UPLOAD_PROFILE_IMAGE,
     UPLOAD_PROFILE_IMAGE_IS_LOADED,
@@ -26,8 +27,7 @@ const profilePictureActions = ({
     getIdToken: () => Promise<string | null>;
     streakoid: StreakoidSDK;
 }) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const uploadProfileImage = ({ formData }: { formData: any }) => async (
+    const webUploadProfileImage = ({ formData }: { formData: any }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
@@ -58,6 +58,8 @@ const profilePictureActions = ({
             dispatch({ type: UPLOAD_PROFILE_IMAGE, payload: profileImages });
             dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADED });
         } catch (error) {
+            console.log(error);
+            console.log(error);
             if (error.response && error.response.status === 401) {
                 dispatch({ type: NAVIGATE_TO_LOGIN });
                 dispatch({ type: SESSION_EXPIRED });
@@ -71,12 +73,49 @@ const profilePictureActions = ({
         }
     };
 
+    const mobileUploadProfileImage = ({ profileImages }: { profileImages: ProfileImages }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADING });
+
+            await streakoid.user.updateCurrentUser({ updateData: { hasProfileImageBeenCustomized: true } });
+            const populatedCurrentUserWithClientData: PopulatedCurrentUserWithClientData = {
+                ...getState().users.currentUser,
+                hasProfileImageBeenCustomized: true,
+            };
+            dispatch({ type: UPDATE_CURRENT_USER, payload: populatedCurrentUserWithClientData });
+            dispatch({ type: UPLOAD_PROFILE_IMAGE, payload: profileImages });
+            dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADED });
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                dispatch({ type: NAVIGATE_TO_LOGIN });
+                dispatch({ type: SESSION_EXPIRED });
+            }
+
+            dispatch({ type: UPLOAD_PROFILE_IMAGE_IS_LOADED });
+            if (error.response) {
+                dispatch({ type: UPLOAD_PROFILE_IMAGE_FAIL, payload: error.response.data.message });
+            } else {
+                dispatch({ type: UPLOAD_PROFILE_IMAGE_FAIL, payload: error.message });
+            }
+        }
+    };
+
+    const defineUploadProfileImageFailError = (error: string): AppActions => ({
+        type: UPLOAD_PROFILE_IMAGE_FAIL,
+        payload: error,
+    });
+
     const clearUploadProfileImageMessages = (): AppActions => ({
         type: CLEAR_UPLOAD_PROFILE_IMAGE_MESSAGES,
     });
 
     return {
-        uploadProfileImage,
+        webUploadProfileImage,
+        mobileUploadProfileImage,
+        defineUploadProfileImageFailError,
         clearUploadProfileImageMessages,
     };
 };

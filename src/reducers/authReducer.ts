@@ -5,10 +5,6 @@ import {
     SESSION_EXPIRED,
     CLEAR_LOG_IN_ERROR_MESSAGE,
     AuthActionTypes,
-    RESEND_CODE_SUCCESS,
-    RESEND_CODE_FAIL,
-    CLEAR_RESEND_CODE_SUCCESS_MESSAGE,
-    CLEAR_RESEND_CODE_ERROR_MESSAGE,
     VERIFY_EMAIL_FAIL,
     CLEAR_VERIFY_EMAIL_ERROR_MESSAGE,
     FORGOT_PASSWORD_SUCCESS,
@@ -171,30 +167,6 @@ const authReducer = (state: AuthState = initialState, action: AuthActionTypes): 
             return {
                 ...state,
                 verifyEmailErrorMessage: '',
-            };
-
-        case RESEND_CODE_SUCCESS:
-            return {
-                ...state,
-                resendCodeSuccessMessage: action.successMessage,
-            };
-
-        case CLEAR_RESEND_CODE_SUCCESS_MESSAGE:
-            return {
-                ...state,
-                resendCodeSuccessMessage: '',
-            };
-
-        case RESEND_CODE_FAIL:
-            return {
-                ...state,
-                resendCodeErrorMessage: action.errorMessage,
-            };
-
-        case CLEAR_RESEND_CODE_ERROR_MESSAGE:
-            return {
-                ...state,
-                resendCodeErrorMessage: '',
             };
 
         case FORGOT_PASSWORD_SUCCESS:

@@ -224,13 +224,15 @@ const initialState: UserReducerInitialState = {
             },
             customStreakReminders: [],
         },
-        hasCompletedTutorial: true,
         onboarding: {
             whyDoYouWantToBuildNewHabitsChoice: WhyDoYouWantToBuildNewHabitsTypes.education,
         },
-        hasProfileImageBeenCustomized: true,
+        hasCompletedTutorial: false,
         hasCompletedOnboarding: true,
+        hasProfileImageBeenCustomized: true,
         hasCompletedIntroduction: true,
+        hasCustomPassword: false,
+        hasVerifiedEmail: false,
         createdAt: '',
         updatedAt: '',
         activityFeed: {
@@ -458,13 +460,6 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
             return {
                 ...state,
                 uploadProfileImageSuccessMessage: 'Profile image updated successfully',
-                currentUser: {
-                    ...state.currentUser,
-                    profileImages: {
-                        ...state.currentUser.profileImages,
-                        originalImageUrl: action.payload.originalImageUrl,
-                    },
-                },
             };
 
         case UPLOAD_PROFILE_IMAGE_FAIL:

@@ -332,6 +332,8 @@ const userActions = (streakoid: StreakoidSDK) => {
             hasProfileImageBeenCustomized?: boolean;
             hasCompletedTutorial?: boolean;
             hasCompletedIntroduction?: boolean;
+            hasCustomPassword?: boolean;
+            hasVerifiedEmail?: boolean;
             onboarding?: Onboarding;
             hasCompletedOnboarding?: boolean;
             userType?: UserTypes;

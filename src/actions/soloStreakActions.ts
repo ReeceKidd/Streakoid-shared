@@ -47,7 +47,6 @@ import {
     DELETE_ARCHIVED_SOLO_STREAK_IS_LOADED,
     DELETE_ARCHIVED_SOLO_STREAK,
     DELETE_ARCHIVED_SOLO_STREAK_FAIL,
-    NAVIGATE_TO_SOLO_STREAKS,
     NAVIGATE_TO_SPECIFIC_SOLO_STREAK,
     CLEAR_SELECTED_SOLO_STREAK,
     COMPLETE_SELECTED_SOLO_STREAK_IS_LOADING,
@@ -203,7 +202,6 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
             });
             dispatch({ type: GET_SOLO_STREAK_IS_LOADED });
         } catch (err) {
-            dispatch({ type: NAVIGATE_TO_SOLO_STREAKS });
             dispatch({ type: GET_SOLO_STREAK_IS_LOADED });
             if (err.response) {
                 dispatch({ type: GET_SOLO_STREAK_FAIL, errorMessage: err.response.data.message });
@@ -241,7 +239,6 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
             };
             dispatch({ type: CREATE_SOLO_STREAK_IS_LOADED });
             dispatch({ type: CREATE_SOLO_STREAK, payload: soloStreakWithLoadingState });
-            dispatch({ type: NAVIGATE_TO_SOLO_STREAKS });
         } catch (err) {
             dispatch({ type: CREATE_SOLO_STREAK_IS_LOADED });
             if (err.response) {
@@ -311,7 +308,6 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
             };
             dispatch({ type: ARCHIVE_SOLO_STREAK, payload: soloStreakWithLoadingState });
             dispatch({ type: ARCHIVE_SOLO_STREAK_IS_LOADED });
-            dispatch({ type: NAVIGATE_TO_SOLO_STREAKS });
         } catch (err) {
             dispatch({ type: ARCHIVE_SOLO_STREAK_IS_LOADED });
             if (err.response) {
@@ -344,7 +340,6 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
             };
             dispatch({ type: RESTORE_ARCHIVED_SOLO_STREAK, payload: soloStreakWithLoadingState });
             dispatch({ type: RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADED });
-            dispatch({ type: NAVIGATE_TO_SOLO_STREAKS });
         } catch (err) {
             dispatch({ type: RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADED });
             if (err.response) {
@@ -367,7 +362,6 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
             await streakoid.soloStreaks.update({ soloStreakId, updateData: { status: StreakStatus.deleted } });
             dispatch({ type: DELETE_ARCHIVED_SOLO_STREAK, payload: soloStreakId });
             dispatch({ type: DELETE_ARCHIVED_SOLO_STREAK_IS_LOADED });
-            dispatch({ type: NAVIGATE_TO_SOLO_STREAKS });
         } catch (err) {
             dispatch({ type: DELETE_ARCHIVED_SOLO_STREAK_IS_LOADED });
             if (err.response) {

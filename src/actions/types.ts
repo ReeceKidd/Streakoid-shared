@@ -44,10 +44,8 @@ import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/Popu
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_LOGIN = 'NAVIGATE_TO_LOGIN';
 export const NAVIGATE_TO_UPDATE_PASSWORD = 'NAVIGATE_TO_UPDATE_PASSWORD';
-export const NAVIGATE_TO_SOLO_STREAKS = 'NAVIGATE_TO_SOLO_STREAKS';
 export const NAVIGATE_TO_SPECIFIC_SOLO_STREAK = 'NAVIGATE_TO_SPECIFIC_SOLO_STREAK';
 export const NAVIGATE_TO_THANK_YOU = 'NAVIGATE_TO_THANK_YOU';
-export const NAVIGATE_TO_TEAM_STREAKS = 'NAVIGATE_TO_TEAM_STREAKS';
 export const NAVIGATE_TO_SPECIFIC_TEAM_STREAK = 'NAVIGATE_TO_SPECIFIC_TEAM_STREAK';
 export const NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK = 'NAVIGATE_TO_SPECIFIC_CHALLENGE_STREAK';
 export const NAVIGATE_TO_PAYMENT = 'NAVIGATE_TO_PAYMENT';
@@ -74,10 +72,6 @@ export interface NavigateToUpdatePasswordAction {
     type: typeof NAVIGATE_TO_UPDATE_PASSWORD;
 }
 
-export interface NavigateToSoloStreaksAction {
-    type: typeof NAVIGATE_TO_SOLO_STREAKS;
-}
-
 export interface NavigateToSpecificSoloStreakAction {
     type: typeof NAVIGATE_TO_SPECIFIC_SOLO_STREAK;
     payload: string;
@@ -85,10 +79,6 @@ export interface NavigateToSpecificSoloStreakAction {
 
 export interface NavigateToThankYouAction {
     type: typeof NAVIGATE_TO_THANK_YOU;
-}
-
-export interface NavigateToTeamStreakAction {
-    type: typeof NAVIGATE_TO_TEAM_STREAKS;
 }
 
 export interface NavigateToSpecificTeamStreakAction {
@@ -130,11 +120,9 @@ export type NavigationActionTypes =
     | NavigateToVerifyEmailAction
     | NavigateToLoginAction
     | NavigateToUpdatePasswordAction
-    | NavigateToSoloStreaksAction
     | NavigateToSpecificSoloStreakAction
     | NavigateToWelcomeAction
     | NavigateToThankYouAction
-    | NavigateToTeamStreakAction
     | NavigateToSpecificTeamStreakAction
     | NavigateToPaymentAction
     | NavigateToStreakLimitReachedAction
@@ -158,11 +146,6 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 
 export const SESSION_EXPIRED = 'SESSION_EXPIRED';
 export const CLEAR_REGISTRATION_ERROR_MESSAGE = 'CLEAR_REGISTRATION_ERROR_MESSAGE';
-
-export const RESEND_CODE_SUCCESS = 'RESEND_CODE_SUCCESS';
-export const RESEND_CODE_FAIL = 'RESEND_CODE_FAIL';
-export const CLEAR_RESEND_CODE_SUCCESS_MESSAGE = 'CLEAR_RESEND_CODE_SUCCESS_MESSAGE';
-export const CLEAR_RESEND_CODE_ERROR_MESSAGE = 'CLEAR_RESEND_CODE_ERROR_MESSAGE';
 
 export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
 export const FORGOT_PASSWORD_FAIL = 'FORGOT_PASSWORD_FAIL';
@@ -248,24 +231,6 @@ export interface VerifyEmailFailAction {
 
 export interface ClearVerifyEmailErrorMessageAction {
     type: typeof CLEAR_VERIFY_EMAIL_ERROR_MESSAGE;
-}
-
-export interface ResendCodeSuccessAction {
-    type: typeof RESEND_CODE_SUCCESS;
-    successMessage: string;
-}
-
-export interface ResendCodeFailAction {
-    type: typeof RESEND_CODE_FAIL;
-    errorMessage: string;
-}
-
-export interface ClearResendCodeSuccessMessage {
-    type: typeof CLEAR_RESEND_CODE_SUCCESS_MESSAGE;
-}
-
-export interface ClearResendCodeErrorMessage {
-    type: typeof CLEAR_RESEND_CODE_ERROR_MESSAGE;
 }
 
 export interface ForgotPasswordSuccessAction {
@@ -403,10 +368,6 @@ export type AuthActionTypes =
     | ClearRegistrationErrorMessageAction
     | VerifyEmailFailAction
     | ClearVerifyEmailErrorMessageAction
-    | ResendCodeSuccessAction
-    | ResendCodeFailAction
-    | ClearResendCodeSuccessMessage
-    | ClearResendCodeErrorMessage
     | ForgotPasswordSuccessAction
     | ForgotPasswordFailAction
     | ClearForgotPasswordErrorMessage
@@ -1628,7 +1589,7 @@ export interface ClearSendCancelMembershipEmailMessagesAction {
 
 export interface UploadProfileImageAction {
     type: typeof UPLOAD_PROFILE_IMAGE;
-    payload: ProfileImages;
+    payload?: ProfileImages;
 }
 
 export interface UploadProfileImageFailAction {
