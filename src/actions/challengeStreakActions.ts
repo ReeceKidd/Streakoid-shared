@@ -129,7 +129,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 status: StreakStatus.live,
                 completedToday: false,
             });
-            console.log('challengeStreaks', challengeStreaks);
+
             const challengeStreaksWithClientData = await Promise.all(
                 challengeStreaks.map(async challengeStreak => {
                     const challenge = await streakoid.challenges.getOne({
@@ -146,6 +146,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                     };
                 }),
             );
+            console.log('challengeStreaksWithClientData', challengeStreaksWithClientData);
             dispatch({
                 type: GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS,
                 payload: challengeStreaksWithClientData,

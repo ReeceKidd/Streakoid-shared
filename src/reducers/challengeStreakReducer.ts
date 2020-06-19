@@ -212,6 +212,7 @@ const challengeStreakReducer = (
             };
 
         case GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS:
+            console.log('Entered get live incomplete challenge streaks', action.payload);
             return {
                 ...state,
                 liveIncompleteChallengeStreaks: action.payload,
