@@ -54,7 +54,6 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
-import { sortTeamStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { PopulatedTeamMemberWithClientData, SelectedTeamStreak } from '../reducers/teamStreakReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
@@ -78,9 +77,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 memberId: userId,
                 status: StreakStatus.live,
             });
-            const sortedTeamStreaks = sortTeamStreaks(teamStreaks);
             const teamStreaksWithLoadingStates = await Promise.all(
-                sortedTeamStreaks.map(async teamStreak => {
+                teamStreaks.map(async teamStreak => {
                     const members = await Promise.all(
                         teamStreak.members.map(async member => {
                             const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
