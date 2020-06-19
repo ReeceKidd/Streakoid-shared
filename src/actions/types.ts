@@ -400,8 +400,13 @@ export type AuthActionTypes =
 
 export const GET_LIVE_SOLO_STREAKS = 'GET_LIVE_SOLO_STREAKS';
 export const GET_LIVE_SOLO_STREAKS_FAIL = 'GET_LIVE_SOLO_STREAKS_FAIL';
-export const GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING = 'GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING';
-export const GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED = 'GET_MULTIPLE_SOLO_STREAKS_IS_LOADED';
+export const GET_LIVE_SOLO_STREAKS_IS_LOADING = 'GET_LIVE_SOLO_STREAKS_IS_LOADING';
+export const GET_LIVE_SOLO_STREAKS_IS_LOADED = 'GET_LIVE_SOLO_STREAKS_IS_LOADED';
+
+export const GET_LIVE_INCOMPLETE_SOLO_STREAKS = 'GET_LIVE_INCOMPLETE_SOLO_STREAKS';
+export const GET_LIVE_INCOMPLETE_SOLO_STREAKS_FAIL = 'GET_LIVE_INCOMPLETE_SOLO_STREAKS_FAIL';
+export const GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADING = 'GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADING';
+export const GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADED = 'GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADED';
 
 export const GET_ARCHIVED_SOLO_STREAKS = 'GET_ARCHIVED_SOLO_STREAKS';
 export const GET_ARCHIVED_SOLO_STREAKS_FAIL = 'GET_ARCHIVED_SOLO_STREAKS_FAIL';
@@ -482,6 +487,32 @@ export interface GetLiveSoloStreaksAction {
 export interface GetLiveSoloStreaksFailAction {
     type: typeof GET_LIVE_SOLO_STREAKS_FAIL;
     errorMessage: string;
+}
+
+export interface GetLiveSoloStreaksIsLoadingAction {
+    type: typeof GET_LIVE_SOLO_STREAKS_IS_LOADING;
+}
+
+export interface GetLiveSoloStreaksIsLoadedAction {
+    type: typeof GET_LIVE_SOLO_STREAKS_IS_LOADED;
+}
+
+export interface GetLiveIncompleteSoloStreaksAction {
+    type: typeof GET_LIVE_INCOMPLETE_SOLO_STREAKS;
+    payload: SoloStreakListItem[];
+}
+
+export interface GetLiveIncompleteSoloStreaksFailAction {
+    type: typeof GET_LIVE_INCOMPLETE_SOLO_STREAKS_FAIL;
+    errorMessage: string;
+}
+
+export interface GetLiveIncompleteSoloStreaksIsLoadingAction {
+    type: typeof GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADING;
+}
+
+export interface GetLiveIncompleteSoloStreaksIsLoadedAction {
+    type: typeof GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADED;
 }
 
 export interface GetArchivedSoloStreaksAction {
@@ -615,14 +646,6 @@ export interface ClearDeleteArchivedSoloStreakErrorMessageAction {
     type: typeof CLEAR_DELETE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE;
 }
 
-export interface GetMultipleLiveSoloStreaksIsLoadingAction {
-    type: typeof GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING;
-}
-
-export interface GetMultipleLiveSoloStreaksIsLoadedAction {
-    type: typeof GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED;
-}
-
 export interface GetMultipleArchivedSoloStreaksIsLoadingAction {
     type: typeof GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING;
 }
@@ -749,6 +772,12 @@ export interface UpdateSoloStreakReminderInfoIsLoadedAction {
 export type SoloStreakActionTypes =
     | GetLiveSoloStreaksAction
     | GetLiveSoloStreaksFailAction
+    | GetLiveSoloStreaksIsLoadingAction
+    | GetLiveSoloStreaksIsLoadedAction
+    | GetLiveIncompleteSoloStreaksAction
+    | GetLiveIncompleteSoloStreaksFailAction
+    | GetLiveIncompleteSoloStreaksIsLoadingAction
+    | GetLiveIncompleteSoloStreaksIsLoadedAction
     | GetArchivedSoloStreaksAction
     | GetArchivedSoloStreaksFailAction
     | GetSoloStreakAction
@@ -776,8 +805,6 @@ export type SoloStreakActionTypes =
     | DeleteArchivedSoloStreakAction
     | DeleteArchivedSoloStreakFailAction
     | ClearDeleteArchivedSoloStreakErrorMessageAction
-    | GetMultipleLiveSoloStreaksIsLoadingAction
-    | GetMultipleLiveSoloStreaksIsLoadedAction
     | GetMultipleArchivedSoloStreaksIsLoadingAction
     | GetMultipleArchivedSoloStreaksIsLoadedAction
     | GetSoloStreakIsLoadingAction

@@ -16,8 +16,8 @@ import {
     CREATE_SOLO_STREAK_IS_LOADED,
     CREATE_SOLO_STREAK_ERROR,
     CLEAR_CREATE_SOLO_STREAK_ERROR,
-    GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING,
-    GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED,
+    GET_LIVE_SOLO_STREAKS_IS_LOADING,
+    GET_LIVE_SOLO_STREAKS_IS_LOADED,
     GET_SOLO_STREAK_IS_LOADING,
     GET_SOLO_STREAK_IS_LOADED,
     GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING,
@@ -61,6 +61,10 @@ import {
     UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED,
     UPDATE_SOLO_STREAK_REMINDER_INFO_FAIL,
     UPDATE_SOLO_STREAK_REMINDER_INFO,
+    GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADING,
+    GET_LIVE_INCOMPLETE_SOLO_STREAKS,
+    GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADED,
+    GET_LIVE_INCOMPLETE_SOLO_STREAKS_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -79,7 +83,7 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
         getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING });
+            dispatch({ type: GET_LIVE_SOLO_STREAKS_IS_LOADING });
             const userId = getState().users.currentUser._id;
             if (!userId) {
                 return;
@@ -99,13 +103,49 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                 };
             });
             dispatch({ type: GET_LIVE_SOLO_STREAKS, payload: soloStreaksWithLoadingStates });
-            dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED });
+            dispatch({ type: GET_LIVE_SOLO_STREAKS_IS_LOADED });
         } catch (err) {
-            dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED });
+            dispatch({ type: GET_LIVE_SOLO_STREAKS_IS_LOADED });
             if (err.response) {
                 dispatch({ type: GET_LIVE_SOLO_STREAKS_FAIL, errorMessage: err.response.data.message });
             } else {
                 dispatch({ type: GET_LIVE_SOLO_STREAKS_FAIL, errorMessage: err.message });
+            }
+        }
+    };
+
+    const getLiveIncompleteSoloStreaks = () => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADING });
+            const userId = getState().users.currentUser._id;
+            if (!userId) {
+                return;
+            }
+            const soloStreaks = await streakoid.soloStreaks.getAll({
+                userId,
+                status: StreakStatus.live,
+                completedToday: false,
+            });
+            const soloStreaksWithLoadingStates = soloStreaks.map(soloStreak => {
+                return {
+                    ...soloStreak,
+                    completeSoloStreakListTaskIsLoading: false,
+                    completeSoloStreakListTaskErrorMessage: '',
+                    incompleteSoloStreakListTaskIsLoading: false,
+                    incompleteSoloStreakListTaskErrorMessage: '',
+                };
+            });
+            dispatch({ type: GET_LIVE_INCOMPLETE_SOLO_STREAKS, payload: soloStreaksWithLoadingStates });
+            dispatch({ type: GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_LIVE_INCOMPLETE_SOLO_STREAKS_FAIL, errorMessage: err.response.data.message });
+            } else {
+                dispatch({ type: GET_LIVE_INCOMPLETE_SOLO_STREAKS_FAIL, errorMessage: err.message });
             }
         }
     };
@@ -549,6 +589,7 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
 
     return {
         getLiveSoloStreaks,
+        getLiveIncompleteSoloStreaks,
         getArchivedSoloStreaks,
         getSoloStreak,
         createSoloStreak,

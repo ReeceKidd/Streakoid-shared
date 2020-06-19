@@ -16,8 +16,8 @@ import {
     GET_ARCHIVED_SOLO_STREAKS,
     ARCHIVE_SOLO_STREAK,
     DELETE_ARCHIVED_SOLO_STREAK,
-    GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING,
-    GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED,
+    GET_LIVE_SOLO_STREAKS_IS_LOADING,
+    GET_LIVE_SOLO_STREAKS_IS_LOADED,
     GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING,
     GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED,
     GET_SOLO_STREAK_IS_LOADED,
@@ -56,6 +56,9 @@ import {
     UPDATE_SOLO_STREAK_REMINDER_INFO_FAIL,
     UPDATE_SOLO_STREAK_REMINDER_INFO_LOADING,
     UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED,
+    GET_LIVE_INCOMPLETE_SOLO_STREAKS,
+    GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADING,
+    GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -64,9 +67,11 @@ import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
 
 export interface SoloStreakReducerState {
     liveSoloStreaks: SoloStreakListItem[];
+    getLiveSoloStreaksIsLoading: boolean;
+    liveIncompleteSoloStreaks: SoloStreakListItem[];
+    getLiveIncompleteSoloStreaksIsLoading: boolean;
     selectedSoloStreak: SelectedSoloStreak;
     archivedSoloStreaks: ArchivedSoloStreakListItem[];
-    getMultipleLiveSoloStreaksIsLoading: boolean;
     getSoloStreakIsLoading: boolean;
     getMultipleArchivedSoloStreaksIsLoading: boolean;
     getArchivedSoloStreakIsLoading: boolean;
@@ -117,9 +122,11 @@ const defaultSelectedSoloStreak = {
 
 const initialState: SoloStreakReducerState = {
     liveSoloStreaks: [],
+    getLiveSoloStreaksIsLoading: false,
+    liveIncompleteSoloStreaks: [],
+    getLiveIncompleteSoloStreaksIsLoading: false,
     selectedSoloStreak: defaultSelectedSoloStreak,
     archivedSoloStreaks: [],
-    getMultipleLiveSoloStreaksIsLoading: false,
     getSoloStreakIsLoading: false,
     getMultipleArchivedSoloStreaksIsLoading: false,
     getArchivedSoloStreakIsLoading: false,
@@ -174,6 +181,36 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             return {
                 ...state,
                 liveSoloStreaks: action.payload,
+            };
+
+        case GET_LIVE_SOLO_STREAKS_IS_LOADING:
+            return {
+                ...state,
+                getLiveSoloStreaksIsLoading: true,
+            };
+
+        case GET_LIVE_SOLO_STREAKS_IS_LOADED:
+            return {
+                ...state,
+                getLiveSoloStreaksIsLoading: false,
+            };
+
+        case GET_LIVE_INCOMPLETE_SOLO_STREAKS:
+            return {
+                ...state,
+                liveIncompleteSoloStreaks: action.payload,
+            };
+
+        case GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADING:
+            return {
+                ...state,
+                getLiveIncompleteSoloStreaksIsLoading: true,
+            };
+
+        case GET_LIVE_INCOMPLETE_SOLO_STREAKS_IS_LOADED:
+            return {
+                ...state,
+                getLiveIncompleteSoloStreaksIsLoading: false,
             };
 
         case GET_SOLO_STREAK:
@@ -484,18 +521,6 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             return {
                 ...state,
                 deleteArchivedSoloStreakIsLoading: false,
-            };
-
-        case GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING:
-            return {
-                ...state,
-                getMultipleLiveSoloStreaksIsLoading: true,
-            };
-
-        case GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED:
-            return {
-                ...state,
-                getMultipleLiveSoloStreaksIsLoading: false,
             };
 
         case GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING:
