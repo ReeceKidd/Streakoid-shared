@@ -51,6 +51,9 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
+    GET_LIVE_INCOMPLETE_TEAM_STREAKS,
+    GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADING,
+    GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -94,10 +97,12 @@ interface SelectedTeamMemberStreak extends TeamMemberStreak {
 
 export interface TeamStreakReducerState {
     liveTeamStreaks: PopulatedTeamStreakWithClientData[];
+    getLiveTeamStreaksIsLoading: boolean;
+    liveIncompleteTeamStreaks: PopulatedTeamStreakWithClientData[];
+    getLiveIncompleteTeamStreaksIsLoading: boolean;
     archivedTeamStreaks: PopulatedTeamStreakWithClientData[];
     selectedTeamStreak: SelectedTeamStreak;
     getMultipleArchivedTeamStreaksIsLoading: boolean;
-    getMultipleLiveTeamStreaksIsLoading: boolean;
     getTeamStreakIsLoading: boolean;
     editTeamStreakIsLoading: boolean;
     editTeamStreakErrorMessage: string;
@@ -145,9 +150,11 @@ const defaultSelectedTeamStreak = {
 
 const initialState: TeamStreakReducerState = {
     liveTeamStreaks: [],
+    getLiveTeamStreaksIsLoading: false,
+    liveIncompleteTeamStreaks: [],
+    getLiveIncompleteTeamStreaksIsLoading: false,
     archivedTeamStreaks: [],
     selectedTeamStreak: defaultSelectedTeamStreak,
-    getMultipleLiveTeamStreaksIsLoading: false,
     getMultipleArchivedTeamStreaksIsLoading: false,
     getTeamStreakIsLoading: false,
     editTeamStreakIsLoading: false,
@@ -173,13 +180,31 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
         case GET_LIVE_TEAM_STREAKS_IS_LOADING:
             return {
                 ...state,
-                getMultipleLiveTeamStreaksIsLoading: true,
+                getLiveTeamStreaksIsLoading: true,
             };
 
         case GET_LIVE_TEAM_STREAKS_IS_LOADED:
             return {
                 ...state,
-                getMultipleLiveTeamStreaksIsLoading: false,
+                getLiveTeamStreaksIsLoading: false,
+            };
+
+        case GET_LIVE_INCOMPLETE_TEAM_STREAKS:
+            return {
+                ...state,
+                liveIncompleteTeamStreaks: action.payload,
+            };
+
+        case GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADING:
+            return {
+                ...state,
+                getLiveIncompleteTeamStreaksIsLoading: true,
+            };
+
+        case GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADED:
+            return {
+                ...state,
+                getLiveIncompleteTeamStreaksIsLoading: false,
             };
 
         case GET_ARCHIVED_TEAM_STREAKS:

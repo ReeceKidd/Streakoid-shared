@@ -53,6 +53,10 @@ import {
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO,
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING,
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_FAIL,
+    GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADING,
+    GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_FAIL,
+    GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADED,
+    GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS,
 } from './types';
 import { sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
@@ -107,6 +111,53 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_FAIL, payload: err.response.data.message });
             } else {
                 dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_FAIL, payload: err.message });
+            }
+        }
+    };
+
+    const getLiveIncompleteChallengeStreaks = () => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADING });
+            const currentUser = getState().users.currentUser;
+            const userId = currentUser._id;
+            if (!userId) {
+                return;
+            }
+            const challengeStreaks = await streakoid.challengeStreaks.getAll({
+                userId,
+                status: StreakStatus.live,
+                completedToday: false,
+            });
+            const challengeStreaksWithClientData = await Promise.all(
+                challengeStreaks.map(async challengeStreak => {
+                    const challenge = await streakoid.challenges.getOne({
+                        challengeId: challengeStreak.challengeId,
+                    });
+                    return {
+                        ...challengeStreak,
+                        challengeName: challenge.name,
+                        challengeDescription: challenge.description,
+                        completeChallengeStreakListTaskIsLoading: false,
+                        completeChallengeStreakListTaskErrorMessage: '',
+                        incompleteChallengeStreakListTaskIsLoading: false,
+                        incompleteChallengeStreakListTaskErrorMessage: '',
+                    };
+                }),
+            );
+            dispatch({
+                type: GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS,
+                payload: challengeStreaksWithClientData,
+            });
+            dispatch({ type: GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_FAIL, payload: err.message });
             }
         }
     };
@@ -556,6 +607,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
 
     return {
         getLiveChallengeStreaks,
+        getLiveIncompleteChallengeStreaks,
         getArchivedChallengeStreaks,
         getChallengeStreak,
         archiveChallengeStreak,

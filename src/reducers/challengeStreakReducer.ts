@@ -48,6 +48,10 @@ import {
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_FAIL,
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING,
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED,
+    GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS,
+    GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADING,
+    GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADED,
+    GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_FAIL,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomChallengeStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -56,8 +60,11 @@ import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/Challeng
 
 export interface ChallengeStreakReducerState {
     liveChallengeStreaks: ChallengeStreakListItem[];
-    getMultipleLiveChallengeStreaksIsLoading: boolean;
+    getLiveChallengeStreaksIsLoading: boolean;
     getLiveChallengeStreaksErrorMessage: string;
+    liveIncompleteChallengeStreaks: ChallengeStreakListItem[];
+    getLiveIncompleteChallengeStreaksIsLoading: boolean;
+    getLiveIncompleteChallengeStreaksErrorMessage: string;
     selectedChallengeStreak: SelectedChallengeStreak;
     getSelectedChallengeStreakIsLoading: boolean;
     getSelectedChallengeStreakErrorMessage: string;
@@ -115,8 +122,11 @@ const defaultSelectedChallengeStreak = {
 
 const initialState: ChallengeStreakReducerState = {
     liveChallengeStreaks: [],
-    getMultipleLiveChallengeStreaksIsLoading: false,
+    getLiveChallengeStreaksIsLoading: false,
     getLiveChallengeStreaksErrorMessage: '',
+    liveIncompleteChallengeStreaks: [],
+    getLiveIncompleteChallengeStreaksIsLoading: false,
+    getLiveIncompleteChallengeStreaksErrorMessage: '',
     selectedChallengeStreak: defaultSelectedChallengeStreak,
     getSelectedChallengeStreakIsLoading: false,
     getSelectedChallengeStreakErrorMessage: '',
@@ -186,19 +196,43 @@ const challengeStreakReducer = (
         case GET_LIVE_CHALLENGE_STREAKS_LOADING:
             return {
                 ...state,
-                getMultipleLiveChallengeStreaksIsLoading: true,
+                getLiveChallengeStreaksIsLoading: true,
             };
 
         case GET_LIVE_CHALLENGE_STREAKS_LOADED:
             return {
                 ...state,
-                getMultipleLiveChallengeStreaksIsLoading: false,
+                getLiveChallengeStreaksIsLoading: false,
             };
 
         case GET_LIVE_CHALLENGE_STREAKS_FAIL:
             return {
                 ...state,
                 getLiveChallengeStreaksErrorMessage: action.payload,
+            };
+
+        case GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS:
+            return {
+                ...state,
+                liveIncompleteChallengeStreaks: action.payload,
+            };
+
+        case GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADING:
+            return {
+                ...state,
+                getLiveIncompleteChallengeStreaksIsLoading: true,
+            };
+
+        case GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADED:
+            return {
+                ...state,
+                getLiveIncompleteChallengeStreaksIsLoading: false,
+            };
+
+        case GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_FAIL:
+            return {
+                ...state,
+                getLiveIncompleteChallengeStreaksErrorMessage: action.payload,
             };
 
         case GET_CHALLENGE_STREAK:

@@ -903,6 +903,11 @@ export const GET_LIVE_TEAM_STREAKS_FAIL = 'GET_LIVE_TEAM_STREAKS_FAIL';
 export const GET_LIVE_TEAM_STREAKS_IS_LOADING = 'GET_LIVE_TEAM_STREAKS_IS_LOADING';
 export const GET_LIVE_TEAM_STREAKS_IS_LOADED = 'GET_LIVE_TEAM_STREAKS_IS_LOADED';
 
+export const GET_LIVE_INCOMPLETE_TEAM_STREAKS = 'GET_LIVE_INCOMPLETE_TEAM_STREAKS';
+export const GET_LIVE_INCOMPLETE_TEAM_STREAKS_FAIL = 'GET_LIVE_INCOMPLETE_TEAM_STREAKS_FAIL';
+export const GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADING = 'GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADING';
+export const GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADED = 'GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADED';
+
 export const GET_ARCHIVED_TEAM_STREAKS = 'GET_ARCHIVED_TEAM_STREAKS';
 export const GET_ARCHIVED_TEAM_STREAKS_FAIL = 'GET_ARCHIVED_TEAM_STREAKS_FAIL';
 export const GET_ARCHIVED_TEAM_STREAKS_IS_LOADING = 'GET_ARCHIVED_TEAM_STREAKS_IS_LOADING';
@@ -996,6 +1001,24 @@ export interface GetLiveTeamStreaksIsLoadingAction {
 
 export interface GetLiveTeamStreaksIsLoadedAction {
     type: typeof GET_LIVE_TEAM_STREAKS_IS_LOADED;
+}
+
+export interface GetLiveIncompleteTeamStreaksAction {
+    type: typeof GET_LIVE_INCOMPLETE_TEAM_STREAKS;
+    payload: PopulatedTeamStreakWithClientData[];
+}
+
+export interface GetLiveIncompleteTeamStreaksFailAction {
+    type: typeof GET_LIVE_INCOMPLETE_TEAM_STREAKS_FAIL;
+    errorMessage: string;
+}
+
+export interface GetLiveIncompleteTeamStreaksIsLoadingAction {
+    type: typeof GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADING;
+}
+
+export interface GetLiveIncompleteTeamStreaksIsLoadedAction {
+    type: typeof GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADED;
 }
 
 export interface GetArchivedTeamStreaksAction {
@@ -1267,6 +1290,10 @@ export type TeamStreakActionTypes =
     | GetLiveTeamStreaksFailAction
     | GetLiveTeamStreaksIsLoadingAction
     | GetLiveTeamStreaksIsLoadedAction
+    | GetLiveIncompleteTeamStreaksAction
+    | GetLiveIncompleteTeamStreaksFailAction
+    | GetLiveIncompleteTeamStreaksIsLoadingAction
+    | GetLiveIncompleteTeamStreaksIsLoadedAction
     | GetArchivedTeamStreaksAction
     | GetArchivedTeamStreaksFailAction
     | GetArchivedTeamStreaksLoadingAction
@@ -1893,6 +1920,11 @@ export const GET_LIVE_CHALLENGE_STREAKS_FAIL = 'GET_LIVE_CHALLENGE_STREAKS_FAIL'
 export const GET_LIVE_CHALLENGE_STREAKS_LOADING = 'GET_LIVE_CHALLENGE_STREAKS_LOADING';
 export const GET_LIVE_CHALLENGE_STREAKS_LOADED = 'GET_LIVE_CHALLENGE_STREAKS_LOADED';
 
+export const GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS = 'GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS';
+export const GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_FAIL = 'GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_FAIL';
+export const GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADING = 'GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADING';
+export const GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADED = 'GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADED';
+
 export const GET_ARCHIVED_CHALLENGE_STREAKS = 'GET_ARCHIVED_CHALLENGE_STREAKS';
 export const GET_ARCHIVED_CHALLENGE_STREAKS_FAIL = 'GET_ARCHIVED_CHALLENGE_STREAKS_FAIL';
 export const GET_ARCHIVED_CHALLENGE_STREAKS_LOADING = 'GET_ARCHIVED_CHALLENGE_STREAKS_LOADING';
@@ -1971,6 +2003,24 @@ export interface GetLiveChallengeStreaksIsLoadingAction {
 
 export interface GetLiveChallengeStreaksIsLoadedAction {
     type: typeof GET_LIVE_CHALLENGE_STREAKS_LOADED;
+}
+
+export interface GetLiveIncompleteChallengeStreaksAction {
+    type: typeof GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS;
+    payload: ChallengeStreakListItem[];
+}
+
+export interface GetLiveIncompleteChallengeStreaksFailAction {
+    type: typeof GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_FAIL;
+    payload: string;
+}
+
+export interface GetLiveIncompleteChallengeStreaksIsLoadingAction {
+    type: typeof GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADING;
+}
+
+export interface GetLiveIncompleteChallengeStreaksIsLoadedAction {
+    type: typeof GET_LIVE_INCOMPLETE_CHALLENGE_STREAKS_LOADED;
 }
 
 export interface GetArchivedChallengeStreaksAction {
@@ -2202,6 +2252,10 @@ export type ChallengeStreakActionTypes =
     | GetLiveChallengeStreaksFailAction
     | GetLiveChallengeStreaksIsLoadingAction
     | GetLiveChallengeStreaksIsLoadedAction
+    | GetLiveIncompleteChallengeStreaksAction
+    | GetLiveIncompleteChallengeStreaksFailAction
+    | GetLiveIncompleteChallengeStreaksIsLoadingAction
+    | GetLiveIncompleteChallengeStreaksIsLoadedAction
     | GetArchivedChallengeStreaksAction
     | GetArchivedChallengeStreaksFailAction
     | GetArchivedChallengeStreaksIsLoadingAction

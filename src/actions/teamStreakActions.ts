@@ -47,6 +47,10 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO,
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
+    GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADING,
+    GET_LIVE_INCOMPLETE_TEAM_STREAKS,
+    GET_LIVE_INCOMPLETE_TEAM_STREAKS_FAIL,
+    GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -112,6 +116,62 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 dispatch({ type: GET_LIVE_TEAM_STREAKS_FAIL, errorMessage: err.response.data.message });
             } else {
                 dispatch({ type: GET_LIVE_TEAM_STREAKS_FAIL, errorMessage: err.message });
+            }
+        }
+    };
+
+    const getLiveIncompleteTeamStreaks = () => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADING });
+            const userId = getState().users.currentUser._id;
+            if (!userId) {
+                return;
+            }
+            const teamStreaks = await streakoid.teamStreaks.getAll({
+                memberId: userId,
+                status: StreakStatus.live,
+                completedToday: false,
+            });
+            const teamStreaksWithLoadingStates = await Promise.all(
+                teamStreaks.map(async teamStreak => {
+                    const members = await Promise.all(
+                        teamStreak.members.map(async member => {
+                            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                                userId: member._id,
+                                teamStreakId: teamStreak._id,
+                            });
+                            const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                            return {
+                                ...member,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completeTeamMemberStreakTaskIsLoading: false,
+                                    completeTeamMemberStreakTaskErrorMessage: '',
+                                    incompleteTeamMemberStreakTaskIsLoading: false,
+                                    incompleteTeamMemberStreakTaskErrorMessage: '',
+                                    longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                                    totalTimesTracked: totalTimesTracked.length,
+                                },
+                            };
+                        }),
+                    );
+                    return {
+                        ...teamStreak,
+                        members,
+                    };
+                }),
+            );
+            dispatch({ type: GET_LIVE_INCOMPLETE_TEAM_STREAKS, payload: teamStreaksWithLoadingStates });
+            dispatch({ type: GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADED });
+        } catch (err) {
+            dispatch({ type: GET_LIVE_INCOMPLETE_TEAM_STREAKS_IS_LOADED });
+            if (err.response) {
+                dispatch({ type: GET_LIVE_INCOMPLETE_TEAM_STREAKS_FAIL, errorMessage: err.response.data.message });
+            } else {
+                dispatch({ type: GET_LIVE_INCOMPLETE_TEAM_STREAKS_FAIL, errorMessage: err.message });
             }
         }
     };
@@ -662,6 +722,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
 
     return {
         getLiveTeamStreaks,
+        getLiveIncompleteTeamStreaks,
         getArchivedTeamStreaks,
         getSelectedTeamStreak,
         createTeamStreak,
