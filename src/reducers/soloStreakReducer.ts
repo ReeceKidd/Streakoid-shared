@@ -263,7 +263,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
                     return {
                         ...soloStreak,
-                        timezone: action.timezone,
+                        timezone: action.payload.timezone,
                     };
                 }),
             };
@@ -272,7 +272,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
-                    if (soloStreak._id === action.payload) {
+                    if (soloStreak._id === action.payload.soloStreakId) {
                         return {
                             ...soloStreak,
                             completedToday: true,
@@ -284,6 +284,9 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                     }
                     return soloStreak;
                 }),
+                liveIncompleteSoloStreaks: state.liveIncompleteSoloStreaks.filter(
+                    soloStreak => soloStreak._id === action.payload.soloStreakId,
+                ),
             };
 
         case CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_FAIL:
@@ -304,7 +307,17 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
-                    if (soloStreak._id === action.soloStreakId) {
+                    if (soloStreak._id === action.payload.soloStreakId) {
+                        const SoloStreakListItem: SoloStreakListItem = {
+                            ...soloStreak,
+                            completeSoloStreakListTaskIsLoading: true,
+                        };
+                        return SoloStreakListItem;
+                    }
+                    return soloStreak;
+                }),
+                liveIncompleteSoloStreaks: state.liveIncompleteSoloStreaks.map(soloStreak => {
+                    if (soloStreak._id === action.payload.soloStreakId) {
                         const SoloStreakListItem: SoloStreakListItem = {
                             ...soloStreak,
                             completeSoloStreakListTaskIsLoading: true,
@@ -319,7 +332,17 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
-                    if (soloStreak._id === action.soloStreakId) {
+                    if (soloStreak._id === action.payload.soloStreakId) {
+                        const SoloStreakListItem: SoloStreakListItem = {
+                            ...soloStreak,
+                            completeSoloStreakListTaskIsLoading: false,
+                        };
+                        return SoloStreakListItem;
+                    }
+                    return soloStreak;
+                }),
+                liveIncompleteSoloStreaks: state.liveIncompleteSoloStreaks.map(soloStreak => {
+                    if (soloStreak._id === action.payload.soloStreakId) {
                         const SoloStreakListItem: SoloStreakListItem = {
                             ...soloStreak,
                             completeSoloStreakListTaskIsLoading: false,
@@ -383,7 +406,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
-                    if (soloStreak._id === action.payload) {
+                    if (soloStreak._id === action.payload.soloStreakId) {
                         return {
                             ...soloStreak,
                             completedToday: false,
@@ -415,7 +438,17 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
-                    if (soloStreak._id === action.soloStreakId) {
+                    if (soloStreak._id === action.payload.soloStreakId) {
+                        const SoloStreakListItem: SoloStreakListItem = {
+                            ...soloStreak,
+                            incompleteSoloStreakListTaskIsLoading: true,
+                        };
+                        return SoloStreakListItem;
+                    }
+                    return soloStreak;
+                }),
+                liveIncompleteSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
+                    if (soloStreak._id === action.payload.soloStreakId) {
                         const SoloStreakListItem: SoloStreakListItem = {
                             ...soloStreak,
                             incompleteSoloStreakListTaskIsLoading: true,
@@ -430,7 +463,17 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
-                    if (soloStreak._id === action.soloStreakId) {
+                    if (soloStreak._id === action.payload.soloStreakId) {
+                        const SoloStreakListItem: SoloStreakListItem = {
+                            ...soloStreak,
+                            incompleteSoloStreakListTaskIsLoading: false,
+                        };
+                        return SoloStreakListItem;
+                    }
+                    return soloStreak;
+                }),
+                liveIncompleteSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
+                    if (soloStreak._id === action.payload.soloStreakId) {
                         const SoloStreakListItem: SoloStreakListItem = {
                             ...soloStreak,
                             incompleteSoloStreakListTaskIsLoading: false,

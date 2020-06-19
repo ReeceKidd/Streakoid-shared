@@ -556,7 +556,7 @@ export interface ClearEditSoloStreakErrorMessageAction {
 
 export interface CreateCompleteSoloStreakListTaskAction {
     type: typeof CREATE_COMPLETE_SOLO_STREAK_LIST_TASK;
-    payload: string;
+    payload: { soloStreakId: string };
 }
 
 export interface CreateCompleteSoloStreakListTaskFailAction {
@@ -566,17 +566,17 @@ export interface CreateCompleteSoloStreakListTaskFailAction {
 
 export interface CreateCompleteSoloStreakListTaskLoadingAction {
     type: typeof CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADING;
-    soloStreakId: string;
+    payload: { soloStreakId: string };
 }
 
 export interface CreateCompleteSoloStreakListTaskLoadedAction {
     type: typeof CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADED;
-    soloStreakId: string;
+    payload: { soloStreakId: string };
 }
 
 export interface IncompleteSoloStreakListTaskAction {
     type: typeof CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK;
-    payload: string;
+    payload: { soloStreakId: string };
 }
 
 export interface IncompleteSoloStreakListTaskFailAction {
@@ -586,22 +586,22 @@ export interface IncompleteSoloStreakListTaskFailAction {
 
 export interface IncompleteSoloStreakListTaskLoadingAction {
     type: typeof CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADING;
-    soloStreakId: string;
+    payload: { soloStreakId: string };
 }
 
 export interface IncompleteSoloStreakListTaskLoadedAction {
     type: typeof CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADED;
-    soloStreakId: string;
+    payload: { soloStreakId: string };
 }
 
 export interface UpdateSoloStreaksTimezonesAction {
     type: typeof UPDATE_SOLO_STREAK_TIMEZONES;
-    timezone: string;
+    payload: { timezone: string };
 }
 
 export interface UpdateSoloStreaksTimezonesFailAction {
     type: typeof UPDATE_SOLO_STREAK_TIMEZONES_FAIL;
-    errorMessage: string;
+    payload: { errorMessage: string };
 }
 
 export interface ArchiveSoloStreakAction {

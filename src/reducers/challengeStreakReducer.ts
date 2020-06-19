@@ -392,12 +392,24 @@ const challengeStreakReducer = (
                     }
                     return challengeStreak;
                 }),
+                liveIncompleteChallengeStreaks: state.liveChallengeStreaks.filter(
+                    challengeStreak => challengeStreak._id === action.payload,
+                ),
             };
 
         case COMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL:
             return {
                 ...state,
                 liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
+                    if (challengeStreak._id === action.payload.challengeStreakId) {
+                        return {
+                            ...challengeStreak,
+                            createcompleteChallengeStreakListTaskErrorMessage: action.payload.errorMessage,
+                        };
+                    }
+                    return challengeStreak;
+                }),
+                liveIncompleteChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
                     if (challengeStreak._id === action.payload.challengeStreakId) {
                         return {
                             ...challengeStreak,
@@ -421,6 +433,16 @@ const challengeStreakReducer = (
                     }
                     return challengeStreak;
                 }),
+                liveIncompleteChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
+                    if (challengeStreak._id === action.challengeStreakId) {
+                        const SelectedChallengeStreak = {
+                            ...challengeStreak,
+                            completeChallengeStreakListTaskIsLoading: true,
+                        };
+                        return SelectedChallengeStreak;
+                    }
+                    return challengeStreak;
+                }),
             };
 
         case COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED:
@@ -431,6 +453,16 @@ const challengeStreakReducer = (
                         const SelectedChallengeStreak = {
                             ...challengeStreak,
                             completeChallengeStreakListTaskIsLoading: false,
+                        };
+                        return SelectedChallengeStreak;
+                    }
+                    return challengeStreak;
+                }),
+                liveIncompleteChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
+                    if (challengeStreak._id === action.challengeStreakId) {
+                        const SelectedChallengeStreak = {
+                            ...challengeStreak,
+                            completeChallengeStreakListTaskIsLoading: true,
                         };
                         return SelectedChallengeStreak;
                     }

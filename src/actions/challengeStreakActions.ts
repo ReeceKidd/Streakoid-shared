@@ -492,6 +492,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 type: INCOMPLETE_CHALLENGE_STREAK_LIST_TASK,
                 payload: challengeStreakId,
             });
+            getLiveIncompleteChallengeStreaks();
             dispatch({ type: INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED, challengeStreakId });
         } catch (err) {
             dispatch({ type: INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED, challengeStreakId });

@@ -278,12 +278,52 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         members,
                     };
                 }),
+                liveIncompleteTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
+                    const members = teamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id == action.teamMemberStreakId) {
+                            const completedTeamMemberStreak = {
+                                ...member.teamMemberStreak,
+                                completedToday: true,
+                            };
+                            return {
+                                ...member,
+                                teamMemberStreak: completedTeamMemberStreak,
+                            };
+                        }
+                        return member;
+                    });
+
+                    return {
+                        ...teamStreak,
+                        members,
+                    };
+                }),
             };
 
         case COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL:
             return {
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
+                    const members = teamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id == action.payload.teamMemberStreakId) {
+                            const teamMemberStreak = {
+                                ...member.teamMemberStreak,
+                                completeTeamMemberStreakTaskErrorMessage: action.payload.errorMessage,
+                            };
+                            return {
+                                ...member,
+                                teamMemberStreak,
+                            };
+                        }
+                        return member;
+                    });
+
+                    return {
+                        ...teamStreak,
+                        members,
+                    };
+                }),
+                liveIncompleteTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
                         if (member.teamMemberStreak._id == action.payload.teamMemberStreakId) {
                             const teamMemberStreak = {
@@ -328,6 +368,26 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         members,
                     };
                 }),
+                liveIncompleteTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
+                    const members = teamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id == action.teamMemberStreakId) {
+                            const teamMemberStreak = {
+                                ...member.teamMemberStreak,
+                                completeTeamMemberStreakTaskIsLoading: true,
+                            };
+                            return {
+                                ...member,
+                                teamMemberStreak,
+                            };
+                        }
+                        return member;
+                    });
+
+                    return {
+                        ...teamStreak,
+                        members,
+                    };
+                }),
             };
 
         case COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED:
@@ -353,12 +413,52 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         members,
                     };
                 }),
+                liveIncompleteTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
+                    const members = teamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id == action.teamMemberStreakId) {
+                            const teamMemberStreak = {
+                                ...member.teamMemberStreak,
+                                completeTeamMemberStreakTaskIsLoading: false,
+                            };
+                            return {
+                                ...member,
+                                teamMemberStreak,
+                            };
+                        }
+                        return member;
+                    });
+
+                    return {
+                        ...teamStreak,
+                        members,
+                    };
+                }),
             };
 
         case COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK:
             return {
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
+                    const members = teamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
+                            const completedTeamMemberStreak = {
+                                ...member.teamMemberStreak,
+                                completedToday: true,
+                            };
+                            return {
+                                ...member,
+                                teamMemberStreak: completedTeamMemberStreak,
+                            };
+                        }
+                        return member;
+                    });
+
+                    return {
+                        ...teamStreak,
+                        members,
+                    };
+                }),
+                liveIncompleteTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
                         if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
                             const completedTeamMemberStreak = {
