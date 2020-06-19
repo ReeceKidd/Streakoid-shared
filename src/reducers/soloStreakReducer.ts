@@ -285,7 +285,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                     return soloStreak;
                 }),
                 liveIncompleteSoloStreaks: state.liveIncompleteSoloStreaks.filter(
-                    soloStreak => soloStreak._id === action.payload.soloStreakId,
+                    soloStreak => soloStreak._id !== action.payload.soloStreakId,
                 ),
             };
 

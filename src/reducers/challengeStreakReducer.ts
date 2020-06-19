@@ -393,7 +393,7 @@ const challengeStreakReducer = (
                     return challengeStreak;
                 }),
                 liveIncompleteChallengeStreaks: state.liveChallengeStreaks.filter(
-                    challengeStreak => challengeStreak._id === action.payload,
+                    challengeStreak => challengeStreak._id !== action.payload,
                 ),
             };
 
