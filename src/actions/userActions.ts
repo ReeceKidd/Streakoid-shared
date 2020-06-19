@@ -46,7 +46,6 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
-import { sortSoloStreaks, sortTeamStreaks, sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { FollowingWithClientData } from '../reducers/userReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
@@ -147,19 +146,16 @@ const userActions = (streakoid: StreakoidSDK) => {
                 userId: user._id,
                 status: StreakStatus.live,
             });
-            const sortedSoloStreaks = sortSoloStreaks(activeSoloStreaks);
             const activeTeamStreaks = await streakoid.teamStreaks.getAll({
                 memberId: user._id,
                 status: StreakStatus.live,
             });
-            const sortedTeamStreaks = await sortTeamStreaks(activeTeamStreaks);
             const activeChallengeStreaks = await streakoid.challengeStreaks.getAll({
                 userId: user._id,
                 status: StreakStatus.live,
             });
-            const sortedChallengeStreaks = sortChallengeStreaks(activeChallengeStreaks);
             const challengeStreaksWithClientData = await Promise.all(
-                sortedChallengeStreaks.map(async challengeStreak => {
+                activeChallengeStreaks.map(async challengeStreak => {
                     const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
                     return {
                         ...challengeStreak,
@@ -236,8 +232,8 @@ const userActions = (streakoid: StreakoidSDK) => {
             );
             const selectedUser = {
                 ...user,
-                soloStreaks: sortedSoloStreaks,
-                teamStreaks: sortedTeamStreaks,
+                soloStreaks: activeSoloStreaks,
+                teamStreaks: activeTeamStreaks,
                 challengeStreaks: challengeStreaksWithClientData,
                 userStreakCompleteInfo,
                 longestEverStreak,
