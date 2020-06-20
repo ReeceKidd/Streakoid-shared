@@ -54,7 +54,6 @@ import {
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING,
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_FAIL,
 } from './types';
-import { sortChallengeStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
@@ -79,9 +78,9 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 userId,
                 status: StreakStatus.live,
             });
-            const sortedChallengeStreaks = sortChallengeStreaks(challengeStreaks);
+
             const challengeStreaksWithClientData = await Promise.all(
-                sortedChallengeStreaks.map(async challengeStreak => {
+                challengeStreaks.map(async challengeStreak => {
                     const challenge = await streakoid.challenges.getOne({
                         challengeId: challengeStreak.challengeId,
                     });

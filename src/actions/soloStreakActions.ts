@@ -64,7 +64,6 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
-import { sortSoloStreaks } from '../helpers/sorters/sortStreaks';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
@@ -88,8 +87,7 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                 userId,
                 status: StreakStatus.live,
             });
-            const sortedSoloStreaks = sortSoloStreaks(soloStreaks);
-            const soloStreaksWithLoadingStates = sortedSoloStreaks.map(soloStreak => {
+            const soloStreaksWithLoadingStates = soloStreaks.map(soloStreak => {
                 return {
                     ...soloStreak,
                     completeSoloStreakListTaskIsLoading: false,
