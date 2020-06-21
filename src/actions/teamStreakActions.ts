@@ -47,6 +47,7 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO,
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
+    UPDATE_CURRENT_USER,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -102,6 +103,34 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                     };
                 }),
             );
+            // Add new team streaks to team streaks order - abstract as function.
+            const teamStreaksOrder = getState().users.currentUser.teamStreaksOrder;
+            if (teamStreaks.length !== teamStreaksOrder.length) {
+                teamStreaks.map(teamStreak => {
+                    const teamStreakExistsInTeamStreaksOrder = teamStreaksOrder.find(
+                        teamStreakId => teamStreakId === teamStreak._id,
+                    );
+                    if (!teamStreakExistsInTeamStreaksOrder) {
+                        teamStreaksOrder.push(teamStreak._id);
+                    }
+                });
+            }
+            // Remove old team streaks from team streaks order - abstract as function.
+            await streakoid.user.updateCurrentUser({
+                updateData: {
+                    teamStreaksOrder: teamStreaksOrder.filter(teamStreakId => {
+                        return teamStreaks.find(teamStreak => teamStreakId === teamStreak._id);
+                    }),
+                },
+            });
+            dispatch({
+                type: UPDATE_CURRENT_USER,
+                payload: {
+                    ...getState().users.currentUser,
+                    teamStreaksOrder,
+                },
+            });
+
             dispatch({ type: GET_LIVE_TEAM_STREAKS, payload: teamStreaksWithLoadingStates });
             dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADED });
         } catch (err) {

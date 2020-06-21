@@ -18,6 +18,7 @@ import {
     UPDATE_SELECTED_CHALLENGE_IS_LOADED,
     UPDATE_SELECTED_CHALLENGE_FAIL,
     UPDATE_SELECTED_CHALLENGE,
+    UPDATE_CURRENT_USER,
 } from './types';
 import { AppActions, AppState } from '..';
 import { ChallengeMemberWithClientData, SelectedChallenge } from '../reducers/challengesReducer';
@@ -211,6 +212,18 @@ const challengeActions = (streakoid: StreakoidSDK) => {
                 updateCustomChallengeStreakReminderPushNotificationIsLoading: false,
                 updateCustomChallengeStreakReminderPushNotificationErrorMessage: '',
             };
+            dispatch({ type: CREATE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
+            const challengeStreaksOrder = [...getState().users.currentUser.challengeStreaksOrder, challengeStreak._id];
+            await streakoid.user.updateCurrentUser({
+                updateData: { challengeStreaksOrder },
+            });
+            dispatch({
+                type: UPDATE_CURRENT_USER,
+                payload: {
+                    ...getState().users.currentUser,
+                    challengeStreaksOrder,
+                },
+            });
             dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADING });
             const sortedChallengeMembers = await getSortedChallengeMembers(challenge._id, challenge.members);
             const {
@@ -231,7 +244,7 @@ const challengeActions = (streakoid: StreakoidSDK) => {
                 payload: updatedSelectedChallenge,
             });
             dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADED });
-            dispatch({ type: CREATE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
+
             dispatch({ type: JOIN_CHALLENGE_LOADED });
         } catch (err) {
             dispatch({ type: JOIN_CHALLENGE_LOADED });
