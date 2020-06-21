@@ -72,6 +72,7 @@ import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFe
 import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import { SoloStreakListItem } from '../reducers/soloStreakReducer';
 
 const soloStreakActions = (streakoid: StreakoidSDK) => {
     const getLiveSoloStreaks = () => async (
@@ -97,7 +98,15 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                     incompleteSoloStreakListTaskErrorMessage: '',
                 };
             });
-            dispatch({ type: GET_LIVE_SOLO_STREAKS, payload: soloStreaksWithLoadingStates });
+            const soloStreaksInUserOrder = getState()
+                .users.currentUser.soloStreaksOrder.map(streakId =>
+                    soloStreaksWithLoadingStates.find(soloStreak => soloStreak._id === streakId),
+                )
+                .filter((streak): streak is SoloStreakListItem => streak !== undefined);
+            dispatch({
+                type: GET_LIVE_SOLO_STREAKS,
+                payload: soloStreaksInUserOrder,
+            });
             dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED });
         } catch (err) {
             dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED });
