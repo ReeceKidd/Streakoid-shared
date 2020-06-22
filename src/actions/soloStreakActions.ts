@@ -76,6 +76,7 @@ import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import arrayMove from 'array-move';
+import { SoloStreakListItem } from '../reducers/soloStreakReducer';
 
 const soloStreakActions = (streakoid: StreakoidSDK) => {
     const getLiveSoloStreaks = () => async (
@@ -92,18 +93,22 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                 userId,
                 status: StreakStatus.live,
             });
-            const soloStreaksWithLoadingStates = soloStreaks.map(soloStreak => {
+            const soloStreaksWithLoadingStates = soloStreaks.map((soloStreak, index) => {
                 return {
                     ...soloStreak,
                     completeSoloStreakListTaskIsLoading: false,
                     completeSoloStreakListTaskErrorMessage: '',
                     incompleteSoloStreakListTaskIsLoading: false,
                     incompleteSoloStreakListTaskErrorMessage: '',
+                    userDefinedIndex: soloStreak.userDefinedIndex || index,
                 };
+            });
+            const sortedSoloStreaksWithLoadingStates = soloStreaksWithLoadingStates.sort((soloStreakA, soloStreakB) => {
+                return soloStreakA.userDefinedIndex - soloStreakB.userDefinedIndex;
             });
             dispatch({
                 type: GET_LIVE_SOLO_STREAKS,
-                payload: soloStreaksWithLoadingStates,
+                payload: sortedSoloStreaksWithLoadingStates,
             });
             dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED });
         } catch (err) {
@@ -564,7 +569,19 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: REORDER_LIVE_SOLO_STREAKS_LOADING });
-            const reorderedLiveSoloStreaks = arrayMove(getState().soloStreaks.liveSoloStreaks, oldIndex, newIndex);
+            const reorderedLiveSoloStreaks: SoloStreakListItem[] = arrayMove(
+                getState().soloStreaks.liveSoloStreaks,
+                oldIndex,
+                newIndex,
+            );
+            await Promise.all(
+                reorderedLiveSoloStreaks.map(soloStreak => {
+                    return streakoid.soloStreaks.update({
+                        soloStreakId: soloStreak._id,
+                        updateData: { userDefinedIndex: soloStreak.userDefinedIndex },
+                    });
+                }),
+            );
             dispatch({ type: REORDER_LIVE_SOLO_STREAKS, payload: { liveSoloStreaks: reorderedLiveSoloStreaks } });
             dispatch({ type: REORDER_LIVE_SOLO_STREAKS_LOADED });
         } catch (err) {

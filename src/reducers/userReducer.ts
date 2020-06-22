@@ -60,7 +60,6 @@ import {
     UPDATE_PUSH_NOTIFICATIONS_IS_LOADED,
     CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
     CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE,
-    REORDER_SOLO_STREAKS_ORDER,
 } from '../actions/types';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import { ChallengeStreakListItem } from './challengeStreakReducer';
