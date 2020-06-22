@@ -43,6 +43,10 @@ import {
     UPDATE_PUSH_NOTIFICATIONS_FAIL,
     CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
     CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE,
+    REORDER_SOLO_STREAKS_ORDER_LOADING,
+    REORDER_SOLO_STREAKS_ORDER,
+    REORDER_SOLO_STREAKS_ORDER_LOADED,
+    REORDER_SOLO_STREAKS_ORDER_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -59,6 +63,7 @@ import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/li
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 import { Onboarding } from '@streakoid/streakoid-models/lib/Models/Onboarding';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
+import arrayMove from 'array-move';
 
 const userActions = (streakoid: StreakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
@@ -550,6 +555,37 @@ const userActions = (streakoid: StreakoidSDK) => {
         }
     };
 
+    const reorderSoloStreaksOrder = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: REORDER_SOLO_STREAKS_ORDER_LOADING });
+            const newSoloStreaksOrder = arrayMove(getState().users.currentUser.soloStreaksOrder, oldIndex, newIndex);
+            dispatch({ type: REORDER_SOLO_STREAKS_ORDER, payload: { soloStreaksOrder: newSoloStreaksOrder } });
+
+            await streakoid.user.updateCurrentUser({
+                updateData: {
+                    soloStreaksOrder: newSoloStreaksOrder,
+                },
+            });
+            dispatch({ type: REORDER_SOLO_STREAKS_ORDER_LOADED });
+        } catch (err) {
+            dispatch({ type: REORDER_SOLO_STREAKS_ORDER_LOADED });
+            if (err.response) {
+                dispatch({
+                    type: REORDER_SOLO_STREAKS_ORDER_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: REORDER_SOLO_STREAKS_ORDER_FAIL,
+                    payload: err.message,
+                });
+            }
+        }
+    };
+
     return {
         getUsers,
         getUser,
@@ -566,6 +602,7 @@ const userActions = (streakoid: StreakoidSDK) => {
         followSelectedUser,
         unfollowSelectedUser,
         updateCurrentUserPushNotifications,
+        reorderSoloStreaksOrder,
     };
 };
 

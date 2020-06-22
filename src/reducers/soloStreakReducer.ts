@@ -56,6 +56,7 @@ import {
     UPDATE_SOLO_STREAK_REMINDER_INFO_FAIL,
     UPDATE_SOLO_STREAK_REMINDER_INFO_LOADING,
     UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED,
+    REORDER_LIVE_SOLO_STREAKS,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -663,6 +664,13 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 ...state,
                 selectedSoloStreak: defaultSelectedSoloStreak,
             };
+
+        case REORDER_LIVE_SOLO_STREAKS: {
+            return {
+                ...state,
+                liveSoloStreaks: action.payload.liveSoloStreaks,
+            };
+        }
 
         default:
             return state;

@@ -62,6 +62,10 @@ import {
     UPDATE_SOLO_STREAK_REMINDER_INFO_FAIL,
     UPDATE_SOLO_STREAK_REMINDER_INFO,
     UPDATE_CURRENT_USER,
+    REORDER_LIVE_SOLO_STREAKS_LOADING,
+    REORDER_LIVE_SOLO_STREAKS,
+    REORDER_LIVE_SOLO_STREAKS_FAIL,
+    REORDER_LIVE_SOLO_STREAKS_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -73,6 +77,7 @@ import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { SoloStreakListItem } from '../reducers/soloStreakReducer';
+import arrayMove from 'array-move';
 
 const soloStreakActions = (streakoid: StreakoidSDK) => {
     const getLiveSoloStreaks = () => async (
@@ -609,6 +614,31 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_SELECTED_SOLO_STREAK,
     });
 
+    const reorderLiveSoloStreaks = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: REORDER_LIVE_SOLO_STREAKS_LOADING });
+            const reorderedLiveSoloStreaks = arrayMove(getState().soloStreaks.liveSoloStreaks, oldIndex, newIndex);
+            dispatch({ type: REORDER_LIVE_SOLO_STREAKS, payload: { liveSoloStreaks: reorderedLiveSoloStreaks } });
+            dispatch({ type: REORDER_LIVE_SOLO_STREAKS_LOADED });
+        } catch (err) {
+            dispatch({ type: REORDER_LIVE_SOLO_STREAKS_LOADED });
+            if (err.response) {
+                dispatch({
+                    type: REORDER_LIVE_SOLO_STREAKS_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: REORDER_LIVE_SOLO_STREAKS_FAIL,
+                    payload: err.message,
+                });
+            }
+        }
+    };
+
     return {
         getLiveSoloStreaks,
         getArchivedSoloStreaks,
@@ -628,6 +658,7 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
         completeSelectedSoloStreakTask,
         incompleteSelectedSoloStreakTask,
         updateCustomSoloStreakReminder,
+        reorderLiveSoloStreaks,
     };
 };
 

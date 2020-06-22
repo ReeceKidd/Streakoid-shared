@@ -474,6 +474,11 @@ export const UPDATE_SOLO_STREAK_REMINDER_INFO_FAIL = 'UPDATE_SOLO_STREAK_REMINDE
 export const UPDATE_SOLO_STREAK_REMINDER_INFO_LOADING = 'UPDATE_SOLO_STREAK_REMINDER_INFO_LOADING';
 export const UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED = 'UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED';
 
+export const REORDER_LIVE_SOLO_STREAKS = 'REORDER_LIVE_SOLO_STREAKS';
+export const REORDER_LIVE_SOLO_STREAKS_FAIL = 'REORDER_LIVE_SOLO_STREAKS_FAIL';
+export const REORDER_LIVE_SOLO_STREAKS_LOADING = 'REORDER_LIVE_SOLO_STREAKS_LOADING';
+export const REORDER_LIVE_SOLO_STREAKS_LOADED = 'REORDER_LIVE_SOLO_STREAKS_LOADED';
+
 export interface GetLiveSoloStreaksAction {
     type: typeof GET_LIVE_SOLO_STREAKS;
     payload: SoloStreakListItem[];
@@ -746,6 +751,24 @@ export interface UpdateSoloStreakReminderInfoIsLoadedAction {
     type: typeof UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED;
 }
 
+export interface ReorderLiveSoloStreaksAction {
+    type: typeof REORDER_LIVE_SOLO_STREAKS;
+    payload: { liveSoloStreaks: SoloStreakListItem[] };
+}
+
+export interface ReorderLiveSoloStreaksFailAction {
+    type: typeof REORDER_LIVE_SOLO_STREAKS_FAIL;
+    payload: string;
+}
+
+export interface ReorderLiveSoloStreaksIsLoadingAction {
+    type: typeof REORDER_LIVE_SOLO_STREAKS_LOADING;
+}
+
+export interface ReorderLiveSoloStreaksIsLoadedAction {
+    type: typeof REORDER_LIVE_SOLO_STREAKS_LOADED;
+}
+
 export type SoloStreakActionTypes =
     | GetLiveSoloStreaksAction
     | GetLiveSoloStreaksFailAction
@@ -806,7 +829,11 @@ export type SoloStreakActionTypes =
     | UpdateSoloStreakReminderInfoAction
     | UpdateSoloStreakReminderInfoFailAction
     | UpdateSoloStreakReminderInfoIsLoadingAction
-    | UpdateSoloStreakReminderInfoIsLoadedAction;
+    | UpdateSoloStreakReminderInfoIsLoadedAction
+    | ReorderLiveSoloStreaksAction
+    | ReorderLiveSoloStreaksFailAction
+    | ReorderLiveSoloStreaksIsLoadingAction
+    | ReorderLiveSoloStreaksIsLoadedAction;
 
 export const GET_STREAK_RECOMMENDATIONS = 'GET_STREAK_RECOMMENDATIONS';
 export const GET_STREAK_RECOMMENDATIONS_FAIL = 'GET_STREAK_RECOMMENDATIONS_FAIL';
@@ -1409,6 +1436,11 @@ export const UPDATE_PUSH_NOTIFICATIONS_IS_LOADING = 'UPDATE_PUSH_NOTIFICATIONS_I
 export const UPDATE_PUSH_NOTIFICATIONS_IS_LOADED = 'UPDATE_PUSH_NOTIFICATIONS_IS_LOADED';
 export const CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE = 'CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE';
 
+export const REORDER_SOLO_STREAKS_ORDER = 'REORDER_SOLO_STREAKS_ORDER';
+export const REORDER_SOLO_STREAKS_ORDER_FAIL = 'REORDER_SOLO_STREAKS_ORDER_FAIL';
+export const REORDER_SOLO_STREAKS_ORDER_LOADING = 'REORDER_SOLO_STREAKS_ORDER_LOADING';
+export const REORDER_SOLO_STREAKS_ORDER_LOADED = 'REORDER_SOLO_STREAKS_ORDER_LOADED';
+
 export interface GetUsersAction {
     type: typeof GET_USERS;
     payload: FormattedUserWithClientData[];
@@ -1694,6 +1726,24 @@ export interface ClearUpdatePushNotificationsErrorMessage {
     type: typeof CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE;
 }
 
+export interface ReorderSoloStreaksOrderAction {
+    type: typeof REORDER_SOLO_STREAKS_ORDER;
+    payload: { soloStreaksOrder: string[] };
+}
+
+export interface ReorderSoloStreaksOrderFailAction {
+    type: typeof REORDER_SOLO_STREAKS_ORDER_FAIL;
+    payload: string;
+}
+
+export interface ReorderSoloStreaksOrderIsLoadingAction {
+    type: typeof REORDER_SOLO_STREAKS_ORDER_LOADING;
+}
+
+export interface ReorderSoloStreaksOrderIsLoadedAction {
+    type: typeof REORDER_SOLO_STREAKS_ORDER_LOADED;
+}
+
 export type UserActionTypes =
     | GetUsersAction
     | GetUsersFailAction
@@ -1756,7 +1806,11 @@ export type UserActionTypes =
     | UpdatePushNotificationsFailAction
     | UpdatePushNotificationsIsLoadingAction
     | UpdatePushNotificationsIsLoadedAction
-    | ClearUpdatePushNotificationsErrorMessage;
+    | ClearUpdatePushNotificationsErrorMessage
+    | ReorderSoloStreaksOrderAction
+    | ReorderSoloStreaksOrderFailAction
+    | ReorderSoloStreaksOrderIsLoadingAction
+    | ReorderSoloStreaksOrderIsLoadedAction;
 
 export const GET_CHALLENGES = 'GET_CHALLENGES';
 export const GET_CHALLENGES_FAIL = 'GET_CHALLENGES_FAIL';
