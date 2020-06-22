@@ -574,6 +574,17 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                 oldIndex,
                 newIndex,
             );
+            dispatch({
+                type: REORDER_LIVE_SOLO_STREAKS,
+                payload: {
+                    liveSoloStreaks: reorderedLiveSoloStreaks.map((soloStreak, index) => {
+                        return {
+                            ...soloStreak,
+                            userDefinedIndex: index,
+                        };
+                    }),
+                },
+            });
             await Promise.all(
                 reorderedLiveSoloStreaks.map((soloStreak, index) => {
                     return streakoid.soloStreaks.update({
@@ -582,7 +593,6 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                     });
                 }),
             );
-            dispatch({ type: REORDER_LIVE_SOLO_STREAKS, payload: { liveSoloStreaks: reorderedLiveSoloStreaks } });
             dispatch({ type: REORDER_LIVE_SOLO_STREAKS_LOADED });
         } catch (err) {
             dispatch({ type: REORDER_LIVE_SOLO_STREAKS_LOADED });
