@@ -61,7 +61,6 @@ import {
     UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED,
     UPDATE_SOLO_STREAK_REMINDER_INFO_FAIL,
     UPDATE_SOLO_STREAK_REMINDER_INFO,
-    UPDATE_CURRENT_USER,
     REORDER_LIVE_SOLO_STREAKS_LOADING,
     REORDER_LIVE_SOLO_STREAKS,
     REORDER_LIVE_SOLO_STREAKS_FAIL,
@@ -76,7 +75,6 @@ import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFe
 import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
-import { SoloStreakListItem } from '../reducers/soloStreakReducer';
 import arrayMove from 'array-move';
 
 const soloStreakActions = (streakoid: StreakoidSDK) => {
@@ -231,6 +229,13 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: CREATE_SOLO_STREAK_IS_LOADING });
             dispatch({ type: CLEAR_CREATE_SOLO_STREAK_ERROR });
+            const userId = getState().users.currentUser._id;
+            const soloStreak = await streakoid.soloStreaks.create({
+                userId,
+                streakName,
+                streakDescription,
+                numberOfMinutes,
+            });
             const soloStreakWithLoadingState = {
                 ...soloStreak,
                 completeSoloStreakListTaskIsLoading: false,
