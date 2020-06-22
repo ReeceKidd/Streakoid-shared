@@ -575,10 +575,10 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                 newIndex,
             );
             await Promise.all(
-                reorderedLiveSoloStreaks.map(soloStreak => {
+                reorderedLiveSoloStreaks.map((soloStreak, index) => {
                     return streakoid.soloStreaks.update({
                         soloStreakId: soloStreak._id,
-                        updateData: { userDefinedIndex: soloStreak.userDefinedIndex },
+                        updateData: { userDefinedIndex: index },
                     });
                 }),
             );
