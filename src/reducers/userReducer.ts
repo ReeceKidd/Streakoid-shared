@@ -242,8 +242,6 @@ const initialState: UserReducerInitialState = {
         },
         updatePushNotificationsIsLoading: false,
         updatePushNotificationsErrorMessage: '',
-        soloStreaksOrder: [],
-        challengeStreaksOrder: [],
         teamStreaksOrder: [],
     },
     selectedUser: defaultSelectedUser,
@@ -853,15 +851,6 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 currentUser: {
                     ...state.currentUser,
                     updatePushNotificationsErrorMessage: '',
-                },
-            };
-
-        case REORDER_SOLO_STREAKS_ORDER:
-            return {
-                ...state,
-                currentUser: {
-                    ...state.currentUser,
-                    soloStreaksOrder: action.payload.soloStreaksOrder,
                 },
             };
 

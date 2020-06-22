@@ -103,14 +103,9 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                     incompleteSoloStreakListTaskErrorMessage: '',
                 };
             });
-            const soloStreaksInUserOrder = getState()
-                .users.currentUser.soloStreaksOrder.map(streakId =>
-                    soloStreaksWithLoadingStates.find(soloStreak => soloStreak._id === streakId),
-                )
-                .filter((streak): streak is SoloStreakListItem => streak !== undefined);
             dispatch({
                 type: GET_LIVE_SOLO_STREAKS,
-                payload: soloStreaksInUserOrder,
+                payload: soloStreaksWithLoadingStates,
             });
             dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED });
         } catch (err) {
@@ -236,24 +231,6 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: CREATE_SOLO_STREAK_IS_LOADING });
             dispatch({ type: CLEAR_CREATE_SOLO_STREAK_ERROR });
-            const userId = getState().users.currentUser._id;
-            const soloStreak = await streakoid.soloStreaks.create({
-                userId,
-                streakName,
-                streakDescription,
-                numberOfMinutes,
-            });
-            const soloStreaksOrder = [...getState().users.currentUser.soloStreaksOrder, soloStreak._id];
-            await streakoid.user.updateCurrentUser({
-                updateData: { soloStreaksOrder },
-            });
-            dispatch({
-                type: UPDATE_CURRENT_USER,
-                payload: {
-                    ...getState().users.currentUser,
-                    soloStreaksOrder,
-                },
-            });
             const soloStreakWithLoadingState = {
                 ...soloStreak,
                 completeSoloStreakListTaskIsLoading: false,
@@ -320,7 +297,6 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
 
     const archiveSoloStreak = ({ soloStreakId }: { soloStreakId: string }) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: ARCHIVE_SOLO_STREAK_IS_LOADING });
@@ -333,19 +309,6 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                 createSoloStreakTaskIsLoading: false,
                 createCompleteSoloStreakTaskErrorMessage: '',
             };
-            const soloStreaksOrder = getState().users.currentUser.soloStreaksOrder.filter(
-                soloStreakId => soloStreakId !== soloStreakId,
-            );
-            await streakoid.user.updateCurrentUser({
-                updateData: { soloStreaksOrder },
-            });
-            dispatch({
-                type: UPDATE_CURRENT_USER,
-                payload: {
-                    ...getState().users.currentUser,
-                    soloStreaksOrder,
-                },
-            });
 
             dispatch({ type: ARCHIVE_SOLO_STREAK, payload: soloStreakWithLoadingState });
             dispatch({ type: ARCHIVE_SOLO_STREAK_IS_LOADED });
@@ -365,7 +328,6 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
 
     const restoreArchivedSoloStreak = (soloStreakId: string) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADING });
@@ -381,17 +343,7 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                 incompleteSoloStreakListTaskErrorMessage: '',
             };
             dispatch({ type: RESTORE_ARCHIVED_SOLO_STREAK, payload: soloStreakWithLoadingState });
-            const soloStreaksOrder = [...getState().users.currentUser.soloStreaksOrder, updatedSoloStreak._id];
-            await streakoid.user.updateCurrentUser({
-                updateData: { soloStreaksOrder },
-            });
-            dispatch({
-                type: UPDATE_CURRENT_USER,
-                payload: {
-                    ...getState().users.currentUser,
-                    soloStreaksOrder,
-                },
-            });
+
             dispatch({ type: RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADED });
         } catch (err) {
             dispatch({ type: RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADED });
@@ -409,24 +361,11 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
 
     const deleteArchivedSoloStreak = ({ soloStreakId }: { soloStreakId: string }) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: DELETE_ARCHIVED_SOLO_STREAK_IS_LOADING });
             await streakoid.soloStreaks.update({ soloStreakId, updateData: { status: StreakStatus.deleted } });
-            const soloStreaksOrder = getState().users.currentUser.soloStreaksOrder.filter(
-                soloStreakId => soloStreakId !== soloStreakId,
-            );
-            await streakoid.user.updateCurrentUser({
-                updateData: { soloStreaksOrder },
-            });
-            dispatch({
-                type: UPDATE_CURRENT_USER,
-                payload: {
-                    ...getState().users.currentUser,
-                    soloStreaksOrder,
-                },
-            });
+
             dispatch({ type: DELETE_ARCHIVED_SOLO_STREAK, payload: soloStreakId });
             dispatch({ type: DELETE_ARCHIVED_SOLO_STREAK_IS_LOADED });
         } catch (err) {

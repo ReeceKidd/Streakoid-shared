@@ -1436,11 +1436,6 @@ export const UPDATE_PUSH_NOTIFICATIONS_IS_LOADING = 'UPDATE_PUSH_NOTIFICATIONS_I
 export const UPDATE_PUSH_NOTIFICATIONS_IS_LOADED = 'UPDATE_PUSH_NOTIFICATIONS_IS_LOADED';
 export const CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE = 'CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE';
 
-export const REORDER_SOLO_STREAKS_ORDER = 'REORDER_SOLO_STREAKS_ORDER';
-export const REORDER_SOLO_STREAKS_ORDER_FAIL = 'REORDER_SOLO_STREAKS_ORDER_FAIL';
-export const REORDER_SOLO_STREAKS_ORDER_LOADING = 'REORDER_SOLO_STREAKS_ORDER_LOADING';
-export const REORDER_SOLO_STREAKS_ORDER_LOADED = 'REORDER_SOLO_STREAKS_ORDER_LOADED';
-
 export interface GetUsersAction {
     type: typeof GET_USERS;
     payload: FormattedUserWithClientData[];
@@ -1726,24 +1721,6 @@ export interface ClearUpdatePushNotificationsErrorMessage {
     type: typeof CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE;
 }
 
-export interface ReorderSoloStreaksOrderAction {
-    type: typeof REORDER_SOLO_STREAKS_ORDER;
-    payload: { soloStreaksOrder: string[] };
-}
-
-export interface ReorderSoloStreaksOrderFailAction {
-    type: typeof REORDER_SOLO_STREAKS_ORDER_FAIL;
-    payload: string;
-}
-
-export interface ReorderSoloStreaksOrderIsLoadingAction {
-    type: typeof REORDER_SOLO_STREAKS_ORDER_LOADING;
-}
-
-export interface ReorderSoloStreaksOrderIsLoadedAction {
-    type: typeof REORDER_SOLO_STREAKS_ORDER_LOADED;
-}
-
 export type UserActionTypes =
     | GetUsersAction
     | GetUsersFailAction
@@ -1806,11 +1783,7 @@ export type UserActionTypes =
     | UpdatePushNotificationsFailAction
     | UpdatePushNotificationsIsLoadingAction
     | UpdatePushNotificationsIsLoadedAction
-    | ClearUpdatePushNotificationsErrorMessage
-    | ReorderSoloStreaksOrderAction
-    | ReorderSoloStreaksOrderFailAction
-    | ReorderSoloStreaksOrderIsLoadingAction
-    | ReorderSoloStreaksOrderIsLoadedAction;
+    | ClearUpdatePushNotificationsErrorMessage;
 
 export const GET_CHALLENGES = 'GET_CHALLENGES';
 export const GET_CHALLENGES_FAIL = 'GET_CHALLENGES_FAIL';
