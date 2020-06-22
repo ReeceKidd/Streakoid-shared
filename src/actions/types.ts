@@ -1955,6 +1955,11 @@ export const UPDATE_CHALLENGE_STREAK_REMINDER_INFO_FAIL = 'UPDATE_CHALLENGE_STRE
 export const UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING = 'UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING';
 export const UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED = 'UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED';
 
+export const REORDER_LIVE_CHALLENGE_STREAKS = 'REORDER_LIVE_CHALLENGE_STREAKS';
+export const REORDER_LIVE_CHALLENGE_STREAKS_FAIL = 'REORDER_LIVE_CHALLENGE_STREAKS_FAIL';
+export const REORDER_LIVE_CHALLENGE_STREAKS_LOADING = 'REORDER_LIVE_CHALLENGE_STREAKS_LOADING';
+export const REORDER_LIVE_CHALLENGE_STREAKS_LOADED = 'REORDER_LIVE_CHALLENGE_STREAKS_LOADED';
+
 export interface GetLiveChallengeStreaksAction {
     type: typeof GET_LIVE_CHALLENGE_STREAKS;
     payload: ChallengeStreakListItem[];
@@ -2197,6 +2202,24 @@ export interface UpdateChallengeStreakReminderInfoIsLoadedAction {
     type: typeof UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED;
 }
 
+export interface ReorderLiveChallengeStreaksAction {
+    type: typeof REORDER_LIVE_CHALLENGE_STREAKS;
+    payload: { liveChallengeStreaks: ChallengeStreakListItem[] };
+}
+
+export interface ReorderLiveChallengeStreaksFailAction {
+    type: typeof REORDER_LIVE_CHALLENGE_STREAKS_FAIL;
+    payload: string;
+}
+
+export interface ReorderLiveChallengeStreaksIsLoadingAction {
+    type: typeof REORDER_LIVE_CHALLENGE_STREAKS_LOADING;
+}
+
+export interface ReorderLiveChallengeStreaksIsLoadedAction {
+    type: typeof REORDER_LIVE_CHALLENGE_STREAKS_LOADED;
+}
+
 export type ChallengeStreakActionTypes =
     | GetLiveChallengeStreaksAction
     | GetLiveChallengeStreaksFailAction
@@ -2250,7 +2273,11 @@ export type ChallengeStreakActionTypes =
     | UpdateChallengeStreakReminderInfoAction
     | UpdateChallengeStreakReminderInfoFailAction
     | UpdateChallengeStreakReminderInfoIsLoadingAction
-    | UpdateChallengeStreakReminderInfoIsLoadedAction;
+    | UpdateChallengeStreakReminderInfoIsLoadedAction
+    | ReorderLiveChallengeStreaksAction
+    | ReorderLiveChallengeStreaksFailAction
+    | ReorderLiveChallengeStreaksIsLoadingAction
+    | ReorderLiveChallengeStreaksIsLoadedAction;
 
 export const GET_NOTES = 'GET_NOTES';
 export const GET_NOTES_FAIL = 'GET_NOTES_FAIL';

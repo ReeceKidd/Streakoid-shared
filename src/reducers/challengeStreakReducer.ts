@@ -48,6 +48,7 @@ import {
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_FAIL,
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING,
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED,
+    REORDER_LIVE_CHALLENGE_STREAKS,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomChallengeStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -620,6 +621,13 @@ const challengeStreakReducer = (
                 ...state,
                 selectedChallengeStreak: defaultSelectedChallengeStreak,
             };
+
+        case REORDER_LIVE_CHALLENGE_STREAKS: {
+            return {
+                ...state,
+                liveChallengeStreaks: action.payload.liveChallengeStreaks,
+            };
+        }
 
         default:
             return state;

@@ -53,14 +53,19 @@ import {
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO,
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING,
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_FAIL,
+    REORDER_LIVE_CHALLENGE_STREAKS_LOADING,
+    REORDER_LIVE_CHALLENGE_STREAKS,
+    REORDER_LIVE_CHALLENGE_STREAKS_LOADED,
+    REORDER_LIVE_CHALLENGE_STREAKS_FAIL,
 } from './types';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
-import { SelectedChallengeStreak } from '../reducers/challengeStreakReducer';
+import { SelectedChallengeStreak, ChallengeStreakListItem } from '../reducers/challengeStreakReducer';
 import { CustomChallengeStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
+import arrayMove from 'array-move';
 
 const challengeStreakActions = (streakoid: StreakoidSDK) => {
     const getLiveChallengeStreaks = () => async (
@@ -80,7 +85,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
             });
 
             const challengeStreaksWithClientData = await Promise.all(
-                challengeStreaks.map(async challengeStreak => {
+                challengeStreaks.map(async (challengeStreak, index) => {
                     const challenge = await streakoid.challenges.getOne({
                         challengeId: challengeStreak.challengeId,
                     });
@@ -92,12 +97,18 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                         completeChallengeStreakListTaskErrorMessage: '',
                         incompleteChallengeStreakListTaskIsLoading: false,
                         incompleteChallengeStreakListTaskErrorMessage: '',
+                        userDefinedIndex: challengeStreak.userDefinedIndex || index,
                     };
                 }),
             );
+            const sortedChallengeStreaksWithClientData = challengeStreaksWithClientData.sort(
+                (challengeStreakA, challengeStreakB) => {
+                    return challengeStreakA.userDefinedIndex - challengeStreakB.userDefinedIndex;
+                },
+            );
             dispatch({
                 type: GET_LIVE_CHALLENGE_STREAKS,
-                payload: challengeStreaksWithClientData,
+                payload: sortedChallengeStreaksWithClientData,
             });
             dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_LOADED });
         } catch (err) {
@@ -553,6 +564,53 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_SELECTED_CHALLENGE_STREAK,
     });
 
+    const reorderLiveChallengeStreaks = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: REORDER_LIVE_CHALLENGE_STREAKS_LOADING });
+            const reorderedLiveChallengeStreaks: ChallengeStreakListItem[] = arrayMove(
+                getState().challengeStreaks.liveChallengeStreaks,
+                oldIndex,
+                newIndex,
+            );
+            dispatch({
+                type: REORDER_LIVE_CHALLENGE_STREAKS,
+                payload: {
+                    liveChallengeStreaks: reorderedLiveChallengeStreaks.map((challengeStreak, index) => {
+                        return {
+                            ...challengeStreak,
+                            userDefinedIndex: index,
+                        };
+                    }),
+                },
+            });
+            await Promise.all(
+                reorderedLiveChallengeStreaks.map((challengeStreak, index) => {
+                    return streakoid.challengeStreaks.update({
+                        challengeStreakId: challengeStreak._id,
+                        updateData: { userDefinedIndex: index },
+                    });
+                }),
+            );
+            dispatch({ type: REORDER_LIVE_CHALLENGE_STREAKS_LOADED });
+        } catch (err) {
+            dispatch({ type: REORDER_LIVE_CHALLENGE_STREAKS_LOADED });
+            if (err.response) {
+                dispatch({
+                    type: REORDER_LIVE_CHALLENGE_STREAKS_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: REORDER_LIVE_CHALLENGE_STREAKS_FAIL,
+                    payload: err.message,
+                });
+            }
+        }
+    };
+
     return {
         getLiveChallengeStreaks,
         getArchivedChallengeStreaks,
@@ -569,6 +627,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
         updateChallengeStreakTimezones,
         updateCustomChallengeStreakReminderPushNotification,
         clearSelectedChallengeStreak,
+        reorderLiveChallengeStreaks,
     };
 };
 
