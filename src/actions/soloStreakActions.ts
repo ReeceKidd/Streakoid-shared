@@ -79,18 +79,13 @@ import arrayMove from 'array-move';
 import { SoloStreakListItem } from '../reducers/soloStreakReducer';
 
 const soloStreakActions = (streakoid: StreakoidSDK) => {
-    const getLiveSoloStreaks = () => async (
+    const getLiveSoloStreaks = ({ currentUserId }: { currentUserId: string }) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING });
-            const userId = getState().users.currentUser._id;
-            if (!userId) {
-                return;
-            }
             const soloStreaks = await streakoid.soloStreaks.getAll({
-                userId,
+                userId: currentUserId,
                 status: StreakStatus.live,
             });
             const soloStreaksWithLoadingStates = soloStreaks.map((soloStreak, index) => {

@@ -76,7 +76,6 @@ const getAuthActions = ({
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: LOGIN_IS_LOADING });
-
             const cognitoUser = await auth.signIn(emailOrCognitoUsername.toLowerCase(), password);
             const { idToken, refreshToken, accessToken } = cognitoUser.signInUserSession;
             const idTokenJwt = idToken.jwtToken;
