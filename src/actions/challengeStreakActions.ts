@@ -68,19 +68,13 @@ import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakRem
 import arrayMove from 'array-move';
 
 const challengeStreakActions = (streakoid: StreakoidSDK) => {
-    const getLiveChallengeStreaks = () => async (
+    const getLiveChallengeStreaks = ({ currentUserId }: { currentUserId: string }) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_LOADING });
-            const currentUser = getState().users.currentUser;
-            const userId = currentUser._id;
-            if (!userId) {
-                return;
-            }
             const challengeStreaks = await streakoid.challengeStreaks.getAll({
-                userId,
+                userId: currentUserId,
                 status: StreakStatus.live,
             });
 
