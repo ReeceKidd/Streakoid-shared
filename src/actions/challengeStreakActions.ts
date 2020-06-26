@@ -173,9 +173,11 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
             );
             const activityFeed = await streakoid.activityFeedItems.getAll({ challengeStreakId: challengeStreak._id });
             const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
-                activityFeed.activityFeedItems.map(async activityFeedItem => {
-                    return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
-                }),
+                activityFeed &&
+                    activityFeed.activityFeedItems &&
+                    activityFeed.activityFeedItems.map(async activityFeedItem => {
+                        return getPopulatedActivityFeedItem(streakoid, activityFeedItem);
+                    }),
             );
             const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
                 (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
@@ -575,24 +577,28 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 oldIndex,
                 newIndex,
             );
+
             dispatch({
                 type: REORDER_LIVE_CHALLENGE_STREAKS,
                 payload: {
-                    liveChallengeStreaks: reorderedLiveChallengeStreaks.map((challengeStreak, index) => {
-                        return {
-                            ...challengeStreak,
-                            userDefinedIndex: index,
-                        };
-                    }),
+                    liveChallengeStreaks:
+                        reorderedLiveChallengeStreaks &&
+                        reorderedLiveChallengeStreaks.map((challengeStreak, index) => {
+                            return {
+                                ...challengeStreak,
+                                userDefinedIndex: index,
+                            };
+                        }),
                 },
             });
             await Promise.all(
-                reorderedLiveChallengeStreaks.map((challengeStreak, index) => {
-                    return streakoid.challengeStreaks.update({
-                        challengeStreakId: challengeStreak._id,
-                        updateData: { userDefinedIndex: index },
-                    });
-                }),
+                reorderedLiveChallengeStreaks &&
+                    reorderedLiveChallengeStreaks.map((challengeStreak, index) => {
+                        return streakoid.challengeStreaks.update({
+                            challengeStreakId: challengeStreak._id,
+                            updateData: { userDefinedIndex: index },
+                        });
+                    }),
             );
             dispatch({ type: REORDER_LIVE_CHALLENGE_STREAKS_LOADED });
         } catch (err) {

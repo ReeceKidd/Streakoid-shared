@@ -577,12 +577,14 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
             dispatch({
                 type: REORDER_LIVE_SOLO_STREAKS,
                 payload: {
-                    liveSoloStreaks: reorderedLiveSoloStreaks.map((soloStreak, index) => {
-                        return {
-                            ...soloStreak,
-                            userDefinedIndex: index,
-                        };
-                    }),
+                    liveSoloStreaks:
+                        reorderedLiveSoloStreaks &&
+                        reorderedLiveSoloStreaks.map((soloStreak, index) => {
+                            return {
+                                ...soloStreak,
+                                userDefinedIndex: index,
+                            };
+                        }),
                 },
             });
             await Promise.all(

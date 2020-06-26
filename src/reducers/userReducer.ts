@@ -69,7 +69,6 @@ import { FormattedUser } from '@streakoid/streakoid-models/lib/Models/FormattedU
 import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
 import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamStreak';
 import { PopulatedUser } from '@streakoid/streakoid-models/lib/Models/PopulatedUser';
-import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 import WhyDoYouWantToBuildNewHabitsTypes from '@streakoid/streakoid-models/lib/Types/WhyDoYouWantToBuildNewHabitsTypes';
 
@@ -138,7 +137,6 @@ const defaultSelectedUser: SelectedUser = {
     profileImages: {
         originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
     },
-    pushNotificationToken: '',
     soloStreaks: [],
     teamStreaks: [],
     challengeStreaks: [],
@@ -208,9 +206,10 @@ const initialState: UserReducerInitialState = {
         achievements: [],
         userStreakCompleteInfo: [],
         pushNotification: {
-            token: '',
-            deviceType: PushNotificationSupportedDeviceTypes.android,
-            endpointArn: '',
+            androidToken: '',
+            androidEndpointArn: '',
+            iosToken: '',
+            iosEndpointArn: '',
         },
         pushNotifications: {
             teamStreakUpdates: {

@@ -33,8 +33,8 @@
         "typescript": "^3.6.3"
     },
     "dependencies": {
-        "@streakoid/streakoid-models": "^1.0.64",
-        "@streakoid/streakoid-sdk": "^1.0.556",
+        "@streakoid/streakoid-models": "^1.0.68",
+        "@streakoid/streakoid-sdk": "^1.0.559",
         "@types/form-data": "^2.5.0",
         "@types/moment-timezone": "^0.5.12",
         "@types/node-fetch": "^2.5.2",
