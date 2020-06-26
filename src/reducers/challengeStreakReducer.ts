@@ -57,7 +57,7 @@ import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/Challeng
 
 export interface ChallengeStreakReducerState {
     liveChallengeStreaks: ChallengeStreakListItem[];
-    getMultipleLiveChallengeStreaksIsLoading: boolean;
+    getLiveChallengeStreaksIsLoading: boolean;
     getLiveChallengeStreaksErrorMessage: string;
     selectedChallengeStreak: SelectedChallengeStreak;
     getSelectedChallengeStreakIsLoading: boolean;
@@ -116,7 +116,7 @@ const defaultSelectedChallengeStreak = {
 
 const initialState: ChallengeStreakReducerState = {
     liveChallengeStreaks: [],
-    getMultipleLiveChallengeStreaksIsLoading: false,
+    getLiveChallengeStreaksIsLoading: false,
     getLiveChallengeStreaksErrorMessage: '',
     selectedChallengeStreak: defaultSelectedChallengeStreak,
     getSelectedChallengeStreakIsLoading: false,
@@ -187,13 +187,13 @@ const challengeStreakReducer = (
         case GET_LIVE_CHALLENGE_STREAKS_LOADING:
             return {
                 ...state,
-                getMultipleLiveChallengeStreaksIsLoading: true,
+                getLiveChallengeStreaksIsLoading: true,
             };
 
         case GET_LIVE_CHALLENGE_STREAKS_LOADED:
             return {
                 ...state,
-                getMultipleLiveChallengeStreaksIsLoading: false,
+                getLiveChallengeStreaksIsLoading: false,
             };
 
         case GET_LIVE_CHALLENGE_STREAKS_FAIL:

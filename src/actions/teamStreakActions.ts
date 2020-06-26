@@ -60,18 +60,14 @@ import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakRem
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 export const teamStreakActions = (streakoid: StreakoidSDK) => {
-    const getLiveTeamStreaks = () => async (
+    const getLiveTeamStreaks = ({ currentUserId }: { currentUserId: string }) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADING });
-            const userId = getState().users.currentUser._id;
-            if (!userId) {
-                return;
-            }
             const teamStreaks = await streakoid.teamStreaks.getAll({
-                memberId: userId,
+                memberId: currentUserId,
                 status: StreakStatus.live,
             });
             const teamStreaksWithLoadingStates = await Promise.all(
