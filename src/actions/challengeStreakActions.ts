@@ -65,6 +65,7 @@ import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFe
 import { SelectedChallengeStreak, ChallengeStreakListItem } from '../reducers/challengeStreakReducer';
 import { CustomChallengeStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
+import arrayMove from 'array-move';
 
 const challengeStreakActions = (streakoid: StreakoidSDK) => {
     const getLiveChallengeStreaks = ({ currentUserId }: { currentUserId: string }) => async (
@@ -565,11 +566,9 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: REORDER_LIVE_CHALLENGE_STREAKS_LOADING });
-
+            const liveChallengeStreaks = getState().challengeStreaks.liveChallengeStreaks;
             const reorderedLiveChallengeStreaks: ChallengeStreakListItem[] =
-                getState().challengeStreaks.liveChallengeStreaks.length > 0
-                    ? arrayMove(getState().challengeStreaks.liveChallengeStreaks, oldIndex, newIndex)
-                    : [];
+                liveChallengeStreaks.length > 0 ? arrayMove(liveChallengeStreaks, oldIndex, newIndex) : [];
 
             dispatch({
                 type: REORDER_LIVE_CHALLENGE_STREAKS,
