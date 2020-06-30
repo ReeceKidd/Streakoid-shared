@@ -268,6 +268,10 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 customStreakReminder.streakReminderType === StreakReminderTypes.customTeamStreakReminder
                     ? customStreakReminder
                     : undefined;
+            const inviteKeyResponse = getState().auth.isAuthenticated
+                ? await streakoid.teamStreaks.inviteKey({ teamStreakId })
+                : undefined;
+            const inviteKey = inviteKeyResponse && inviteKeyResponse.inviteKey;
             const teamStreakWithLoadingState: SelectedTeamStreak = {
                 ...teamStreak,
                 members,
@@ -283,8 +287,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
                 updateCustomTeamStreakReminderPushNotificationIsLoading: false,
                 customTeamStreakReminder,
-                inviteUrl: teamStreak.inviteKey
-                    ? `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${teamStreak.inviteKey}`
+                inviteUrl: inviteKey
+                    ? `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${inviteKey}`
                     : undefined,
             };
             dispatch({ type: GET_SELECTED_TEAM_STREAK, payload: teamStreakWithLoadingState });
