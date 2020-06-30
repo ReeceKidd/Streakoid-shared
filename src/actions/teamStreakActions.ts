@@ -48,10 +48,6 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
     UPDATE_CURRENT_USER,
-    GET_TEAM_STREAK_INVITE_URL_LOADING,
-    GET_TEAM_STREAK_INVITE_URL,
-    GET_TEAM_STREAK_INVITE_URL_LOADED,
-    GET_TEAM_STREAK_INVITE_URL_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -287,9 +283,9 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
                 updateCustomTeamStreakReminderPushNotificationIsLoading: false,
                 customTeamStreakReminder,
-                getInviteUrlErrorMessage: '',
-                getInviteUrlIsLoading: false,
-                inviteUrl: '',
+                inviteUrl: teamStreak.inviteKey
+                    ? `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${teamStreak.inviteKey}`
+                    : undefined,
             };
             dispatch({ type: GET_SELECTED_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: GET_SELECTED_TEAM_STREAK_IS_LOADED });
@@ -610,9 +606,9 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 hasCurrentUserCompletedTaskForTheDay,
                 updateCustomTeamStreakReminderPushNotificationIsLoading: false,
                 updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
-                getInviteUrlErrorMessage: '',
-                getInviteUrlIsLoading: false,
-                inviteUrl: '',
+                inviteUrl: teamStreak.inviteKey
+                    ? `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${teamStreak.inviteKey}`
+                    : undefined,
             };
             dispatch({ type: UPDATE_TEAM_STREAK_TIMEZONE, payload: teamStreakWithLoadingState });
         } catch (err) {
@@ -664,37 +660,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         }
     };
 
-    const getInviteUrl = ({ teamStreakId }: { teamStreakId: string }) => async (
-        dispatch: Dispatch<AppActions>,
-    ): Promise<void> => {
-        try {
-            dispatch({ type: GET_TEAM_STREAK_INVITE_URL_LOADING });
-            const { inviteKey } = await streakoid.teamStreaks.inviteKey({ teamStreakId });
-            console.log('inviteKey', inviteKey);
-            const inviteUrl = `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${inviteKey}`;
-            console.log('inviteUrl', inviteUrl);
-            dispatch({
-                type: GET_TEAM_STREAK_INVITE_URL,
-                payload: { inviteUrl },
-            });
-            dispatch({ type: GET_TEAM_STREAK_INVITE_URL_LOADED });
-        } catch (err) {
-            console.log('Err', err);
-            dispatch({ type: GET_TEAM_STREAK_INVITE_URL_LOADED });
-            if (err.response) {
-                dispatch({
-                    type: GET_TEAM_STREAK_INVITE_URL_FAIL,
-                    payload: err.response.data.message,
-                });
-            } else {
-                dispatch({
-                    type: GET_TEAM_STREAK_INVITE_URL_FAIL,
-                    payload: err.message,
-                });
-            }
-        }
-    };
-
     const updateCustomTeamStreakReminderPushNotification = ({
         customTeamStreakReminder,
     }: {
@@ -741,7 +706,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         updateTeamStreakTimezone,
         clearSelectedTeamStreak,
         addFollowerToTeamStreak,
-        getInviteUrl,
         updateCustomTeamStreakReminderPushNotification,
     };
 };

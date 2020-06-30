@@ -51,10 +51,6 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
-    GET_TEAM_STREAK_INVITE_URL,
-    GET_TEAM_STREAK_INVITE_URL_FAIL,
-    GET_TEAM_STREAK_INVITE_URL_LOADING,
-    GET_TEAM_STREAK_INVITE_URL_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -80,9 +76,7 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
     hasCurrentUserCompletedTaskForTheDay: boolean;
     updateCustomTeamStreakReminderPushNotificationIsLoading: boolean;
     updateCustomTeamStreakReminderPushNotificationErrorMessage: string;
-    inviteUrl: string;
-    getInviteUrlErrorMessage: string;
-    getInviteUrlIsLoading: boolean;
+    inviteUrl?: string;
     customTeamStreakReminder?: CustomTeamStreakReminder;
 }
 
@@ -148,9 +142,6 @@ const defaultSelectedTeamStreak: SelectedTeamStreak = {
     hasCurrentUserCompletedTaskForTheDay: false,
     updateCustomTeamStreakReminderPushNotificationIsLoading: false,
     updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
-    inviteUrl: '',
-    getInviteUrlErrorMessage: '',
-    getInviteUrlIsLoading: false,
 };
 
 const initialState: TeamStreakReducerState = {
@@ -745,48 +736,6 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                     members: [...state.selectedTeamStreak.members, action.payload],
                 },
             };
-
-        case GET_TEAM_STREAK_INVITE_URL: {
-            console.log('Entered get invite url');
-            console.log('Payload', action.payload.inviteUrl);
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    inviteUrl: action.payload.inviteUrl,
-                },
-            };
-        }
-
-        case GET_TEAM_STREAK_INVITE_URL_FAIL: {
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    getInviteUrlErrorMessage: action.payload,
-                },
-            };
-        }
-
-        case GET_TEAM_STREAK_INVITE_URL_LOADING: {
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    getInviteUrlIsLoading: true,
-                },
-            };
-        }
-
-        case GET_TEAM_STREAK_INVITE_URL_LOADED: {
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    getInviteUrlIsLoading: false,
-                },
-            };
-        }
 
         case UPDATE_TEAM_STREAK_REMINDER_INFO: {
             return {

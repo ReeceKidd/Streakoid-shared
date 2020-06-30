@@ -975,11 +975,6 @@ export const INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED =
 
 export const CLEAR_SELECTED_TEAM_STREAK = 'CLEAR_SELECTED_TEAM_STREAK';
 
-export const GET_TEAM_STREAK_INVITE_URL = 'GET_TEAM_STREAK_INVITE_URL';
-export const GET_TEAM_STREAK_INVITE_URL_FAIL = 'GET_TEAM_STREAK_INVITE_URL_FAIL';
-export const GET_TEAM_STREAK_INVITE_URL_LOADING = 'GET_TEAM_STREAK_INVITE_URL_LOADING';
-export const GET_TEAM_STREAK_INVITE_URL_LOADED = 'GET_TEAM_STREAK_INVITE_URL_LOADED';
-
 export const UPDATE_TEAM_STREAK_REMINDER_INFO = 'UPDATE_TEAM_STREAK_REMINDER_INFO';
 export const UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL = 'UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL';
 export const UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING = 'UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING';
@@ -1249,24 +1244,6 @@ export interface ClearSelectedTeamStreakAction {
     type: typeof CLEAR_SELECTED_TEAM_STREAK;
 }
 
-export interface GetTeamStreakInviteUrlAction {
-    type: typeof GET_TEAM_STREAK_INVITE_URL;
-    payload: { inviteUrl: string };
-}
-
-export interface GetTeamStreakInviteUrlFailAction {
-    type: typeof GET_TEAM_STREAK_INVITE_URL_FAIL;
-    payload: string;
-}
-
-export interface GetTeamStreakInviteUrlIsLoadingAction {
-    type: typeof GET_TEAM_STREAK_INVITE_URL_LOADING;
-}
-
-export interface GetTeamStreakInviteUrlIsLoadedAction {
-    type: typeof GET_TEAM_STREAK_INVITE_URL_LOADED;
-}
-
 export interface UpdateTeamStreakReminderInfoAction {
     type: typeof UPDATE_TEAM_STREAK_REMINDER_INFO;
     payload: { customTeamStreakReminder: CustomTeamStreakReminder };
@@ -1343,10 +1320,6 @@ export type TeamStreakActionTypes =
     | IncompleteSelectedTeamMemberStreakTaskIsLoadingAction
     | IncompleteSelectedTeamMemberStreakTaskIsLoadedAction
     | ClearSelectedTeamStreakAction
-    | GetTeamStreakInviteUrlAction
-    | GetTeamStreakInviteUrlFailAction
-    | GetTeamStreakInviteUrlIsLoadingAction
-    | GetTeamStreakInviteUrlIsLoadedAction
     | UpdateTeamStreakReminderInfoAction
     | UpdateTeamStreakReminderInfoFailAction
     | UpdateTeamStreakReminderInfoIsLoadingAction
