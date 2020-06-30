@@ -51,10 +51,10 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
-    GET_TEAM_STREAK_INVITE_KEY,
-    GET_TEAM_STREAK_INVITE_KEY_FAIL,
-    GET_TEAM_STREAK_INVITE_KEY_LOADING,
-    GET_TEAM_STREAK_INVITE_KEY_LOADED,
+    GET_TEAM_STREAK_INVITE_URL,
+    GET_TEAM_STREAK_INVITE_URL_FAIL,
+    GET_TEAM_STREAK_INVITE_URL_LOADING,
+    GET_TEAM_STREAK_INVITE_URL_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -81,6 +81,7 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
     updateCustomTeamStreakReminderPushNotificationIsLoading: boolean;
     updateCustomTeamStreakReminderPushNotificationErrorMessage: string;
     customTeamStreakReminder?: CustomTeamStreakReminder;
+    inviteUrl?: string;
 }
 
 export interface PopulatedTeamMemberWithClientData extends PopulatedTeamMember {
@@ -113,8 +114,8 @@ export interface TeamStreakReducerState {
     archiveTeamStreakErrorMessage: string;
     restoreArchivedTeamStreakErrorMessage: string;
     deleteArchivedTeamStreakErrorMessage: string;
-    getInviteKeyErrorMessage: string;
-    getInviteKeyIsLoading: boolean;
+    getInviteUrlErrorMessage: string;
+    getInviteUrlIsLoading: boolean;
 }
 
 const defaultSelectedTeamStreak = {
@@ -166,8 +167,8 @@ const initialState: TeamStreakReducerState = {
     deleteArchivedTeamStreakIsLoading: false,
     deleteArchivedTeamStreakErrorMessage: '',
     archiveTeamStreakErrorMessage: '',
-    getInviteKeyErrorMessage: '',
-    getInviteKeyIsLoading: false,
+    getInviteUrlErrorMessage: '',
+    getInviteUrlIsLoading: false,
 };
 
 const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes): TeamStreakReducerState => {
@@ -744,34 +745,34 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 },
             };
 
-        case GET_TEAM_STREAK_INVITE_KEY: {
+        case GET_TEAM_STREAK_INVITE_URL: {
             return {
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    inviteKey: action.payload.inviteKey,
+                    inviteUrl: action.payload.inviteUrl,
                 },
             };
         }
 
-        case GET_TEAM_STREAK_INVITE_KEY_FAIL: {
+        case GET_TEAM_STREAK_INVITE_URL_FAIL: {
             return {
                 ...state,
-                getInviteKeyErrorMessage: action.payload,
+                getInviteUrlErrorMessage: action.payload,
             };
         }
 
-        case GET_TEAM_STREAK_INVITE_KEY_LOADING: {
+        case GET_TEAM_STREAK_INVITE_URL_LOADING: {
             return {
                 ...state,
-                getInviteKeyIsLoading: true,
+                getInviteUrlIsLoading: true,
             };
         }
 
-        case GET_TEAM_STREAK_INVITE_KEY_LOADED: {
+        case GET_TEAM_STREAK_INVITE_URL_LOADED: {
             return {
                 ...state,
-                getInviteKeyIsLoading: false,
+                getInviteUrlIsLoading: false,
             };
         }
 

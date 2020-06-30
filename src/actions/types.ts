@@ -975,10 +975,10 @@ export const INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED =
 
 export const CLEAR_SELECTED_TEAM_STREAK = 'CLEAR_SELECTED_TEAM_STREAK';
 
-export const GET_TEAM_STREAK_INVITE_KEY = 'GET_TEAM_STREAK_INVITE_KEY';
-export const GET_TEAM_STREAK_INVITE_KEY_FAIL = 'GET_TEAM_STREAK_INVITE_KEY_FAIL';
-export const GET_TEAM_STREAK_INVITE_KEY_LOADING = 'GET_TEAM_STREAK_INVITE_KEY_LOADING';
-export const GET_TEAM_STREAK_INVITE_KEY_LOADED = 'GET_TEAM_STREAK_INVITE_KEY_LOADED';
+export const GET_TEAM_STREAK_INVITE_URL = 'GET_TEAM_STREAK_INVITE_URL';
+export const GET_TEAM_STREAK_INVITE_URL_FAIL = 'GET_TEAM_STREAK_INVITE_URL_FAIL';
+export const GET_TEAM_STREAK_INVITE_URL_LOADING = 'GET_TEAM_STREAK_INVITE_URL_LOADING';
+export const GET_TEAM_STREAK_INVITE_URL_LOADED = 'GET_TEAM_STREAK_INVITE_URL_LOADED';
 
 export const UPDATE_TEAM_STREAK_REMINDER_INFO = 'UPDATE_TEAM_STREAK_REMINDER_INFO';
 export const UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL = 'UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL';
@@ -1250,21 +1250,21 @@ export interface ClearSelectedTeamStreakAction {
 }
 
 export interface GetTeamStreakInviteKeyAction {
-    type: typeof GET_TEAM_STREAK_INVITE_KEY;
-    payload: { inviteKey: string };
+    type: typeof GET_TEAM_STREAK_INVITE_URL;
+    payload: { inviteUrl: string };
 }
 
 export interface GetTeamStreakInviteKeyFailAction {
-    type: typeof GET_TEAM_STREAK_INVITE_KEY_FAIL;
+    type: typeof GET_TEAM_STREAK_INVITE_URL_FAIL;
     payload: string;
 }
 
 export interface GetTeamStreakInviteKeyIsLoadingAction {
-    type: typeof GET_TEAM_STREAK_INVITE_KEY_LOADING;
+    type: typeof GET_TEAM_STREAK_INVITE_URL_LOADING;
 }
 
 export interface GetTeamStreakInviteKeyIsLoadedAction {
-    type: typeof GET_TEAM_STREAK_INVITE_KEY_LOADED;
+    type: typeof GET_TEAM_STREAK_INVITE_URL_LOADED;
 }
 
 export interface UpdateTeamStreakReminderInfoAction {
