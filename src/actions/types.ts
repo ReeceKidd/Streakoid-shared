@@ -1249,21 +1249,21 @@ export interface ClearSelectedTeamStreakAction {
     type: typeof CLEAR_SELECTED_TEAM_STREAK;
 }
 
-export interface GetTeamStreakInviteKeyAction {
+export interface GetTeamStreakInviteUrlAction {
     type: typeof GET_TEAM_STREAK_INVITE_URL;
     payload: { inviteUrl: string };
 }
 
-export interface GetTeamStreakInviteKeyFailAction {
+export interface GetTeamStreakInviteUrlFailAction {
     type: typeof GET_TEAM_STREAK_INVITE_URL_FAIL;
     payload: string;
 }
 
-export interface GetTeamStreakInviteKeyIsLoadingAction {
+export interface GetTeamStreakInviteUrlIsLoadingAction {
     type: typeof GET_TEAM_STREAK_INVITE_URL_LOADING;
 }
 
-export interface GetTeamStreakInviteKeyIsLoadedAction {
+export interface GetTeamStreakInviteUrlIsLoadedAction {
     type: typeof GET_TEAM_STREAK_INVITE_URL_LOADED;
 }
 
@@ -1343,10 +1343,10 @@ export type TeamStreakActionTypes =
     | IncompleteSelectedTeamMemberStreakTaskIsLoadingAction
     | IncompleteSelectedTeamMemberStreakTaskIsLoadedAction
     | ClearSelectedTeamStreakAction
-    | GetTeamStreakInviteKeyAction
-    | GetTeamStreakInviteKeyFailAction
-    | GetTeamStreakInviteKeyIsLoadingAction
-    | GetTeamStreakInviteKeyIsLoadedAction
+    | GetTeamStreakInviteUrlAction
+    | GetTeamStreakInviteUrlFailAction
+    | GetTeamStreakInviteUrlIsLoadingAction
+    | GetTeamStreakInviteUrlIsLoadedAction
     | UpdateTeamStreakReminderInfoAction
     | UpdateTeamStreakReminderInfoFailAction
     | UpdateTeamStreakReminderInfoIsLoadingAction

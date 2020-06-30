@@ -663,9 +663,10 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: GET_TEAM_STREAK_INVITE_URL_LOADING });
-            const response = await streakoid.teamStreaks.inviteKey({ teamStreakId });
-            console.log('RESPONSE', response);
-            const inviteUrl = `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${response.inviteKey}`;
+            const { inviteKey } = await streakoid.teamStreaks.inviteKey({ teamStreakId });
+            console.log('inviteKey', inviteKey);
+            const inviteUrl = `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${inviteKey}`;
+            console.log('inviteUrl', inviteUrl);
             dispatch({
                 type: GET_TEAM_STREAK_INVITE_URL,
                 payload: { inviteUrl },
