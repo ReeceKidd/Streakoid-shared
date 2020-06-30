@@ -75,8 +75,8 @@ import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFe
 import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
-import arrayMove from 'array-move';
 import { SoloStreakListItem } from '../reducers/soloStreakReducer';
+import arrayMove from 'array-move';
 
 const soloStreakActions = (streakoid: StreakoidSDK) => {
     const getLiveSoloStreaks = ({ currentUserId }: { currentUserId: string }) => async (
@@ -564,11 +564,9 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: REORDER_LIVE_SOLO_STREAKS_LOADING });
-            const reorderedLiveSoloStreaks: SoloStreakListItem[] = arrayMove(
-                getState().soloStreaks.liveSoloStreaks,
-                oldIndex,
-                newIndex,
-            );
+            const liveSoloStreaks = getState().soloStreaks.liveSoloStreaks;
+            const reorderedLiveSoloStreaks: SoloStreakListItem[] =
+                liveSoloStreaks.length > 0 ? arrayMove(liveSoloStreaks, oldIndex, newIndex) : [];
             dispatch({
                 type: REORDER_LIVE_SOLO_STREAKS,
                 payload: {

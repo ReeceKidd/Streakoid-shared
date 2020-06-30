@@ -566,11 +566,9 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: REORDER_LIVE_CHALLENGE_STREAKS_LOADING });
-            const reorderedLiveChallengeStreaks: ChallengeStreakListItem[] = arrayMove(
-                getState().challengeStreaks.liveChallengeStreaks,
-                oldIndex,
-                newIndex,
-            );
+            const liveChallengeStreaks = getState().challengeStreaks.liveChallengeStreaks;
+            const reorderedLiveChallengeStreaks: ChallengeStreakListItem[] =
+                liveChallengeStreaks.length > 0 ? arrayMove(liveChallengeStreaks, oldIndex, newIndex) : [];
 
             dispatch({
                 type: REORDER_LIVE_CHALLENGE_STREAKS,
