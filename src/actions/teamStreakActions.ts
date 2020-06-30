@@ -287,6 +287,9 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
                 updateCustomTeamStreakReminderPushNotificationIsLoading: false,
                 customTeamStreakReminder,
+                getInviteUrlErrorMessage: '',
+                getInviteUrlIsLoading: false,
+                inviteUrl: '',
             };
             dispatch({ type: GET_SELECTED_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: GET_SELECTED_TEAM_STREAK_IS_LOADED });
@@ -607,6 +610,9 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 hasCurrentUserCompletedTaskForTheDay,
                 updateCustomTeamStreakReminderPushNotificationIsLoading: false,
                 updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
+                getInviteUrlErrorMessage: '',
+                getInviteUrlIsLoading: false,
+                inviteUrl: '',
             };
             dispatch({ type: UPDATE_TEAM_STREAK_TIMEZONE, payload: teamStreakWithLoadingState });
         } catch (err) {
