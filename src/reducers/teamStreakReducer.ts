@@ -51,6 +51,10 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
+    GET_TEAM_STREAK_INVITE_KEY,
+    GET_TEAM_STREAK_INVITE_KEY_FAIL,
+    GET_TEAM_STREAK_INVITE_KEY_LOADING,
+    GET_TEAM_STREAK_INVITE_KEY_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -109,6 +113,8 @@ export interface TeamStreakReducerState {
     archiveTeamStreakErrorMessage: string;
     restoreArchivedTeamStreakErrorMessage: string;
     deleteArchivedTeamStreakErrorMessage: string;
+    getInviteKeyErrorMessage: string;
+    getInviteKeyIsLoading: boolean;
 }
 
 const defaultSelectedTeamStreak = {
@@ -160,6 +166,8 @@ const initialState: TeamStreakReducerState = {
     deleteArchivedTeamStreakIsLoading: false,
     deleteArchivedTeamStreakErrorMessage: '',
     archiveTeamStreakErrorMessage: '',
+    getInviteKeyErrorMessage: '',
+    getInviteKeyIsLoading: false,
 };
 
 const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes): TeamStreakReducerState => {
@@ -735,6 +743,37 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                     members: [...state.selectedTeamStreak.members, action.payload],
                 },
             };
+
+        case GET_TEAM_STREAK_INVITE_KEY: {
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    inviteKey: action.payload.inviteKey,
+                },
+            };
+        }
+
+        case GET_TEAM_STREAK_INVITE_KEY_FAIL: {
+            return {
+                ...state,
+                getInviteKeyErrorMessage: action.payload,
+            };
+        }
+
+        case GET_TEAM_STREAK_INVITE_KEY_LOADING: {
+            return {
+                ...state,
+                getInviteKeyIsLoading: true,
+            };
+        }
+
+        case GET_TEAM_STREAK_INVITE_KEY_LOADED: {
+            return {
+                ...state,
+                getInviteKeyIsLoading: false,
+            };
+        }
 
         case UPDATE_TEAM_STREAK_REMINDER_INFO: {
             return {
