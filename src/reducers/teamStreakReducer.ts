@@ -80,8 +80,10 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
     hasCurrentUserCompletedTaskForTheDay: boolean;
     updateCustomTeamStreakReminderPushNotificationIsLoading: boolean;
     updateCustomTeamStreakReminderPushNotificationErrorMessage: string;
+    inviteUrl: string;
+    getInviteUrlErrorMessage: string;
+    getInviteUrlIsLoading: boolean;
     customTeamStreakReminder?: CustomTeamStreakReminder;
-    inviteUrl?: string;
 }
 
 export interface PopulatedTeamMemberWithClientData extends PopulatedTeamMember {
@@ -114,11 +116,9 @@ export interface TeamStreakReducerState {
     archiveTeamStreakErrorMessage: string;
     restoreArchivedTeamStreakErrorMessage: string;
     deleteArchivedTeamStreakErrorMessage: string;
-    getInviteUrlErrorMessage: string;
-    getInviteUrlIsLoading: boolean;
 }
 
-const defaultSelectedTeamStreak = {
+const defaultSelectedTeamStreak: SelectedTeamStreak = {
     _id: '',
     status: StreakStatus.live,
     creatorId: '',
@@ -148,6 +148,9 @@ const defaultSelectedTeamStreak = {
     hasCurrentUserCompletedTaskForTheDay: false,
     updateCustomTeamStreakReminderPushNotificationIsLoading: false,
     updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
+    inviteUrl: '',
+    getInviteUrlErrorMessage: '',
+    getInviteUrlIsLoading: false,
 };
 
 const initialState: TeamStreakReducerState = {
@@ -167,8 +170,6 @@ const initialState: TeamStreakReducerState = {
     deleteArchivedTeamStreakIsLoading: false,
     deleteArchivedTeamStreakErrorMessage: '',
     archiveTeamStreakErrorMessage: '',
-    getInviteUrlErrorMessage: '',
-    getInviteUrlIsLoading: false,
 };
 
 const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes): TeamStreakReducerState => {
@@ -746,6 +747,8 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
             };
 
         case GET_TEAM_STREAK_INVITE_URL: {
+            console.log('Entered get invite url');
+            console.log('Payload', action.payload.inviteUrl);
             return {
                 ...state,
                 selectedTeamStreak: {
@@ -758,21 +761,30 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
         case GET_TEAM_STREAK_INVITE_URL_FAIL: {
             return {
                 ...state,
-                getInviteUrlErrorMessage: action.payload,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    getInviteUrlErrorMessage: action.payload,
+                },
             };
         }
 
         case GET_TEAM_STREAK_INVITE_URL_LOADING: {
             return {
                 ...state,
-                getInviteUrlIsLoading: true,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    getInviteUrlIsLoading: true,
+                },
             };
         }
 
         case GET_TEAM_STREAK_INVITE_URL_LOADED: {
             return {
                 ...state,
-                getInviteUrlIsLoading: false,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    getInviteUrlIsLoading: false,
+                },
             };
         }
 
