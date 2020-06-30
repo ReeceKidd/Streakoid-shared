@@ -35,7 +35,7 @@ import {
     DELETE_ARCHIVED_TEAM_STREAK_FAIL,
     UPDATE_TEAM_STREAK_TIMEZONE,
     CLEAR_SELECTED_TEAM_STREAK,
-    ADD_FOLLOWER_TO_TEAM_STREAK,
+    ADD_TEAM_MEMBER_TO_TEAM_STREAK,
     GET_SELECTED_TEAM_STREAK,
     GET_SELECTED_TEAM_STREAK_IS_LOADING,
     GET_SELECTED_TEAM_STREAK_IS_LOADED,
@@ -728,7 +728,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
             };
         }
 
-        case ADD_FOLLOWER_TO_TEAM_STREAK:
+        case ADD_TEAM_MEMBER_TO_TEAM_STREAK:
             return {
                 ...state,
                 selectedTeamStreak: {

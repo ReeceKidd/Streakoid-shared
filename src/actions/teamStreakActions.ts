@@ -37,8 +37,8 @@ import {
     UPDATE_TEAM_STREAK_TIMEZONE,
     UPDATE_TEAM_STREAK_TIMEZONE_FAIL,
     CLEAR_SELECTED_TEAM_STREAK,
-    ADD_FOLLOWER_TO_TEAM_STREAK,
-    ADD_FOLLOWER_TO_TEAM_STREAK_FAIL,
+    ADD_TEAM_MEMBER_TO_TEAM_STREAK,
+    ADD_TEAM_MEMBER_TO_TEAM_STREAK_FAIL,
     GET_SELECTED_TEAM_STREAK,
     GET_SELECTED_TEAM_STREAK_IS_LOADING,
     GET_SELECTED_TEAM_STREAK_IS_LOADED,
@@ -628,15 +628,18 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_SELECTED_TEAM_STREAK,
     });
 
-    const addFollowerToTeamStreak = ({
-        followerId,
+    const addTeamMemberToTeamStreak = ({
+        teamMemberId,
         teamStreakId,
     }: {
-        followerId: string;
+        teamMemberId: string;
         teamStreakId: string;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
-            const teamMember = await streakoid.teamStreaks.teamMembers.create({ followerId, teamStreakId });
+            const teamMember = await streakoid.teamStreaks.teamMembers.create({
+                followerId: teamMemberId,
+                teamStreakId,
+            });
             const teamMemberInfo = await streakoid.users.getOne(teamMember.memberId);
             const teamMemberStreak = await streakoid.teamMemberStreaks.getOne(teamMember.teamMemberStreakId);
             const populatedTeamMemberWithClientData: PopulatedTeamMemberWithClientData = {
@@ -654,12 +657,12 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                     totalTimesTracked: 0,
                 },
             };
-            dispatch({ type: ADD_FOLLOWER_TO_TEAM_STREAK, payload: populatedTeamMemberWithClientData });
+            dispatch({ type: ADD_TEAM_MEMBER_TO_TEAM_STREAK, payload: populatedTeamMemberWithClientData });
         } catch (err) {
             if (err.response) {
-                dispatch({ type: ADD_FOLLOWER_TO_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: ADD_TEAM_MEMBER_TO_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
             } else {
-                dispatch({ type: ADD_FOLLOWER_TO_TEAM_STREAK_FAIL, errorMessage: err.message });
+                dispatch({ type: ADD_TEAM_MEMBER_TO_TEAM_STREAK_FAIL, errorMessage: err.message });
             }
         }
     };
@@ -709,7 +712,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         deleteArchivedTeamStreak,
         updateTeamStreakTimezone,
         clearSelectedTeamStreak,
-        addFollowerToTeamStreak,
+        addTeamMemberToTeamStreak,
         updateCustomTeamStreakReminderPushNotification,
     };
 };
