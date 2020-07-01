@@ -48,6 +48,8 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
     UPDATE_CURRENT_USER,
+    ADD_USER_TO_TEAM_STREAK_LOADING,
+    ADD_USER_TO_TEAM_STREAK_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -287,6 +289,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
                 updateCustomTeamStreakReminderPushNotificationIsLoading: false,
                 customTeamStreakReminder,
+                addUserToTeamStreakIsLoading: false,
+                addUserToTeamStreakErrorMessage: '',
                 inviteUrl: inviteKey
                     ? `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${inviteKey}`
                     : undefined,
@@ -610,6 +614,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 hasCurrentUserCompletedTaskForTheDay,
                 updateCustomTeamStreakReminderPushNotificationIsLoading: false,
                 updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
+                addUserToTeamStreakErrorMessage: '',
+                addUserToTeamStreakIsLoading: false,
                 inviteUrl: teamStreak.inviteKey
                     ? `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${teamStreak.inviteKey}`
                     : undefined,
@@ -632,6 +638,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         dispatch: Dispatch<AppActions>,
     ): Promise<void> => {
         try {
+            dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADING });
             const teamMember = await streakoid.teamStreaks.teamMembers.create({
                 userId,
                 teamStreakId,
@@ -654,11 +661,13 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 },
             };
             dispatch({ type: ADD_USER_TO_TEAM_STREAK, payload: populatedTeamMemberWithClientData });
+            dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADED });
         } catch (err) {
+            dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADED });
             if (err.response) {
-                dispatch({ type: ADD_USER_TO_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: ADD_USER_TO_TEAM_STREAK_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: ADD_USER_TO_TEAM_STREAK_FAIL, errorMessage: err.message });
+                dispatch({ type: ADD_USER_TO_TEAM_STREAK_FAIL, payload: err.message });
             }
         }
     };

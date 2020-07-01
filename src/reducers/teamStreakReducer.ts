@@ -51,6 +51,9 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
+    ADD_USER_TO_TEAM_STREAK_FAIL,
+    ADD_USER_TO_TEAM_STREAK_LOADING,
+    ADD_USER_TO_TEAM_STREAK_LOADED,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -76,6 +79,8 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
     hasCurrentUserCompletedTaskForTheDay: boolean;
     updateCustomTeamStreakReminderPushNotificationIsLoading: boolean;
     updateCustomTeamStreakReminderPushNotificationErrorMessage: string;
+    addUserToTeamStreakErrorMessage: string;
+    addUserToTeamStreakIsLoading: boolean;
     inviteUrl?: string;
     customTeamStreakReminder?: CustomTeamStreakReminder;
 }
@@ -142,6 +147,8 @@ const defaultSelectedTeamStreak: SelectedTeamStreak = {
     hasCurrentUserCompletedTaskForTheDay: false,
     updateCustomTeamStreakReminderPushNotificationIsLoading: false,
     updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
+    addUserToTeamStreakErrorMessage: '',
+    addUserToTeamStreakIsLoading: false,
 };
 
 const initialState: TeamStreakReducerState = {
@@ -737,6 +744,33 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
                     members: [...state.selectedTeamStreak.members, action.payload],
+                },
+            };
+
+        case ADD_USER_TO_TEAM_STREAK_FAIL:
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    addUserToTeamStreakErrorMessage: action.payload,
+                },
+            };
+
+        case ADD_USER_TO_TEAM_STREAK_LOADING:
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    addUserToTeamStreakIsLoading: true,
+                },
+            };
+
+        case ADD_USER_TO_TEAM_STREAK_LOADED:
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    addUserToTeamStreakIsLoading: false,
                 },
             };
 

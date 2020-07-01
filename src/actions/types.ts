@@ -923,6 +923,8 @@ export const CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE = 'CLEAR_EDIT_TEAM_STREAK_ERRO
 
 export const ADD_USER_TO_TEAM_STREAK = 'ADD_USER_TO_TEAM_STREAK';
 export const ADD_USER_TO_TEAM_STREAK_FAIL = 'ADD_USER_TO_TEAM_STREAK_FAIL';
+export const ADD_USER_TO_TEAM_STREAK_LOADING = 'ADD_USER_TO_TEAM_STREAK_LOADING';
+export const ADD_USER_TO_TEAM_STREAK_LOADED = 'ADD_USER_TO_TEAM_STREAK_LOADED';
 
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK';
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL';
@@ -1068,7 +1070,15 @@ export interface AddUserToTeamStreakAction {
 
 export interface AddUserToTeamStreakFailAction {
     type: typeof ADD_USER_TO_TEAM_STREAK_FAIL;
-    errorMessage: string;
+    payload: string;
+}
+
+export interface AddUserToTeamStreakLoadingAction {
+    type: typeof ADD_USER_TO_TEAM_STREAK_LOADING;
+}
+
+export interface AddUserToTeamStreakLoadedAction {
+    type: typeof ADD_USER_TO_TEAM_STREAK_LOADED;
 }
 
 export interface CompleteTeamMemberStreakListTaskAction {
@@ -1283,6 +1293,8 @@ export type TeamStreakActionTypes =
     | ClearEditTeamStreakErrorMessageAction
     | AddUserToTeamStreakAction
     | AddUserToTeamStreakFailAction
+    | AddUserToTeamStreakLoadingAction
+    | AddUserToTeamStreakLoadedAction
     | CompleteTeamMemberStreakListTaskAction
     | CompleteTeamMemberStreakListTaskFailAction
     | CompleteTeamMemberStreakListTaskLoadingAction
