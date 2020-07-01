@@ -628,16 +628,12 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_SELECTED_TEAM_STREAK,
     });
 
-    const addTeamMemberToTeamStreak = ({
-        teamMemberId,
-        teamStreakId,
-    }: {
-        teamMemberId: string;
-        teamStreakId: string;
-    }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+    const addUserToTeamStreak = ({ userId, teamStreakId }: { userId: string; teamStreakId: string }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
         try {
             const teamMember = await streakoid.teamStreaks.teamMembers.create({
-                userId: teamMemberId,
+                userId,
                 teamStreakId,
             });
             const teamMemberInfo = await streakoid.users.getOne(teamMember.memberId);
@@ -712,7 +708,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         deleteArchivedTeamStreak,
         updateTeamStreakTimezone,
         clearSelectedTeamStreak,
-        addTeamMemberToTeamStreak,
+        addUserToTeamStreak,
         updateCustomTeamStreakReminderPushNotification,
     };
 };
