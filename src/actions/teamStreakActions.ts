@@ -637,7 +637,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             const teamMember = await streakoid.teamStreaks.teamMembers.create({
-                followerId: teamMemberId,
+                userId: teamMemberId,
                 teamStreakId,
             });
             const teamMemberInfo = await streakoid.users.getOne(teamMember.memberId);

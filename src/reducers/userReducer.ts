@@ -201,6 +201,8 @@ const initialState: UserReducerInitialState = {
         },
         followers: [],
         following: [],
+        oidXp: 0,
+        coins: 0,
         totalStreakCompletes: 0,
         totalLiveStreaks: 0,
         achievements: [],
