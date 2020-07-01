@@ -35,7 +35,7 @@ import {
     DELETE_ARCHIVED_TEAM_STREAK_FAIL,
     UPDATE_TEAM_STREAK_TIMEZONE,
     CLEAR_SELECTED_TEAM_STREAK,
-    ADD_TEAM_MEMBER_TO_TEAM_STREAK,
+    ADD_USER_TO_TEAM_STREAK,
     GET_SELECTED_TEAM_STREAK,
     GET_SELECTED_TEAM_STREAK_IS_LOADING,
     GET_SELECTED_TEAM_STREAK_IS_LOADED,
@@ -728,9 +728,12 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
             };
         }
 
-        case ADD_TEAM_MEMBER_TO_TEAM_STREAK:
+        case ADD_USER_TO_TEAM_STREAK:
+            console.log('Add users payload', action.payload);
+            console.log('Current selected team streak members', state.selectedTeamStreak.members);
             return {
                 ...state,
+
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
                     members: [...state.selectedTeamStreak.members, action.payload],

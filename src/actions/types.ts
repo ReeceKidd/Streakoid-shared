@@ -921,8 +921,8 @@ export const EDIT_TEAM_STREAK_LOADING = 'EDIT_TEAM_STREAK_LOADING';
 export const EDIT_TEAM_STREAK_LOADED = 'EDIT_TEAM_STREAK_LOADED';
 export const CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE = 'CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE';
 
-export const ADD_TEAM_MEMBER_TO_TEAM_STREAK = 'ADD_TEAM_MEMBER_TO_TEAM_STREAK';
-export const ADD_TEAM_MEMBER_TO_TEAM_STREAK_FAIL = 'ADD_TEAM_MEMBER_TO_TEAM_STREAK_FAIL';
+export const ADD_USER_TO_TEAM_STREAK = 'ADD_USER_TO_TEAM_STREAK';
+export const ADD_USER_TO_TEAM_STREAK_FAIL = 'ADD_USER_TO_TEAM_STREAK_FAIL';
 
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK';
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL';
@@ -1061,13 +1061,13 @@ export interface ClearEditTeamStreakErrorMessageAction {
     type: typeof CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE;
 }
 
-export interface AddTeamMemberToTeamStreakAction {
-    type: typeof ADD_TEAM_MEMBER_TO_TEAM_STREAK;
+export interface AddUserToTeamStreakAction {
+    type: typeof ADD_USER_TO_TEAM_STREAK;
     payload: PopulatedTeamMemberWithClientData;
 }
 
-export interface AddTeamMemberToTeamStreakFailAction {
-    type: typeof ADD_TEAM_MEMBER_TO_TEAM_STREAK_FAIL;
+export interface AddUserToTeamStreakFailAction {
+    type: typeof ADD_USER_TO_TEAM_STREAK_FAIL;
     errorMessage: string;
 }
 
@@ -1281,8 +1281,8 @@ export type TeamStreakActionTypes =
     | EditTeamStreakLoadingAction
     | EditTeamStreakLoadedAction
     | ClearEditTeamStreakErrorMessageAction
-    | AddTeamMemberToTeamStreakAction
-    | AddTeamMemberToTeamStreakFailAction
+    | AddUserToTeamStreakAction
+    | AddUserToTeamStreakFailAction
     | CompleteTeamMemberStreakListTaskAction
     | CompleteTeamMemberStreakListTaskFailAction
     | CompleteTeamMemberStreakListTaskLoadingAction

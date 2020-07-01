@@ -37,8 +37,8 @@ import {
     UPDATE_TEAM_STREAK_TIMEZONE,
     UPDATE_TEAM_STREAK_TIMEZONE_FAIL,
     CLEAR_SELECTED_TEAM_STREAK,
-    ADD_TEAM_MEMBER_TO_TEAM_STREAK,
-    ADD_TEAM_MEMBER_TO_TEAM_STREAK_FAIL,
+    ADD_USER_TO_TEAM_STREAK,
+    ADD_USER_TO_TEAM_STREAK_FAIL,
     GET_SELECTED_TEAM_STREAK,
     GET_SELECTED_TEAM_STREAK_IS_LOADING,
     GET_SELECTED_TEAM_STREAK_IS_LOADED,
@@ -653,12 +653,12 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                     totalTimesTracked: 0,
                 },
             };
-            dispatch({ type: ADD_TEAM_MEMBER_TO_TEAM_STREAK, payload: populatedTeamMemberWithClientData });
+            dispatch({ type: ADD_USER_TO_TEAM_STREAK, payload: populatedTeamMemberWithClientData });
         } catch (err) {
             if (err.response) {
-                dispatch({ type: ADD_TEAM_MEMBER_TO_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: ADD_USER_TO_TEAM_STREAK_FAIL, errorMessage: err.response.data.message });
             } else {
-                dispatch({ type: ADD_TEAM_MEMBER_TO_TEAM_STREAK_FAIL, errorMessage: err.message });
+                dispatch({ type: ADD_USER_TO_TEAM_STREAK_FAIL, errorMessage: err.message });
             }
         }
     };
