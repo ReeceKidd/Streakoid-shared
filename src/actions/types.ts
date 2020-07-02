@@ -933,12 +933,10 @@ export const ADD_USER_TO_TEAM_STREAK_FAIL = 'ADD_USER_TO_TEAM_STREAK_FAIL';
 export const ADD_USER_TO_TEAM_STREAK_LOADING = 'ADD_USER_TO_TEAM_STREAK_LOADING';
 export const ADD_USER_TO_TEAM_STREAK_LOADED = 'ADD_USER_TO_TEAM_STREAK_LOADED';
 
-export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK';
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL';
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING';
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED';
 
-export const INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK = 'INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK';
 export const INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL = 'INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL';
 export const INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING = 'INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING';
 export const INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED = 'INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED';
@@ -1074,11 +1072,6 @@ export interface AddUserToTeamStreakLoadedAction {
     type: typeof ADD_USER_TO_TEAM_STREAK_LOADED;
 }
 
-export interface CompleteTeamMemberStreakListTaskAction {
-    type: typeof COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK;
-    payload: { teamMemberStreakId: string };
-}
-
 export interface CompleteTeamMemberStreakListTaskFailAction {
     type: typeof COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL;
     payload: { teamMemberStreakId: string; errorMessage: string };
@@ -1092,11 +1085,6 @@ export interface CompleteTeamMemberStreakListTaskLoadingAction {
 export interface CompleteTeamMemberStreakListTaskLoadedAction {
     type: typeof COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED;
     teamMemberStreakId: string;
-}
-
-export interface IncompleteTeamMemberStreakListTaskAction {
-    type: typeof INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK;
-    payload: { teamMemberStreakId: string };
 }
 
 export interface IncompleteTeamMemberStreakListTaskFailAction {
@@ -1248,11 +1236,9 @@ export type TeamStreakActionTypes =
     | AddUserToTeamStreakFailAction
     | AddUserToTeamStreakLoadingAction
     | AddUserToTeamStreakLoadedAction
-    | CompleteTeamMemberStreakListTaskAction
     | CompleteTeamMemberStreakListTaskFailAction
     | CompleteTeamMemberStreakListTaskLoadingAction
     | CompleteTeamMemberStreakListTaskLoadedAction
-    | IncompleteTeamMemberStreakListTaskAction
     | IncompleteTeamMemberStreakListTaskFailAction
     | IncompleteTeamMemberStreakListTaskLoadingAction
     | IncompleteTeamMemberStreakListTaskLoadedAction

@@ -200,6 +200,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         getState: () => AppState,
     ): Promise<void> => {
         try {
+            console.log('ENTERED GET SELECTED TEAM STREAK');
             dispatch({ type: GET_SELECTED_TEAM_STREAK_IS_LOADING });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
             const members = await Promise.all(

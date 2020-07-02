@@ -1,11 +1,9 @@
 import { Dispatch } from 'redux';
 import {
     COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL,
-    COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK,
     COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING,
     COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED,
     INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL,
-    INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK,
     INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING,
     INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED,
 } from './types';
@@ -31,12 +29,8 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                 teamMemberStreakId,
             });
 
-            dispatch({
-                type: COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK,
-                payload: { teamMemberStreakId },
-            });
-
             if (getState().teamStreaks.selectedTeamStreak._id === teamStreakId) {
+                console.log('Entered if statement in completeTeamMemberStreakTask');
                 teamStreakActions(streakoid).getSelectedTeamStreak(teamStreakId);
             }
 
@@ -74,11 +68,6 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                 userId,
                 teamStreakId,
                 teamMemberStreakId,
-            });
-
-            dispatch({
-                type: INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK,
-                payload: { teamMemberStreakId },
             });
 
             if (getState().teamStreaks.selectedTeamStreak._id === teamStreakId) {
