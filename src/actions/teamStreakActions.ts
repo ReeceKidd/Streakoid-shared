@@ -671,75 +671,10 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 },
             };
             dispatch({ type: ADD_USER_TO_TEAM_STREAK, payload: populatedTeamMemberWithClientData });
-            if (getState().teamStreaks.selectedTeamStreak._id === teamStreakId) {
-                const selectedTeamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
-                dispatch({
-                    type: GET_SELECTED_TEAM_STREAK,
-                    payload: {
-                        ...getState().teamStreaks.selectedTeamStreak,
-                        members: await Promise.all(
-                            selectedTeamStreak.members.map(async member => {
-                                const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                                    userId: member._id,
-                                    teamStreakId,
-                                });
-                                const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                                const longestStreak = getLongestStreak(currentStreak, pastStreaks);
-                                return {
-                                    ...member,
-                                    teamMemberStreak: {
-                                        ...member.teamMemberStreak,
-                                        completeTeamMemberStreakTaskIsLoading: false,
-                                        completeTeamMemberStreakTaskErrorMessage: '',
-                                        incompleteTeamMemberStreakTaskIsLoading: false,
-                                        incompleteTeamMemberStreakTaskErrorMessage: '',
-                                        longestStreak,
-                                        totalTimesTracked: totalTimesTracked.length,
-                                    },
-                                };
-                            }),
-                        ),
-                    },
-                });
-            }
-            const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
-            const teamStreaksWithLoadingStates = await Promise.all(
-                teamStreaks.map(async teamStreak => {
-                    const members = await Promise.all(
-                        teamStreak.members.map(async member => {
-                            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                                userId: member._id,
-                                teamStreakId: teamStreak._id,
-                            });
-                            const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    completeTeamMemberStreakTaskIsLoading: false,
-                                    completeTeamMemberStreakTaskErrorMessage: '',
-                                    incompleteTeamMemberStreakTaskIsLoading: false,
-                                    incompleteTeamMemberStreakTaskErrorMessage: '',
-                                    longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                                    totalTimesTracked: totalTimesTracked.length,
-                                },
-                            };
-                        }),
-                    );
-                    return {
-                        ...teamStreak,
-                        members,
-                        activityFeed: {
-                            totalActivityFeedCount: 0,
-                            activityFeedItems: [],
-                        },
-                    };
-                }),
-            );
-            dispatch({
-                type: GET_LIVE_TEAM_STREAKS,
-                payload: teamStreaksWithLoadingStates,
-            });
+
+            getSelectedTeamStreak(teamStreakId);
+
+            getLiveTeamStreaks({ currentUserId: getState().users.currentUser._id });
 
             dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADED });
         } catch (err) {
