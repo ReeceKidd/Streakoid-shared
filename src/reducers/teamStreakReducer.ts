@@ -39,14 +39,6 @@ import {
     GET_SELECTED_TEAM_STREAK,
     GET_SELECTED_TEAM_STREAK_IS_LOADING,
     GET_SELECTED_TEAM_STREAK_IS_LOADED,
-    COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK,
-    COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL,
-    COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING,
-    COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED,
-    INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK,
-    INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL,
-    INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING,
-    INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED,
     UPDATE_TEAM_STREAK_REMINDER_INFO,
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING,
@@ -243,11 +235,13 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id == action.teamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.payload.teamMemberStreakId) {
                             return {
                                 ...member,
-                                ...member.teamMemberStreak,
-                                completedToday: true,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completedToday: true,
+                                },
                             };
                         }
                         return member;
@@ -258,6 +252,22 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         members,
                     };
                 }),
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id === action.payload.teamMemberStreakId) {
+                            return {
+                                ...member,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completedToday: true,
+                                },
+                            };
+                        }
+                        return member;
+                    }),
+                    hasCurrentUserCompletedTaskForTheDay: true,
+                },
             };
 
         case COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL:
@@ -333,106 +343,6 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         members,
                     };
                 }),
-            };
-
-        case COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK:
-            return {
-                ...state,
-                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
-                    const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    completedToday: true,
-                                },
-                            };
-                        }
-                        return member;
-                    });
-
-                    return {
-                        ...teamStreak,
-                        members,
-                    };
-                }),
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    completedToday: true,
-                                },
-                            };
-                        }
-                        return member;
-                    }),
-                    hasCurrentUserCompletedTaskForTheDay: true,
-                },
-            };
-
-        case COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL:
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    completeTeamMemberStreakTaskErrorMessage: action.payload.errorMessage,
-                                },
-                            };
-                        }
-                        return member;
-                    }),
-                },
-            };
-
-        case COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING:
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    completeTeamMemberStreakTaskIsLoading: true,
-                                },
-                            };
-                        }
-                        return member;
-                    }),
-                },
-            };
-
-        case COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED:
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    completeTeamMemberStreakTaskIsLoading: false,
-                                },
-                            };
-                        }
-                        return member;
-                    }),
-                },
             };
 
         case INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK:
@@ -549,95 +459,6 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         members,
                     };
                 }),
-            };
-
-        case INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK:
-            return {
-                ...state,
-                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
-                    const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
-                            const completedTeamMemberStreak = {
-                                ...member.teamMemberStreak,
-                                completedToday: false,
-                            };
-                            return {
-                                ...member,
-                                teamMemberStreak: completedTeamMemberStreak,
-                            };
-                        }
-                        return member;
-                    });
-
-                    return {
-                        ...teamStreak,
-                        members,
-                    };
-                }),
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    hasCurrentUserCompletedTaskForTheDay: false,
-                },
-            };
-
-        case INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL:
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    incompleteTeamMemberStreakTaskErrorMessage: action.payload.errorMessage,
-                                },
-                            };
-                        }
-                        return member;
-                    }),
-                },
-            };
-
-        case INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING:
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    incompleteTeamMemberStreakTaskIsLoading: true,
-                                },
-                            };
-                        }
-                        return member;
-                    }),
-                },
-            };
-
-        case INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED:
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    incompleteTeamMemberStreakTaskIsLoading: false,
-                                },
-                            };
-                        }
-                        return member;
-                    }),
-                },
             };
 
         case CREATE_TEAM_STREAK_IS_LOADING:

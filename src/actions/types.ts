@@ -968,20 +968,6 @@ export const DELETE_ARCHIVED_TEAM_STREAK_LOADED = 'DELETE_ARCHIVED_TEAM_STREAK_L
 export const UPDATE_TEAM_STREAK_TIMEZONE = 'UPDATE_TEAM_STREAK_TIMEZONE';
 export const UPDATE_TEAM_STREAK_TIMEZONE_FAIL = 'UPDATE_TEAM_STREAK_TIMEZONE_FAIL';
 
-export const COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK = 'COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK';
-export const COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL = 'COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL';
-export const COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING =
-    'COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING';
-export const COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED =
-    'COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED';
-
-export const INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK = 'INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK';
-export const INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL = 'INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL';
-export const INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING =
-    'INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING';
-export const INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED =
-    'INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED';
-
 export const CLEAR_SELECTED_TEAM_STREAK = 'CLEAR_SELECTED_TEAM_STREAK';
 
 export const UPDATE_TEAM_STREAK_REMINDER_INFO = 'UPDATE_TEAM_STREAK_REMINDER_INFO';
@@ -1090,7 +1076,7 @@ export interface AddUserToTeamStreakLoadedAction {
 
 export interface CompleteTeamMemberStreakListTaskAction {
     type: typeof COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK;
-    teamMemberStreakId: string;
+    payload: { teamMemberStreakId: string };
 }
 
 export interface CompleteTeamMemberStreakListTaskFailAction {
@@ -1217,46 +1203,6 @@ export interface UpdateTimezoneFailAction {
     payload: string;
 }
 
-export interface CompleteSelectedTeamMemberStreakTaskAction {
-    type: typeof COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK;
-    payload: { selectedTeamMemberStreakId: string };
-}
-
-export interface CompleteSelectedTeamMemberStreakTaskFailAction {
-    type: typeof COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL;
-    payload: { selectedTeamMemberStreakId: string; errorMessage: string };
-}
-
-export interface CompleteSelectedTeamMemberStreakTaskIsLoadingAction {
-    type: typeof COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING;
-    payload: { selectedTeamMemberStreakId: string };
-}
-
-export interface CompleteSelectedTeamMemberStreakTaskIsLoadedAction {
-    type: typeof COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED;
-    payload: { selectedTeamMemberStreakId: string };
-}
-
-export interface IncompleteSelectedTeamMemberStreakTaskAction {
-    type: typeof INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK;
-    payload: { selectedTeamMemberStreakId: string };
-}
-
-export interface IncompleteSelectedTeamMemberStreakTaskFailAction {
-    type: typeof INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_FAIL;
-    payload: { selectedTeamMemberStreakId: string; errorMessage: string };
-}
-
-export interface IncompleteSelectedTeamMemberStreakTaskIsLoadingAction {
-    type: typeof INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING;
-    payload: { selectedTeamMemberStreakId: string };
-}
-
-export interface IncompleteSelectedTeamMemberStreakTaskIsLoadedAction {
-    type: typeof INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED;
-    payload: { selectedTeamMemberStreakId: string };
-}
-
 export interface ClearSelectedTeamStreakAction {
     type: typeof CLEAR_SELECTED_TEAM_STREAK;
 }
@@ -1330,14 +1276,6 @@ export type TeamStreakActionTypes =
     | DeleteArchivedTeamStreakLoadedAction
     | UpdateTimezoneAction
     | UpdateTimezoneFailAction
-    | CompleteSelectedTeamMemberStreakTaskAction
-    | CompleteSelectedTeamMemberStreakTaskFailAction
-    | CompleteSelectedTeamMemberStreakTaskIsLoadingAction
-    | CompleteSelectedTeamMemberStreakTaskIsLoadedAction
-    | IncompleteSelectedTeamMemberStreakTaskAction
-    | IncompleteSelectedTeamMemberStreakTaskFailAction
-    | IncompleteSelectedTeamMemberStreakTaskIsLoadingAction
-    | IncompleteSelectedTeamMemberStreakTaskIsLoadedAction
     | ClearSelectedTeamStreakAction
     | UpdateTeamStreakReminderInfoAction
     | UpdateTeamStreakReminderInfoFailAction
