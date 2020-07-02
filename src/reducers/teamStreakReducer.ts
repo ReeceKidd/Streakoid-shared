@@ -251,9 +251,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         ...teamStreak,
                         members,
                         completedToday: !Boolean(
-                            state.selectedTeamStreak.members.find(
-                                member => member.teamMemberStreak.completedToday === false,
-                            ),
+                            members.find(member => member.teamMemberStreak.completedToday === false),
                         ),
                     };
                 }),
