@@ -371,6 +371,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         }
                         return member;
                     }),
+                    hasCurrentUserCompletedTaskForTheDay: true,
                 },
             };
 
@@ -471,6 +472,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         }
                         return member;
                     }),
+                    hasCurrentUserCompletedTaskForTheDay: false,
                 },
             };
 
