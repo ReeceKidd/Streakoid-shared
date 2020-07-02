@@ -250,10 +250,32 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                     return {
                         ...teamStreak,
                         members,
+                        completedToday: !Boolean(
+                            state.selectedTeamStreak.members.find(
+                                member => member.teamMemberStreak.completedToday === false,
+                            ),
+                        ),
                     };
                 }),
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
+                    completedToday: !Boolean(
+                        state.selectedTeamStreak.members.find(
+                            member => member.teamMemberStreak.completedToday === false,
+                        ),
+                    ),
+                    currentStreak: {
+                        ...state.selectedTeamStreak.currentStreak,
+                        numberOfDaysInARow:
+                            state.selectedTeamStreak.completedToday !==
+                            !Boolean(
+                                state.selectedTeamStreak.members.find(
+                                    member => member.teamMemberStreak.completedToday === false,
+                                ),
+                            )
+                                ? state.selectedTeamStreak.currentStreak.numberOfDaysInARow + 1
+                                : state.selectedTeamStreak.currentStreak.numberOfDaysInARow,
+                    },
                     members: state.selectedTeamStreak.members.map(member => {
                         if (member.teamMemberStreak._id === action.payload.teamMemberStreakId) {
                             return {
@@ -366,10 +388,19 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                     return {
                         ...teamStreak,
                         members,
+                        completedToday: false,
                     };
                 }),
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
+                    completedToday: false,
+                    currentStreak: {
+                        ...state.selectedTeamStreak.currentStreak,
+                        numberOfDaysInARow:
+                            state.selectedTeamStreak.completedToday !== false
+                                ? state.selectedTeamStreak.currentStreak.numberOfDaysInARow - 1
+                                : state.selectedTeamStreak.currentStreak.numberOfDaysInARow,
+                    },
                     members: state.selectedTeamStreak.members.map(member => {
                         if (member.teamMemberStreak._id === action.payload.teamMemberStreakId) {
                             return {
