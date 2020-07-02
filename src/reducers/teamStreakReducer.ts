@@ -826,17 +826,21 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     if (teamStreak._id === action.payload.teamStreakId) {
-                        teamStreak.members.map(member => {
-                            if (member._id === action.payload.teamMemberId) {
-                                return {
-                                    ...member,
-                                    teamMemberStreak: {
-                                        ...member.teamMemberStreak,
-                                        completedToday: true,
-                                    },
-                                };
-                            }
-                        });
+                        return {
+                            ...teamStreak,
+                            members: teamStreak.members.map(member => {
+                                if (member._id === action.payload.teamMemberId) {
+                                    return {
+                                        ...member,
+                                        teamMemberStreak: {
+                                            ...member.teamMemberStreak,
+                                            completedToday: true,
+                                        },
+                                    };
+                                }
+                                return member;
+                            }),
+                        };
                     }
                     return teamStreak;
                 }),
@@ -848,17 +852,21 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     if (teamStreak._id === action.payload.teamStreakId) {
-                        teamStreak.members.map(member => {
-                            if (member._id === action.payload.teamMemberId) {
-                                return {
-                                    ...member,
-                                    teamMemberStreak: {
-                                        ...member.teamMemberStreak,
-                                        completedToday: false,
-                                    },
-                                };
-                            }
-                        });
+                        return {
+                            ...teamStreak,
+                            members: teamStreak.members.map(member => {
+                                if (member._id === action.payload.teamMemberId) {
+                                    return {
+                                        ...member,
+                                        teamMemberStreak: {
+                                            ...member.teamMemberStreak,
+                                            completedToday: false,
+                                        },
+                                    };
+                                }
+                                return member;
+                            }),
+                        };
                     }
                     return teamStreak;
                 }),
