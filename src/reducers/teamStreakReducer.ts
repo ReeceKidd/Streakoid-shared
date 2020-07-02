@@ -736,8 +736,6 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
         }
 
         case ADD_USER_TO_TEAM_STREAK:
-            console.log('Add users payload', action.payload);
-            console.log('Current selected team streak members', state.selectedTeamStreak.members);
             return {
                 ...state,
 

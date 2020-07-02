@@ -350,9 +350,16 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                     };
                 }),
             );
+            const inviteKeyResponse = getState().auth.isAuthenticated
+                ? await streakoid.teamStreaks.inviteKey({ teamStreakId: teamStreak._id })
+                : undefined;
+            const inviteKey = inviteKeyResponse && inviteKeyResponse.inviteKey;
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
+                inviteUrl: inviteKey
+                    ? `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreak._id}?key=${inviteKey}`
+                    : undefined,
             };
             dispatch({ type: CREATE_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: CREATE_TEAM_STREAK_IS_LOADED });
