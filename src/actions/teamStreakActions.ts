@@ -670,6 +670,44 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 },
             };
             dispatch({ type: ADD_USER_TO_TEAM_STREAK, payload: populatedTeamMemberWithClientData });
+            const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
+            const teamStreaksWithLoadingStates = await Promise.all(
+                teamStreaks.map(async teamStreak => {
+                    const members = await Promise.all(
+                        teamStreak.members.map(async member => {
+                            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
+                                userId: member._id,
+                                teamStreakId: teamStreak._id,
+                            });
+                            const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                            return {
+                                ...member,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completeTeamMemberStreakTaskIsLoading: false,
+                                    completeTeamMemberStreakTaskErrorMessage: '',
+                                    incompleteTeamMemberStreakTaskIsLoading: false,
+                                    incompleteTeamMemberStreakTaskErrorMessage: '',
+                                    longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                                    totalTimesTracked: totalTimesTracked.length,
+                                },
+                            };
+                        }),
+                    );
+                    return {
+                        ...teamStreak,
+                        members,
+                        activityFeed: {
+                            totalActivityFeedCount: 0,
+                            activityFeedItems: [],
+                        },
+                    };
+                }),
+            );
+            dispatch({
+                type: GET_LIVE_TEAM_STREAKS,
+                payload: teamStreaksWithLoadingStates,
+            });
             dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADED });
         } catch (err) {
             dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADED });
