@@ -343,8 +343,10 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
                             return {
                                 ...member,
-                                ...member.teamMemberStreak,
-                                completedToday: true,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completedToday: true,
+                                },
                             };
                         }
                         return member;
