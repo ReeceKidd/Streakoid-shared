@@ -17,6 +17,8 @@ import {
     INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED,
     INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK,
     INCOMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADING,
+    TEAM_MEMBER_COMPLETED_TASK,
+    TEAM_MEMBER_INCOMPLETED_TASK,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -125,6 +127,10 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                 payload: { selectedTeamMemberStreakId },
             });
             dispatch({
+                type: TEAM_MEMBER_COMPLETED_TASK,
+                payload: { teamMemberId: userId, teamStreakId },
+            });
+            dispatch({
                 type: COMPLETE_SELECTED_TEAM_MEMBER_STREAK_TASK_IS_LOADED,
                 payload: { selectedTeamMemberStreakId },
             });
@@ -202,12 +208,15 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                 type: GET_LIVE_TEAM_STREAKS,
                 payload: teamStreaksWithLoadingStates,
             });
-
-            dispatch({ type: INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED, teamMemberStreakId });
             dispatch({
                 type: INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK,
                 teamMemberStreakId,
             });
+            dispatch({
+                type: TEAM_MEMBER_INCOMPLETED_TASK,
+                payload: { teamMemberId: userId, teamStreakId },
+            });
+            dispatch({ type: INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED, teamMemberStreakId });
         } catch (err) {
             dispatch({ type: INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED, teamMemberStreakId });
             if (err.response) {

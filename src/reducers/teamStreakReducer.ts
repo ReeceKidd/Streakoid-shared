@@ -54,6 +54,8 @@ import {
     ADD_USER_TO_TEAM_STREAK_FAIL,
     ADD_USER_TO_TEAM_STREAK_LOADING,
     ADD_USER_TO_TEAM_STREAK_LOADED,
+    TEAM_MEMBER_COMPLETED_TASK,
+    TEAM_MEMBER_INCOMPLETED_TASK,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -816,6 +818,50 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
             return {
                 ...state,
                 selectedTeamStreak: defaultSelectedTeamStreak,
+            };
+        }
+
+        case TEAM_MEMBER_COMPLETED_TASK: {
+            return {
+                ...state,
+                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
+                    if (teamStreak._id === action.payload.teamStreakId) {
+                        teamStreak.members.map(member => {
+                            if (member._id === action.payload.teamMemberId) {
+                                return {
+                                    ...member,
+                                    teamMemberStreak: {
+                                        ...member.teamMemberStreak,
+                                        completedToday: true,
+                                    },
+                                };
+                            }
+                        });
+                    }
+                    return teamStreak;
+                }),
+            };
+        }
+
+        case TEAM_MEMBER_INCOMPLETED_TASK: {
+            return {
+                ...state,
+                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
+                    if (teamStreak._id === action.payload.teamStreakId) {
+                        teamStreak.members.map(member => {
+                            if (member._id === action.payload.teamMemberId) {
+                                return {
+                                    ...member,
+                                    teamMemberStreak: {
+                                        ...member.teamMemberStreak,
+                                        completedToday: false,
+                                    },
+                                };
+                            }
+                        });
+                    }
+                    return teamStreak;
+                }),
             };
         }
 
