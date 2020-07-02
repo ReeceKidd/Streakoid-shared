@@ -989,9 +989,6 @@ export const UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL = 'UPDATE_TEAM_STREAK_REMINDE
 export const UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING = 'UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING';
 export const UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED = 'UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED';
 
-export const TEAM_MEMBER_COMPLETED_TASK = 'TEAM_MEMBER_COMPLETED_TASK';
-export const TEAM_MEMBER_INCOMPLETED_TASK = 'TEAM_MEMBER_INCOMPLETED_TASK';
-
 export interface GetLiveTeamStreaksAction {
     type: typeof GET_LIVE_TEAM_STREAKS;
     payload: PopulatedTeamStreakWithClientData[];
@@ -1113,7 +1110,7 @@ export interface CompleteTeamMemberStreakListTaskLoadedAction {
 
 export interface IncompleteTeamMemberStreakListTaskAction {
     type: typeof INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK;
-    teamMemberStreakId: string;
+    payload: { teamMemberStreakId: string };
 }
 
 export interface IncompleteTeamMemberStreakListTaskFailAction {
@@ -1282,16 +1279,6 @@ export interface UpdateTeamStreakReminderInfoIsLoadedAction {
     type: typeof UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED;
 }
 
-export interface TeamMemberCompletedTaskAction {
-    type: typeof TEAM_MEMBER_COMPLETED_TASK;
-    payload: { teamStreakId: string; teamMemberId: string };
-}
-
-export interface TeamMemberIncompletedTaskAction {
-    type: typeof TEAM_MEMBER_INCOMPLETED_TASK;
-    payload: { teamStreakId: string; teamMemberId: string };
-}
-
 export type TeamStreakActionTypes =
     | GetLiveTeamStreaksAction
     | GetLiveTeamStreaksFailAction
@@ -1355,9 +1342,7 @@ export type TeamStreakActionTypes =
     | UpdateTeamStreakReminderInfoAction
     | UpdateTeamStreakReminderInfoFailAction
     | UpdateTeamStreakReminderInfoIsLoadingAction
-    | UpdateTeamStreakReminderInfoIsLoadedAction
-    | TeamMemberCompletedTaskAction
-    | TeamMemberIncompletedTaskAction;
+    | UpdateTeamStreakReminderInfoIsLoadedAction;
 
 export const GET_TEAM_MEMBER_STREAK = 'GET_TEAM_MEMBER_STREAK';
 export const GET_TEAM_MEMBER_STREAK_FAIL = 'GET_TEAM_MEMBER_STREAK_FAIL';

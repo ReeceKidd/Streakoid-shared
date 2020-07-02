@@ -54,8 +54,6 @@ import {
     ADD_USER_TO_TEAM_STREAK_FAIL,
     ADD_USER_TO_TEAM_STREAK_LOADING,
     ADD_USER_TO_TEAM_STREAK_LOADED,
-    TEAM_MEMBER_COMPLETED_TASK,
-    TEAM_MEMBER_INCOMPLETED_TASK,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -246,13 +244,10 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
                         if (member.teamMemberStreak._id == action.teamMemberStreakId) {
-                            const completedTeamMemberStreak = {
-                                ...member.teamMemberStreak,
-                                completedToday: true,
-                            };
                             return {
                                 ...member,
-                                teamMemberStreak: completedTeamMemberStreak,
+                                ...member.teamMemberStreak,
+                                completedToday: true,
                             };
                         }
                         return member;
@@ -346,13 +341,10 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
                         if (member.teamMemberStreak._id == action.payload.selectedTeamMemberStreakId) {
-                            const completedTeamMemberStreak = {
-                                ...member.teamMemberStreak,
-                                completedToday: true,
-                            };
                             return {
                                 ...member,
-                                teamMemberStreak: completedTeamMemberStreak,
+                                ...member.teamMemberStreak,
+                                completedToday: true,
                             };
                         }
                         return member;
@@ -365,7 +357,18 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 }),
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    hasCurrentUserCompletedTaskForTheDay: true,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id === action.payload.selectedTeamMemberStreakId) {
+                            return {
+                                ...member,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completedToday: true,
+                                },
+                            };
+                        }
+                        return member;
+                    }),
                 },
             };
 
@@ -434,7 +437,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id == action.teamMemberStreakId) {
+                        if (member.teamMemberStreak._id == action.payload.teamMemberStreakId) {
                             const completedTeamMemberStreak = {
                                 ...member.teamMemberStreak,
                                 completedToday: false,
@@ -452,6 +455,21 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         members,
                     };
                 }),
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member.teamMemberStreak._id === action.payload.teamMemberStreakId) {
+                            return {
+                                ...member,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completedToday: false,
+                                },
+                            };
+                        }
+                        return member;
+                    }),
+                },
             };
 
         case INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL:
@@ -818,94 +836,6 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
             return {
                 ...state,
                 selectedTeamStreak: defaultSelectedTeamStreak,
-            };
-        }
-
-        case TEAM_MEMBER_COMPLETED_TASK: {
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    members:
-                        action.payload.teamStreakId === state.selectedTeamStreak._id
-                            ? state.selectedTeamStreak.members.map(member => {
-                                  if (member._id === action.payload.teamMemberId) {
-                                      return {
-                                          ...member,
-                                          teamMemberStreak: {
-                                              ...member.teamMemberStreak,
-                                              completedToday: true,
-                                          },
-                                      };
-                                  }
-                                  return member;
-                              })
-                            : state.selectedTeamStreak.members,
-                },
-                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
-                    if (teamStreak._id === action.payload.teamStreakId) {
-                        return {
-                            ...teamStreak,
-                            members: teamStreak.members.map(member => {
-                                if (member._id === action.payload.teamMemberId) {
-                                    return {
-                                        ...member,
-                                        teamMemberStreak: {
-                                            ...member.teamMemberStreak,
-                                            completedToday: true,
-                                        },
-                                    };
-                                }
-                                return member;
-                            }),
-                        };
-                    }
-                    return teamStreak;
-                }),
-            };
-        }
-
-        case TEAM_MEMBER_INCOMPLETED_TASK: {
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    members:
-                        action.payload.teamStreakId === state.selectedTeamStreak._id
-                            ? state.selectedTeamStreak.members.map(member => {
-                                  if (member._id === action.payload.teamMemberId) {
-                                      return {
-                                          ...member,
-                                          teamMemberStreak: {
-                                              ...member.teamMemberStreak,
-                                              completedToday: false,
-                                          },
-                                      };
-                                  }
-                                  return member;
-                              })
-                            : state.selectedTeamStreak.members,
-                },
-                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
-                    if (teamStreak._id === action.payload.teamStreakId) {
-                        return {
-                            ...teamStreak,
-                            members: teamStreak.members.map(member => {
-                                if (member._id === action.payload.teamMemberId) {
-                                    return {
-                                        ...member,
-                                        teamMemberStreak: {
-                                            ...member.teamMemberStreak,
-                                            completedToday: false,
-                                        },
-                                    };
-                                }
-                                return member;
-                            }),
-                        };
-                    }
-                    return teamStreak;
-                }),
             };
         }
 
