@@ -39,6 +39,31 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                 payload: { teamMemberStreakId },
             });
 
+            if (getState().teamStreaks.selectedTeamStreak._id === teamStreakId) {
+                const selectedTeamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
+                dispatch({
+                    type: GET_SELECTED_TEAM_STREAK,
+                    payload: {
+                        ...getState().teamStreaks.selectedTeamStreak,
+                        completedToday: selectedTeamStreak.completedToday,
+                        currentStreak: selectedTeamStreak.currentStreak,
+                        members: getState().teamStreaks.selectedTeamStreak.members.map(member => {
+                            if (member.teamMemberStreak._id === teamMemberStreakId) {
+                                return {
+                                    ...member,
+                                    teamMemberStreak: {
+                                        ...member.teamMemberStreak,
+                                        completedToday: true,
+                                    },
+                                };
+                            }
+                            return member;
+                        }),
+                        hasCurrentUserCompletedTaskForTheDay: true,
+                    },
+                });
+            }
+
             const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
             const teamStreaksWithLoadingStates = await Promise.all(
                 teamStreaks.map(async teamStreak => {
@@ -77,31 +102,7 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                 type: GET_LIVE_TEAM_STREAKS,
                 payload: teamStreaksWithLoadingStates,
             });
-            const selectedTeamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
-            dispatch({
-                type: GET_SELECTED_TEAM_STREAK,
-                payload:
-                    selectedTeamStreak._id === teamStreakId
-                        ? {
-                              ...getState().teamStreaks.selectedTeamStreak,
-                              completedToday: selectedTeamStreak.completedToday,
-                              currentStreak: selectedTeamStreak.currentStreak,
-                              members: getState().teamStreaks.selectedTeamStreak.members.map(member => {
-                                  if (member.teamMemberStreak._id === teamMemberStreakId) {
-                                      return {
-                                          ...member,
-                                          teamMemberStreak: {
-                                              ...member.teamMemberStreak,
-                                              completedToday: true,
-                                          },
-                                      };
-                                  }
-                                  return member;
-                              }),
-                              hasCurrentUserCompletedTaskForTheDay: true,
-                          }
-                        : getState().teamStreaks.selectedTeamStreak,
-            });
+
             dispatch({ type: COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED, teamMemberStreakId });
         } catch (err) {
             dispatch({ type: COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED, teamMemberStreakId });
@@ -141,6 +142,31 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                 payload: { teamMemberStreakId },
             });
 
+            if (getState().teamStreaks.selectedTeamStreak._id === teamStreakId) {
+                const selectedTeamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
+                dispatch({
+                    type: GET_SELECTED_TEAM_STREAK,
+                    payload: {
+                        ...getState().teamStreaks.selectedTeamStreak,
+                        completedToday: selectedTeamStreak.completedToday,
+                        currentStreak: selectedTeamStreak.currentStreak,
+                        members: getState().teamStreaks.selectedTeamStreak.members.map(member => {
+                            if (member.teamMemberStreak._id === teamMemberStreakId) {
+                                return {
+                                    ...member,
+                                    teamMemberStreak: {
+                                        ...member.teamMemberStreak,
+                                        completedToday: false,
+                                    },
+                                };
+                            }
+                            return member;
+                        }),
+                        hasCurrentUserCompletedTaskForTheDay: false,
+                    },
+                });
+            }
+
             const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
             const teamStreaksWithLoadingStates = await Promise.all(
                 teamStreaks.map(async teamStreak => {
@@ -178,31 +204,6 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
             dispatch({
                 type: GET_LIVE_TEAM_STREAKS,
                 payload: teamStreaksWithLoadingStates,
-            });
-            const selectedTeamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
-            dispatch({
-                type: GET_SELECTED_TEAM_STREAK,
-                payload:
-                    selectedTeamStreak._id === teamStreakId
-                        ? {
-                              ...getState().teamStreaks.selectedTeamStreak,
-                              completedToday: selectedTeamStreak.completedToday,
-                              currentStreak: selectedTeamStreak.currentStreak,
-                              members: getState().teamStreaks.selectedTeamStreak.members.map(member => {
-                                  if (member.teamMemberStreak._id === teamMemberStreakId) {
-                                      return {
-                                          ...member,
-                                          teamMemberStreak: {
-                                              ...member.teamMemberStreak,
-                                              completedToday: false,
-                                          },
-                                      };
-                                  }
-                                  return member;
-                              }),
-                              hasCurrentUserCompletedTaskForTheDay: false,
-                          }
-                        : getState().teamStreaks.selectedTeamStreak,
             });
 
             dispatch({ type: INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED, teamMemberStreakId });
