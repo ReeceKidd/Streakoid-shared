@@ -55,6 +55,7 @@ export const NAVIGATE_TO_VERIFY_EMAIL = 'NAVIGATE_TO_VERIFY_EMAIL';
 export const NAVIGATE_TO_CHOOSE_PASSWORD = 'NAVIGATE_TO_CHOOSE_PASSWORD';
 export const NAVIGATE_TO_COMPLETED_REGISTRATION = 'NAVIGATE_TO_COMPLETED_REGISTRATION';
 export const NAVIGATE_TO_CHOOSE_A_PROFILE_PICTURE = 'NAVIGATE_TO_CHOOSE_A_PROFILE_PICTURE';
+export const NAVIGATE_TO_ADD_TEAM_MEMBER = 'NAVIGATE_TO_ADD_TEAM_MEMBER';
 
 export interface NavigateToHomeAction {
     type: typeof NAVIGATE_TO_HOME;
@@ -115,6 +116,11 @@ export interface NavigateToChooseAProfilePictureAction {
     type: typeof NAVIGATE_TO_CHOOSE_A_PROFILE_PICTURE;
 }
 
+export interface NavigateToAddTeamMember {
+    type: typeof NAVIGATE_TO_ADD_TEAM_MEMBER;
+    payload: { teamStreakId: string };
+}
+
 export type NavigationActionTypes =
     | NavigateToHomeAction
     | NavigateToVerifyEmailAction
@@ -129,7 +135,8 @@ export type NavigationActionTypes =
     | NavigateToSpecificChallengeStreakAction
     | NavigateToChoosePasswordAction
     | NavigateToCompletedRegistrationAction
-    | NavigateToChooseAProfilePictureAction;
+    | NavigateToChooseAProfilePictureAction
+    | NavigateToAddTeamMember;
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 

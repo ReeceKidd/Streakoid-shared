@@ -50,6 +50,7 @@ import {
     UPDATE_CURRENT_USER,
     ADD_USER_TO_TEAM_STREAK_LOADING,
     ADD_USER_TO_TEAM_STREAK_LOADED,
+    NAVIGATE_TO_ADD_TEAM_MEMBER,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -363,6 +364,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             };
             dispatch({ type: CREATE_TEAM_STREAK, payload: teamStreakWithLoadingState });
             dispatch({ type: CREATE_TEAM_STREAK_IS_LOADED });
+            dispatch({ type: NAVIGATE_TO_ADD_TEAM_MEMBER, payload: { teamStreakId: teamStreak._id } });
         } catch (err) {
             dispatch({ type: CREATE_TEAM_STREAK_IS_LOADED });
             if (err.response) {
