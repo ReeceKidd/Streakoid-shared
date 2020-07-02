@@ -255,39 +255,6 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         ),
                     };
                 }),
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    completedToday: !Boolean(
-                        state.selectedTeamStreak.members.find(
-                            member => member.teamMemberStreak.completedToday === false,
-                        ),
-                    ),
-                    currentStreak: {
-                        ...state.selectedTeamStreak.currentStreak,
-                        numberOfDaysInARow:
-                            state.selectedTeamStreak.completedToday !==
-                            !Boolean(
-                                state.selectedTeamStreak.members.find(
-                                    member => member.teamMemberStreak.completedToday === false,
-                                ),
-                            )
-                                ? state.selectedTeamStreak.currentStreak.numberOfDaysInARow + 1
-                                : state.selectedTeamStreak.currentStreak.numberOfDaysInARow,
-                    },
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.teamMemberStreakId) {
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    completedToday: true,
-                                },
-                            };
-                        }
-                        return member;
-                    }),
-                    hasCurrentUserCompletedTaskForTheDay: true,
-                },
             };
 
         case COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL:
@@ -389,30 +356,6 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         completedToday: false,
                     };
                 }),
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    completedToday: false,
-                    currentStreak: {
-                        ...state.selectedTeamStreak.currentStreak,
-                        numberOfDaysInARow:
-                            state.selectedTeamStreak.completedToday !== false
-                                ? state.selectedTeamStreak.currentStreak.numberOfDaysInARow - 1
-                                : state.selectedTeamStreak.currentStreak.numberOfDaysInARow,
-                    },
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member.teamMemberStreak._id === action.payload.teamMemberStreakId) {
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    completedToday: false,
-                                },
-                            };
-                        }
-                        return member;
-                    }),
-                    hasCurrentUserCompletedTaskForTheDay: false,
-                },
             };
 
         case INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL:
