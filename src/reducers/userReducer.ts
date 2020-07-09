@@ -133,6 +133,8 @@ const defaultSelectedUser: SelectedUser = {
     following: [],
     totalStreakCompletes: 0,
     totalLiveStreaks: 0,
+    oidXp: 0,
+    coins: 0,
     achievements: [],
     profileImages: {
         originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
