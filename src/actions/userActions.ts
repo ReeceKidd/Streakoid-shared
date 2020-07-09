@@ -238,7 +238,7 @@ const userActions = (streakoid: StreakoidSDK) => {
                 longestEverStreak,
                 longestCurrentStreak,
                 numberOfStreaks,
-                totalTimesTracked: userStreakCompleteInfo.length,
+                totalTimesTracked: user.totalStreakCompletes,
                 isCurrentUserFollowing: Boolean(isCurrentUserFollowing),
                 followUserIsLoading: false,
                 followUserErrorMessage: '',

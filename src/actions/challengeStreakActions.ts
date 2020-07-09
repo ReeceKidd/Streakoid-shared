@@ -203,7 +203,6 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 username: challengeStreakOwner.username,
                 userProfileImage: challengeStreakOwner.profileImages.originalImageUrl,
                 longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                totalTimesTracked: completeChallengeStreakListTasks.length,
                 daysSinceStreakCreation: getDaysSinceStreakCreation({
                     createdAt: new Date(createdAt),
                     timezone,
@@ -258,7 +257,6 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 username: currentUser.username,
                 userProfileImage: currentUser.profileImages.originalImageUrl,
                 longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                totalTimesTracked: 0,
                 daysSinceStreakCreation: getDaysSinceStreakCreation({
                     createdAt: new Date(createdAt),
                     timezone,
@@ -304,9 +302,6 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
             const { currentStreak, pastStreaks, createdAt, timezone } = updatedChallengeStreak;
             const currentUser = getState().users.currentUser;
             const challenge = await streakoid.challenges.getOne({ challengeId: updatedChallengeStreak.challengeId });
-            const completeChallengeStreakListTasks = await streakoid.completeChallengeStreakTasks.getAll({
-                challengeStreakId: updatedChallengeStreak._id,
-            });
             const challengeStreakWithLoadingState: SelectedChallengeStreak = {
                 ...updatedChallengeStreak,
                 challengeName: challenge.name,
@@ -319,7 +314,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 username: currentUser.username,
                 userProfileImage: currentUser.profileImages.originalImageUrl,
                 longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                totalTimesTracked: completeChallengeStreakListTasks.length,
+
                 daysSinceStreakCreation: getDaysSinceStreakCreation({
                     createdAt: new Date(createdAt),
                     timezone,

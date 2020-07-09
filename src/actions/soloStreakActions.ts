@@ -187,7 +187,6 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                     userProfileImage: soloStreakOwner.profileImages.originalImageUrl,
                     completedSoloStreakTaskDates,
                     longestStreak: getLongestStreak(soloStreak.currentStreak, soloStreak.pastStreaks),
-                    totalTimesTracked: completeSoloStreakTasks.length,
                     daysSinceStreakCreation: getDaysSinceStreakCreation({
                         createdAt: new Date(soloStreak.createdAt),
                         timezone: soloStreak.timezone,

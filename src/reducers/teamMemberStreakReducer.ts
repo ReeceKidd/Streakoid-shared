@@ -57,7 +57,6 @@ export interface SelectedTeamMemberStreak extends TeamMemberStreak {
     teamStreakName: string;
     teamStreakDescription?: string;
     longestStreak: number;
-    totalTimesTracked: number;
     daysSinceStreakCreation: number;
     numberOfRestarts: number;
     activityFeed: {

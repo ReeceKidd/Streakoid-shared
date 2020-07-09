@@ -156,7 +156,6 @@ export interface SelectedChallengeStreak extends ChallengeStreak {
     completedChallengeStreakTaskDates: Date[];
     userProfileImage: string;
     longestStreak: number;
-    totalTimesTracked: number;
     daysSinceStreakCreation: number;
     numberOfRestarts: number;
     activityFeed: {

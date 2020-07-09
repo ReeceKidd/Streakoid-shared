@@ -51,7 +51,6 @@ const teamMemberStreakActions = (streakoid: StreakoidSDK) => {
                     teamStreakName: teamStreak.streakName,
                     teamStreakDescription: teamStreak.streakDescription,
                     longestStreak: getLongestStreak(teamMemberStreak.currentStreak, teamMemberStreak.pastStreaks),
-                    totalTimesTracked: completeTeamMemberStreakTasks.length,
                     daysSinceStreakCreation: getDaysSinceStreakCreation({
                         createdAt: new Date(teamMemberStreak.createdAt),
                         timezone: teamMemberStreak.timezone,

@@ -76,27 +76,21 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             });
             const teamStreaksWithLoadingStates = await Promise.all(
                 teamStreaks.map(async teamStreak => {
-                    const members = await Promise.all(
-                        teamStreak.members.map(async member => {
-                            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                                userId: member._id,
-                                teamStreakId: teamStreak._id,
-                            });
-                            const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    completeTeamMemberStreakTaskIsLoading: false,
-                                    completeTeamMemberStreakTaskErrorMessage: '',
-                                    incompleteTeamMemberStreakTaskIsLoading: false,
-                                    incompleteTeamMemberStreakTaskErrorMessage: '',
-                                    longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                                    totalTimesTracked: totalTimesTracked.length,
-                                },
-                            };
-                        }),
-                    );
+                    const members = teamStreak.members.map(member => {
+                        const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                        return {
+                            ...member,
+                            teamMemberStreak: {
+                                ...member.teamMemberStreak,
+                                completeTeamMemberStreakTaskIsLoading: false,
+                                completeTeamMemberStreakTaskErrorMessage: '',
+                                incompleteTeamMemberStreakTaskIsLoading: false,
+                                incompleteTeamMemberStreakTaskErrorMessage: '',
+                                longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                            },
+                        };
+                    });
+
                     return {
                         ...teamStreak,
                         members,
@@ -156,27 +150,22 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             });
             const teamStreaksWithLoadingStates = await Promise.all(
                 teamStreaks.map(async teamStreak => {
-                    const members = await Promise.all(
-                        teamStreak.members.map(async member => {
-                            const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                                userId: member._id,
-                                teamStreakId: teamStreak._id,
-                            });
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    completeTeamMemberStreakTaskIsLoading: false,
-                                    completeTeamMemberStreakTaskErrorMessage: '',
-                                    incompleteTeamMemberStreakTaskIsLoading: false,
-                                    incompleteTeamMemberStreakTaskErrorMessage: '',
-                                    longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                                    totalTimesTracked: totalTimesTracked.length,
-                                },
-                            };
-                        }),
-                    );
+                    const members = teamStreak.members.map(member => {
+                        const { currentStreak, pastStreaks } = member.teamMemberStreak;
+
+                        return {
+                            ...member,
+                            teamMemberStreak: {
+                                ...member.teamMemberStreak,
+                                completeTeamMemberStreakTaskIsLoading: false,
+                                completeTeamMemberStreakTaskErrorMessage: '',
+                                incompleteTeamMemberStreakTaskIsLoading: false,
+                                incompleteTeamMemberStreakTaskErrorMessage: '',
+                                longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                            },
+                        };
+                    });
+
                     return {
                         ...teamStreak,
                         members,
@@ -204,10 +193,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
             const members = await Promise.all(
                 teamStreak.members.map(async member => {
-                    const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                        userId: member._id,
-                        teamStreakId: teamStreak._id,
-                    });
                     const { currentStreak, pastStreaks } = member.teamMemberStreak;
                     const longestStreak = getLongestStreak(currentStreak, pastStreaks);
                     return {
@@ -219,7 +204,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                             incompleteTeamMemberStreakTaskIsLoading: false,
                             incompleteTeamMemberStreakTaskErrorMessage: '',
                             longestStreak,
-                            totalTimesTracked: totalTimesTracked.length,
                         },
                     };
                 }),
@@ -243,9 +227,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 date: new Date(taskDate),
                 count: counts[taskDate],
             }));
-            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                teamStreakId: teamStreak._id,
-            });
             const activityFeed = await streakoid.activityFeedItems.getAll({ teamStreakId: teamStreak._id });
             const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
                 activityFeed.activityFeedItems.map(async activityFeedItem => {
@@ -280,7 +261,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 members,
                 completedTeamMemberStreakTaskDatesWithCounts,
                 longestStreak: getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
-                totalTimesTracked: totalTimesTracked.length,
                 activityFeed: {
                     totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
                     activityFeedItems: supportedPopulatedActivityFeedItems,
@@ -330,27 +310,22 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 numberOfMinutes,
                 members,
             });
-            const teamStreakMembersWithLoadingStates = await Promise.all(
-                teamStreak.members.map(async member => {
-                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                    const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                        userId: member._id,
-                        teamStreakId: teamStreak._id,
-                    });
-                    return {
-                        ...member,
-                        teamMemberStreak: {
-                            ...member.teamMemberStreak,
-                            completeTeamMemberStreakTaskIsLoading: false,
-                            completeTeamMemberStreakTaskErrorMessage: '',
-                            incompleteTeamMemberStreakTaskIsLoading: false,
-                            incompleteTeamMemberStreakTaskErrorMessage: '',
-                            longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                            totalTimesTracked: totalTimesTracked.length,
-                        },
-                    };
-                }),
-            );
+            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
+                const { currentStreak, pastStreaks } = member.teamMemberStreak;
+
+                return {
+                    ...member,
+                    teamMemberStreak: {
+                        ...member.teamMemberStreak,
+                        completeTeamMemberStreakTaskIsLoading: false,
+                        completeTeamMemberStreakTaskErrorMessage: '',
+                        incompleteTeamMemberStreakTaskIsLoading: false,
+                        incompleteTeamMemberStreakTaskErrorMessage: '',
+                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                    },
+                };
+            });
+
             const inviteKeyResponse = getState().auth.isAuthenticated
                 ? await streakoid.teamStreaks.inviteKey({ teamStreakId: teamStreak._id })
                 : undefined;
@@ -425,27 +400,22 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 updateData: { status: StreakStatus.archived },
             });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
-            const teamStreakMembersWithLoadingStates = await Promise.all(
-                teamStreak.members.map(async member => {
-                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                    const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                        userId: member._id,
-                        teamStreakId: teamStreak._id,
-                    });
-                    return {
-                        ...member,
-                        teamMemberStreak: {
-                            ...member.teamMemberStreak,
-                            completeTeamMemberStreakTaskIsLoading: false,
-                            completeTeamMemberStreakTaskErrorMessage: '',
-                            incompleteTeamMemberStreakTaskIsLoading: false,
-                            incompleteTeamMemberStreakTaskErrorMessage: '',
-                            longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                            totalTimesTracked: totalTimesTracked.length,
-                        },
-                    };
-                }),
-            );
+            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
+                const { currentStreak, pastStreaks } = member.teamMemberStreak;
+
+                return {
+                    ...member,
+                    teamMemberStreak: {
+                        ...member.teamMemberStreak,
+                        completeTeamMemberStreakTaskIsLoading: false,
+                        completeTeamMemberStreakTaskErrorMessage: '',
+                        incompleteTeamMemberStreakTaskIsLoading: false,
+                        incompleteTeamMemberStreakTaskErrorMessage: '',
+                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                    },
+                };
+            });
+
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
@@ -476,27 +446,22 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 updateData: { status: StreakStatus.live },
             });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
-            const teamStreakMembersWithLoadingStates = await Promise.all(
-                teamStreak.members.map(async member => {
-                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                    const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                        userId: member._id,
-                        teamStreakId: teamStreak._id,
-                    });
-                    return {
-                        ...member,
-                        teamMemberStreak: {
-                            ...member.teamMemberStreak,
-                            completeTeamMemberStreakTaskIsLoading: false,
-                            completeTeamMemberStreakTaskErrorMessage: '',
-                            incompleteTeamMemberStreakTaskIsLoading: false,
-                            incompleteTeamMemberStreakTaskErrorMessage: '',
-                            longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                            totalTimesTracked: totalTimesTracked.length,
-                        },
-                    };
-                }),
-            );
+            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
+                const { currentStreak, pastStreaks } = member.teamMemberStreak;
+
+                return {
+                    ...member,
+                    teamMemberStreak: {
+                        ...member.teamMemberStreak,
+                        completeTeamMemberStreakTaskIsLoading: false,
+                        completeTeamMemberStreakTaskErrorMessage: '',
+                        incompleteTeamMemberStreakTaskIsLoading: false,
+                        incompleteTeamMemberStreakTaskErrorMessage: '',
+                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                    },
+                };
+            });
+
             const teamStreakWithLoadingState = {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
@@ -561,27 +526,22 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                     });
                 }),
             );
-            const teamStreakMembersWithLoadingStates = await Promise.all(
-                teamStreak.members.map(async member => {
-                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                    const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                        userId: member._id,
-                        teamStreakId: teamStreak._id,
-                    });
-                    return {
-                        ...member,
-                        teamMemberStreak: {
-                            ...member.teamMemberStreak,
-                            completeTeamMemberStreakTaskIsLoading: false,
-                            completeTeamMemberStreakTaskErrorMessage: '',
-                            incompleteTeamMemberStreakTaskIsLoading: false,
-                            incompleteTeamMemberStreakTaskErrorMessage: '',
-                            longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                            totalTimesTracked: totalTimesTracked.length,
-                        },
-                    };
-                }),
-            );
+            const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
+                const { currentStreak, pastStreaks } = member.teamMemberStreak;
+
+                return {
+                    ...member,
+                    teamMemberStreak: {
+                        ...member.teamMemberStreak,
+                        completeTeamMemberStreakTaskIsLoading: false,
+                        completeTeamMemberStreakTaskErrorMessage: '',
+                        incompleteTeamMemberStreakTaskIsLoading: false,
+                        incompleteTeamMemberStreakTaskErrorMessage: '',
+                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                    },
+                };
+            });
+
             const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
                 teamStreakId,
             });
@@ -601,9 +561,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 date: new Date(taskDate),
                 count: counts[taskDate],
             }));
-            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                teamStreakId: teamStreak._id,
-            });
+
             const currentUserMemberInfo = teamStreak.members.find(
                 member => member._id == getState().users.currentUser._id,
             );
@@ -614,7 +572,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 members: teamStreakMembersWithLoadingStates,
                 completedTeamMemberStreakTaskDatesWithCounts,
                 longestStreak: getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
-                totalTimesTracked: totalTimesTracked.length,
+
                 activityFeed: {
                     totalActivityFeedCount: 0,
                     activityFeedItems: [],
@@ -667,7 +625,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                     incompleteTeamMemberStreakTaskIsLoading: false,
                     incompleteTeamMemberStreakTaskErrorMessage: '',
                     longestStreak: 0,
-                    totalTimesTracked: 0,
                 },
             };
             dispatch({ type: ADD_USER_TO_TEAM_STREAK, payload: populatedTeamMemberWithClientData });
@@ -677,41 +634,9 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                     type: GET_SELECTED_TEAM_STREAK,
                     payload: {
                         ...getState().teamStreaks.selectedTeamStreak,
-                        members: await Promise.all(
-                            selectedTeamStreak.members.map(async member => {
-                                const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                                    userId: member._id,
-                                    teamStreakId,
-                                });
-                                const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                                const longestStreak = getLongestStreak(currentStreak, pastStreaks);
-                                return {
-                                    ...member,
-                                    teamMemberStreak: {
-                                        ...member.teamMemberStreak,
-                                        completeTeamMemberStreakTaskIsLoading: false,
-                                        completeTeamMemberStreakTaskErrorMessage: '',
-                                        incompleteTeamMemberStreakTaskIsLoading: false,
-                                        incompleteTeamMemberStreakTaskErrorMessage: '',
-                                        longestStreak,
-                                        totalTimesTracked: totalTimesTracked.length,
-                                    },
-                                };
-                            }),
-                        ),
-                    },
-                });
-            }
-            const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
-            const teamStreaksWithLoadingStates = await Promise.all(
-                teamStreaks.map(async teamStreak => {
-                    const members = await Promise.all(
-                        teamStreak.members.map(async member => {
-                            const totalTimesTracked = await streakoid.completeTeamMemberStreakTasks.getAll({
-                                userId: member._id,
-                                teamStreakId: teamStreak._id,
-                            });
+                        members: selectedTeamStreak.members.map(member => {
                             const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                            const longestStreak = getLongestStreak(currentStreak, pastStreaks);
                             return {
                                 ...member,
                                 teamMemberStreak: {
@@ -720,12 +645,31 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                                     completeTeamMemberStreakTaskErrorMessage: '',
                                     incompleteTeamMemberStreakTaskIsLoading: false,
                                     incompleteTeamMemberStreakTaskErrorMessage: '',
-                                    longestStreak: getLongestStreak(currentStreak, pastStreaks),
-                                    totalTimesTracked: totalTimesTracked.length,
+                                    longestStreak,
                                 },
                             };
                         }),
-                    );
+                    },
+                });
+            }
+            const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
+            const teamStreaksWithLoadingStates = await Promise.all(
+                teamStreaks.map(async teamStreak => {
+                    const members = teamStreak.members.map(member => {
+                        const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                        return {
+                            ...member,
+                            teamMemberStreak: {
+                                ...member.teamMemberStreak,
+                                completeTeamMemberStreakTaskIsLoading: false,
+                                completeTeamMemberStreakTaskErrorMessage: '',
+                                incompleteTeamMemberStreakTaskIsLoading: false,
+                                incompleteTeamMemberStreakTaskErrorMessage: '',
+                                longestStreak: getLongestStreak(currentStreak, pastStreaks),
+                            },
+                        };
+                    });
+
                     return {
                         ...teamStreak,
                         members,

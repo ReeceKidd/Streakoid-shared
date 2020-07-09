@@ -47,16 +47,14 @@ const challengeActions = (streakoid: StreakoidSDK) => {
                     challengeId: challengeId,
                 });
                 const userChallengeStreak = userChallengeStreaks[0];
-                const totalTimesTracked = await streakoid.completeChallengeStreakTasks.getAll({
-                    challengeStreakId: userChallengeStreak._id,
-                });
+
                 const challengeMember: ChallengeMemberWithClientData = {
                     username: user.username,
                     userId: user._id,
                     profileImage: user.profileImages.originalImageUrl,
                     currentStreak: userChallengeStreak.currentStreak,
                     longestStreak: getLongestStreak(userChallengeStreak.currentStreak, userChallengeStreak.pastStreaks),
-                    totalTimesTracked: totalTimesTracked.length,
+                    totalTimesTracked: userChallengeStreak.totalTimesTracked,
                     challengeStreakId: userChallengeStreak._id,
                     joinedChallenge: new Date(userChallengeStreak.createdAt),
                 };
@@ -74,14 +72,11 @@ const challengeActions = (streakoid: StreakoidSDK) => {
             challengeId: challenge._id,
         });
         let totalTimesTracked = 0;
-        await Promise.all(
-            challengeStreaks.map(async challengeStreak => {
-                const timesTracked = await streakoid.completeChallengeStreakTasks.getAll({
-                    challengeStreakId: challengeStreak._id,
-                });
-                totalTimesTracked += timesTracked.length;
-            }),
-        );
+
+        challengeStreaks.map(challengeStreak => {
+            totalTimesTracked += challengeStreak.totalTimesTracked;
+        });
+
         const currentStreaks = challengeStreaks.map(
             challengeStreak => challengeStreak.currentStreak.numberOfDaysInARow,
         );
