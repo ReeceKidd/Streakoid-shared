@@ -51,6 +51,10 @@ import {
     ADD_USER_TO_TEAM_STREAK_LOADING,
     ADD_USER_TO_TEAM_STREAK_LOADED,
     NAVIGATE_TO_ADD_TEAM_MEMBER,
+    REMOVE_USER_FROM_TEAM_STREAK_LOADING,
+    REMOVE_USER_FROM_TEAM_STREAK,
+    REMOVE_USER_FROM_TEAM_STREAK_LOADED,
+    REMOVE_USER_FROM_TEAM_STREAK_FAIL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -272,6 +276,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 customTeamStreakReminder,
                 addUserToTeamStreakIsLoading: false,
                 addUserToTeamStreakErrorMessage: '',
+                removeUserFromTeamStreakIsLoading: false,
+                removeUserFromTeamStreakErrorMessage: '',
                 inviteUrl: inviteKey
                     ? `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${inviteKey}`
                     : undefined,
@@ -583,6 +589,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
                 addUserToTeamStreakErrorMessage: '',
                 addUserToTeamStreakIsLoading: false,
+                removeUserFromTeamStreakErrorMessage: '',
+                removeUserFromTeamStreakIsLoading: false,
                 inviteUrl: teamStreak.inviteKey
                     ? `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${teamStreak.inviteKey}`
                     : undefined,
@@ -696,6 +704,54 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         }
     };
 
+    const removeUserFromTeamStreak = ({ userId, teamStreakId }: { userId: string; teamStreakId: string }) => async (
+        dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK_LOADING });
+            await streakoid.teamStreaks.teamMembers.deleteOne({
+                memberId: userId,
+                teamStreakId,
+            });
+            dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK, payload: { userId } });
+
+            if (getState().teamStreaks.selectedTeamStreak._id === teamStreakId) {
+                const selectedTeamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
+                dispatch({
+                    type: GET_SELECTED_TEAM_STREAK,
+                    payload: {
+                        ...getState().teamStreaks.selectedTeamStreak,
+                        members: selectedTeamStreak.members.map(member => {
+                            const { currentStreak, pastStreaks } = member.teamMemberStreak;
+                            const longestStreak = getLongestStreak(currentStreak, pastStreaks);
+                            return {
+                                ...member,
+                                teamMemberStreak: {
+                                    ...member.teamMemberStreak,
+                                    completeTeamMemberStreakTaskIsLoading: false,
+                                    completeTeamMemberStreakTaskErrorMessage: '',
+                                    incompleteTeamMemberStreakTaskIsLoading: false,
+                                    incompleteTeamMemberStreakTaskErrorMessage: '',
+                                    longestStreak,
+                                },
+                            };
+                        }),
+                    },
+                });
+            }
+
+            dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK_LOADED });
+        } catch (err) {
+            dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK_LOADED });
+            if (err.response) {
+                dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK_FAIL, payload: err.message });
+            }
+        }
+    };
+
     const updateCustomTeamStreakReminderPushNotification = ({
         customTeamStreakReminder,
     }: {
@@ -742,6 +798,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         updateTeamStreakTimezone,
         clearSelectedTeamStreak,
         addUserToTeamStreak,
+        removeUserFromTeamStreak,
         updateCustomTeamStreakReminderPushNotification,
     };
 };

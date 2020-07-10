@@ -933,6 +933,11 @@ export const ADD_USER_TO_TEAM_STREAK_FAIL = 'ADD_USER_TO_TEAM_STREAK_FAIL';
 export const ADD_USER_TO_TEAM_STREAK_LOADING = 'ADD_USER_TO_TEAM_STREAK_LOADING';
 export const ADD_USER_TO_TEAM_STREAK_LOADED = 'ADD_USER_TO_TEAM_STREAK_LOADED';
 
+export const REMOVE_USER_FROM_TEAM_STREAK = 'REMOVE_USER_FROM_TEAM_STREAK';
+export const REMOVE_USER_FROM_TEAM_STREAK_FAIL = 'REMOVE_USER_FROM_TEAM_STREAK_FAIL';
+export const REMOVE_USER_FROM_TEAM_STREAK_LOADING = 'REMOVE_USER_FROM_TEAM_STREAK_LOADING';
+export const REMOVE_USER_FROM_TEAM_STREAK_LOADED = 'REMOVE_USER_FROM_TEAM_STREAK_LOADED';
+
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK';
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL';
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING';
@@ -1072,6 +1077,24 @@ export interface AddUserToTeamStreakLoadingAction {
 
 export interface AddUserToTeamStreakLoadedAction {
     type: typeof ADD_USER_TO_TEAM_STREAK_LOADED;
+}
+
+export interface RemoveUserFromTeamStreakAction {
+    type: typeof REMOVE_USER_FROM_TEAM_STREAK;
+    payload: { userId: string };
+}
+
+export interface RemoveUserFromTeamStreakFailAction {
+    type: typeof REMOVE_USER_FROM_TEAM_STREAK_FAIL;
+    payload: string;
+}
+
+export interface RemoveUserFromTeamStreakLoadingAction {
+    type: typeof REMOVE_USER_FROM_TEAM_STREAK_LOADING;
+}
+
+export interface RemoveUserFromTeamStreakLoadedAction {
+    type: typeof REMOVE_USER_FROM_TEAM_STREAK_LOADED;
 }
 
 export interface CompleteTeamMemberStreakListTaskAction {
@@ -1248,6 +1271,10 @@ export type TeamStreakActionTypes =
     | AddUserToTeamStreakFailAction
     | AddUserToTeamStreakLoadingAction
     | AddUserToTeamStreakLoadedAction
+    | RemoveUserFromTeamStreakAction
+    | RemoveUserFromTeamStreakFailAction
+    | RemoveUserFromTeamStreakLoadingAction
+    | RemoveUserFromTeamStreakLoadedAction
     | CompleteTeamMemberStreakListTaskAction
     | CompleteTeamMemberStreakListTaskFailAction
     | CompleteTeamMemberStreakListTaskLoadingAction
