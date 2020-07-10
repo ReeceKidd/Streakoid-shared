@@ -268,10 +268,7 @@ const userActions = (streakoid: StreakoidSDK) => {
                 unfollowUserIsLoading: false,
                 unfollowUserErrorMessage: '',
             }));
-            const followersWithClientData = user.followers.map(follower => ({
-                ...follower,
-                isSelected: false,
-            }));
+
             const activityFeed = await streakoid.activityFeedItems.getAll({ userIds: [user._id] });
             const populatedActivityFeedItems: (ClientActivityFeedItemType | undefined)[] = await Promise.all(
                 activityFeed.activityFeedItems.map(async activityFeedItem => {
@@ -286,7 +283,6 @@ const userActions = (streakoid: StreakoidSDK) => {
                 payload: {
                     ...user,
                     following: followingWithClientData,
-                    followers: followersWithClientData,
                     userStreakCompleteInfo,
                     activityFeed: {
                         totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,

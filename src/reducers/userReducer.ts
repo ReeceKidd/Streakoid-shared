@@ -94,14 +94,10 @@ export interface FollowingWithClientData extends BasicUser {
     unfollowUserErrorMessage: string;
 }
 
-export interface FollowerWithClientData extends BasicUser {
-    isSelected: boolean;
-}
-
 export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser {
     userStreakCompleteInfo: { date: Date; count: number }[];
     following: FollowingWithClientData[];
-    followers: FollowerWithClientData[];
+    followers: BasicUser[];
     activityFeed: {
         totalActivityFeedCount: number;
         activityFeedItems: ClientActivityFeedItemType[];
