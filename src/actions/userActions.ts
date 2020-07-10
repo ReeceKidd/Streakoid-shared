@@ -17,9 +17,6 @@ import {
     UPDATE_CURRENT_USER_IS_LOADING,
     UPDATE_CURRENT_USER_IS_LOADED,
     CLEAR_SELECTED_USER,
-    CLEAR_SELECTED_FOLLOWERS,
-    UNSELECT_FOLLOWER,
-    SELECT_FOLLOWER,
     UPDATE_CURRENT_USER,
     FOLLOW_SELECTED_USER_IS_LOADING,
     FOLLOW_SELECTED_USER_IS_LOADED,
@@ -429,20 +426,6 @@ const userActions = (streakoid: StreakoidSDK) => {
         }
     };
 
-    const selectFollower = (followerId: string): AppActions => ({
-        type: SELECT_FOLLOWER,
-        payload: followerId,
-    });
-
-    const unselectFollower = (followerId: string): AppActions => ({
-        type: UNSELECT_FOLLOWER,
-        payload: followerId,
-    });
-
-    const clearSelectedFollowers = (): AppActions => ({
-        type: CLEAR_SELECTED_FOLLOWERS,
-    });
-
     const followSelectedUser = (userToFollow: BasicUser) => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
@@ -559,9 +542,6 @@ const userActions = (streakoid: StreakoidSDK) => {
         followUsersListUser,
         unfollowUsersListUser,
         clearSelectedUser,
-        selectFollower,
-        unselectFollower,
-        clearSelectedFollowers,
         followSelectedUser,
         unfollowSelectedUser,
         updateCurrentUserPushNotifications,

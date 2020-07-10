@@ -35,9 +35,6 @@ import {
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADING,
     SEND_CANCEL_MEMBERSHIP_EMAIL_LOADED,
     CLEAR_SELECTED_USER,
-    SELECT_FOLLOWER,
-    UNSELECT_FOLLOWER,
-    CLEAR_SELECTED_FOLLOWERS,
     FOLLOW_USERS_LIST_USER_FAIL,
     FOLLOW_USERS_LIST_USER_IS_LOADING,
     FOLLOW_USERS_LIST_USER_IS_LOADED,
@@ -669,54 +666,6 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                         return selectedUser;
                     }),
                 ],
-            };
-
-        case SELECT_FOLLOWER:
-            return {
-                ...state,
-                currentUser: {
-                    ...state.currentUser,
-                    followers: state.currentUser.followers.map(follower => {
-                        if (follower.userId === action.payload) {
-                            return {
-                                ...follower,
-                                isSelected: true,
-                            };
-                        }
-                        return follower;
-                    }),
-                },
-            };
-
-        case UNSELECT_FOLLOWER:
-            return {
-                ...state,
-                currentUser: {
-                    ...state.currentUser,
-                    followers: state.currentUser.followers.map(follower => {
-                        if (follower.userId === action.payload) {
-                            return {
-                                ...follower,
-                                isSelected: false,
-                            };
-                        }
-                        return follower;
-                    }),
-                },
-            };
-
-        case CLEAR_SELECTED_FOLLOWERS:
-            return {
-                ...state,
-                currentUser: {
-                    ...state.currentUser,
-                    followers: state.currentUser.followers.map(follower => {
-                        return {
-                            ...follower,
-                            isSelected: false,
-                        };
-                    }),
-                },
             };
 
         case FOLLOW_SELECTED_USER:

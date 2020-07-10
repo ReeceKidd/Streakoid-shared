@@ -1383,10 +1383,6 @@ export const UNFOLLOW_USERS_LIST_USER_FAIL = 'UNFOLLOW_USERS_LIST_USER_FAIL';
 export const UNFOLLOW_USERS_LIST_USER_IS_LOADING = 'UNFOLLOW_USERS_LIST_USER_IS_LOADING';
 export const UNFOLLOW_USERS_LIST_USER_IS_LOADED = 'UNFOLLOW_USERS_LIST_USER_IS_LOADED';
 
-export const SELECT_FOLLOWER = 'SELECT_FOLLOWER';
-export const UNSELECT_FOLLOWER = 'UNSELECT_FOLLOWER';
-export const CLEAR_SELECTED_FOLLOWERS = 'CLEAR_SELECTED_FOLLOWERS';
-
 export const UPDATE_PUSH_NOTIFICATIONS = 'UPDATE_PUSH_NOTIFICATIONS';
 export const UPDATE_PUSH_NOTIFICATIONS_FAIL = 'UPDATE_PUSH_NOTIFICATIONS_FAIL';
 export const UPDATE_PUSH_NOTIFICATIONS_IS_LOADING = 'UPDATE_PUSH_NOTIFICATIONS_IS_LOADING';
@@ -1637,20 +1633,6 @@ export interface UnfollowerUsersListUserIsLoadedAction {
     payload: string;
 }
 
-export interface SelectFollowerAction {
-    type: typeof SELECT_FOLLOWER;
-    payload: string;
-}
-
-export interface UnselectFollowerAction {
-    type: typeof UNSELECT_FOLLOWER;
-    payload: string;
-}
-
-export interface ClearSelectedFollowersAction {
-    type: typeof CLEAR_SELECTED_FOLLOWERS;
-}
-
 export interface UpdatePushNotificationsAction {
     type: typeof UPDATE_PUSH_NOTIFICATIONS;
     payload: {
@@ -1733,9 +1715,6 @@ export type UserActionTypes =
     | UnfollowUsersListUserFailAction
     | UnfollowUsersListUserIsLoadingAction
     | UnfollowerUsersListUserIsLoadedAction
-    | SelectFollowerAction
-    | UnselectFollowerAction
-    | ClearSelectedFollowersAction
     | UpdatePushNotificationsAction
     | UpdatePushNotificationsFailAction
     | UpdatePushNotificationsIsLoadingAction
