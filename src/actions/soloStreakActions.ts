@@ -65,6 +65,10 @@ import {
     REORDER_LIVE_SOLO_STREAKS,
     REORDER_LIVE_SOLO_STREAKS_FAIL,
     REORDER_LIVE_SOLO_STREAKS_LOADED,
+    RECOVER_SOLO_STREAK,
+    RECOVER_SOLO_STREAK_FAIL,
+    RECOVER_SOLO_STREAK_LOADING,
+    RECOVER_SOLO_STREAK_LOADED,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -95,6 +99,8 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                     completeSoloStreakListTaskErrorMessage: '',
                     incompleteSoloStreakListTaskIsLoading: false,
                     incompleteSoloStreakListTaskErrorMessage: '',
+                    recoverSoloStreakIsLoading: false,
+                    recoverSoloStreakErrorMessage: '',
                     userDefinedIndex: soloStreak.userDefinedIndex || index,
                 };
             });
@@ -241,6 +247,8 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                 completeSoloStreakListTaskErrorMessage: '',
                 incompleteSoloStreakListTaskIsLoading: false,
                 incompleteSoloStreakListTaskErrorMessage: '',
+                recoverSoloStreakIsLoading: false,
+                recoverSoloStreakErrorMessage: '',
             };
             dispatch({ type: CREATE_SOLO_STREAK_IS_LOADED });
             dispatch({ type: CREATE_SOLO_STREAK, payload: soloStreakWithLoadingState });
@@ -281,6 +289,8 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                 completeSoloStreakListTaskErrorMessage: '',
                 incompleteSoloStreakListTaskIsLoading: false,
                 incompleteSoloStreakListTaskErrorMessage: '',
+                recoverSoloStreakIsLoading: false,
+                recoverSoloStreakErrorMessage: '',
             };
             dispatch({ type: EDIT_SOLO_STREAK, soloStreak: soloStreakWithLoadingState });
             dispatch({ type: NAVIGATE_TO_SPECIFIC_SOLO_STREAK, payload: soloStreakId });
@@ -345,6 +355,8 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                 completeSoloStreakListTaskErrorMessage: '',
                 incompleteSoloStreakListTaskIsLoading: false,
                 incompleteSoloStreakListTaskErrorMessage: '',
+                recoverSoloStreakIsLoading: false,
+                recoverSoloStreakErrorMessage: '',
             };
             dispatch({ type: RESTORE_ARCHIVED_SOLO_STREAK, payload: soloStreakWithLoadingState });
 
@@ -604,6 +616,38 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
         }
     };
 
+    const recoverSoloStreak = ({ soloStreakId }: { soloStreakId: string }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: RECOVER_SOLO_STREAK_LOADING, payload: { soloStreakId } });
+
+            const recoveredSoloStreak = await streakoid.soloStreaks.recover({ soloStreakId });
+
+            dispatch({
+                type: RECOVER_SOLO_STREAK,
+                payload: {
+                    soloStreak: recoveredSoloStreak,
+                },
+            });
+
+            dispatch({ type: RECOVER_SOLO_STREAK_LOADED, payload: { soloStreakId } });
+        } catch (err) {
+            dispatch({ type: RECOVER_SOLO_STREAK_LOADED, payload: { soloStreakId } });
+            if (err.response) {
+                dispatch({
+                    type: RECOVER_SOLO_STREAK_FAIL,
+                    payload: { soloStreakId, errorMessage: err.response.data.message },
+                });
+            } else {
+                dispatch({
+                    type: RECOVER_SOLO_STREAK_FAIL,
+                    payload: { soloStreakId, errorMessage: err.message },
+                });
+            }
+        }
+    };
+
     return {
         getLiveSoloStreaks,
         getArchivedSoloStreaks,
@@ -624,6 +668,7 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
         incompleteSelectedSoloStreakTask,
         updateCustomSoloStreakReminder,
         reorderLiveSoloStreaks,
+        recoverSoloStreak,
     };
 };
 

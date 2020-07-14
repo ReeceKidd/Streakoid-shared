@@ -57,6 +57,10 @@ import {
     REORDER_LIVE_CHALLENGE_STREAKS,
     REORDER_LIVE_CHALLENGE_STREAKS_LOADED,
     REORDER_LIVE_CHALLENGE_STREAKS_FAIL,
+    RECOVER_CHALLENGE_STREAK_FAIL,
+    RECOVER_CHALLENGE_STREAK,
+    RECOVER_CHALLENGE_STREAK_LOADED,
+    RECOVER_CHALLENGE_STREAK_LOADING,
 } from './types';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
@@ -91,6 +95,8 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                         completeChallengeStreakListTaskErrorMessage: '',
                         incompleteChallengeStreakListTaskIsLoading: false,
                         incompleteChallengeStreakListTaskErrorMessage: '',
+                        recoverChallengeStreakIsLoading: false,
+                        recoverChallengeStreakErrorMessage: '',
                         userDefinedIndex: challengeStreak.userDefinedIndex || index,
                     };
                 }),
@@ -191,7 +197,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 customStreakReminder.streakReminderType === StreakReminderTypes.customChallengeStreakReminder
                     ? customStreakReminder
                     : undefined;
-            const challengeStreakWithLoadingStates: SelectedChallengeStreak = {
+            const selectedChallengeStreak: SelectedChallengeStreak = {
                 ...challengeStreak,
                 challengeName: challenge.name,
                 challengeDescription: challenge.description,
@@ -220,7 +226,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 updateCustomChallengeStreakReminderPushNotificationIsLoading: false,
                 updateCustomChallengeStreakReminderPushNotificationErrorMessage: '',
             };
-            dispatch({ type: GET_CHALLENGE_STREAK, payload: challengeStreakWithLoadingStates });
+            dispatch({ type: GET_CHALLENGE_STREAK, payload: selectedChallengeStreak });
             dispatch({ type: GET_CHALLENGE_STREAK_LOADED });
         } catch (err) {
             dispatch({ type: GET_CHALLENGE_STREAK_LOADED });
@@ -291,7 +297,6 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
 
     const restoreArchivedChallengeStreak = (challengeStreakId: string) => async (
         dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADING });
@@ -299,37 +304,14 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 challengeStreakId,
                 updateData: { status: StreakStatus.live },
             });
-            const { currentStreak, pastStreaks, createdAt, timezone } = updatedChallengeStreak;
-            const currentUser = getState().users.currentUser;
-            const challenge = await streakoid.challenges.getOne({ challengeId: updatedChallengeStreak.challengeId });
-            const challengeStreakWithLoadingState: SelectedChallengeStreak = {
+            const challengeStreakWithLoadingState: ChallengeStreakListItem = {
                 ...updatedChallengeStreak,
-                challengeName: challenge.name,
-                challengeDescription: challenge.description,
                 completeChallengeStreakListTaskIsLoading: false,
                 completeChallengeStreakListTaskErrorMessage: '',
                 incompleteChallengeStreakListTaskIsLoading: false,
                 incompleteChallengeStreakListTaskErrorMessage: '',
-                completedChallengeStreakTaskDates: [],
-                username: currentUser.username,
-                userProfileImage: currentUser.profileImages.originalImageUrl,
-                longestStreak: getLongestStreak(currentStreak, pastStreaks),
-
-                daysSinceStreakCreation: getDaysSinceStreakCreation({
-                    createdAt: new Date(createdAt),
-                    timezone,
-                }),
-                numberOfRestarts: pastStreaks.length,
-                activityFeed: {
-                    totalActivityFeedCount: 0,
-                    activityFeedItems: [],
-                },
-                completeSelectedChallengeStreakIsLoading: false,
-                completeSelectedChallengeStreakErrorMessage: '',
-                incompleteSelectedChallengeStreakIsLoading: false,
-                incompleteSelectedChallengeStreakErrorMessage: '',
-                updateCustomChallengeStreakReminderPushNotificationIsLoading: false,
-                updateCustomChallengeStreakReminderPushNotificationErrorMessage: '',
+                recoverChallengeStreakIsLoading: false,
+                recoverChallengeStreakErrorMessage: '',
             };
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
             dispatch({ type: RESTORE_ARCHIVED_CHALLENGE_STREAK_LOADED });
@@ -604,6 +586,33 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
         }
     };
 
+    const recoverChallengeStreak = ({ challengeStreakId }: { challengeStreakId: string }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: RECOVER_CHALLENGE_STREAK_LOADING, payload: { challengeStreakId } });
+
+            const recoveredChallengeStreak = await streakoid.challengeStreaks.recover({ challengeStreakId });
+
+            dispatch({ type: RECOVER_CHALLENGE_STREAK, payload: { challengeStreak: recoveredChallengeStreak } });
+
+            dispatch({ type: RECOVER_CHALLENGE_STREAK_LOADED, payload: { challengeStreakId } });
+        } catch (err) {
+            dispatch({ type: RECOVER_CHALLENGE_STREAK_LOADED, payload: { challengeStreakId } });
+            if (err.response) {
+                dispatch({
+                    type: RECOVER_CHALLENGE_STREAK_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: RECOVER_CHALLENGE_STREAK_FAIL,
+                    payload: err.message,
+                });
+            }
+        }
+    };
+
     return {
         getLiveChallengeStreaks,
         getArchivedChallengeStreaks,
@@ -621,6 +630,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
         updateCustomChallengeStreakReminderPushNotification,
         clearSelectedChallengeStreak,
         reorderLiveChallengeStreaks,
+        recoverChallengeStreak,
     };
 };
 

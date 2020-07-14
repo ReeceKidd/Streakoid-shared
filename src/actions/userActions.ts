@@ -163,6 +163,8 @@ const userActions = (streakoid: StreakoidSDK) => {
                         completeChallengeStreakListTaskErrorMessage: '',
                         incompleteChallengeStreakListTaskIsLoading: false,
                         incompleteChallengeStreakListTaskErrorMessage: '',
+                        recoverChallengeStreakIsLoading: false,
+                        recoverChallengeStreakErrorMessage: '',
                         completedChallengeStreakTaskDates: [],
                         username: user.username,
                         userProfileImage: user.profileImages.originalImageUrl,

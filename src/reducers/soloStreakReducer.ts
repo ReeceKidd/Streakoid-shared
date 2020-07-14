@@ -57,6 +57,9 @@ import {
     UPDATE_SOLO_STREAK_REMINDER_INFO_LOADING,
     UPDATE_SOLO_STREAK_REMINDER_INFO_LOADED,
     REORDER_LIVE_SOLO_STREAKS,
+    RECOVER_SOLO_STREAK,
+    RECOVER_SOLO_STREAK_FAIL,
+    RECOVER_SOLO_STREAK_LOADING,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -83,7 +86,7 @@ export interface SoloStreakReducerState {
     deleteArchivedSoloStreakErrorMessage: string;
 }
 
-const defaultSelectedSoloStreak = {
+const defaultSelectedSoloStreak: SelectedSoloStreak = {
     _id: '',
     currentStreak: {
         numberOfDaysInARow: 0,
@@ -162,6 +165,8 @@ export interface SoloStreakListItem extends SoloStreak {
     completeSoloStreakListTaskErrorMessage: string;
     incompleteSoloStreakListTaskIsLoading: boolean;
     incompleteSoloStreakListTaskErrorMessage: string;
+    recoverSoloStreakIsLoading: boolean;
+    recoverSoloStreakErrorMessage: string;
 }
 
 export interface ArchivedSoloStreakListItem extends SoloStreak {
@@ -671,6 +676,64 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 liveSoloStreaks: action.payload.liveSoloStreaks,
             };
         }
+
+        case RECOVER_SOLO_STREAK:
+            return {
+                ...state,
+                liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
+                    if (soloStreak._id === action.payload.soloStreak._id) {
+                        return {
+                            ...soloStreak,
+                            currentStreak: action.payload.soloStreak.currentStreak,
+                        };
+                    }
+                    return soloStreak;
+                }),
+            };
+
+        case RECOVER_SOLO_STREAK_FAIL:
+            return {
+                ...state,
+                liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
+                    if (soloStreak._id === action.payload.soloStreakId) {
+                        return {
+                            ...soloStreak,
+                            recoverSoloStreakErrorMessage: action.payload.errorMessage,
+                        };
+                    }
+                    return soloStreak;
+                }),
+            };
+
+        case RECOVER_SOLO_STREAK_LOADING:
+            return {
+                ...state,
+                liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
+                    if (soloStreak._id === action.payload.soloStreakId) {
+                        const SoloStreakListItem: SoloStreakListItem = {
+                            ...soloStreak,
+                            recoverSoloStreakIsLoading: true,
+                        };
+                        return SoloStreakListItem;
+                    }
+                    return soloStreak;
+                }),
+            };
+
+        case CREATE_COMPLETE_SOLO_STREAK_LIST_TASK_LOADED:
+            return {
+                ...state,
+                liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
+                    if (soloStreak._id === action.soloStreakId) {
+                        const SoloStreakListItem: SoloStreakListItem = {
+                            ...soloStreak,
+                            recoverSoloStreakIsLoading: false,
+                        };
+                        return SoloStreakListItem;
+                    }
+                    return soloStreak;
+                }),
+            };
 
         default:
             return state;

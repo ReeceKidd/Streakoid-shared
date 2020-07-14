@@ -49,6 +49,7 @@ import {
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADING,
     UPDATE_CHALLENGE_STREAK_REMINDER_INFO_LOADED,
     REORDER_LIVE_CHALLENGE_STREAKS,
+    RECOVER_CHALLENGE_STREAK,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomChallengeStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -74,7 +75,7 @@ export interface ChallengeStreakReducerState {
     deleteArchivedChallengeStreakErrorMessage: string;
 }
 
-const defaultSelectedChallengeStreak = {
+const defaultSelectedChallengeStreak: SelectedChallengeStreak = {
     _id: '',
     challengeId: '',
     userId: '',
@@ -139,6 +140,8 @@ export interface ChallengeStreakListItem extends ChallengeStreak {
     completeChallengeStreakListTaskErrorMessage: string;
     incompleteChallengeStreakListTaskIsLoading: boolean;
     incompleteChallengeStreakListTaskErrorMessage: string;
+    recoverChallengeStreakIsLoading: boolean;
+    recoverChallengeStreakErrorMessage: string;
 }
 
 export interface ArchivedChallengeStreakListItem extends ChallengeStreak {
@@ -627,6 +630,64 @@ const challengeStreakReducer = (
                 liveChallengeStreaks: action.payload.liveChallengeStreaks,
             };
         }
+
+        case RECOVER_CHALLENGE_STREAK:
+            return {
+                ...state,
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
+                    if (challengeStreak._id === action.payload.challengeStreak._id) {
+                        return {
+                            ...challengeStreak,
+                            currentStreak: action.payload.challengeStreak.currentStreak,
+                        };
+                    }
+                    return challengeStreak;
+                }),
+            };
+
+        case COMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL:
+            return {
+                ...state,
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
+                    if (challengeStreak._id === action.payload.challengeStreakId) {
+                        return {
+                            ...challengeStreak,
+                            recoverChallengeStreakErrorMessage: action.payload.errorMessage,
+                        };
+                    }
+                    return challengeStreak;
+                }),
+            };
+
+        case COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING:
+            return {
+                ...state,
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
+                    if (challengeStreak._id === action.challengeStreakId) {
+                        const SelectedChallengeStreak = {
+                            ...challengeStreak,
+                            recoverChallengeStreakIsLoading: true,
+                        };
+                        return SelectedChallengeStreak;
+                    }
+                    return challengeStreak;
+                }),
+            };
+
+        case COMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED:
+            return {
+                ...state,
+                liveChallengeStreaks: state.liveChallengeStreaks.map(challengeStreak => {
+                    if (challengeStreak._id === action.challengeStreakId) {
+                        const SelectedChallengeStreak = {
+                            ...challengeStreak,
+                            recoverChallengeStreakIsLoading: false,
+                        };
+                        return SelectedChallengeStreak;
+                    }
+                    return challengeStreak;
+                }),
+            };
 
         default:
             return state;

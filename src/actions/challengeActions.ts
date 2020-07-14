@@ -22,7 +22,7 @@ import {
 import { AppActions, AppState } from '..';
 import { ChallengeMemberWithClientData, SelectedChallenge } from '../reducers/challengesReducer';
 import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
-import { SelectedChallengeStreak } from '../reducers/challengeStreakReducer';
+import { ChallengeStreakListItem } from '../reducers/challengeStreakReducer';
 import { ChallengeMember } from '@streakoid/streakoid-models/lib/Models/ChallengeMember';
 import { PopulatedChallenge } from '@streakoid/streakoid-models/lib/Models/PopulatedChallenge';
 
@@ -180,33 +180,16 @@ const challengeActions = (streakoid: StreakoidSDK) => {
                 challengeId,
             });
             const challenge = await streakoid.challenges.getOne({ challengeId });
-            const challengeStreakWithLoadingState: SelectedChallengeStreak = {
+            const challengeStreakListItem: ChallengeStreakListItem = {
                 ...challengeStreak,
-                challengeName: challenge.name,
-                challengeDescription: challenge.description,
                 completeChallengeStreakListTaskIsLoading: false,
                 completeChallengeStreakListTaskErrorMessage: '',
                 incompleteChallengeStreakListTaskIsLoading: false,
                 incompleteChallengeStreakListTaskErrorMessage: '',
-                completedChallengeStreakTaskDates: [],
-                username: currentUser.username,
-                userProfileImage: currentUser.profileImages.originalImageUrl,
-                longestStreak: 0,
-                totalTimesTracked: 0,
-                daysSinceStreakCreation: 0,
-                numberOfRestarts: 0,
-                activityFeed: {
-                    totalActivityFeedCount: 0,
-                    activityFeedItems: [],
-                },
-                completeSelectedChallengeStreakIsLoading: false,
-                completeSelectedChallengeStreakErrorMessage: '',
-                incompleteSelectedChallengeStreakIsLoading: false,
-                incompleteSelectedChallengeStreakErrorMessage: '',
-                updateCustomChallengeStreakReminderPushNotificationIsLoading: false,
-                updateCustomChallengeStreakReminderPushNotificationErrorMessage: '',
+                recoverChallengeStreakIsLoading: false,
+                recoverChallengeStreakErrorMessage: '',
             };
-            dispatch({ type: CREATE_CHALLENGE_STREAK, payload: challengeStreakWithLoadingState });
+            dispatch({ type: CREATE_CHALLENGE_STREAK, payload: challengeStreakListItem });
             dispatch({ type: UPDATE_SELECTED_CHALLENGE_IS_LOADING });
             const sortedChallengeMembers = await getSortedChallengeMembers(challenge._id, challenge.members);
             const {

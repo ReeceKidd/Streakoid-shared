@@ -40,6 +40,8 @@ import { Note } from '@streakoid/streakoid-models/lib/Models/Note';
 import { DatabaseStats } from '@streakoid/streakoid-models/lib/Models/DatabaseStats';
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamStreak';
+import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/ChallengeStreak';
+import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_LOGIN = 'NAVIGATE_TO_LOGIN';
@@ -486,6 +488,11 @@ export const REORDER_LIVE_SOLO_STREAKS_FAIL = 'REORDER_LIVE_SOLO_STREAKS_FAIL';
 export const REORDER_LIVE_SOLO_STREAKS_LOADING = 'REORDER_LIVE_SOLO_STREAKS_LOADING';
 export const REORDER_LIVE_SOLO_STREAKS_LOADED = 'REORDER_LIVE_SOLO_STREAKS_LOADED';
 
+export const RECOVER_SOLO_STREAK = 'RECOVER_SOLO_STREAK';
+export const RECOVER_SOLO_STREAK_FAIL = 'RECOVER_SOLO_STREAK_FAIL';
+export const RECOVER_SOLO_STREAK_LOADING = 'RECOVER_SOLO_STREAK_LOADING';
+export const RECOVER_SOLO_STREAK_LOADED = 'RECOVER_SOLO_STREAK_LOADED';
+
 export interface GetLiveSoloStreaksAction {
     type: typeof GET_LIVE_SOLO_STREAKS;
     payload: SoloStreakListItem[];
@@ -776,6 +783,26 @@ export interface ReorderLiveSoloStreaksIsLoadedAction {
     type: typeof REORDER_LIVE_SOLO_STREAKS_LOADED;
 }
 
+export interface RecoverSoloStreakAction {
+    type: typeof RECOVER_SOLO_STREAK;
+    payload: { soloStreak: SoloStreak };
+}
+
+export interface RecoverSoloStreakFailAction {
+    type: typeof RECOVER_SOLO_STREAK_FAIL;
+    payload: { soloStreakId: string; errorMessage: string };
+}
+
+export interface RecoverSoloStreakIsLoadingAction {
+    type: typeof RECOVER_SOLO_STREAK_LOADING;
+    payload: { soloStreakId: string };
+}
+
+export interface RecoverSoloStreakIsLoadedAction {
+    type: typeof RECOVER_SOLO_STREAK_LOADED;
+    payload: { soloStreakId: string };
+}
+
 export type SoloStreakActionTypes =
     | GetLiveSoloStreaksAction
     | GetLiveSoloStreaksFailAction
@@ -840,7 +867,11 @@ export type SoloStreakActionTypes =
     | ReorderLiveSoloStreaksAction
     | ReorderLiveSoloStreaksFailAction
     | ReorderLiveSoloStreaksIsLoadingAction
-    | ReorderLiveSoloStreaksIsLoadedAction;
+    | ReorderLiveSoloStreaksIsLoadedAction
+    | RecoverSoloStreakAction
+    | RecoverSoloStreakFailAction
+    | RecoverSoloStreakIsLoadingAction
+    | RecoverSoloStreakIsLoadedAction;
 
 export const GET_STREAK_RECOMMENDATIONS = 'GET_STREAK_RECOMMENDATIONS';
 export const GET_STREAK_RECOMMENDATIONS_FAIL = 'GET_STREAK_RECOMMENDATIONS_FAIL';
@@ -1923,6 +1954,11 @@ export const REORDER_LIVE_CHALLENGE_STREAKS_FAIL = 'REORDER_LIVE_CHALLENGE_STREA
 export const REORDER_LIVE_CHALLENGE_STREAKS_LOADING = 'REORDER_LIVE_CHALLENGE_STREAKS_LOADING';
 export const REORDER_LIVE_CHALLENGE_STREAKS_LOADED = 'REORDER_LIVE_CHALLENGE_STREAKS_LOADED';
 
+export const RECOVER_CHALLENGE_STREAK = 'RECOVER_CHALLENGE_STREAK';
+export const RECOVER_CHALLENGE_STREAK_FAIL = 'RECOVER_CHALLENGE_STREAK_FAIL';
+export const RECOVER_CHALLENGE_STREAK_LOADING = 'RECOVER_CHALLENGE_STREAK_LOADING';
+export const RECOVER_CHALLENGE_STREAK_LOADED = 'RECOVER_CHALLENGE_STREAK_LOADED';
+
 export interface GetLiveChallengeStreaksAction {
     type: typeof GET_LIVE_CHALLENGE_STREAKS;
     payload: ChallengeStreakListItem[];
@@ -2001,7 +2037,7 @@ export interface ArchiveChallengeStreakIsLoadedAction {
 
 export interface RestoreArchivedChallengeStreakAction {
     type: typeof RESTORE_ARCHIVED_CHALLENGE_STREAK;
-    payload: SelectedChallengeStreak;
+    payload: ChallengeStreakListItem;
 }
 
 export interface RestoreArchivedChallengeStreakFailAction {
@@ -2041,7 +2077,7 @@ export interface DeleteArchivedChallengeStreakIsLoadedAction {
 
 export interface CreateChallengeStreakAction {
     type: typeof CREATE_CHALLENGE_STREAK;
-    payload: SelectedChallengeStreak;
+    payload: ChallengeStreakListItem;
 }
 
 export interface CreateChallengeStreakFailAction {
@@ -2183,6 +2219,26 @@ export interface ReorderLiveChallengeStreaksIsLoadedAction {
     type: typeof REORDER_LIVE_CHALLENGE_STREAKS_LOADED;
 }
 
+export interface RecoverChallengeStreakAction {
+    type: typeof RECOVER_CHALLENGE_STREAK;
+    payload: { challengeStreak: ChallengeStreak };
+}
+
+export interface RecoverChallengeStreakFailAction {
+    type: typeof RECOVER_CHALLENGE_STREAK_FAIL;
+    payload: { challengeStreakId: string; errorMessage: string };
+}
+
+export interface RecoverChallengeStreakIsLoadingAction {
+    type: typeof RECOVER_CHALLENGE_STREAK_LOADING;
+    payload: { challengeStreakId: string };
+}
+
+export interface RecoverChallengeStreakIsLoadedAction {
+    type: typeof RECOVER_CHALLENGE_STREAK_LOADED;
+    payload: { challengeStreakId: string };
+}
+
 export type ChallengeStreakActionTypes =
     | GetLiveChallengeStreaksAction
     | GetLiveChallengeStreaksFailAction
@@ -2240,7 +2296,11 @@ export type ChallengeStreakActionTypes =
     | ReorderLiveChallengeStreaksAction
     | ReorderLiveChallengeStreaksFailAction
     | ReorderLiveChallengeStreaksIsLoadingAction
-    | ReorderLiveChallengeStreaksIsLoadedAction;
+    | ReorderLiveChallengeStreaksIsLoadedAction
+    | RecoverChallengeStreakAction
+    | RecoverChallengeStreakFailAction
+    | RecoverChallengeStreakIsLoadingAction
+    | RecoverChallengeStreakIsLoadedAction;
 
 export const GET_NOTES = 'GET_NOTES';
 export const GET_NOTES_FAIL = 'GET_NOTES_FAIL';
