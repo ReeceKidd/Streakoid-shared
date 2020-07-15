@@ -356,28 +356,26 @@ const userActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADING });
             if (androidToken) {
-                const updateData = { ...getState().users.currentUser, pushNotification: { androidToken } };
-                await streakoid.user.updateCurrentUser({
-                    updateData,
+                const user = await streakoid.user.updateCurrentUser({
+                    updateData: { pushNotification: { androidToken } },
                 });
                 dispatch({
                     type: UPDATE_CURRENT_USER,
                     payload: {
                         ...getState().users.currentUser,
-                        ...updateData,
+                        user,
                     },
                 });
             }
             if (iosToken) {
-                const updateData = { ...getState().users.currentUser, pushNotification: { androidToken } };
-                await streakoid.user.updateCurrentUser({
-                    updateData,
+                const user = await streakoid.user.updateCurrentUser({
+                    updateData: { pushNotification: { iosToken } },
                 });
                 dispatch({
                     type: UPDATE_CURRENT_USER,
                     payload: {
                         ...getState().users.currentUser,
-                        ...updateData,
+                        user,
                     },
                 });
             }
