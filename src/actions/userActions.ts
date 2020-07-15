@@ -350,7 +350,7 @@ const userActions = (streakoid: StreakoidSDK) => {
         androidToken,
         iosToken,
     }: {
-        andrdoidToken?: string;
+        androidToken?: string;
         iosToken?: string;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
