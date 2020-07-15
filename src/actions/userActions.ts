@@ -363,7 +363,7 @@ const userActions = (streakoid: StreakoidSDK) => {
                     type: UPDATE_CURRENT_USER,
                     payload: {
                         ...getState().users.currentUser,
-                        user,
+                        pushNotification: user.pushNotification,
                     },
                 });
             }
@@ -375,7 +375,7 @@ const userActions = (streakoid: StreakoidSDK) => {
                     type: UPDATE_CURRENT_USER,
                     payload: {
                         ...getState().users.currentUser,
-                        user,
+                        pushNotification: user.pushNotification,
                     },
                 });
             }
