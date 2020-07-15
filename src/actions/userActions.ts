@@ -332,6 +332,29 @@ const userActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE });
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADING });
+            if (updateData.pushNotification) {
+                const pushNotificationUpdateData = {
+                    ...updateData,
+                    pushNotification: {
+                        androidToken: updateData.pushNotification.androidToken
+                            ? updateData.pushNotification.androidToken
+                            : getState().users.currentUser.pushNotification.androidToken,
+                        iosToken: updateData.pushNotification.iosToken
+                            ? updateData.pushNotification.iosToken
+                            : getState().users.currentUser.pushNotification.iosToken,
+                    },
+                };
+                await streakoid.user.updateCurrentUser({
+                    updateData: pushNotificationUpdateData,
+                });
+                dispatch({
+                    type: UPDATE_CURRENT_USER,
+                    payload: {
+                        ...getState().users.currentUser,
+                        ...pushNotificationUpdateData,
+                    },
+                });
+            }
             await streakoid.user.updateCurrentUser({ updateData });
             dispatch({
                 type: UPDATE_CURRENT_USER,
