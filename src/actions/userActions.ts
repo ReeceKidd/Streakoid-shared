@@ -315,6 +315,10 @@ const userActions = (streakoid: StreakoidSDK) => {
             lastName?: string;
             hasUsernameBeenCustomized?: boolean;
             timezone?: string;
+            pushNotification?: {
+                androidToken?: string;
+                iosToken?: string;
+            };
             hasProfileImageBeenCustomized?: boolean;
             hasCompletedTutorial?: boolean;
             hasCompletedIntroduction?: boolean;
@@ -336,49 +340,6 @@ const userActions = (streakoid: StreakoidSDK) => {
                     ...updateData,
                 },
             });
-            dispatch({ type: UPDATE_CURRENT_USER_IS_LOADED });
-        } catch (err) {
-            if (err.response) {
-                dispatch({ type: UPDATE_CURRENT_USER_FAIL, errorMessage: err.response.data.message });
-            } else {
-                dispatch({ type: UPDATE_CURRENT_USER_FAIL, errorMessage: err.message });
-            }
-        }
-    };
-
-    const updateCurrentUserPushNotificationInformation = ({
-        androidToken,
-        iosToken,
-    }: {
-        androidToken?: string;
-        iosToken?: string;
-    }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
-        try {
-            dispatch({ type: UPDATE_CURRENT_USER_IS_LOADING });
-            if (androidToken) {
-                const user = await streakoid.user.updateCurrentUser({
-                    updateData: { pushNotification: { androidToken } },
-                });
-                dispatch({
-                    type: UPDATE_CURRENT_USER,
-                    payload: {
-                        ...getState().users.currentUser,
-                        pushNotification: user.pushNotification,
-                    },
-                });
-            }
-            if (iosToken) {
-                const user = await streakoid.user.updateCurrentUser({
-                    updateData: { pushNotification: { iosToken } },
-                });
-                dispatch({
-                    type: UPDATE_CURRENT_USER,
-                    payload: {
-                        ...getState().users.currentUser,
-                        pushNotification: user.pushNotification,
-                    },
-                });
-            }
             dispatch({ type: UPDATE_CURRENT_USER_IS_LOADED });
         } catch (err) {
             if (err.response) {
@@ -575,7 +536,6 @@ const userActions = (streakoid: StreakoidSDK) => {
         getCurrentUser,
         getUserStreakCompleteInfo,
         updateCurrentUser,
-        updateCurrentUserPushNotificationInformation,
         clearUpdateCurrentUserErrorMessage,
         followUsersListUser,
         unfollowUsersListUser,
