@@ -111,6 +111,12 @@ const defaultSelectedSoloStreak: SelectedSoloStreak = {
         totalActivityFeedCount: 0,
         activityFeedItems: [],
     },
+    longestSoloStreak: {
+        soloStreakId: '',
+        soloStreakName: '',
+        numberOfDays: 0,
+        startDate: new Date(),
+    },
     completeSelectedSoloStreakIsLoading: false,
     completeSelectedSoloStreakErrorMessage: '',
     incompleteSelectedSoloStreakIsLoading: false,
