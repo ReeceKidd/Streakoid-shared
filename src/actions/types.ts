@@ -42,6 +42,7 @@ import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamStreak';
 import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/ChallengeStreak';
 import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
+import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMemberStreak';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_LOGIN = 'NAVIGATE_TO_LOGIN';
@@ -1011,6 +1012,11 @@ export const UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL = 'UPDATE_TEAM_STREAK_REMINDE
 export const UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING = 'UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING';
 export const UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED = 'UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED';
 
+export const RECOVER_TEAM_MEMBER_STREAK = 'RECOVER_TEAM_MEMBER_STREAK';
+export const RECOVER_TEAM_MEMBER_STREAK_FAIL = 'RECOVER_TEAM_MEMBER_STREAK_FAIL';
+export const RECOVER_TEAM_MEMBER_STREAK_LOADING = 'RECOVER_TEAM_MEMBER_STREAK_LOADING';
+export const RECOVER_TEAM_MEMBER_STREAK_LOADED = 'RECOVER_TEAM_MEMBER_STREAK_LOADED';
+
 export interface GetLiveTeamStreaksAction {
     type: typeof GET_LIVE_TEAM_STREAKS;
     payload: PopulatedTeamStreakWithClientData[];
@@ -1279,6 +1285,26 @@ export interface UpdateTeamStreakReminderInfoIsLoadedAction {
     type: typeof UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED;
 }
 
+export interface RecoverTeamMemberStreakAction {
+    type: typeof RECOVER_TEAM_MEMBER_STREAK;
+    payload: { teamMemberStreak: TeamMemberStreak };
+}
+
+export interface RecoverTeamMemberStreakFailAction {
+    type: typeof RECOVER_TEAM_MEMBER_STREAK_FAIL;
+    payload: { teamMemberStreakId: string; errorMessage: string };
+}
+
+export interface RecoverTeamMemberStreakLoadingAction {
+    type: typeof RECOVER_TEAM_MEMBER_STREAK_LOADING;
+    payload: { teamMemberStreakId: string };
+}
+
+export interface RecoverTeamMemberStreakLoadedAction {
+    type: typeof RECOVER_TEAM_MEMBER_STREAK_LOADED;
+    payload: { teamMemberStreakId: string };
+}
+
 export type TeamStreakActionTypes =
     | GetLiveTeamStreaksAction
     | GetLiveTeamStreaksFailAction
@@ -1338,7 +1364,11 @@ export type TeamStreakActionTypes =
     | UpdateTeamStreakReminderInfoAction
     | UpdateTeamStreakReminderInfoFailAction
     | UpdateTeamStreakReminderInfoIsLoadingAction
-    | UpdateTeamStreakReminderInfoIsLoadedAction;
+    | UpdateTeamStreakReminderInfoIsLoadedAction
+    | RecoverTeamMemberStreakAction
+    | RecoverTeamMemberStreakFailAction
+    | RecoverTeamMemberStreakLoadingAction
+    | RecoverTeamMemberStreakLoadedAction;
 
 export const GET_TEAM_MEMBER_STREAK = 'GET_TEAM_MEMBER_STREAK';
 export const GET_TEAM_MEMBER_STREAK_FAIL = 'GET_TEAM_MEMBER_STREAK_FAIL';

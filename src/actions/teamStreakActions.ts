@@ -55,6 +55,10 @@ import {
     REMOVE_USER_FROM_TEAM_STREAK,
     REMOVE_USER_FROM_TEAM_STREAK_LOADED,
     REMOVE_USER_FROM_TEAM_STREAK_FAIL,
+    RECOVER_TEAM_MEMBER_STREAK,
+    RECOVER_TEAM_MEMBER_STREAK_LOADED,
+    RECOVER_TEAM_MEMBER_STREAK_FAIL,
+    RECOVER_TEAM_MEMBER_STREAK_LOADING,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -782,6 +786,33 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         }
     };
 
+    const recoverTeamMemberStreak = ({ teamMemberStreakId }: { teamMemberStreakId: string }) => async (
+        dispatch: Dispatch<AppActions>,
+    ): Promise<void> => {
+        try {
+            dispatch({ type: RECOVER_TEAM_MEMBER_STREAK_LOADING, payload: { teamMemberStreakId } });
+
+            const recoveredTeamMemberStreak = await streakoid.teamMemberStreaks.recover({ teamMemberStreakId });
+
+            dispatch({ type: RECOVER_TEAM_MEMBER_STREAK, payload: { teamMemberStreak: recoveredTeamMemberStreak } });
+
+            dispatch({ type: RECOVER_TEAM_MEMBER_STREAK_LOADED, payload: { teamMemberStreakId } });
+        } catch (err) {
+            dispatch({ type: RECOVER_TEAM_MEMBER_STREAK_LOADED, payload: { teamMemberStreakId } });
+            if (err.response) {
+                dispatch({
+                    type: RECOVER_TEAM_MEMBER_STREAK_FAIL,
+                    payload: err.response.data.message,
+                });
+            } else {
+                dispatch({
+                    type: RECOVER_TEAM_MEMBER_STREAK_FAIL,
+                    payload: err.message,
+                });
+            }
+        }
+    };
+
     return {
         getLiveTeamStreaks,
         getArchivedTeamStreaks,
@@ -800,5 +831,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         addUserToTeamStreak,
         removeUserFromTeamStreak,
         updateCustomTeamStreakReminderPushNotification,
+        recoverTeamMemberStreak,
     };
 };

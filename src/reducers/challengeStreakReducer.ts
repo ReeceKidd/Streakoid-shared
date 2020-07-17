@@ -113,6 +113,13 @@ const defaultSelectedChallengeStreak: SelectedChallengeStreak = {
     incompleteSelectedChallengeStreakErrorMessage: '',
     updateCustomChallengeStreakReminderPushNotificationErrorMessage: '',
     updateCustomChallengeStreakReminderPushNotificationIsLoading: false,
+    longestChallengeStreak: {
+        challengeId: '',
+        challengeName: '',
+        challengeStreakId: '',
+        numberOfDays: 0,
+        startDate: new Date(),
+    },
 };
 
 const initialState: ChallengeStreakReducerState = {
