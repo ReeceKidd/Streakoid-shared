@@ -44,6 +44,13 @@ const defaultSelectedTeamMemberStreak = {
     completeSelectedTeamMemberStreakErrorMessage: '',
     incompleteSelectedTeamMemberStreakIsLoading: false,
     incompleteSelectedTeamMemberStreakErrorMessage: '',
+    longestTeamMemberStreak: {
+        teamMemberStreakId: '',
+        teamStreakId: '',
+        teamStreakName: '',
+        numberOfDays: 0,
+        startDate: new Date(),
+    },
 };
 
 const initialState: TeamMemberStreakReducerState = {
