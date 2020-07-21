@@ -21,14 +21,12 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { ChallengeMemberWithClientData, SelectedChallenge } from '../reducers/challengesReducer';
-import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { ChallengeStreakListItem } from '../reducers/challengeStreakReducer';
 import { ChallengeMember } from '@streakoid/streakoid-models/lib/Models/ChallengeMember';
 import { PopulatedChallenge } from '@streakoid/streakoid-models/lib/Models/PopulatedChallenge';
 
 export enum GetChallengeSortFields {
     currentStreak = 'currentStreak',
-    longestStreak = 'longestStreak',
 }
 
 export enum GetChallengeSortOrder {
@@ -53,7 +51,6 @@ const challengeActions = (streakoid: StreakoidSDK) => {
                     userId: user._id,
                     profileImage: user.profileImages.originalImageUrl,
                     currentStreak: userChallengeStreak.currentStreak,
-                    longestStreak: getLongestStreak(userChallengeStreak.currentStreak, userChallengeStreak.pastStreaks),
                     totalTimesTracked: userChallengeStreak.totalTimesTracked,
                     challengeStreakId: userChallengeStreak._id,
                     joinedChallenge: new Date(userChallengeStreak.createdAt),

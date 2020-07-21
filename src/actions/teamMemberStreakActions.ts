@@ -9,7 +9,6 @@ import {
 } from './types';
 import { AppActions } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
-import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
@@ -50,7 +49,6 @@ const teamMemberStreakActions = (streakoid: StreakoidSDK) => {
                     completedTeamMemberStreakTaskDates,
                     teamStreakName: teamStreak.streakName,
                     teamStreakDescription: teamStreak.streakDescription,
-                    longestStreak: getLongestStreak(teamMemberStreak.currentStreak, teamMemberStreak.pastStreaks),
                     daysSinceStreakCreation: getDaysSinceStreakCreation({
                         createdAt: new Date(teamMemberStreak.createdAt),
                         timezone: teamMemberStreak.timezone,

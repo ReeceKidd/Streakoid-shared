@@ -62,7 +62,6 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
-import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { PopulatedTeamMemberWithClientData, SelectedTeamStreak } from '../reducers/teamStreakReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
@@ -85,7 +84,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             const teamStreaksWithLoadingStates = await Promise.all(
                 teamStreaks.map(async teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        const { currentStreak, pastStreaks } = member.teamMemberStreak;
                         return {
                             ...member,
                             teamMemberStreak: {
@@ -94,7 +92,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                                 completeTeamMemberStreakTaskErrorMessage: '',
                                 incompleteTeamMemberStreakTaskIsLoading: false,
                                 incompleteTeamMemberStreakTaskErrorMessage: '',
-                                longestStreak: getLongestStreak(currentStreak, pastStreaks),
                             },
                         };
                     });
@@ -159,8 +156,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             const teamStreaksWithLoadingStates = await Promise.all(
                 teamStreaks.map(async teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        const { currentStreak, pastStreaks } = member.teamMemberStreak;
-
                         return {
                             ...member,
                             teamMemberStreak: {
@@ -169,7 +164,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                                 completeTeamMemberStreakTaskErrorMessage: '',
                                 incompleteTeamMemberStreakTaskIsLoading: false,
                                 incompleteTeamMemberStreakTaskErrorMessage: '',
-                                longestStreak: getLongestStreak(currentStreak, pastStreaks),
                             },
                         };
                     });
@@ -201,8 +195,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
             const members = await Promise.all(
                 teamStreak.members.map(async member => {
-                    const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                    const longestStreak = getLongestStreak(currentStreak, pastStreaks);
                     return {
                         ...member,
                         teamMemberStreak: {
@@ -211,7 +203,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                             completeTeamMemberStreakTaskErrorMessage: '',
                             incompleteTeamMemberStreakTaskIsLoading: false,
                             incompleteTeamMemberStreakTaskErrorMessage: '',
-                            longestStreak,
                         },
                     };
                 }),
@@ -268,7 +259,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 ...teamStreak,
                 members,
                 completedTeamMemberStreakTaskDatesWithCounts,
-                longestStreak: getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
                 activityFeed: {
                     totalActivityFeedCount: activityFeed.totalCountOfActivityFeedItems,
                     activityFeedItems: supportedPopulatedActivityFeedItems,
@@ -321,8 +311,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 members,
             });
             const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
-                const { currentStreak, pastStreaks } = member.teamMemberStreak;
-
                 return {
                     ...member,
                     teamMemberStreak: {
@@ -331,7 +319,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                         completeTeamMemberStreakTaskErrorMessage: '',
                         incompleteTeamMemberStreakTaskIsLoading: false,
                         incompleteTeamMemberStreakTaskErrorMessage: '',
-                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
                     },
                 };
             });
@@ -411,8 +398,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
             const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
-                const { currentStreak, pastStreaks } = member.teamMemberStreak;
-
                 return {
                     ...member,
                     teamMemberStreak: {
@@ -421,7 +406,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                         completeTeamMemberStreakTaskErrorMessage: '',
                         incompleteTeamMemberStreakTaskIsLoading: false,
                         incompleteTeamMemberStreakTaskErrorMessage: '',
-                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
                     },
                 };
             });
@@ -457,8 +441,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
             const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
-                const { currentStreak, pastStreaks } = member.teamMemberStreak;
-
                 return {
                     ...member,
                     teamMemberStreak: {
@@ -467,7 +449,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                         completeTeamMemberStreakTaskErrorMessage: '',
                         incompleteTeamMemberStreakTaskIsLoading: false,
                         incompleteTeamMemberStreakTaskErrorMessage: '',
-                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
                     },
                 };
             });
@@ -537,8 +518,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 }),
             );
             const teamStreakMembersWithLoadingStates = teamStreak.members.map(member => {
-                const { currentStreak, pastStreaks } = member.teamMemberStreak;
-
                 return {
                     ...member,
                     teamMemberStreak: {
@@ -547,7 +526,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                         completeTeamMemberStreakTaskErrorMessage: '',
                         incompleteTeamMemberStreakTaskIsLoading: false,
                         incompleteTeamMemberStreakTaskErrorMessage: '',
-                        longestStreak: getLongestStreak(currentStreak, pastStreaks),
                     },
                 };
             });
@@ -581,7 +559,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 ...teamStreak,
                 members: teamStreakMembersWithLoadingStates,
                 completedTeamMemberStreakTaskDatesWithCounts,
-                longestStreak: getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks),
 
                 activityFeed: {
                     totalActivityFeedCount: 0,
@@ -636,7 +613,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                     completeTeamMemberStreakTaskErrorMessage: '',
                     incompleteTeamMemberStreakTaskIsLoading: false,
                     incompleteTeamMemberStreakTaskErrorMessage: '',
-                    longestStreak: 0,
                 },
             };
             dispatch({ type: ADD_USER_TO_TEAM_STREAK, payload: populatedTeamMemberWithClientData });
@@ -647,8 +623,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                     payload: {
                         ...getState().teamStreaks.selectedTeamStreak,
                         members: selectedTeamStreak.members.map(member => {
-                            const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                            const longestStreak = getLongestStreak(currentStreak, pastStreaks);
                             return {
                                 ...member,
                                 teamMemberStreak: {
@@ -657,7 +631,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                                     completeTeamMemberStreakTaskErrorMessage: '',
                                     incompleteTeamMemberStreakTaskIsLoading: false,
                                     incompleteTeamMemberStreakTaskErrorMessage: '',
-                                    longestStreak,
                                 },
                             };
                         }),
@@ -668,7 +641,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             const teamStreaksWithLoadingStates = await Promise.all(
                 teamStreaks.map(async teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        const { currentStreak, pastStreaks } = member.teamMemberStreak;
                         return {
                             ...member,
                             teamMemberStreak: {
@@ -677,7 +649,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                                 completeTeamMemberStreakTaskErrorMessage: '',
                                 incompleteTeamMemberStreakTaskIsLoading: false,
                                 incompleteTeamMemberStreakTaskErrorMessage: '',
-                                longestStreak: getLongestStreak(currentStreak, pastStreaks),
                             },
                         };
                     });
@@ -727,8 +698,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                     payload: {
                         ...getState().teamStreaks.selectedTeamStreak,
                         members: selectedTeamStreak.members.map(member => {
-                            const { currentStreak, pastStreaks } = member.teamMemberStreak;
-                            const longestStreak = getLongestStreak(currentStreak, pastStreaks);
                             return {
                                 ...member,
                                 teamMemberStreak: {
@@ -737,7 +706,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                                     completeTeamMemberStreakTaskErrorMessage: '',
                                     incompleteTeamMemberStreakTaskIsLoading: false,
                                     incompleteTeamMemberStreakTaskErrorMessage: '',
-                                    longestStreak,
                                 },
                             };
                         }),

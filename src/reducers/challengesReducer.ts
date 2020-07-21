@@ -46,7 +46,6 @@ export interface SelectedChallenge extends PopulatedChallenge {
 export interface ChallengeMemberWithClientData extends ChallengeMember {
     challengeStreakId: string;
     currentStreak: CurrentStreak;
-    longestStreak: number;
     totalTimesTracked: number;
     joinedChallenge: Date;
 }

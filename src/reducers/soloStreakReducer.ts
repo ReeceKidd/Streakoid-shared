@@ -103,7 +103,7 @@ const defaultSelectedSoloStreak: SelectedSoloStreak = {
     completedSoloStreakTaskDates: [],
     username: '',
     userProfileImage: '',
-    longestStreak: 0,
+
     totalTimesTracked: 0,
     daysSinceStreakCreation: 0,
     numberOfRestarts: 0,
@@ -148,7 +148,6 @@ const initialState: SoloStreakReducerState = {
 export interface SelectedSoloStreak extends SoloStreak {
     completedSoloStreakTaskDates: Date[];
     userProfileImage: string;
-    longestStreak: number;
     totalTimesTracked: number;
     daysSinceStreakCreation: number;
     numberOfRestarts: number;

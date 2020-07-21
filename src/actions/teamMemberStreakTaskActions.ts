@@ -13,7 +13,6 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
-import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
@@ -68,7 +67,6 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
             const teamStreaksWithLoadingStates = await Promise.all(
                 teamStreaks.map(async teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        const { currentStreak, pastStreaks } = member.teamMemberStreak;
                         return {
                             ...member,
                             teamMemberStreak: {
@@ -77,7 +75,6 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                                 completeTeamMemberStreakTaskErrorMessage: '',
                                 incompleteTeamMemberStreakTaskIsLoading: false,
                                 incompleteTeamMemberStreakTaskErrorMessage: '',
-                                longestStreak: getLongestStreak(currentStreak, pastStreaks),
                             },
                         };
                     });
@@ -165,7 +162,6 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
             const teamStreaksWithLoadingStates = await Promise.all(
                 teamStreaks.map(async teamStreak => {
                     const members = teamStreak.members.map(member => {
-                        const { currentStreak, pastStreaks } = member.teamMemberStreak;
                         return {
                             ...member,
                             teamMemberStreak: {
@@ -174,7 +170,6 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                                 completeTeamMemberStreakTaskErrorMessage: '',
                                 incompleteTeamMemberStreakTaskIsLoading: false,
                                 incompleteTeamMemberStreakTaskErrorMessage: '',
-                                longestStreak: getLongestStreak(currentStreak, pastStreaks),
                             },
                         };
                     });

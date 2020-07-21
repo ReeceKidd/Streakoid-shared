@@ -74,8 +74,6 @@ export interface SelectedUser extends PopulatedUser {
     teamStreaks: PopulatedTeamStreak[];
     challengeStreaks: ChallengeStreakListItem[];
     userStreakCompleteInfo: { date: Date; count: number }[];
-    longestEverStreak: number;
-    longestCurrentStreak: number;
     numberOfStreaks: number;
     totalTimesTracked: number;
     isCurrentUserFollowing: boolean;
@@ -136,8 +134,6 @@ const defaultSelectedUser: SelectedUser = {
     teamStreaks: [],
     challengeStreaks: [],
     userStreakCompleteInfo: [],
-    longestEverStreak: 0,
-    longestCurrentStreak: 0,
     numberOfStreaks: 0,
     totalTimesTracked: 0,
     isCurrentUserFollowing: false,

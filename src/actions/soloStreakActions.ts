@@ -72,7 +72,6 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
-import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
@@ -192,7 +191,6 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                     username: soloStreakOwner.username,
                     userProfileImage: soloStreakOwner.profileImages.originalImageUrl,
                     completedSoloStreakTaskDates,
-                    longestStreak: getLongestStreak(soloStreak.currentStreak, soloStreak.pastStreaks),
                     daysSinceStreakCreation: getDaysSinceStreakCreation({
                         createdAt: new Date(soloStreak.createdAt),
                         timezone: soloStreak.timezone,

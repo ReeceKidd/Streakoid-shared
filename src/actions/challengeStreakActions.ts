@@ -62,7 +62,6 @@ import {
     RECOVER_CHALLENGE_STREAK_LOADED,
     RECOVER_CHALLENGE_STREAK_LOADING,
 } from './types';
-import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
 import { getDaysSinceStreakCreation } from '../helpers/streakCalculations/getDaysSinceStreakCreation';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
@@ -162,7 +161,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: GET_CHALLENGE_STREAK_LOADING });
             const challengeStreak = await streakoid.challengeStreaks.getOne({ challengeStreakId });
-            const { currentStreak, pastStreaks, timezone, createdAt } = challengeStreak;
+            const { pastStreaks, timezone, createdAt } = challengeStreak;
             const challengeStreakOwner = await streakoid.users.getOne(challengeStreak.userId);
             const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
             const completeChallengeStreakListTasks = await streakoid.completeChallengeStreakTasks.getAll({
@@ -208,7 +207,6 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 completedChallengeStreakTaskDates,
                 username: challengeStreakOwner.username,
                 userProfileImage: challengeStreakOwner.profileImages.originalImageUrl,
-                longestStreak: getLongestStreak(currentStreak, pastStreaks),
                 daysSinceStreakCreation: getDaysSinceStreakCreation({
                     createdAt: new Date(createdAt),
                     timezone,
@@ -248,7 +246,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 challengeStreakId,
                 updateData: { status: StreakStatus.archived },
             });
-            const { currentStreak, pastStreaks, createdAt, timezone } = updatedChallengeStreak;
+            const { pastStreaks, createdAt, timezone } = updatedChallengeStreak;
             const currentUser = getState().users.currentUser;
             const challenge = await streakoid.challenges.getOne({ challengeId: updatedChallengeStreak.challengeId });
             const challengeStreakWithLoadingState: SelectedChallengeStreak = {
@@ -262,7 +260,6 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 completedChallengeStreakTaskDates: [],
                 username: currentUser.username,
                 userProfileImage: currentUser.profileImages.originalImageUrl,
-                longestStreak: getLongestStreak(currentStreak, pastStreaks),
                 daysSinceStreakCreation: getDaysSinceStreakCreation({
                     createdAt: new Date(createdAt),
                     timezone,

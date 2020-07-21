@@ -99,7 +99,6 @@ const defaultSelectedChallengeStreak: SelectedChallengeStreak = {
     completedChallengeStreakTaskDates: [],
     username: '',
     userProfileImage: '',
-    longestStreak: 0,
     totalTimesTracked: 0,
     daysSinceStreakCreation: 0,
     numberOfRestarts: 0,
@@ -165,7 +164,6 @@ export interface SelectedChallengeStreak extends ChallengeStreak {
     incompleteChallengeStreakListTaskErrorMessage: string;
     completedChallengeStreakTaskDates: Date[];
     userProfileImage: string;
-    longestStreak: number;
     daysSinceStreakCreation: number;
     numberOfRestarts: number;
     activityFeed: {

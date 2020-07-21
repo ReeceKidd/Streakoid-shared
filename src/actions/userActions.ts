@@ -43,8 +43,7 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
-import { getLongestStreak } from '../helpers/streakCalculations/getLongestStreak';
-import { FollowingWithClientData } from '../reducers/userReducer';
+import { FollowingWithClientData, SelectedUser } from '../reducers/userReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import {
@@ -173,49 +172,7 @@ const userActions = (streakoid: StreakoidSDK) => {
             );
             const userStreakCompleteInfo = await getUserStreakCompleteInfo({ userId: user._id });
             const numberOfStreaks = activeSoloStreaks.length + activeChallengeStreaks.length + activeTeamStreaks.length;
-            const longestCurrentSoloStreak = Math.max(
-                ...activeSoloStreaks.map(soloStreak => {
-                    return getLongestStreak(soloStreak.currentStreak, soloStreak.pastStreaks);
-                }),
-            );
-            const longestCurrentChallengeStreak = Math.max(
-                ...activeChallengeStreaks.map(challengeStreak => {
-                    return getLongestStreak(challengeStreak.currentStreak, challengeStreak.pastStreaks);
-                }),
-            );
-            const longestCurrentTeamStreak = Math.max(
-                ...activeTeamStreaks.map(teamStreak => {
-                    return getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks);
-                }),
-            );
-            const longestCurrentStreak = Math.max(
-                longestCurrentSoloStreak,
-                longestCurrentChallengeStreak,
-                longestCurrentTeamStreak,
-            );
-            const allSoloStreaks = await streakoid.soloStreaks.getAll({ userId: user._id });
-            const allChallengeStreaks = await streakoid.challengeStreaks.getAll({ userId: user._id });
-            const allTeamStreaks = await streakoid.teamStreaks.getAll({ memberId: user._id });
-            const longestEverSoloStreak = Math.max(
-                ...allSoloStreaks.map(soloStreak => {
-                    return getLongestStreak(soloStreak.currentStreak, soloStreak.pastStreaks);
-                }),
-            );
-            const longestEverChallengeStreak = Math.max(
-                ...allChallengeStreaks.map(challengeStreak => {
-                    return getLongestStreak(challengeStreak.currentStreak, challengeStreak.pastStreaks);
-                }),
-            );
-            const longestEverTeamStreak = Math.max(
-                ...allTeamStreaks.map(teamStreak => {
-                    return getLongestStreak(teamStreak.currentStreak, teamStreak.pastStreaks);
-                }),
-            );
-            const longestEverStreak = Math.max(
-                longestEverSoloStreak,
-                longestEverChallengeStreak,
-                longestEverTeamStreak,
-            );
+
             const isCurrentUserFollowing = getState().users.currentUser.following.find(
                 selectedUser => selectedUser.userId == user._id,
             );
@@ -228,14 +185,12 @@ const userActions = (streakoid: StreakoidSDK) => {
             const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
                 (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
-            const selectedUser = {
+            const selectedUser: SelectedUser = {
                 ...user,
                 soloStreaks: activeSoloStreaks,
                 teamStreaks: activeTeamStreaks,
                 challengeStreaks: challengeStreaksWithClientData,
                 userStreakCompleteInfo,
-                longestEverStreak,
-                longestCurrentStreak,
                 numberOfStreaks,
                 totalTimesTracked: user.totalStreakCompletes,
                 isCurrentUserFollowing: Boolean(isCurrentUserFollowing),
