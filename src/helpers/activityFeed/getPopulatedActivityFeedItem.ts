@@ -29,6 +29,10 @@ import {
     LostTeamStreakClientActivityFeedItem,
     CreatedAccountClientActivityFeedItem,
     FollowedUserClientActivityFeedItem,
+    RecoveredSoloStreakClientActivityFeedItem,
+    RecoveredChallengeStreakClientActivityFeedItem,
+    RecoveredTeamStreakClientActivityFeedItem,
+    RecoveredTeamMemberStreakClientActivityFeedItem,
 } from './ClientActivityFeedItem';
 import { ActivityFeedItemType } from '@streakoid/streakoid-models/lib/Models/ActivityFeedItemType';
 import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
@@ -121,6 +125,19 @@ export const getPopulatedActivityFeedItem = async (streakoid: StreakoidSDK, acti
         return clientActivityFeedItem;
     }
 
+    if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.recoveredSoloStreak) {
+        const title = ` recovered solo streak of ${
+            activityFeedItem.streakNumberOfDays === 1
+                ? `${activityFeedItem.streakNumberOfDays} day `
+                : `${activityFeedItem.streakNumberOfDays} days `
+        }`;
+        const clientActivityFeedItem: RecoveredSoloStreakClientActivityFeedItem = {
+            ...activityFeedItem,
+            title,
+        };
+        return clientActivityFeedItem;
+    }
+
     if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.completedChallengeStreak) {
         const title = ` completed challenge streak: `;
         const clientActivityFeedItem: CompletedChallengeStreakClientActivityFeedItem = {
@@ -182,6 +199,19 @@ export const getPopulatedActivityFeedItem = async (streakoid: StreakoidSDK, acti
                 : `${activityFeedItem.numberOfDaysLost} days `
         }`;
         const clientActivityFeedItem: LostChallengeStreakClientActivityFeedItem = {
+            ...activityFeedItem,
+            title,
+        };
+        return clientActivityFeedItem;
+    }
+
+    if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.recoveredChallengeStreak) {
+        const title = ` recovered challenge streak of ${
+            activityFeedItem.streakNumberOfDays === 1
+                ? `${activityFeedItem.streakNumberOfDays} day `
+                : `${activityFeedItem.streakNumberOfDays} days `
+        }`;
+        const clientActivityFeedItem: RecoveredChallengeStreakClientActivityFeedItem = {
             ...activityFeedItem,
             title,
         };
@@ -276,6 +306,32 @@ export const getPopulatedActivityFeedItem = async (streakoid: StreakoidSDK, acti
                 : `${activityFeedItem.numberOfDaysLost} days `
         }`;
         const clientActivityFeedItem: LostTeamStreakClientActivityFeedItem = {
+            ...activityFeedItem,
+            title,
+        };
+        return clientActivityFeedItem;
+    }
+
+    if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.recoveredTeamStreak) {
+        const title = ` recovered team streak of ${
+            activityFeedItem.streakNumberOfDays === 1
+                ? `${activityFeedItem.streakNumberOfDays} day `
+                : `${activityFeedItem.streakNumberOfDays} days `
+        }`;
+        const clientActivityFeedItem: RecoveredTeamStreakClientActivityFeedItem = {
+            ...activityFeedItem,
+            title,
+        };
+        return clientActivityFeedItem;
+    }
+
+    if (activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.recoveredTeamMemberStreak) {
+        const title = ` recovered team member streak of ${
+            activityFeedItem.streakNumberOfDays === 1
+                ? `${activityFeedItem.streakNumberOfDays} day `
+                : `${activityFeedItem.streakNumberOfDays} days `
+        }`;
+        const clientActivityFeedItem: RecoveredTeamMemberStreakClientActivityFeedItem = {
             ...activityFeedItem,
             title,
         };

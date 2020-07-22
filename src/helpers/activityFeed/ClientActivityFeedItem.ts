@@ -27,6 +27,10 @@ import {
     RestoredTeamStreakActivityFeedItem,
     DeletedTeamStreakActivityFeedItem,
     FollowedUserActivityFeedItem,
+    RecoveredSoloStreakActivityFeedItem,
+    RecoveredChallengeStreakActivityFeedItem,
+    RecoveredTeamStreakActivityFeedItem,
+    RecoveredTeamMemberStreakActivityFeedItem,
 } from '@streakoid/streakoid-models/lib/Models/ActivityFeedItemType';
 
 export interface CreatedSoloStreakClientActivityFeedItem extends CreatedSoloStreakActivityFeedItem {
@@ -65,6 +69,10 @@ export interface LostSoloStreakClientActivityFeedItem extends LostSoloStreakActi
     title: string;
 }
 
+export interface RecoveredSoloStreakClientActivityFeedItem extends RecoveredSoloStreakActivityFeedItem {
+    title: string;
+}
+
 export interface CompletedChallengeStreakClientActivityFeedItem extends CompletedChallengeStreakActivityFeedItem {
     title: string;
 }
@@ -93,6 +101,10 @@ export interface LostChallengeStreakClientActivityFeedItem extends LostChallenge
     title: string;
 }
 
+export interface RecoveredChallengeStreakClientActivityFeedItem extends RecoveredChallengeStreakActivityFeedItem {
+    title: string;
+}
+
 export interface CreatedTeamStreakClientActivityFeedItem extends CreatedTeamStreakActivityFeedItem {
     title: string;
 }
@@ -106,6 +118,14 @@ export interface RestoredTeamStreakClientActivityFeedItem extends RestoredTeamSt
 }
 
 export interface DeletedTeamStreakClientActivityFeedItem extends DeletedTeamStreakActivityFeedItem {
+    title: string;
+}
+
+export interface RecoveredTeamStreakClientActivityFeedItem extends RecoveredTeamStreakActivityFeedItem {
+    title: string;
+}
+
+export interface RecoveredTeamMemberStreakClientActivityFeedItem extends RecoveredTeamMemberStreakActivityFeedItem {
     title: string;
 }
 
@@ -151,6 +171,7 @@ type ClientActivityFeedItemType =
     | CompletedSoloStreakClientActivityFeedItem
     | IncompletedSoloStreakClientActivityFeedItem
     | LostSoloStreakClientActivityFeedItem
+    | RecoveredSoloStreakClientActivityFeedItem
     | CompletedChallengeStreakClientActivityFeedItem
     | IncompletedChallengeStreakClientActivityFeedItem
     | JoinedChallengeClientActivityFeedItem
@@ -158,10 +179,13 @@ type ClientActivityFeedItemType =
     | RestoredChallengeStreakClientActivityFeedItem
     | DeletedChallengeStreakClientActivityFeedItem
     | LostChallengeStreakClientActivityFeedItem
+    | RecoveredChallengeStreakClientActivityFeedItem
     | CreatedTeamStreakClientActivityFeedItem
     | ArchivedTeamStreakClientActivityFeedItem
     | RestoredTeamStreakClientActivityFeedItem
     | DeletedTeamStreakClientActivityFeedItem
+    | RecoveredTeamStreakClientActivityFeedItem
+    | RecoveredTeamMemberStreakClientActivityFeedItem
     | CompletedTeamMemberStreakClientActivityFeedItem
     | IncompletedTeamMemberStreakClientActivityFeedItem
     | JoinedTeamStreakClientActivityFeedItem
