@@ -136,6 +136,13 @@ const defaultSelectedTeamStreak: SelectedTeamStreak = {
         totalActivityFeedCount: 0,
         activityFeedItems: [],
     },
+    longestTeamStreak: {
+        teamStreakId: '',
+        teamStreakName: '',
+        members: [],
+        numberOfDays: 0,
+        startDate: new Date(),
+    },
     isCurrentUserApartOfTeamStreak: false,
     hasCurrentUserCompletedTaskForTheDay: false,
     updateCustomTeamStreakReminderPushNotificationIsLoading: false,
