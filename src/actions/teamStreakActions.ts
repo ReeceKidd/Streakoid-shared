@@ -37,8 +37,6 @@ import {
     UPDATE_TEAM_STREAK_TIMEZONE,
     UPDATE_TEAM_STREAK_TIMEZONE_FAIL,
     CLEAR_SELECTED_TEAM_STREAK,
-    ADD_USER_TO_TEAM_STREAK,
-    ADD_USER_TO_TEAM_STREAK_FAIL,
     GET_SELECTED_TEAM_STREAK,
     GET_SELECTED_TEAM_STREAK_IS_LOADING,
     GET_SELECTED_TEAM_STREAK_IS_LOADED,
@@ -48,13 +46,7 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
     UPDATE_CURRENT_USER,
-    ADD_USER_TO_TEAM_STREAK_LOADING,
-    ADD_USER_TO_TEAM_STREAK_LOADED,
     NAVIGATE_TO_ADD_TEAM_MEMBER,
-    REMOVE_USER_FROM_TEAM_STREAK_LOADING,
-    REMOVE_USER_FROM_TEAM_STREAK,
-    REMOVE_USER_FROM_TEAM_STREAK_LOADED,
-    REMOVE_USER_FROM_TEAM_STREAK_FAIL,
     RECOVER_TEAM_MEMBER_STREAK,
     RECOVER_TEAM_MEMBER_STREAK_LOADED,
     RECOVER_TEAM_MEMBER_STREAK_FAIL,
@@ -62,7 +54,7 @@ import {
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
-import { PopulatedTeamMemberWithClientData, SelectedTeamStreak } from '../reducers/teamStreakReducer';
+import { SelectedTeamStreak } from '../reducers/teamStreakReducer';
 import { getPopulatedActivityFeedItem } from '../helpers/activityFeed/getPopulatedActivityFeedItem';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -268,10 +260,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
                 updateCustomTeamStreakReminderPushNotificationIsLoading: false,
                 customTeamStreakReminder,
-                addUserToTeamStreakIsLoading: false,
-                addUserToTeamStreakErrorMessage: '',
-                removeUserFromTeamStreakIsLoading: false,
-                removeUserFromTeamStreakErrorMessage: '',
                 inviteUrl: inviteKey
                     ? `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${inviteKey}`
                     : undefined,
@@ -568,10 +556,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 hasCurrentUserCompletedTaskForTheDay,
                 updateCustomTeamStreakReminderPushNotificationIsLoading: false,
                 updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
-                addUserToTeamStreakErrorMessage: '',
-                addUserToTeamStreakIsLoading: false,
-                removeUserFromTeamStreakErrorMessage: '',
-                removeUserFromTeamStreakIsLoading: false,
                 inviteUrl: teamStreak.inviteKey
                     ? `https://streakoid.com/${RouterCategories.teamStreaks}/${teamStreakId}?key=${teamStreak.inviteKey}`
                     : undefined,
@@ -589,140 +573,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
     const clearSelectedTeamStreak = (): AppActions => ({
         type: CLEAR_SELECTED_TEAM_STREAK,
     });
-
-    const addUserToTeamStreak = ({ userId, teamStreakId }: { userId: string; teamStreakId: string }) => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
-        try {
-            dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADING });
-            const teamMember = await streakoid.teamStreaks.teamMembers.create({
-                userId,
-                teamStreakId,
-            });
-            const teamMemberInfo = await streakoid.users.getOne(teamMember.memberId);
-            const teamMemberStreak = await streakoid.teamMemberStreaks.getOne(teamMember.teamMemberStreakId);
-            const populatedTeamMemberWithClientData: PopulatedTeamMemberWithClientData = {
-                ...teamMember,
-                _id: teamMember.memberId,
-                username: teamMemberInfo.username,
-                profileImage: teamMemberInfo.profileImages.originalImageUrl,
-                teamMemberStreak: {
-                    ...teamMemberStreak,
-                    completeTeamMemberStreakTaskIsLoading: false,
-                    completeTeamMemberStreakTaskErrorMessage: '',
-                    incompleteTeamMemberStreakTaskIsLoading: false,
-                    incompleteTeamMemberStreakTaskErrorMessage: '',
-                },
-            };
-            dispatch({ type: ADD_USER_TO_TEAM_STREAK, payload: populatedTeamMemberWithClientData });
-            if (getState().teamStreaks.selectedTeamStreak._id === teamStreakId) {
-                const selectedTeamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
-                dispatch({
-                    type: GET_SELECTED_TEAM_STREAK,
-                    payload: {
-                        ...getState().teamStreaks.selectedTeamStreak,
-                        members: selectedTeamStreak.members.map(member => {
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    completeTeamMemberStreakTaskIsLoading: false,
-                                    completeTeamMemberStreakTaskErrorMessage: '',
-                                    incompleteTeamMemberStreakTaskIsLoading: false,
-                                    incompleteTeamMemberStreakTaskErrorMessage: '',
-                                },
-                            };
-                        }),
-                    },
-                });
-            }
-            const teamStreaks = await streakoid.teamStreaks.getAll({ memberId: userId, status: StreakStatus.live });
-            const teamStreaksWithLoadingStates = await Promise.all(
-                teamStreaks.map(async teamStreak => {
-                    const members = teamStreak.members.map(member => {
-                        return {
-                            ...member,
-                            teamMemberStreak: {
-                                ...member.teamMemberStreak,
-                                completeTeamMemberStreakTaskIsLoading: false,
-                                completeTeamMemberStreakTaskErrorMessage: '',
-                                incompleteTeamMemberStreakTaskIsLoading: false,
-                                incompleteTeamMemberStreakTaskErrorMessage: '',
-                            },
-                        };
-                    });
-
-                    return {
-                        ...teamStreak,
-                        members,
-                        activityFeed: {
-                            totalActivityFeedCount: 0,
-                            activityFeedItems: [],
-                        },
-                    };
-                }),
-            );
-            dispatch({
-                type: GET_LIVE_TEAM_STREAKS,
-                payload: teamStreaksWithLoadingStates,
-            });
-
-            dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADED });
-        } catch (err) {
-            dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADED });
-            if (err.response) {
-                dispatch({ type: ADD_USER_TO_TEAM_STREAK_FAIL, payload: err.response.data.message });
-            } else {
-                dispatch({ type: ADD_USER_TO_TEAM_STREAK_FAIL, payload: err.message });
-            }
-        }
-    };
-
-    const removeUserFromTeamStreak = ({ userId, teamStreakId }: { userId: string; teamStreakId: string }) => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
-        try {
-            dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK_LOADING });
-            await streakoid.teamStreaks.teamMembers.deleteOne({
-                memberId: userId,
-                teamStreakId,
-            });
-            dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK, payload: { userId } });
-
-            if (getState().teamStreaks.selectedTeamStreak._id === teamStreakId) {
-                const selectedTeamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
-                dispatch({
-                    type: GET_SELECTED_TEAM_STREAK,
-                    payload: {
-                        ...getState().teamStreaks.selectedTeamStreak,
-                        members: selectedTeamStreak.members.map(member => {
-                            return {
-                                ...member,
-                                teamMemberStreak: {
-                                    ...member.teamMemberStreak,
-                                    completeTeamMemberStreakTaskIsLoading: false,
-                                    completeTeamMemberStreakTaskErrorMessage: '',
-                                    incompleteTeamMemberStreakTaskIsLoading: false,
-                                    incompleteTeamMemberStreakTaskErrorMessage: '',
-                                },
-                            };
-                        }),
-                    },
-                });
-            }
-
-            dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK_LOADED });
-        } catch (err) {
-            dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK_LOADED });
-            if (err.response) {
-                dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK_FAIL, payload: err.response.data.message });
-            } else {
-                dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK_FAIL, payload: err.message });
-            }
-        }
-    };
 
     const updateCustomTeamStreakReminderPushNotification = ({
         customTeamStreakReminder,
@@ -796,8 +646,6 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         deleteArchivedTeamStreak,
         updateTeamStreakTimezone,
         clearSelectedTeamStreak,
-        addUserToTeamStreak,
-        removeUserFromTeamStreak,
         updateCustomTeamStreakReminderPushNotification,
         recoverTeamMemberStreak,
     };

@@ -57,6 +57,12 @@ import {
     UPDATE_PUSH_NOTIFICATIONS_IS_LOADED,
     CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
     CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE,
+    ADD_USER_TO_TEAM_STREAK_FAIL,
+    ADD_USER_TO_TEAM_STREAK_LOADING,
+    REMOVE_USER_FROM_TEAM_STREAK_FAIL,
+    REMOVE_USER_FROM_TEAM_STREAK_LOADING,
+    REMOVE_USER_FROM_TEAM_STREAK_LOADED,
+    ADD_USER_TO_TEAM_STREAK_LOADED,
 } from '../actions/types';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import { ChallengeStreakListItem } from './challengeStreakReducer';
@@ -92,10 +98,17 @@ export interface FollowingWithClientData extends BasicUser {
     unfollowUserErrorMessage: string;
 }
 
+export interface FollowerWithClientData extends BasicUser {
+    addUserToTeamStreakErrorMessage: string;
+    addUserToTeamStreakIsLoading: boolean;
+    removeUserFromTeamStreakErrorMessage: string;
+    removeUserFromTeamStreakIsLoading: boolean;
+}
+
 export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser {
     userStreakCompleteInfo: { date: Date; count: number }[];
     following: FollowingWithClientData[];
-    followers: BasicUser[];
+    followers: FollowerWithClientData[];
     activityFeed: {
         totalActivityFeedCount: number;
         activityFeedItems: ClientActivityFeedItemType[];
@@ -850,6 +863,108 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
                 currentUser: {
                     ...state.currentUser,
                     updatePushNotificationsErrorMessage: '',
+                },
+            };
+
+        case ADD_USER_TO_TEAM_STREAK_FAIL:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    followers: state.currentUser.followers.map(follower => {
+                        if (follower.userId === action.payload.userId) {
+                            return {
+                                ...follower,
+                                addUserToTeamStreakErrorMessage: action.payload.errorMessage,
+                            };
+                        }
+                        return follower;
+                    }),
+                },
+            };
+
+        case ADD_USER_TO_TEAM_STREAK_LOADING:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    followers: state.currentUser.followers.map(follower => {
+                        if (follower.userId === action.payload.userId) {
+                            return {
+                                ...follower,
+                                addUserToTeamStreakIsLoading: true,
+                            };
+                        }
+                        return follower;
+                    }),
+                },
+            };
+
+        case ADD_USER_TO_TEAM_STREAK_LOADED:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    followers: state.currentUser.followers.map(follower => {
+                        if (follower.userId === action.payload.userId) {
+                            return {
+                                ...follower,
+                                addUserToTeamStreakIsLoading: false,
+                            };
+                        }
+                        return follower;
+                    }),
+                },
+            };
+
+        case REMOVE_USER_FROM_TEAM_STREAK_FAIL:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    followers: state.currentUser.followers.map(follower => {
+                        if (follower.userId === action.payload.userId) {
+                            return {
+                                ...follower,
+                                removeUserFromTeamStreakErrorMessage: action.payload.errorMessage,
+                            };
+                        }
+                        return follower;
+                    }),
+                },
+            };
+
+        case REMOVE_USER_FROM_TEAM_STREAK_LOADING:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    followers: state.currentUser.followers.map(follower => {
+                        if (follower.userId === action.payload.userId) {
+                            return {
+                                ...follower,
+                                removeUserFromTeamStreakIsLoading: true,
+                            };
+                        }
+                        return follower;
+                    }),
+                },
+            };
+
+        case REMOVE_USER_FROM_TEAM_STREAK_LOADED:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    followers: state.currentUser.followers.map(follower => {
+                        if (follower.userId === action.payload.userId) {
+                            return {
+                                ...follower,
+                                removeUserFromTeamStreakIsLoading: false,
+                            };
+                        }
+                        return follower;
+                    }),
                 },
             };
 

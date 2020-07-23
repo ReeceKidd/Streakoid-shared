@@ -35,7 +35,6 @@ import {
     DELETE_ARCHIVED_TEAM_STREAK_FAIL,
     UPDATE_TEAM_STREAK_TIMEZONE,
     CLEAR_SELECTED_TEAM_STREAK,
-    ADD_USER_TO_TEAM_STREAK,
     GET_SELECTED_TEAM_STREAK,
     GET_SELECTED_TEAM_STREAK_IS_LOADING,
     GET_SELECTED_TEAM_STREAK_IS_LOADED,
@@ -43,13 +42,6 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
-    ADD_USER_TO_TEAM_STREAK_FAIL,
-    ADD_USER_TO_TEAM_STREAK_LOADING,
-    ADD_USER_TO_TEAM_STREAK_LOADED,
-    REMOVE_USER_FROM_TEAM_STREAK_LOADED,
-    REMOVE_USER_FROM_TEAM_STREAK_LOADING,
-    REMOVE_USER_FROM_TEAM_STREAK_FAIL,
-    REMOVE_USER_FROM_TEAM_STREAK,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -73,10 +65,6 @@ export interface SelectedTeamStreak extends PopulatedTeamStreak {
     hasCurrentUserCompletedTaskForTheDay: boolean;
     updateCustomTeamStreakReminderPushNotificationIsLoading: boolean;
     updateCustomTeamStreakReminderPushNotificationErrorMessage: string;
-    addUserToTeamStreakErrorMessage: string;
-    addUserToTeamStreakIsLoading: boolean;
-    removeUserFromTeamStreakErrorMessage: string;
-    removeUserFromTeamStreakIsLoading: boolean;
     inviteUrl?: string;
     customTeamStreakReminder?: CustomTeamStreakReminder;
 }
@@ -147,10 +135,6 @@ const defaultSelectedTeamStreak: SelectedTeamStreak = {
     hasCurrentUserCompletedTaskForTheDay: false,
     updateCustomTeamStreakReminderPushNotificationIsLoading: false,
     updateCustomTeamStreakReminderPushNotificationErrorMessage: '',
-    addUserToTeamStreakErrorMessage: '',
-    addUserToTeamStreakIsLoading: false,
-    removeUserFromTeamStreakErrorMessage: '',
-    removeUserFromTeamStreakIsLoading: false,
 };
 
 const initialState: TeamStreakReducerState = {
@@ -561,80 +545,6 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 selectedTeamStreak: action.payload,
             };
         }
-
-        case ADD_USER_TO_TEAM_STREAK:
-            return {
-                ...state,
-
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    members: [...state.selectedTeamStreak.members, action.payload],
-                },
-            };
-
-        case ADD_USER_TO_TEAM_STREAK_FAIL:
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    addUserToTeamStreakErrorMessage: action.payload,
-                },
-            };
-
-        case ADD_USER_TO_TEAM_STREAK_LOADING:
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    addUserToTeamStreakIsLoading: true,
-                },
-            };
-
-        case ADD_USER_TO_TEAM_STREAK_LOADED:
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    addUserToTeamStreakIsLoading: false,
-                },
-            };
-
-        case REMOVE_USER_FROM_TEAM_STREAK:
-            return {
-                ...state,
-
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.filter(member => member._id !== action.payload.userId),
-                },
-            };
-
-        case REMOVE_USER_FROM_TEAM_STREAK_FAIL:
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    removeUserFromTeamStreakErrorMessage: action.payload,
-                },
-            };
-
-        case REMOVE_USER_FROM_TEAM_STREAK_LOADING:
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    removeUserFromTeamStreakIsLoading: true,
-                },
-            };
-
-        case REMOVE_USER_FROM_TEAM_STREAK_LOADED:
-            return {
-                ...state,
-                selectedTeamStreak: {
-                    ...state.selectedTeamStreak,
-                    removeUserFromTeamStreakIsLoading: false,
-                },
-            };
 
         case UPDATE_TEAM_STREAK_REMINDER_INFO: {
             return {

@@ -960,16 +960,6 @@ export const EDIT_TEAM_STREAK_LOADING = 'EDIT_TEAM_STREAK_LOADING';
 export const EDIT_TEAM_STREAK_LOADED = 'EDIT_TEAM_STREAK_LOADED';
 export const CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE = 'CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE';
 
-export const ADD_USER_TO_TEAM_STREAK = 'ADD_USER_TO_TEAM_STREAK';
-export const ADD_USER_TO_TEAM_STREAK_FAIL = 'ADD_USER_TO_TEAM_STREAK_FAIL';
-export const ADD_USER_TO_TEAM_STREAK_LOADING = 'ADD_USER_TO_TEAM_STREAK_LOADING';
-export const ADD_USER_TO_TEAM_STREAK_LOADED = 'ADD_USER_TO_TEAM_STREAK_LOADED';
-
-export const REMOVE_USER_FROM_TEAM_STREAK = 'REMOVE_USER_FROM_TEAM_STREAK';
-export const REMOVE_USER_FROM_TEAM_STREAK_FAIL = 'REMOVE_USER_FROM_TEAM_STREAK_FAIL';
-export const REMOVE_USER_FROM_TEAM_STREAK_LOADING = 'REMOVE_USER_FROM_TEAM_STREAK_LOADING';
-export const REMOVE_USER_FROM_TEAM_STREAK_LOADED = 'REMOVE_USER_FROM_TEAM_STREAK_LOADED';
-
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK';
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL';
 export const COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING = 'COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING';
@@ -1096,42 +1086,6 @@ export interface EditTeamStreakLoadedAction {
 
 export interface ClearEditTeamStreakErrorMessageAction {
     type: typeof CLEAR_EDIT_TEAM_STREAK_ERROR_MESSAGE;
-}
-
-export interface AddUserToTeamStreakAction {
-    type: typeof ADD_USER_TO_TEAM_STREAK;
-    payload: PopulatedTeamMemberWithClientData;
-}
-
-export interface AddUserToTeamStreakFailAction {
-    type: typeof ADD_USER_TO_TEAM_STREAK_FAIL;
-    payload: string;
-}
-
-export interface AddUserToTeamStreakLoadingAction {
-    type: typeof ADD_USER_TO_TEAM_STREAK_LOADING;
-}
-
-export interface AddUserToTeamStreakLoadedAction {
-    type: typeof ADD_USER_TO_TEAM_STREAK_LOADED;
-}
-
-export interface RemoveUserFromTeamStreakAction {
-    type: typeof REMOVE_USER_FROM_TEAM_STREAK;
-    payload: { userId: string };
-}
-
-export interface RemoveUserFromTeamStreakFailAction {
-    type: typeof REMOVE_USER_FROM_TEAM_STREAK_FAIL;
-    payload: string;
-}
-
-export interface RemoveUserFromTeamStreakLoadingAction {
-    type: typeof REMOVE_USER_FROM_TEAM_STREAK_LOADING;
-}
-
-export interface RemoveUserFromTeamStreakLoadedAction {
-    type: typeof REMOVE_USER_FROM_TEAM_STREAK_LOADED;
 }
 
 export interface CompleteTeamMemberStreakListTaskAction {
@@ -1324,14 +1278,6 @@ export type TeamStreakActionTypes =
     | EditTeamStreakLoadingAction
     | EditTeamStreakLoadedAction
     | ClearEditTeamStreakErrorMessageAction
-    | AddUserToTeamStreakAction
-    | AddUserToTeamStreakFailAction
-    | AddUserToTeamStreakLoadingAction
-    | AddUserToTeamStreakLoadedAction
-    | RemoveUserFromTeamStreakAction
-    | RemoveUserFromTeamStreakFailAction
-    | RemoveUserFromTeamStreakLoadingAction
-    | RemoveUserFromTeamStreakLoadedAction
     | CompleteTeamMemberStreakListTaskAction
     | CompleteTeamMemberStreakListTaskFailAction
     | CompleteTeamMemberStreakListTaskLoadingAction
@@ -1476,6 +1422,16 @@ export const UPDATE_PUSH_NOTIFICATIONS_FAIL = 'UPDATE_PUSH_NOTIFICATIONS_FAIL';
 export const UPDATE_PUSH_NOTIFICATIONS_IS_LOADING = 'UPDATE_PUSH_NOTIFICATIONS_IS_LOADING';
 export const UPDATE_PUSH_NOTIFICATIONS_IS_LOADED = 'UPDATE_PUSH_NOTIFICATIONS_IS_LOADED';
 export const CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE = 'CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE';
+
+export const ADD_USER_TO_TEAM_STREAK = 'ADD_USER_TO_TEAM_STREAK';
+export const ADD_USER_TO_TEAM_STREAK_FAIL = 'ADD_USER_TO_TEAM_STREAK_FAIL';
+export const ADD_USER_TO_TEAM_STREAK_LOADING = 'ADD_USER_TO_TEAM_STREAK_LOADING';
+export const ADD_USER_TO_TEAM_STREAK_LOADED = 'ADD_USER_TO_TEAM_STREAK_LOADED';
+
+export const REMOVE_USER_FROM_TEAM_STREAK = 'REMOVE_USER_FROM_TEAM_STREAK';
+export const REMOVE_USER_FROM_TEAM_STREAK_FAIL = 'REMOVE_USER_FROM_TEAM_STREAK_FAIL';
+export const REMOVE_USER_FROM_TEAM_STREAK_LOADING = 'REMOVE_USER_FROM_TEAM_STREAK_LOADING';
+export const REMOVE_USER_FROM_TEAM_STREAK_LOADED = 'REMOVE_USER_FROM_TEAM_STREAK_LOADED';
 
 export interface GetUsersAction {
     type: typeof GET_USERS;
@@ -1748,6 +1704,46 @@ export interface ClearUpdatePushNotificationsErrorMessage {
     type: typeof CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE;
 }
 
+export interface AddUserToTeamStreakAction {
+    type: typeof ADD_USER_TO_TEAM_STREAK;
+    payload: PopulatedTeamMemberWithClientData;
+}
+
+export interface AddUserToTeamStreakFailAction {
+    type: typeof ADD_USER_TO_TEAM_STREAK_FAIL;
+    payload: { userId: string; errorMessage: string };
+}
+
+export interface AddUserToTeamStreakLoadingAction {
+    type: typeof ADD_USER_TO_TEAM_STREAK_LOADING;
+    payload: { userId: string };
+}
+
+export interface AddUserToTeamStreakLoadedAction {
+    type: typeof ADD_USER_TO_TEAM_STREAK_LOADED;
+    payload: { userId: string };
+}
+
+export interface RemoveUserFromTeamStreakAction {
+    type: typeof REMOVE_USER_FROM_TEAM_STREAK;
+    payload: { userId: string };
+}
+
+export interface RemoveUserFromTeamStreakFailAction {
+    type: typeof REMOVE_USER_FROM_TEAM_STREAK_FAIL;
+    payload: { userId: string; errorMessage: string };
+}
+
+export interface RemoveUserFromTeamStreakLoadingAction {
+    type: typeof REMOVE_USER_FROM_TEAM_STREAK_LOADING;
+    payload: { userId: string };
+}
+
+export interface RemoveUserFromTeamStreakLoadedAction {
+    type: typeof REMOVE_USER_FROM_TEAM_STREAK_LOADED;
+    payload: { userId: string };
+}
+
 export type UserActionTypes =
     | GetUsersAction
     | GetUsersFailAction
@@ -1807,7 +1803,15 @@ export type UserActionTypes =
     | UpdatePushNotificationsFailAction
     | UpdatePushNotificationsIsLoadingAction
     | UpdatePushNotificationsIsLoadedAction
-    | ClearUpdatePushNotificationsErrorMessage;
+    | ClearUpdatePushNotificationsErrorMessage
+    | AddUserToTeamStreakAction
+    | AddUserToTeamStreakFailAction
+    | AddUserToTeamStreakLoadingAction
+    | AddUserToTeamStreakLoadedAction
+    | RemoveUserFromTeamStreakAction
+    | RemoveUserFromTeamStreakFailAction
+    | RemoveUserFromTeamStreakLoadingAction
+    | RemoveUserFromTeamStreakLoadedAction;
 
 export const GET_CHALLENGES = 'GET_CHALLENGES';
 export const GET_CHALLENGES_FAIL = 'GET_CHALLENGES_FAIL';
