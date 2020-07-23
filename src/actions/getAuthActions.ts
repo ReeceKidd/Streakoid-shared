@@ -52,7 +52,11 @@ import {
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
-import { PopulatedCurrentUserWithClientData } from '../reducers/userReducer';
+import {
+    PopulatedCurrentUserWithClientData,
+    FollowingWithClientData,
+    FollowerWithClientData,
+} from '../reducers/userReducer';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import { AuthClass } from 'aws-amplify';
 
@@ -93,16 +97,20 @@ const getAuthActions = ({
             dispatch({ type: LOGIN_SUCCESS, payload: cognitoPayload });
 
             const user = await authenticatedStreakoid.user.getCurrentUser();
-            const followingWithClientData = user.following.map(following => ({
+            const followingWithClientData: FollowingWithClientData[] = user.following.map(following => ({
                 ...following,
                 followUserIsLoading: false,
                 followUserErrorMessage: '',
                 unfollowUserIsLoading: false,
                 unfollowUserErrorMessage: '',
             }));
-            const followersWithClientData = user.followers.map(follower => ({
+            const followersWithClientData: FollowerWithClientData[] = user.followers.map(follower => ({
                 ...follower,
                 isSelected: false,
+                addUserToTeamStreakIsLoading: false,
+                addUserToTeamStreakErrorMessage: '',
+                removeUserFromTeamStreakIsLoading: false,
+                removeUserFromTeamStreakErrorMessage: '',
             }));
             dispatch({
                 type: UPDATE_CURRENT_USER,
