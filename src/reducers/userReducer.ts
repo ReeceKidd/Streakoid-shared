@@ -57,12 +57,6 @@ import {
     UPDATE_PUSH_NOTIFICATIONS_IS_LOADED,
     CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
     CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE,
-    ADD_USER_TO_TEAM_STREAK_FAIL,
-    ADD_USER_TO_TEAM_STREAK_LOADING,
-    REMOVE_USER_FROM_TEAM_STREAK_FAIL,
-    REMOVE_USER_FROM_TEAM_STREAK_LOADING,
-    REMOVE_USER_FROM_TEAM_STREAK_LOADED,
-    ADD_USER_TO_TEAM_STREAK_LOADED,
 } from '../actions/types';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import { ChallengeStreakListItem } from './challengeStreakReducer';
