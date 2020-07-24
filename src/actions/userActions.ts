@@ -40,7 +40,6 @@ import {
     UPDATE_PUSH_NOTIFICATIONS_FAIL,
     CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
     CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE,
-    ADD_USER_TO_TEAM_STREAK,
     ADD_USER_TO_TEAM_STREAK_FAIL,
     ADD_USER_TO_TEAM_STREAK_LOADING,
     ADD_USER_TO_TEAM_STREAK_LOADED,
@@ -62,7 +61,6 @@ import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 import { Onboarding } from '@streakoid/streakoid-models/lib/Models/Onboarding';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
-import { PopulatedTeamMemberWithClientData } from '../reducers/teamStreakReducer';
 
 const userActions = (streakoid: StreakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
