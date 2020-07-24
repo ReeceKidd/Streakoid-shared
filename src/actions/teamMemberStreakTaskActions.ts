@@ -75,6 +75,8 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                                 completeTeamMemberStreakTaskErrorMessage: '',
                                 incompleteTeamMemberStreakTaskIsLoading: false,
                                 incompleteTeamMemberStreakTaskErrorMessage: '',
+                                recoverTeamMemberStreakIsLoading: false,
+                                recoverTeamMemberStreakErrorMessage: '',
                             },
                         };
                     });
@@ -170,6 +172,8 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                                 completeTeamMemberStreakTaskErrorMessage: '',
                                 incompleteTeamMemberStreakTaskIsLoading: false,
                                 incompleteTeamMemberStreakTaskErrorMessage: '',
+                                recoverTeamMemberStreakIsLoading: false,
+                                recoverTeamMemberStreakErrorMessage: '',
                             },
                         };
                     });
