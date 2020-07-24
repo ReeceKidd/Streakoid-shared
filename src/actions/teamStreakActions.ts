@@ -73,7 +73,6 @@ import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
-import { SelectedTeamMemberStreak } from '../reducers/teamMemberStreakReducer';
 
 export const teamStreakActions = (streakoid: StreakoidSDK) => {
     const getLiveTeamStreaks = ({ currentUserId }: { currentUserId: string }) => async (
@@ -97,6 +96,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                                 completeTeamMemberStreakTaskErrorMessage: '',
                                 incompleteTeamMemberStreakTaskIsLoading: false,
                                 incompleteTeamMemberStreakTaskErrorMessage: '',
+                                recoverTeamMemberStreakIsLoading: false,
+                                recoverTeamMemberStreakErrorMessage: '',
                             },
                         };
                     });
@@ -169,6 +170,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                                 completeTeamMemberStreakTaskErrorMessage: '',
                                 incompleteTeamMemberStreakTaskIsLoading: false,
                                 incompleteTeamMemberStreakTaskErrorMessage: '',
+                                recoverTeamMemberStreakIsLoading: false,
+                                recoverTeamMemberStreakErrorMessage: '',
                             },
                         };
                     });
@@ -198,20 +201,20 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         try {
             dispatch({ type: GET_SELECTED_TEAM_STREAK_IS_LOADING });
             const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
-            const members = await Promise.all(
-                teamStreak.members.map(async member => {
-                    return {
-                        ...member,
-                        teamMemberStreak: {
-                            ...member.teamMemberStreak,
-                            completeTeamMemberStreakTaskIsLoading: false,
-                            completeTeamMemberStreakTaskErrorMessage: '',
-                            incompleteTeamMemberStreakTaskIsLoading: false,
-                            incompleteTeamMemberStreakTaskErrorMessage: '',
-                        },
-                    };
-                }),
-            );
+            const members = teamStreak.members.map(member => {
+                return {
+                    ...member,
+                    teamMemberStreak: {
+                        ...member.teamMemberStreak,
+                        completeTeamMemberStreakTaskIsLoading: false,
+                        completeTeamMemberStreakTaskErrorMessage: '',
+                        incompleteTeamMemberStreakTaskIsLoading: false,
+                        incompleteTeamMemberStreakTaskErrorMessage: '',
+                        recoverTeamMemberStreakIsLoading: false,
+                        recoverTeamMemberStreakErrorMessage: '',
+                    },
+                };
+            });
             const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
                 teamStreakId,
             });
@@ -330,6 +333,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                         completeTeamMemberStreakTaskErrorMessage: '',
                         incompleteTeamMemberStreakTaskIsLoading: false,
                         incompleteTeamMemberStreakTaskErrorMessage: '',
+                        recoverTeamMemberStreakIsLoading: false,
+                        recoverTeamMemberStreakErrorMessage: '',
                     },
                 };
             });
@@ -417,6 +422,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                         completeTeamMemberStreakTaskErrorMessage: '',
                         incompleteTeamMemberStreakTaskIsLoading: false,
                         incompleteTeamMemberStreakTaskErrorMessage: '',
+                        recoverTeamMemberStreakIsLoading: false,
+                        recoverTeamMemberStreakErrorMessage: '',
                     },
                 };
             });
@@ -460,6 +467,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                         completeTeamMemberStreakTaskErrorMessage: '',
                         incompleteTeamMemberStreakTaskIsLoading: false,
                         incompleteTeamMemberStreakTaskErrorMessage: '',
+                        recoverTeamMemberStreakIsLoading: false,
+                        recoverTeamMemberStreakErrorMessage: '',
                     },
                 };
             });
@@ -537,6 +546,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                         completeTeamMemberStreakTaskErrorMessage: '',
                         incompleteTeamMemberStreakTaskIsLoading: false,
                         incompleteTeamMemberStreakTaskErrorMessage: '',
+                        recoverTeamMemberStreakIsLoading: false,
+                        recoverTeamMemberStreakErrorMessage: '',
                     },
                 };
             });
@@ -685,6 +696,8 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                     completeTeamMemberStreakTaskErrorMessage: '',
                     incompleteTeamMemberStreakTaskIsLoading: false,
                     incompleteTeamMemberStreakTaskErrorMessage: '',
+                    recoverTeamMemberStreakIsLoading: false,
+                    recoverTeamMemberStreakErrorMessage: '',
                 },
             };
             dispatch({
