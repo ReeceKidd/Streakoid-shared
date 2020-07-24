@@ -73,6 +73,7 @@ import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { SelectedTeamMemberStreak } from '../reducers/teamMemberStreakReducer';
 
 export const teamStreakActions = (streakoid: StreakoidSDK) => {
     const getLiveTeamStreaks = ({ currentUserId }: { currentUserId: string }) => async (

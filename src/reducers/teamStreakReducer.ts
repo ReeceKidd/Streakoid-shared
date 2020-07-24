@@ -50,6 +50,10 @@ import {
     ADD_USER_TO_TEAM_STREAK_FAIL,
     ADD_USER_TO_TEAM_STREAK,
     REMOVE_USER_FROM_TEAM_STREAK,
+    RECOVER_TEAM_MEMBER_STREAK,
+    RECOVER_TEAM_MEMBER_STREAK_LOADING,
+    RECOVER_TEAM_MEMBER_STREAK_LOADED,
+    RECOVER_TEAM_MEMBER_STREAK_FAIL,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -95,6 +99,8 @@ interface SelectedTeamMemberStreak extends TeamMemberStreak {
     completeTeamMemberStreakTaskErrorMessage: string;
     incompleteTeamMemberStreakTaskIsLoading: boolean;
     incompleteTeamMemberStreakTaskErrorMessage: string;
+    recoverTeamMemberStreakIsLoading: boolean;
+    recoverTeamMemberStreakErrorMessage: string;
 }
 
 export interface TeamStreakReducerState {
@@ -724,6 +730,94 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                         return member;
                     }),
                 },
+            };
+
+        case RECOVER_TEAM_MEMBER_STREAK:
+            return {
+                ...state,
+                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
+                    return {
+                        ...teamStreak,
+                        members: teamStreak.members.map(member => {
+                            if (member.teamMemberStreak._id === action.payload.teamMemberStreak._id) {
+                                return {
+                                    ...member,
+                                    teamMemberStreak: {
+                                        ...member.teamMemberStreak,
+                                        ...action.payload.teamMemberStreak,
+                                    },
+                                };
+                            }
+                            return member;
+                        }),
+                    };
+                }),
+            };
+
+        case RECOVER_TEAM_MEMBER_STREAK_FAIL:
+            return {
+                ...state,
+                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
+                    return {
+                        ...teamStreak,
+                        members: teamStreak.members.map(member => {
+                            if (member.teamMemberStreak._id === action.payload.teamMemberStreakId) {
+                                return {
+                                    ...member,
+                                    teamMemberStreak: {
+                                        ...member.teamMemberStreak,
+                                        recoverTeamMemberStreakErrorMessage: action.payload.errorMessage,
+                                    },
+                                };
+                            }
+                            return member;
+                        }),
+                    };
+                }),
+            };
+
+        case RECOVER_TEAM_MEMBER_STREAK_LOADING:
+            return {
+                ...state,
+                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
+                    return {
+                        ...teamStreak,
+                        members: teamStreak.members.map(member => {
+                            if (member.teamMemberStreak._id === action.payload.teamMemberStreakId) {
+                                return {
+                                    ...member,
+                                    teamMemberStreak: {
+                                        ...member.teamMemberStreak,
+                                        recoverTeamMemberStreakIsLoading: true,
+                                    },
+                                };
+                            }
+                            return member;
+                        }),
+                    };
+                }),
+            };
+
+        case RECOVER_TEAM_MEMBER_STREAK_LOADED:
+            return {
+                ...state,
+                liveTeamStreaks: state.liveTeamStreaks.map(teamStreak => {
+                    return {
+                        ...teamStreak,
+                        members: teamStreak.members.map(member => {
+                            if (member.teamMemberStreak._id === action.payload.teamMemberStreakId) {
+                                return {
+                                    ...member,
+                                    teamMemberStreak: {
+                                        ...member.teamMemberStreak,
+                                        recoverTeamMemberStreakIsLoading: false,
+                                    },
+                                };
+                            }
+                            return member;
+                        }),
+                    };
+                }),
             };
 
         case CLEAR_SELECTED_TEAM_STREAK: {
