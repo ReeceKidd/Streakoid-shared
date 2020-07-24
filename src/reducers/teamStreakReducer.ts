@@ -42,6 +42,7 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
+    UPDATE_TEAM_STREAK_MEMBERS,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -582,6 +583,16 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
                     updateCustomTeamStreakReminderPushNotificationIsLoading: false,
+                },
+            };
+        }
+
+        case UPDATE_TEAM_STREAK_MEMBERS: {
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: action.payload.teamStreakMembers,
                 },
             };
         }

@@ -1007,6 +1007,8 @@ export const RECOVER_TEAM_MEMBER_STREAK_FAIL = 'RECOVER_TEAM_MEMBER_STREAK_FAIL'
 export const RECOVER_TEAM_MEMBER_STREAK_LOADING = 'RECOVER_TEAM_MEMBER_STREAK_LOADING';
 export const RECOVER_TEAM_MEMBER_STREAK_LOADED = 'RECOVER_TEAM_MEMBER_STREAK_LOADED';
 
+export const UPDATE_TEAM_STREAK_MEMBERS = 'UPDATE_TEAM_STREAK_MEMBERS';
+
 export interface GetLiveTeamStreaksAction {
     type: typeof GET_LIVE_TEAM_STREAKS;
     payload: PopulatedTeamStreakWithClientData[];
@@ -1259,6 +1261,11 @@ export interface RecoverTeamMemberStreakLoadedAction {
     payload: { teamMemberStreakId: string };
 }
 
+export interface UpdateTeamStreakMembersAction {
+    type: typeof UPDATE_TEAM_STREAK_MEMBERS;
+    payload: { teamStreakMembers: PopulatedTeamMemberWithClientData[] };
+}
+
 export type TeamStreakActionTypes =
     | GetLiveTeamStreaksAction
     | GetLiveTeamStreaksFailAction
@@ -1314,7 +1321,8 @@ export type TeamStreakActionTypes =
     | RecoverTeamMemberStreakAction
     | RecoverTeamMemberStreakFailAction
     | RecoverTeamMemberStreakLoadingAction
-    | RecoverTeamMemberStreakLoadedAction;
+    | RecoverTeamMemberStreakLoadedAction
+    | UpdateTeamStreakMembersAction;
 
 export const GET_TEAM_MEMBER_STREAK = 'GET_TEAM_MEMBER_STREAK';
 export const GET_TEAM_MEMBER_STREAK_FAIL = 'GET_TEAM_MEMBER_STREAK_FAIL';
@@ -1423,7 +1431,6 @@ export const UPDATE_PUSH_NOTIFICATIONS_IS_LOADING = 'UPDATE_PUSH_NOTIFICATIONS_I
 export const UPDATE_PUSH_NOTIFICATIONS_IS_LOADED = 'UPDATE_PUSH_NOTIFICATIONS_IS_LOADED';
 export const CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE = 'CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE';
 
-export const ADD_USER_TO_TEAM_STREAK = 'ADD_USER_TO_TEAM_STREAK';
 export const ADD_USER_TO_TEAM_STREAK_FAIL = 'ADD_USER_TO_TEAM_STREAK_FAIL';
 export const ADD_USER_TO_TEAM_STREAK_LOADING = 'ADD_USER_TO_TEAM_STREAK_LOADING';
 export const ADD_USER_TO_TEAM_STREAK_LOADED = 'ADD_USER_TO_TEAM_STREAK_LOADED';
@@ -1704,11 +1711,6 @@ export interface ClearUpdatePushNotificationsErrorMessage {
     type: typeof CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE;
 }
 
-export interface AddUserToTeamStreakAction {
-    type: typeof ADD_USER_TO_TEAM_STREAK;
-    payload: PopulatedTeamMemberWithClientData;
-}
-
 export interface AddUserToTeamStreakFailAction {
     type: typeof ADD_USER_TO_TEAM_STREAK_FAIL;
     payload: { userId: string; errorMessage: string };
@@ -1804,7 +1806,6 @@ export type UserActionTypes =
     | UpdatePushNotificationsIsLoadingAction
     | UpdatePushNotificationsIsLoadedAction
     | ClearUpdatePushNotificationsErrorMessage
-    | AddUserToTeamStreakAction
     | AddUserToTeamStreakFailAction
     | AddUserToTeamStreakLoadingAction
     | AddUserToTeamStreakLoadedAction

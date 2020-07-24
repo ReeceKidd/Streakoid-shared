@@ -40,6 +40,7 @@ import {
     UPDATE_PUSH_NOTIFICATIONS_FAIL,
     CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
     CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE,
+    ADD_USER_TO_TEAM_STREAK,
     ADD_USER_TO_TEAM_STREAK_FAIL,
     ADD_USER_TO_TEAM_STREAK_LOADING,
     ADD_USER_TO_TEAM_STREAK_LOADED,
@@ -47,6 +48,7 @@ import {
     REMOVE_USER_FROM_TEAM_STREAK_FAIL,
     REMOVE_USER_FROM_TEAM_STREAK_LOADING,
     REMOVE_USER_FROM_TEAM_STREAK_LOADED,
+    UPDATE_TEAM_STREAK_MEMBERS,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -61,6 +63,7 @@ import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 import { Onboarding } from '@streakoid/streakoid-models/lib/Models/Onboarding';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
+import { PopulatedTeamMemberWithClientData } from '../reducers/teamStreakReducer';
 
 const userActions = (streakoid: StreakoidSDK) => {
     const getUsers = ({ limit, searchQuery }: { limit?: number; searchQuery?: string }) => async (
@@ -502,12 +505,37 @@ const userActions = (streakoid: StreakoidSDK) => {
 
     const addUserToTeamStreak = ({ userId, teamStreakId }: { userId: string; teamStreakId: string }) => async (
         dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADING, payload: { userId } });
-            await streakoid.teamStreaks.teamMembers.create({
+            const teamMember = await streakoid.teamStreaks.teamMembers.create({
                 userId,
                 teamStreakId,
+            });
+            const teamMemberInfo = await streakoid.users.getOne(teamMember.memberId);
+            const teamMemberStreak = await streakoid.teamMemberStreaks.getOne(teamMember.teamMemberStreakId);
+            const populatedTeamMemberWithClientData: PopulatedTeamMemberWithClientData = {
+                ...teamMember,
+                _id: teamMember.memberId,
+                username: teamMemberInfo.username,
+                profileImage: teamMemberInfo.profileImages.originalImageUrl,
+                teamMemberStreak: {
+                    ...teamMemberStreak,
+                    completeTeamMemberStreakTaskIsLoading: false,
+                    completeTeamMemberStreakTaskErrorMessage: '',
+                    incompleteTeamMemberStreakTaskIsLoading: false,
+                    incompleteTeamMemberStreakTaskErrorMessage: '',
+                },
+            };
+            dispatch({
+                type: UPDATE_TEAM_STREAK_MEMBERS,
+                payload: {
+                    teamStreakMembers: [
+                        ...getState().teamStreaks.selectedTeamStreak.members,
+                        populatedTeamMemberWithClientData,
+                    ],
+                },
             });
 
             dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADED, payload: { userId } });
