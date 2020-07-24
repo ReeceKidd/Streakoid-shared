@@ -42,7 +42,14 @@ import {
     UPDATE_TEAM_STREAK_REMINDER_INFO_FAIL,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADING,
     UPDATE_TEAM_STREAK_REMINDER_INFO_LOADED,
-    UPDATE_TEAM_STREAK_MEMBERS,
+    REMOVE_USER_FROM_TEAM_STREAK_LOADED,
+    REMOVE_USER_FROM_TEAM_STREAK_LOADING,
+    REMOVE_USER_FROM_TEAM_STREAK_FAIL,
+    ADD_USER_TO_TEAM_STREAK_LOADED,
+    ADD_USER_TO_TEAM_STREAK_LOADING,
+    ADD_USER_TO_TEAM_STREAK_FAIL,
+    ADD_USER_TO_TEAM_STREAK,
+    REMOVE_USER_FROM_TEAM_STREAK,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -50,13 +57,22 @@ import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/Popu
 import { PopulatedTeamMember } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamMember';
 import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMemberStreak';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 
 export interface PopulatedTeamStreakWithClientData extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
 }
 
+export interface PossibleTeamMember extends BasicUser {
+    addUserToTeamStreakErrorMessage: string;
+    addUserToTeamStreakIsLoading: boolean;
+    removeUserFromTeamStreakErrorMessage: string;
+    removeUserFromTeamStreakIsLoading: boolean;
+}
+
 export interface SelectedTeamStreak extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
+    possibleTeamMembers: PossibleTeamMember[];
     completedTeamMemberStreakTaskDatesWithCounts: { date: Date; count: number }[];
     activityFeed: {
         totalActivityFeedCount: number;
@@ -113,6 +129,7 @@ const defaultSelectedTeamStreak: SelectedTeamStreak = {
     },
     pastStreaks: [],
     members: [],
+    possibleTeamMembers: [],
     streakName: '',
     timezone: 'Europe/London',
     completedToday: false,
@@ -587,15 +604,127 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
             };
         }
 
-        case UPDATE_TEAM_STREAK_MEMBERS: {
+        case ADD_USER_TO_TEAM_STREAK:
             return {
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    members: action.payload.teamStreakMembers,
+                    members: [...state.selectedTeamStreak.members, action.payload.teamMember],
                 },
             };
-        }
+
+        case ADD_USER_TO_TEAM_STREAK_FAIL:
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (String(member._id) === String(action.payload.userId)) {
+                            return {
+                                ...member,
+                                addUserToTeamStreakErrorMessage: action.payload.errorMessage,
+                            };
+                        }
+                        return member;
+                    }),
+                },
+            };
+
+        case ADD_USER_TO_TEAM_STREAK_LOADING:
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member._id === action.payload.userId) {
+                            return {
+                                ...member,
+                                addUserToTeamStreakIsLoading: true,
+                            };
+                        }
+                        return member;
+                    }),
+                },
+            };
+
+        case ADD_USER_TO_TEAM_STREAK_LOADED:
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member._id === action.payload.userId) {
+                            return {
+                                ...member,
+                                addUserToTeamStreakIsLoading: false,
+                            };
+                        }
+                        return member;
+                    }),
+                },
+            };
+
+        case REMOVE_USER_FROM_TEAM_STREAK:
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.filter(
+                        member => String(member._id) !== String(action.payload.userId),
+                    ),
+                },
+            };
+
+        case REMOVE_USER_FROM_TEAM_STREAK_FAIL:
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member._id === action.payload.userId) {
+                            return {
+                                ...member,
+                                removeUserFromTeamStreakErrorMessage: action.payload.errorMessage,
+                            };
+                        }
+                        return member;
+                    }),
+                },
+            };
+
+        case REMOVE_USER_FROM_TEAM_STREAK_LOADING:
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member._id === action.payload.userId) {
+                            return {
+                                ...member,
+                                removeUserFromTeamStreakIsLoading: true,
+                            };
+                        }
+                        return member;
+                    }),
+                },
+            };
+
+        case REMOVE_USER_FROM_TEAM_STREAK_LOADED:
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    members: state.selectedTeamStreak.members.map(member => {
+                        if (member._id === action.payload.userId) {
+                            return {
+                                ...member,
+                                removeUserFromTeamStreakIsLoading: false,
+                            };
+                        }
+                        return member;
+                    }),
+                },
+            };
 
         case CLEAR_SELECTED_TEAM_STREAK: {
             return {
