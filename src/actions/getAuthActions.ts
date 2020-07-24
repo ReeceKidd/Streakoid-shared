@@ -52,11 +52,7 @@ import {
 import { AppActions, AppState } from '..';
 import CognitoPayload from '../cognitoPayload';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
-import {
-    PopulatedCurrentUserWithClientData,
-    FollowingWithClientData,
-    FollowerWithClientData,
-} from '../reducers/userReducer';
+import { PopulatedCurrentUserWithClientData, FollowingWithClientData } from '../reducers/userReducer';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import { AuthClass } from 'aws-amplify';
 
@@ -104,20 +100,11 @@ const getAuthActions = ({
                 unfollowUserIsLoading: false,
                 unfollowUserErrorMessage: '',
             }));
-            const followersWithClientData: FollowerWithClientData[] = user.followers.map(follower => ({
-                ...follower,
-                isSelected: false,
-                addUserToTeamStreakIsLoading: false,
-                addUserToTeamStreakErrorMessage: '',
-                removeUserFromTeamStreakIsLoading: false,
-                removeUserFromTeamStreakErrorMessage: '',
-            }));
             dispatch({
                 type: UPDATE_CURRENT_USER,
                 payload: {
                     ...user,
                     following: followingWithClientData,
-                    followers: followersWithClientData,
                     userStreakCompleteInfo: [],
                     activityFeed: {
                         totalActivityFeedCount: 0,
