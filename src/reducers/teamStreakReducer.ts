@@ -635,8 +635,8 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member._id === action.payload.userId) {
+                    possibleTeamMembers: state.selectedTeamStreak.possibleTeamMembers.map(member => {
+                        if (String(member.userId) === String(action.payload.userId)) {
                             return {
                                 ...member,
                                 addUserToTeamStreakIsLoading: true,
@@ -652,8 +652,8 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member._id === action.payload.userId) {
+                    possibleTeamMembers: state.selectedTeamStreak.possibleTeamMembers.map(member => {
+                        if (member.userId === action.payload.userId) {
                             return {
                                 ...member,
                                 addUserToTeamStreakIsLoading: false,
@@ -680,8 +680,8 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member._id === action.payload.userId) {
+                    possibleTeamMembers: state.selectedTeamStreak.possibleTeamMembers.map(member => {
+                        if (member.userId === action.payload.userId) {
                             return {
                                 ...member,
                                 removeUserFromTeamStreakErrorMessage: action.payload.errorMessage,
@@ -697,8 +697,8 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member._id === action.payload.userId) {
+                    possibleTeamMembers: state.selectedTeamStreak.possibleTeamMembers.map(member => {
+                        if (member.userId === action.payload.userId) {
                             return {
                                 ...member,
                                 removeUserFromTeamStreakIsLoading: true,
@@ -714,8 +714,8 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 ...state,
                 selectedTeamStreak: {
                     ...state.selectedTeamStreak,
-                    members: state.selectedTeamStreak.members.map(member => {
-                        if (member._id === action.payload.userId) {
+                    possibleTeamMembers: state.selectedTeamStreak.possibleTeamMembers.map(member => {
+                        if (member.userId === action.payload.userId) {
                             return {
                                 ...member,
                                 removeUserFromTeamStreakIsLoading: false,
