@@ -507,26 +507,10 @@ const userActions = (streakoid: StreakoidSDK) => {
     ): Promise<void> => {
         try {
             dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADING, payload: { userId } });
-            const teamMember = await streakoid.teamStreaks.teamMembers.create({
+            await streakoid.teamStreaks.teamMembers.create({
                 userId,
                 teamStreakId,
             });
-            const teamMemberInfo = await streakoid.users.getOne(teamMember.memberId);
-            const teamMemberStreak = await streakoid.teamMemberStreaks.getOne(teamMember.teamMemberStreakId);
-            const populatedTeamMemberWithClientData: PopulatedTeamMemberWithClientData = {
-                ...teamMember,
-                _id: teamMember.memberId,
-                username: teamMemberInfo.username,
-                profileImage: teamMemberInfo.profileImages.originalImageUrl,
-                teamMemberStreak: {
-                    ...teamMemberStreak,
-                    completeTeamMemberStreakTaskIsLoading: false,
-                    completeTeamMemberStreakTaskErrorMessage: '',
-                    incompleteTeamMemberStreakTaskIsLoading: false,
-                    incompleteTeamMemberStreakTaskErrorMessage: '',
-                },
-            };
-            dispatch({ type: ADD_USER_TO_TEAM_STREAK, payload: populatedTeamMemberWithClientData });
 
             dispatch({ type: ADD_USER_TO_TEAM_STREAK_LOADED, payload: { userId } });
         } catch (err) {
