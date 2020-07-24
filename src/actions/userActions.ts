@@ -553,6 +553,7 @@ const userActions = (streakoid: StreakoidSDK) => {
 
     const removeUserFromTeamStreak = ({ userId, teamStreakId }: { userId: string; teamStreakId: string }) => async (
         dispatch: Dispatch<AppActions>,
+        getState: () => AppState,
     ): Promise<void> => {
         try {
             dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK_LOADING, payload: { userId } });
@@ -560,7 +561,14 @@ const userActions = (streakoid: StreakoidSDK) => {
                 memberId: userId,
                 teamStreakId,
             });
-            dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK, payload: { userId } });
+            dispatch({
+                type: UPDATE_TEAM_STREAK_MEMBERS,
+                payload: {
+                    teamStreakMembers: getState().teamStreaks.selectedTeamStreak.members.filter(
+                        member => String(member._id) !== String(userId),
+                    ),
+                },
+            });
 
             dispatch({ type: REMOVE_USER_FROM_TEAM_STREAK_LOADED, payload: { userId } });
         } catch (err) {
