@@ -1,5 +1,4 @@
 import {
-    LeaderboardActionTypes,
     GET_SOLO_STREAK_LEADERBOARD,
     GET_SOLO_STREAK_LEADERBOARD_FAIL,
     GET_SOLO_STREAK_LEADERBOARD_LOADED,
@@ -24,6 +23,7 @@ import {
     GET_TEAM_MEMBER_STREAK_LEADERBOARD_FAIL,
     GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADING,
     GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADED,
+    LeaderboardActionTypes,
 } from '../actions/types';
 import { PopulatedTeamMember } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamMember';
 import { FormattedUser } from '@streakoid/streakoid-models/lib/Models/FormattedUser';

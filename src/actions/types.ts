@@ -2668,9 +2668,9 @@ export type LeaderboardActionTypes =
     | GetTeamStreakLeaderboardLoadingAction
     | GetTeamStreakLeaderboardLoadedAction
     | GetTeamMemberStreakLeaderboardAction
-    | GetTeamMemberStreakFailAction
-    | GetTeamMemberStreakLoadingAction
-    | GetTeamMemberStreakLoadedAction
+    | GetTeamMemberStreakLeaderboardFailAction
+    | GetTeamMemberStreakLeaderboardLoadingAction
+    | GetTeamMemberStreakLeaderboardLoadedAction
     | GetChallengeStreakLeaderboardAction
     | GetChallengeStreakLeaderboardFailAction
     | GetChallengeStreakLeaderboardLoadingAction
