@@ -20,26 +20,42 @@ import {
     GET_FOLLOWING_LEADERBOARD_FAIL,
     GET_FOLLOWING_LEADERBOARD_LOADING,
     GET_FOLLOWING_LEADERBOARD_LOADED,
+    GET_TEAM_MEMBER_STREAK_LEADERBOARD,
+    GET_TEAM_MEMBER_STREAK_LEADERBOARD_FAIL,
+    GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADING,
+    GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADED,
 } from '../actions/types';
 import { PopulatedTeamMember } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamMember';
 import { FormattedUser } from '@streakoid/streakoid-models/lib/Models/FormattedUser';
 
 export interface LeaderboardReducerState {
+    challengeStreakLeaderboard: ChallengeStreakLeaderboardItem[];
+    getChallengeStreakLeaderboardIsLoading: boolean;
+    getChallengeStreakLeaderboardErrorMessage: string;
     soloStreakLeaderboard: SoloStreakLeaderboardItem[];
     getSoloStreakLeaderboardIsLoading: boolean;
     getSoloStreakLeaderboardErrorMessage: string;
     teamStreakLeaderboard: TeamStreakLeaderboardItem[];
     getTeamStreakLeaderboardIsLoading: boolean;
     getTeamStreakLeaderboardErrorMessage: string;
-    challengeStreakLeaderboard: ChallengeStreakLeaderboardItem[];
-    getChallengeStreakLeaderboardIsLoading: boolean;
-    getChallengeStreakLeaderboardErrorMessage: string;
+    teamMemberStreakLeaderboard: TeamMemberStreakLeaderboardItem[];
+    getTeamMemberStreakLeaderboardIsLoading: boolean;
+    getTeamMemberStreakLeaderboardErrorMessage: string;
     globalUserLeaderboard: FormattedUser[];
     getGlobalUserLeaderboardIsLoading: boolean;
     getGlobalUserLeaderboardErrorMessage: string;
     followingLeaderboard: FormattedUser[];
     getFollowingLeaderboardIsLoading: boolean;
     getFollowingLeaderboardErrorMessage: string;
+}
+
+export interface ChallengeStreakLeaderboardItem {
+    challengeName: string;
+    streakId: string;
+    userProfileImage: string;
+    currentStreakNumberOfDaysInARow: number;
+    streakCreatedAt: Date;
+    username: string;
 }
 
 export interface SoloStreakLeaderboardItem {
@@ -59,25 +75,28 @@ export interface TeamStreakLeaderboardItem {
     members: PopulatedTeamMember[];
 }
 
-export interface ChallengeStreakLeaderboardItem {
-    challengeName: string;
+export interface TeamMemberStreakLeaderboardItem {
+    streakName: string;
     streakId: string;
-    userProfileImage: string;
     currentStreakNumberOfDaysInARow: number;
     streakCreatedAt: Date;
+    userProfileImage: string;
     username: string;
 }
 
 const initialState: LeaderboardReducerState = {
+    challengeStreakLeaderboard: [],
+    getChallengeStreakLeaderboardIsLoading: false,
+    getChallengeStreakLeaderboardErrorMessage: '',
     soloStreakLeaderboard: [],
     getSoloStreakLeaderboardIsLoading: false,
     getSoloStreakLeaderboardErrorMessage: '',
     teamStreakLeaderboard: [],
     getTeamStreakLeaderboardIsLoading: false,
     getTeamStreakLeaderboardErrorMessage: '',
-    challengeStreakLeaderboard: [],
-    getChallengeStreakLeaderboardIsLoading: false,
-    getChallengeStreakLeaderboardErrorMessage: '',
+    teamMemberStreakLeaderboard: [],
+    getTeamMemberStreakLeaderboardIsLoading: false,
+    getTeamMemberStreakLeaderboardErrorMessage: '',
     globalUserLeaderboard: [],
     getGlobalUserLeaderboardIsLoading: false,
     getGlobalUserLeaderboardErrorMessage: '',
@@ -139,6 +158,30 @@ const leaderboardReducer = (state = initialState, action: LeaderboardActionTypes
             return {
                 ...state,
                 getTeamStreakLeaderboardIsLoading: false,
+            };
+
+        case GET_TEAM_MEMBER_STREAK_LEADERBOARD:
+            return {
+                ...state,
+                teamMemberStreakLeaderboard: action.payload,
+            };
+
+        case GET_TEAM_MEMBER_STREAK_LEADERBOARD_FAIL:
+            return {
+                ...state,
+                getTeamMemberStreakLeaderboardErrorMessage: action.payload,
+            };
+
+        case GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADING:
+            return {
+                ...state,
+                getTeamMemberStreakLeaderboardIsLoading: true,
+            };
+
+        case GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADED:
+            return {
+                ...state,
+                getTeamMemberStreakLeaderboardIsLoading: false,
             };
 
         case GET_CHALLENGE_STREAK_LEADERBOARD:

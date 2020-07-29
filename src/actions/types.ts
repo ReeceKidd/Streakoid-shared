@@ -24,6 +24,7 @@ import {
     SoloStreakLeaderboardItem,
     TeamStreakLeaderboardItem,
     ChallengeStreakLeaderboardItem,
+    TeamMemberStreakLeaderboardItem,
 } from '../reducers/leaderboardReducer';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import {
@@ -2529,6 +2530,11 @@ export const GET_TEAM_STREAK_LEADERBOARD_FAIL = 'GET_TEAM_STREAK_LEADERBOARD_FAI
 export const GET_TEAM_STREAK_LEADERBOARD_LOADING = 'GET_TEAM_STREAK_LEADERBOARD_LOADING';
 export const GET_TEAM_STREAK_LEADERBOARD_LOADED = 'GET_TEAM_STREAK_LEADERBOARD_LOADED';
 
+export const GET_TEAM_MEMBER_STREAK_LEADERBOARD = 'GET_TEAM_MEMBER_STREAK_LEADERBOARD';
+export const GET_TEAM_MEMBER_STREAK_LEADERBOARD_FAIL = 'GET_TEAM_MEMBER_STREAK_LEADERBOARD_FAIL';
+export const GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADING = 'GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADING';
+export const GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADED = 'GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADED';
+
 export const GET_CHALLENGE_STREAK_LEADERBOARD = 'GET_CHALLENGE_STREAK_LEADERBOARD';
 export const GET_CHALLENGE_STREAK_LEADERBOARD_FAIL = 'GET_CHALLENGE_STREAK_LEADERBOARD_FAIL';
 export const GET_CHALLENGE_STREAK_LEADERBOARD_LOADING = 'GET_CHALLENGE_STREAK_LEADERBOARD_LOADING';
@@ -2578,6 +2584,24 @@ export interface GetTeamStreakLeaderboardLoadingAction {
 
 export interface GetTeamStreakLeaderboardLoadedAction {
     type: typeof GET_TEAM_STREAK_LEADERBOARD_LOADED;
+}
+
+export interface GetTeamMemberStreakLeaderboardAction {
+    type: typeof GET_TEAM_MEMBER_STREAK_LEADERBOARD;
+    payload: TeamMemberStreakLeaderboardItem[];
+}
+
+export interface GetTeamMemberStreakLeaderboardFailAction {
+    type: typeof GET_TEAM_MEMBER_STREAK_LEADERBOARD_FAIL;
+    payload: string;
+}
+
+export interface GetTeamMemberStreakLeaderboardLoadingAction {
+    type: typeof GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADING;
+}
+
+export interface GetTeamMemberStreakLeaderboardLoadedAction {
+    type: typeof GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADED;
 }
 
 export interface GetChallengeStreakLeaderboardAction {
@@ -2643,6 +2667,10 @@ export type LeaderboardActionTypes =
     | GetTeamStreakLeaderboardFailAction
     | GetTeamStreakLeaderboardLoadingAction
     | GetTeamStreakLeaderboardLoadedAction
+    | GetTeamMemberStreakLeaderboardAction
+    | GetTeamMemberStreakFailAction
+    | GetTeamMemberStreakLoadingAction
+    | GetTeamMemberStreakLoadedAction
     | GetChallengeStreakLeaderboardAction
     | GetChallengeStreakLeaderboardFailAction
     | GetChallengeStreakLeaderboardLoadingAction
