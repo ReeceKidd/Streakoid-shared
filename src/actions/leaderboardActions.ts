@@ -234,6 +234,7 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
         getChallengeStreakLeaderboard,
         getSoloStreakLeaderboard,
         getTeamStreakLeaderboard,
+        getTeamMemberStreakLeaderboard,
         getGlobalUserLeaderboard,
         getFollowingLeaderboard,
     };
