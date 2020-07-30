@@ -35,8 +35,10 @@ import {
     TeamStreakLeaderboardItem,
     SoloStreakLeaderboardItem,
     ChallengeStreakLeaderboardItem,
+    TeamMemberStreakLeaderboardItem,
 } from '../reducers/leaderboardReducer';
 import { GetAllChallengeStreaksSortFields } from '@streakoid/streakoid-sdk/lib/challengeStreaks';
+import { GetAllTeamMemberStreaksSortFields } from '@streakoid/streakoid-sdk/lib/teamMemberStreaks';
 
 const leaderboardActions = (streakoid: StreakoidSDK) => {
     const getChallengeStreakLeaderboard = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -48,14 +50,16 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
             const leaderboardItems: (ChallengeStreakLeaderboardItem | null)[] = await Promise.all(
                 challengeStreaks.map(async challengeStreak => {
                     try {
-                        return {
+                        const challengeStreakLeaderboardItem: ChallengeStreakLeaderboardItem = {
                             streakId: challengeStreak._id,
                             challengeName: challengeStreak.challengeName,
                             username: challengeStreak.username,
                             userProfileImage: challengeStreak.userProfileImage,
                             currentStreakNumberOfDaysInARow: challengeStreak.currentStreak.numberOfDaysInARow,
+                            longestChallengeStreakNumberOfDays: challengeStreak.longestChallengeStreak.numberOfDays,
                             streakCreatedAt: new Date(challengeStreak.createdAt),
                         };
+                        return challengeStreakLeaderboardItem;
                     } catch (err) {
                         return null;
                     }
@@ -85,14 +89,16 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                 soloStreaks.map(async soloStreak => {
                     try {
                         const user = await streakoid.users.getOne(soloStreak.userId);
-                        return {
+                        const soloStreakLeaderboardItem: SoloStreakLeaderboardItem = {
                             streakId: soloStreak._id,
                             streakName: soloStreak.streakName,
                             username: user.username,
                             userProfileImage: user.profileImages.originalImageUrl,
                             currentStreakNumberOfDaysInARow: soloStreak.currentStreak.numberOfDaysInARow,
+                            longestSoloStreakNumberOfDays: soloStreak.longestSoloStreak.numberOfDays,
                             streakCreatedAt: new Date(soloStreak.createdAt),
                         };
+                        return soloStreakLeaderboardItem;
                     } catch (err) {
                         return null;
                     }
@@ -123,13 +129,15 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
             const leaderboardItems: (TeamStreakLeaderboardItem | null)[] = await Promise.all(
                 teamStreaks.map(async teamStreak => {
                     try {
-                        return {
+                        const teamStreakLeaderboardItem: TeamStreakLeaderboardItem = {
                             streakId: teamStreak._id,
                             streakName: teamStreak.streakName,
                             currentStreakNumberOfDaysInARow: teamStreak.currentStreak.numberOfDaysInARow,
+                            longestTeamStreakNumberOfDays: teamStreak.longestTeamStreak.numberOfDays,
                             streakCreatedAt: new Date(teamStreak.createdAt),
                             members: teamStreak.members,
                         };
+                        return teamStreakLeaderboardItem;
                     } catch (err) {
                         return null;
                     }
@@ -154,19 +162,24 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
     const getTeamMemberStreakLeaderboard = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
             dispatch({ type: GET_TEAM_MEMBER_STREAK_LEADERBOARD_LOADING });
-            const teamMemberStreaks = await streakoid.teamStreaks.getAll({
-                sortField: GetAllTeamStreaksSortFields.longestTeamStreak,
+            const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+                sortField: GetAllTeamMemberStreaksSortFields.longestTeamMemberStreak,
             });
-            const leaderboardItems: (TeamStreakLeaderboardItem | null)[] = await Promise.all(
-                teamMemberStreaks.map(async teamStreak => {
+            const leaderboardItems: (TeamMemberStreakLeaderboardItem | null)[] = await Promise.all(
+                teamMemberStreaks.map(async teamMemberStreak => {
                     try {
-                        return {
-                            streakId: teamStreak._id,
+                        const user = await streakoid.users.getOne(teamMemberStreak.userId);
+                        const teamStreak = await streakoid.teamStreaks.getOne(teamMemberStreak.teamStreakId);
+                        const teamMemberStreakLeaderboardItem: TeamMemberStreakLeaderboardItem = {
+                            streakId: teamMemberStreak._id,
                             streakName: teamStreak.streakName,
-                            currentStreakNumberOfDaysInARow: teamStreak.currentStreak.numberOfDaysInARow,
-                            streakCreatedAt: new Date(teamStreak.createdAt),
-                            members: teamStreak.members,
+                            currentStreakNumberOfDaysInARow: teamMemberStreak.currentStreak.numberOfDaysInARow,
+                            longestTeamMemberStreakNumberOfDays: teamMemberStreak.longestTeamMemberStreak.numberOfDays,
+                            streakCreatedAt: new Date(teamMemberStreak.createdAt),
+                            username: user && user.username,
+                            userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
                         };
+                        return teamMemberStreakLeaderboardItem;
                     } catch (err) {
                         return null;
                     }
