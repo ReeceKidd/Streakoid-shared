@@ -57,6 +57,7 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                             userProfileImage: challengeStreak.userProfileImage,
                             currentStreakNumberOfDaysInARow: challengeStreak.currentStreak.numberOfDaysInARow,
                             longestChallengeStreakNumberOfDays: challengeStreak.longestChallengeStreak.numberOfDays,
+                            totalTimesTracked: challengeStreak.totalTimesTracked,
                             streakCreatedAt: new Date(challengeStreak.createdAt),
                         };
                         return challengeStreakLeaderboardItem;
@@ -96,6 +97,7 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                             userProfileImage: user.profileImages.originalImageUrl,
                             currentStreakNumberOfDaysInARow: soloStreak.currentStreak.numberOfDaysInARow,
                             longestSoloStreakNumberOfDays: soloStreak.longestSoloStreak.numberOfDays,
+                            totalTimesTracked: soloStreak.totalTimesTracked,
                             streakCreatedAt: new Date(soloStreak.createdAt),
                         };
                         return soloStreakLeaderboardItem;
@@ -134,6 +136,7 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                             streakName: teamStreak.streakName,
                             currentStreakNumberOfDaysInARow: teamStreak.currentStreak.numberOfDaysInARow,
                             longestTeamStreakNumberOfDays: teamStreak.longestTeamStreak.numberOfDays,
+                            totalTimesTracked: teamStreak.totalTimesTracked,
                             streakCreatedAt: new Date(teamStreak.createdAt),
                             members: teamStreak.members,
                         };
@@ -175,6 +178,7 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                             streakName: teamStreak.streakName,
                             currentStreakNumberOfDaysInARow: teamMemberStreak.currentStreak.numberOfDaysInARow,
                             longestTeamMemberStreakNumberOfDays: teamMemberStreak.longestTeamMemberStreak.numberOfDays,
+                            totalTimesTracked: teamMemberStreak.totalTimesTracked,
                             streakCreatedAt: new Date(teamMemberStreak.createdAt),
                             username: user && user.username,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,

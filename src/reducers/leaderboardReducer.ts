@@ -55,6 +55,7 @@ export interface ChallengeStreakLeaderboardItem {
     userProfileImage: string;
     currentStreakNumberOfDaysInARow: number;
     longestChallengeStreakNumberOfDays: number;
+    totalTimesTracked: number;
     streakCreatedAt: Date;
     username: string;
 }
@@ -65,6 +66,7 @@ export interface SoloStreakLeaderboardItem {
     userProfileImage: string;
     currentStreakNumberOfDaysInARow: number;
     longestSoloStreakNumberOfDays: number;
+    totalTimesTracked: number;
     streakCreatedAt: Date;
     username: string;
 }
@@ -74,6 +76,7 @@ export interface TeamStreakLeaderboardItem {
     streakId: string;
     currentStreakNumberOfDaysInARow: number;
     longestTeamStreakNumberOfDays: number;
+    totalTimesTracked: number;
     streakCreatedAt: Date;
     members: PopulatedTeamMember[];
 }
@@ -83,6 +86,7 @@ export interface TeamMemberStreakLeaderboardItem {
     streakId: string;
     currentStreakNumberOfDaysInARow: number;
     longestTeamMemberStreakNumberOfDays: number;
+    totalTimesTracked: number;
     streakCreatedAt: Date;
     userProfileImage: string;
     username: string;
