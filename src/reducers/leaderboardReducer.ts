@@ -27,6 +27,8 @@ import {
 } from '../actions/types';
 import { PopulatedTeamMember } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamMember';
 import { FormattedUser } from '@streakoid/streakoid-models/lib/Models/FormattedUser';
+import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
+import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
 
 export interface LeaderboardReducerState {
     challengeStreakLeaderboard: ChallengeStreakLeaderboardItem[];
@@ -53,7 +55,8 @@ export interface ChallengeStreakLeaderboardItem {
     challengeName: string;
     streakId: string;
     userProfileImage: string;
-    currentStreakNumberOfDaysInARow: number;
+    currentStreak: CurrentStreak;
+    pastStreaks: PastStreak[];
     longestChallengeStreakNumberOfDays: number;
     totalTimesTracked: number;
     streakCreatedAt: Date;
@@ -64,7 +67,8 @@ export interface SoloStreakLeaderboardItem {
     streakName: string;
     streakId: string;
     userProfileImage: string;
-    currentStreakNumberOfDaysInARow: number;
+    currentStreak: CurrentStreak;
+    pastStreaks: PastStreak[];
     longestSoloStreakNumberOfDays: number;
     totalTimesTracked: number;
     streakCreatedAt: Date;
@@ -74,7 +78,8 @@ export interface SoloStreakLeaderboardItem {
 export interface TeamStreakLeaderboardItem {
     streakName: string;
     streakId: string;
-    currentStreakNumberOfDaysInARow: number;
+    currentStreak: CurrentStreak;
+    pastStreaks: PastStreak[];
     longestTeamStreakNumberOfDays: number;
     totalTimesTracked: number;
     streakCreatedAt: Date;
@@ -84,7 +89,8 @@ export interface TeamStreakLeaderboardItem {
 export interface TeamMemberStreakLeaderboardItem {
     streakName: string;
     streakId: string;
-    currentStreakNumberOfDaysInARow: number;
+    currentStreak: CurrentStreak;
+    pastStreaks: PastStreak[];
     longestTeamMemberStreakNumberOfDays: number;
     totalTimesTracked: number;
     streakCreatedAt: Date;
