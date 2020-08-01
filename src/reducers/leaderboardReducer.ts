@@ -61,6 +61,7 @@ export interface ChallengeStreakLeaderboardItem {
     totalTimesTracked: number;
     streakCreatedAt: Date;
     username: string;
+    timezone: string;
 }
 
 export interface SoloStreakLeaderboardItem {
@@ -73,6 +74,7 @@ export interface SoloStreakLeaderboardItem {
     totalTimesTracked: number;
     streakCreatedAt: Date;
     username: string;
+    timezone: string;
 }
 
 export interface TeamStreakLeaderboardItem {
@@ -84,6 +86,7 @@ export interface TeamStreakLeaderboardItem {
     totalTimesTracked: number;
     streakCreatedAt: Date;
     members: PopulatedTeamMember[];
+    timezone: string;
 }
 
 export interface TeamMemberStreakLeaderboardItem {
@@ -96,6 +99,7 @@ export interface TeamMemberStreakLeaderboardItem {
     streakCreatedAt: Date;
     userProfileImage: string;
     username: string;
+    timezone: string;
 }
 
 const initialState: LeaderboardReducerState = {

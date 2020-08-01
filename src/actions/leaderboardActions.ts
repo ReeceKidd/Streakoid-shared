@@ -59,6 +59,7 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                             pastStreaks: challengeStreak.pastStreaks,
                             longestChallengeStreakNumberOfDays: challengeStreak.longestChallengeStreak.numberOfDays,
                             totalTimesTracked: challengeStreak.totalTimesTracked,
+                            timezone: challengeStreak.timezone,
                             streakCreatedAt: new Date(challengeStreak.createdAt),
                         };
                         return challengeStreakLeaderboardItem;
@@ -100,6 +101,7 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                             pastStreaks: soloStreak.pastStreaks,
                             longestSoloStreakNumberOfDays: soloStreak.longestSoloStreak.numberOfDays,
                             totalTimesTracked: soloStreak.totalTimesTracked,
+                            timezone: soloStreak.timezone,
                             streakCreatedAt: new Date(soloStreak.createdAt),
                         };
                         return soloStreakLeaderboardItem;
@@ -141,6 +143,7 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                             longestTeamStreakNumberOfDays: teamStreak.longestTeamStreak.numberOfDays,
                             totalTimesTracked: teamStreak.totalTimesTracked,
                             streakCreatedAt: new Date(teamStreak.createdAt),
+                            timezone: teamStreak.timezone,
                             members: teamStreak.members,
                         };
                         return teamStreakLeaderboardItem;
@@ -186,6 +189,7 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                             streakCreatedAt: new Date(teamMemberStreak.createdAt),
                             username: user && user.username,
                             userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
+                            timezone: teamMemberStreak.timezone,
                         };
                         return teamMemberStreakLeaderboardItem;
                     } catch (err) {
