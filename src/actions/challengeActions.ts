@@ -55,6 +55,7 @@ const challengeActions = (streakoid: StreakoidSDK) => {
                     longestChallengeStreakNumberOfDays: userChallengeStreak.longestChallengeStreak.numberOfDays,
                     totalTimesTracked: userChallengeStreak.totalTimesTracked,
                     challengeStreakId: userChallengeStreak._id,
+                    timezone: userChallengeStreak.timezone,
                     joinedChallenge: new Date(userChallengeStreak.createdAt),
                 };
                 return challengeMember;

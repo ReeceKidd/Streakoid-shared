@@ -48,6 +48,7 @@ export interface ChallengeMemberWithClientData extends ChallengeMember {
     challengeStreakId: string;
     currentStreak: CurrentStreak;
     pastStreaks: PastStreak[];
+    timezone: string;
     longestChallengeStreakNumberOfDays: number;
     totalTimesTracked: number;
     joinedChallenge: Date;
