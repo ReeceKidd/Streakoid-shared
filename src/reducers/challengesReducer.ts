@@ -19,6 +19,8 @@ import {
 import { Challenge } from '@streakoid/streakoid-models/lib/Models/Challenge';
 import { PopulatedChallenge } from '@streakoid/streakoid-models/lib/Models/PopulatedChallenge';
 import { ChallengeMember } from '@streakoid/streakoid-models/lib/Models/ChallengeMember';
+import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
+import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
 
 export interface ChallengeReducerState {
     challengeList: Challenge[];
@@ -44,8 +46,9 @@ export interface SelectedChallenge extends PopulatedChallenge {
 
 export interface ChallengeMemberWithClientData extends ChallengeMember {
     challengeStreakId: string;
-    currentStreakNumberOfDaysInARow: number;
-    longestStreakNumberOfDaysInARow: number;
+    currentStreak: CurrentStreak;
+    pastStreaks: PastStreak[];
+    longestChallengeStreakNumberOfDays: number;
     totalTimesTracked: number;
     joinedChallenge: Date;
 }

@@ -50,8 +50,9 @@ const challengeActions = (streakoid: StreakoidSDK) => {
                     username: user.username,
                     userId: user._id,
                     profileImage: user.profileImages.originalImageUrl,
-                    currentStreakNumberOfDaysInARow: userChallengeStreak.currentStreak.numberOfDaysInARow,
-                    longestStreakNumberOfDaysInARow: userChallengeStreak.longestChallengeStreak.numberOfDays,
+                    currentStreak: userChallengeStreak.currentStreak,
+                    pastStreaks: userChallengeStreak.pastStreaks,
+                    longestChallengeStreakNumberOfDays: userChallengeStreak.longestChallengeStreak.numberOfDays,
                     totalTimesTracked: userChallengeStreak.totalTimesTracked,
                     challengeStreakId: userChallengeStreak._id,
                     joinedChallenge: new Date(userChallengeStreak.createdAt),
@@ -60,7 +61,10 @@ const challengeActions = (streakoid: StreakoidSDK) => {
             }),
         );
         const sortedChallengeMembers = populatedChallengeMembers.sort((challengeMemberA, challengeMemberB) => {
-            return challengeMemberB.longestStreakNumberOfDaysInARow - challengeMemberA.longestStreakNumberOfDaysInARow;
+            return (
+                challengeMemberB.longestChallengeStreakNumberOfDays -
+                challengeMemberA.longestChallengeStreakNumberOfDays
+            );
         });
         return sortedChallengeMembers;
     };
