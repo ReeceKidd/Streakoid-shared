@@ -57,6 +57,8 @@ import {
     UPDATE_PUSH_NOTIFICATIONS_IS_LOADED,
     CLEAR_UPDATE_PUSH_NOTIFICATION_ERROR_MESSAGE,
     CLEAR_UPDATE_CURRENT_USER_ERROR_MESSAGE,
+    CREATE_STRIPE_PORTAL_SESSION,
+    CLEAR_STRIPE_PORTAL_SESSION_URL,
 } from '../actions/types';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import { ChallengeStreakListItem } from './challengeStreakReducer';
@@ -102,6 +104,7 @@ export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser
     };
     updatePushNotificationsIsLoading: boolean;
     updatePushNotificationsErrorMessage: string;
+    stripePortalSessionUrl?: string;
 }
 
 export interface FormattedUserWithClientData extends FormattedUser {
@@ -447,6 +450,24 @@ const userReducer = (state = initialState, action: UserActionTypes): UserReducer
             return {
                 ...state,
                 createStripeSubscriptionIsLoading: false,
+            };
+
+        case CREATE_STRIPE_PORTAL_SESSION:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    stripePortalSessionUrl: action.payload.url,
+                },
+            };
+
+        case CLEAR_STRIPE_PORTAL_SESSION_URL:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    stripePortalSessionUrl: undefined,
+                },
             };
 
         case SEND_CONTACT_US_EMAIL:

@@ -1447,6 +1447,12 @@ export const CLEAR_STRIPE_SUBSCRIPTION_ERROR_MESSAGE = 'CLEAR_STRIPE_SUBSCRIPTIO
 export const CREATE_STRIPE_SUBSCRIPTION_LOADING = 'CREATE_STRIPE_SUBSCRIPTION_LOADING';
 export const CREATE_STRIPE_SUBSCRIPTION_LOADED = 'CREATE_STRIPE_SUBSCRIPTION_LOADED';
 
+export const CREATE_STRIPE_PORTAL_SESSION = 'CREATE_STRIPE_PORTAL_SESSION';
+export const CREATE_STRIPE_PORTAL_SESSION_FAIL = 'CREATE_STRIPE_PORTAL_SESSION_FAIL';
+export const CREATE_STRIPE_PORTAL_SESSION_LOADING = 'CREATE_STRIPE_PORTAL_SESSION_LOADING';
+export const CREATE_STRIPE_PORTAL_SESSION_LOADED = 'CREATE_STRIPE_PORTAL_SESSION_LOADED';
+export const CLEAR_STRIPE_PORTAL_SESSION_URL = 'CLEAR_STRIPE_PORTAL_SESSION_URL';
+
 export const SEND_CONTACT_US_EMAIL = 'SEND_CONTACT_US_EMAIL';
 export const SEND_CONTACT_US_EMAIL_FAIL = 'SEND_CONTACT_US_EMAIL_FAIL';
 export const SEND_CONTACT_US_EMAIL_LOADING = 'SEND_CONTACT_US_EMAIL_LOADING';
@@ -1614,6 +1620,28 @@ export interface CreateStripeSubscriptionLoadingAction {
 
 export interface CreateStripeSubscriptionLoadedAction {
     type: typeof CREATE_STRIPE_SUBSCRIPTION_LOADED;
+}
+
+export interface CreateStripePortalSessionAction {
+    type: typeof CREATE_STRIPE_PORTAL_SESSION;
+    payload: { url: string };
+}
+
+export interface CreateStripePortalSessionActionFail {
+    type: typeof CREATE_STRIPE_PORTAL_SESSION_FAIL;
+    payload: string;
+}
+
+export interface CreateStripePortalSessionLoadingAction {
+    type: typeof CREATE_STRIPE_PORTAL_SESSION_LOADING;
+}
+
+export interface CreateStripePortalSessionLoadedAction {
+    type: typeof CREATE_STRIPE_PORTAL_SESSION_LOADED;
+}
+
+export interface ClearStripePortalSessionUrlAction {
+    type: typeof CLEAR_STRIPE_PORTAL_SESSION_URL;
 }
 
 export interface SendContactUsEmailAction {
@@ -1784,6 +1812,11 @@ export type UserActionTypes =
     | ClearStripeSubscriptionErrorMessageAction
     | CreateStripeSubscriptionLoadingAction
     | CreateStripeSubscriptionLoadedAction
+    | CreateStripePortalSessionAction
+    | CreateStripePortalSessionActionFail
+    | CreateStripePortalSessionLoadingAction
+    | CreateStripePortalSessionLoadedAction
+    | ClearStripePortalSessionUrlAction
     | SendContactUsEmailAction
     | SendContactUsEmailFailAction
     | SendContactUsEmailLoadingAction

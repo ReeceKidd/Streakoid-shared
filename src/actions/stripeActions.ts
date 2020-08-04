@@ -7,6 +7,11 @@ import {
     CREATE_STRIPE_SUBSCRIPTION_LOADING,
     CREATE_STRIPE_SUBSCRIPTION_LOADED,
     NAVIGATE_TO_THANK_YOU,
+    CREATE_STRIPE_PORTAL_SESSION,
+    CREATE_STRIPE_PORTAL_SESSION_LOADING,
+    CREATE_STRIPE_PORTAL_SESSION_LOADED,
+    CREATE_STRIPE_PORTAL_SESSION_FAIL,
+    CLEAR_STRIPE_PORTAL_SESSION_URL,
 } from './types';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
@@ -38,9 +43,33 @@ const stripeActions = (streakoid: StreakoidSDK) => {
         type: CLEAR_STRIPE_SUBSCRIPTION_ERROR_MESSAGE,
     });
 
+    const createStripePortalSession = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
+        try {
+            dispatch({ type: CREATE_STRIPE_PORTAL_SESSION_LOADING });
+
+            const { url } = await streakoid.stripe.createPortalSession();
+            dispatch({ type: CREATE_STRIPE_PORTAL_SESSION, payload: { url } });
+
+            dispatch({ type: CREATE_STRIPE_PORTAL_SESSION_LOADED });
+        } catch (err) {
+            dispatch({ type: CREATE_STRIPE_PORTAL_SESSION_LOADED });
+            if (err.response) {
+                dispatch({ type: CREATE_STRIPE_PORTAL_SESSION_FAIL, payload: err.response.data.message });
+            } else {
+                dispatch({ type: CREATE_STRIPE_PORTAL_SESSION_FAIL, payload: err.message });
+            }
+        }
+    };
+
+    const clearStripePortalSessionUrl = (): AppActions => ({
+        type: CLEAR_STRIPE_PORTAL_SESSION_URL,
+    });
+
     return {
         createStripeSubscription,
         clearCreateStripeSubscriptionErrorMessage,
+        createStripePortalSession,
+        clearStripePortalSessionUrl,
     };
 };
 
