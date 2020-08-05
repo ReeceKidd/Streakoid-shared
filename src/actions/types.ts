@@ -44,6 +44,7 @@ import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/Popu
 import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/ChallengeStreak';
 import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
 import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMemberStreak';
+import { PostsOrPages, PostOrPage } from '@tryghost/content-api';
 
 export const NAVIGATE_TO_HOME = 'NAVIGATE_TO_HOME';
 export const NAVIGATE_TO_LOGIN = 'NAVIGATE_TO_LOGIN';
@@ -2717,6 +2718,62 @@ export type LeaderboardActionTypes =
     | GetFollowingLeaderboardLoadingAction
     | GetFollowingLeaderboardLoadedAction;
 
+export const GET_POSTS = 'GET_POSTS';
+export const GET_POSTS_FAIL = 'GET_POSTS_FAIL';
+export const GET_POSTS_LOADING = 'GET_POSTS_LOADING';
+export const GET_POSTS_LOADED = 'GET_POSTS_LOADED';
+
+export const GET_POST = 'GET_POST';
+export const GET_POST_FAIL = 'GET_POST_FAIL';
+export const GET_POST_LOADING = 'GET_POST_LOADING';
+export const GET_POST_LOADED = 'GET_POST_LOADED';
+
+export interface GetPostsAction {
+    type: typeof GET_POSTS;
+    payload: { posts: PostsOrPages };
+}
+
+export interface GetPostsFailAction {
+    type: typeof GET_POSTS_FAIL;
+    payload: string;
+}
+
+export interface GetPostsLoadingAction {
+    type: typeof GET_POSTS_LOADING;
+}
+
+export interface GetPostsLoadedAction {
+    type: typeof GET_POSTS_LOADED;
+}
+
+export interface GetPostAction {
+    type: typeof GET_POST;
+    payload: { post: PostOrPage };
+}
+
+export interface GetPostFailAction {
+    type: typeof GET_POST_FAIL;
+    payload: string;
+}
+
+export interface GetPostLoadingAction {
+    type: typeof GET_POST_LOADING;
+}
+
+export interface GetPostLoadedAction {
+    type: typeof GET_POST_LOADED;
+}
+
+export type ContentActionTypes =
+    | GetPostsAction
+    | GetPostsFailAction
+    | GetPostsLoadingAction
+    | GetPostsLoadedAction
+    | GetPostAction
+    | GetPostFailAction
+    | GetPostLoadingAction
+    | GetPostLoadedAction;
+
 export const GET_DATABASE_STATS = 'GET_DATABASE_STATS';
 export const GET_DATABASE_STATS_FAIL = 'GET_DATABASE_STATS_FAIL';
 export const GET_DATABASE_STATS_LOADING = 'GET_DATABASE_STATS_LOADING';
@@ -2759,4 +2816,5 @@ export type AppActions =
     | NotesActionTypes
     | ActivityFeedItemsActionTypes
     | LeaderboardActionTypes
+    | ContentActionTypes
     | DatabaseStatsActionTypes;
