@@ -1,7 +1,15 @@
 import { Dispatch } from 'redux';
 import GhostContentApi from '@tryghost/content-api';
 
-import { GET_POSTS, GET_POSTS_LOADING, GET_POSTS_LOADED, GET_POSTS_FAIL, GET_POST_LOADING, GET_POST } from './types';
+import {
+    GET_POSTS,
+    GET_POSTS_LOADING,
+    GET_POSTS_LOADED,
+    GET_POSTS_FAIL,
+    GET_POST_LOADING,
+    GET_POST,
+    GET_POST_LOADED,
+} from './types';
 import { AppActions } from '..';
 
 const api = new GhostContentApi({
@@ -34,9 +42,9 @@ const contentActions = () => {
             const post = await api.posts.read({ id: postId });
 
             dispatch({ type: GET_POST, payload: { post } });
-            dispatch({ type: GET_POSTS_LOADED });
+            dispatch({ type: GET_POST_LOADED });
         } catch (err) {
-            dispatch({ type: GET_POSTS_LOADED });
+            dispatch({ type: GET_POST_LOADED });
             if (err.response) {
                 dispatch({ type: GET_POSTS_FAIL, payload: err.response.data.message });
             } else {
