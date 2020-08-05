@@ -12,6 +12,7 @@ import { noteActions } from './noteActions';
 import { activityFeedItemActions } from './activityFeedItemActions';
 import { teamMemberStreakActions } from './teamMemberStreakActions';
 import { leaderboardActions } from './leaderboardActions';
+import { contentActions } from './contentActions';
 import { databaseStatsActions } from './databaseStatsActions';
 import { profilePictureActions } from './profilePictureActions';
 
@@ -31,6 +32,7 @@ export const getSharedActions = ({ streakoid }: { streakoid: StreakoidSDK }) => 
         noteActions: noteActions(streakoid),
         activityFeedItemActions: activityFeedItemActions(streakoid),
         leaderboardActions: leaderboardActions(streakoid),
+        contentActions: contentActions(),
         databaseStatsActions: databaseStatsActions(streakoid),
     };
 };
