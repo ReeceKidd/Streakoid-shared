@@ -13,7 +13,7 @@ import {
 import { AppActions } from '..';
 
 const api = new GhostContentApi({
-    url: 'https:/ghost.streakoid.com',
+    url: 'https://ghost.streakoid.com',
     key: 'a3d6da37ffb78c9edf10bf0c92',
     version: 'v3',
 });
