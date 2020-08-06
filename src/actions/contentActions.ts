@@ -14,7 +14,7 @@ import { AppActions } from '..';
 
 const api = new GhostContentApi({
     url: 'https:/ghost.streakoid.com',
-    key: '0503bd8a475a22177ac81c792a',
+    key: 'a3d6da37ffb78c9edf10bf0c92',
     version: 'v3',
 });
 
