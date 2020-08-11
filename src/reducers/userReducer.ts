@@ -179,6 +179,9 @@ const defaultSelectedUser: SelectedUser = {
     longestEverStreak: {
         numberOfDays: 0,
     },
+    longestCurrentStreak: {
+        numberOfDays: 0,
+    },
 };
 
 export interface UserReducerInitialState {
@@ -297,6 +300,9 @@ const initialState: UserReducerInitialState = {
             endDate: new Date(),
         },
         longestEverStreak: {
+            numberOfDays: 0,
+        },
+        longestCurrentStreak: {
             numberOfDays: 0,
         },
     },
