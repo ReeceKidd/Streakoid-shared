@@ -183,9 +183,11 @@ const defaultSelectedUser: SelectedUser = {
     },
     longestEverStreak: {
         numberOfDays: 0,
+        streakType: StreakTypes.unknown,
     },
     longestCurrentStreak: {
         numberOfDays: 0,
+        streakType: StreakTypes.unknown,
     },
 };
 
@@ -310,9 +312,11 @@ const initialState: UserReducerInitialState = {
         },
         longestEverStreak: {
             numberOfDays: 0,
+            streakType: StreakTypes.unknown,
         },
         longestCurrentStreak: {
             numberOfDays: 0,
+            streakType: StreakTypes.unknown,
         },
     },
     selectedUser: defaultSelectedUser,
