@@ -55,6 +55,7 @@ import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFe
 import { CustomChallengeStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/ChallengeStreak';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 
 export interface ChallengeStreakReducerState {
     liveChallengeStreaks: ChallengeStreakListItem[];
@@ -117,7 +118,8 @@ const defaultSelectedChallengeStreak: SelectedChallengeStreak = {
         challengeName: '',
         challengeStreakId: '',
         numberOfDays: 0,
-        startDate: new Date(),
+        streakType: StreakTypes.challenge,
+        startDate: new Date().toString(),
     },
 };
 

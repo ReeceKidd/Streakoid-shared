@@ -65,6 +65,7 @@ import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFe
 import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 
 export interface SoloStreakReducerState {
     liveSoloStreaks: SoloStreakListItem[];
@@ -115,7 +116,8 @@ const defaultSelectedSoloStreak: SelectedSoloStreak = {
         soloStreakId: '',
         soloStreakName: '',
         numberOfDays: 0,
-        startDate: new Date(),
+        streakType: StreakTypes.solo,
+        startDate: new Date().toString(),
     },
     completeSelectedSoloStreakIsLoading: false,
     completeSelectedSoloStreakErrorMessage: '',

@@ -70,6 +70,7 @@ import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/Popu
 import { PopulatedUser } from '@streakoid/streakoid-models/lib/Models/PopulatedUser';
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 import WhyDoYouWantToBuildNewHabitsTypes from '@streakoid/streakoid-models/lib/Types/WhyDoYouWantToBuildNewHabitsTypes';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 
 export interface SelectedUser extends PopulatedUser {
     soloStreaks: SoloStreak[];
@@ -152,29 +153,33 @@ const defaultSelectedUser: SelectedUser = {
         soloStreakId: '',
         soloStreakName: '',
         numberOfDays: 0,
-        startDate: new Date(),
+        streakType: StreakTypes.solo,
+        startDate: new Date().toString(),
     },
     longestChallengeStreak: {
         challengeId: '',
         challengeName: '',
         challengeStreakId: '',
         numberOfDays: 0,
-        startDate: new Date(),
+        streakType: StreakTypes.challenge,
+        startDate: new Date().toString(),
     },
     longestTeamMemberStreak: {
         teamMemberStreakId: '',
         teamStreakId: '',
         teamStreakName: '',
         numberOfDays: 0,
-        startDate: new Date(),
+        streakType: StreakTypes.teamMember,
+        startDate: new Date().toString(),
     },
     longestTeamStreak: {
         teamStreakId: '',
         teamStreakName: '',
         numberOfDays: 0,
         members: [],
-        startDate: new Date(),
-        endDate: new Date(),
+        streakType: StreakTypes.team,
+        startDate: new Date().toString(),
+        endDate: new Date().toString(),
     },
     longestEverStreak: {
         numberOfDays: 0,
@@ -275,29 +280,33 @@ const initialState: UserReducerInitialState = {
             soloStreakId: '',
             soloStreakName: '',
             numberOfDays: 0,
-            startDate: new Date(),
+            startDate: new Date().toString(),
+            streakType: StreakTypes.solo,
         },
         longestChallengeStreak: {
             challengeId: '',
             challengeName: '',
             challengeStreakId: '',
             numberOfDays: 0,
-            startDate: new Date(),
+            startDate: new Date().toString(),
+            streakType: StreakTypes.challenge,
         },
         longestTeamMemberStreak: {
             teamMemberStreakId: '',
             teamStreakId: '',
             teamStreakName: '',
             numberOfDays: 0,
-            startDate: new Date(),
+            startDate: new Date().toString(),
+            streakType: StreakTypes.teamMember,
         },
         longestTeamStreak: {
             teamStreakId: '',
             teamStreakName: '',
             numberOfDays: 0,
             members: [],
-            startDate: new Date(),
-            endDate: new Date(),
+            startDate: new Date().toString(),
+            endDate: new Date().toString(),
+            streakType: StreakTypes.team,
         },
         longestEverStreak: {
             numberOfDays: 0,

@@ -62,6 +62,7 @@ import { PopulatedTeamMember } from '@streakoid/streakoid-models/lib/Models/Popu
 import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMemberStreak';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 
 export interface PopulatedTeamStreakWithClientData extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
@@ -153,7 +154,8 @@ const defaultSelectedTeamStreak: SelectedTeamStreak = {
         teamStreakName: '',
         members: [],
         numberOfDays: 0,
-        startDate: new Date(),
+        startDate: new Date().toString(),
+        streakType: StreakTypes.team,
     },
     isCurrentUserApartOfTeamStreak: false,
     hasCurrentUserCompletedTaskForTheDay: false,

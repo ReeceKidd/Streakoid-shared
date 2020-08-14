@@ -8,20 +8,20 @@ import {
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMemberStreak';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 
 export interface TeamMemberStreakReducerState {
     selectedTeamMemberStreak: SelectedTeamMemberStreak;
     getTeamMemberStreakIsLoading: boolean;
 }
 
-const defaultSelectedTeamMemberStreak = {
+const defaultSelectedTeamMemberStreak: SelectedTeamMemberStreak = {
     _id: '',
     currentStreak: { startDate: new Date().toString(), endDate: new Date().toString(), numberOfDaysInARow: 0 },
     status: StreakStatus.live,
     active: false,
     completedToday: false,
     pastStreaks: [],
-    streakName: '',
     userId: '',
     timezone: 'Europe/London',
     createdAt: '',
@@ -48,7 +48,8 @@ const defaultSelectedTeamMemberStreak = {
         teamStreakId: '',
         teamStreakName: '',
         numberOfDays: 0,
-        startDate: new Date(),
+        startDate: new Date().toString(),
+        streakType: StreakTypes.teamMember,
     },
 };
 
