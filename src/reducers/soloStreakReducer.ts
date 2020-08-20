@@ -66,6 +66,7 @@ import { CustomSoloStreakReminder } from '@streakoid/streakoid-models/lib/Models
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
 import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
+import VisibilityTypes from '@streakoid/streakoid-models/lib/Types/VisibilityTypes';
 
 export interface SoloStreakReducerState {
     liveSoloStreaks: SoloStreakListItem[];
@@ -93,6 +94,7 @@ const defaultSelectedSoloStreak: SelectedSoloStreak = {
         numberOfDaysInARow: 0,
     },
     status: StreakStatus.live,
+    visibility: VisibilityTypes.everyone,
     active: false,
     completedToday: false,
     pastStreaks: [],

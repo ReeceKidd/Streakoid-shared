@@ -56,6 +56,7 @@ import { CustomChallengeStreakReminder } from '@streakoid/streakoid-models/lib/M
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/ChallengeStreak';
 import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
+import VisibilityTypes from '@streakoid/streakoid-models/lib/Types/VisibilityTypes';
 
 export interface ChallengeStreakReducerState {
     liveChallengeStreaks: ChallengeStreakListItem[];
@@ -81,6 +82,7 @@ const defaultSelectedChallengeStreak: SelectedChallengeStreak = {
     challengeId: '',
     userId: '',
     status: StreakStatus.archived,
+    visibility: VisibilityTypes.everyone,
     completedToday: false,
     active: false,
     currentStreak: {
