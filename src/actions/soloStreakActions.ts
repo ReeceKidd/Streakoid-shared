@@ -20,10 +20,10 @@ import {
     GET_CURRENT_USER_LIVE_SOLO_STREAKS_LOADED,
     GET_SOLO_STREAK_IS_LOADING,
     GET_SOLO_STREAK_IS_LOADED,
-    GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING,
-    GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED,
-    GET_ARCHIVED_SOLO_STREAKS,
-    GET_ARCHIVED_SOLO_STREAKS_FAIL,
+    GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS_IS_LOADING,
+    GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS_IS_LOADED,
+    GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS,
+    GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS_FAIL,
     RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADING,
     RESTORE_ARCHIVED_SOLO_STREAK_IS_LOADED,
     RESTORE_ARCHIVED_SOLO_STREAK,
@@ -118,14 +118,11 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
         }
     };
 
-    const getArchivedSoloStreaks = () => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
+    const getCurrentUserArchivedSoloStreaks = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
-            dispatch({ type: GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING });
-            const userId = getState().users.currentUser._id;
-            const soloStreaks = await streakoid.soloStreaks.getAll({ userId, status: StreakStatus.archived });
+            dispatch({ type: GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS_IS_LOADING });
+
+            const soloStreaks = await streakoid.user.soloStreaks({ status: StreakStatus.archived });
             const soloStreaksWithLoadingStates = soloStreaks.map(soloStreak => {
                 return {
                     ...soloStreak,
@@ -133,14 +130,17 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                     createCompleteSoloStreakTaskErrorMessage: '',
                 };
             });
-            dispatch({ type: GET_ARCHIVED_SOLO_STREAKS, payload: soloStreaksWithLoadingStates });
-            dispatch({ type: GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED });
+            dispatch({ type: GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS, payload: soloStreaksWithLoadingStates });
+            dispatch({ type: GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS_IS_LOADED });
         } catch (err) {
-            dispatch({ type: GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED });
+            dispatch({ type: GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS_IS_LOADED });
             if (err.response) {
-                dispatch({ type: GET_ARCHIVED_SOLO_STREAKS_FAIL, errorMessage: err.response.data.message });
+                dispatch({
+                    type: GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS_FAIL,
+                    errorMessage: err.response.data.message,
+                });
             } else {
-                dispatch({ type: GET_ARCHIVED_SOLO_STREAKS_FAIL, errorMessage: err.message });
+                dispatch({ type: GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS_FAIL, errorMessage: err.message });
             }
         }
     };
@@ -645,7 +645,7 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
 
     return {
         getCurrentUserLiveSoloStreaks,
-        getArchivedSoloStreaks,
+        getCurrentUserArchivedSoloStreaks,
         getSoloStreak,
         createSoloStreak,
         editSoloStreak,

@@ -24,7 +24,7 @@ import {
     ARCHIVE_TEAM_STREAK_IS_LOADED,
     ARCHIVE_TEAM_STREAK_FAIL,
     CLEAR_ARCHIVE_TEAM_STREAK_ERROR_MESSAGE,
-    GET_ARCHIVED_TEAM_STREAKS,
+    GET_CURRENT_USER_ARCHIVED_TEAM_STREAKS,
     RESTORE_ARCHIVED_TEAM_STREAK,
     RESTORE_ARCHIVED_TEAM_STREAK_LOADING,
     RESTORE_ARCHIVED_TEAM_STREAK_LOADED,
@@ -204,7 +204,7 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
                 getMultipleLiveTeamStreaksIsLoading: false,
             };
 
-        case GET_ARCHIVED_TEAM_STREAKS:
+        case GET_CURRENT_USER_ARCHIVED_TEAM_STREAKS:
             return {
                 ...state,
                 archivedTeamStreaks: action.payload,

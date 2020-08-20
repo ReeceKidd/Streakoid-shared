@@ -13,13 +13,13 @@ import {
     CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_FAIL,
     CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADING,
     CREATE_INCOMPLETE_SOLO_STREAK_LIST_TASK_LOADED,
-    GET_ARCHIVED_SOLO_STREAKS,
+    GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS,
     ARCHIVE_SOLO_STREAK,
     DELETE_ARCHIVED_SOLO_STREAK,
     GET_CURRENT_USER_LIVE_SOLO_STREAKS_LOADING,
     GET_CURRENT_USER_LIVE_SOLO_STREAKS_LOADED,
-    GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING,
-    GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED,
+    GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS_IS_LOADING,
+    GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS_IS_LOADED,
     GET_SOLO_STREAK_IS_LOADED,
     GET_SOLO_STREAK_IS_LOADING,
     GET_SOLO_STREAK,
@@ -468,7 +468,7 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 },
             };
 
-        case GET_ARCHIVED_SOLO_STREAKS:
+        case GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS:
             return {
                 ...state,
                 archivedSoloStreaks: action.payload,
@@ -513,13 +513,13 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 getMultipleLiveSoloStreaksIsLoading: false,
             };
 
-        case GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING:
+        case GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS_IS_LOADING:
             return {
                 ...state,
                 getMultipleArchivedSoloStreaksIsLoading: true,
             };
 
-        case GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED:
+        case GET_CURRENT_USER_ARCHIVED_SOLO_STREAKS_IS_LOADED:
             return {
                 ...state,
                 getMultipleArchivedSoloStreaksIsLoading: false,

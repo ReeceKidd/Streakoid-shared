@@ -21,10 +21,10 @@ import {
     ARCHIVE_TEAM_STREAK_FAIL,
     CLEAR_ARCHIVE_TEAM_STREAK_ERROR_MESSAGE,
     NAVIGATE_TO_SPECIFIC_TEAM_STREAK,
-    GET_ARCHIVED_TEAM_STREAKS_IS_LOADING,
-    GET_ARCHIVED_TEAM_STREAKS_FAIL,
-    GET_ARCHIVED_TEAM_STREAKS,
-    GET_ARCHIVED_TEAM_STREAKS_IS_LOADED,
+    GET_CURRENT_USER_ARCHIVED_TEAM_STREAKS_IS_LOADING,
+    GET_CURRENT_USER_ARCHIVED_TEAM_STREAKS_FAIL,
+    GET_CURRENT_USER_ARCHIVED_TEAM_STREAKS,
+    GET_CURRENT_USER_ARCHIVED_TEAM_STREAKS_IS_LOADED,
     RESTORE_ARCHIVED_TEAM_STREAK,
     RESTORE_ARCHIVED_TEAM_STREAK_FAIL,
     RESTORE_ARCHIVED_TEAM_STREAK_LOADED,
@@ -147,15 +147,11 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
         }
     };
 
-    const getArchivedTeamStreaks = () => async (
-        dispatch: Dispatch<AppActions>,
-        getState: () => AppState,
-    ): Promise<void> => {
+    const getCurrentUserArchivedTeamStreaks = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
-            dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_IS_LOADING });
-            const userId = getState().users.currentUser._id;
-            const teamStreaks = await streakoid.teamStreaks.getAll({
-                memberId: userId,
+            dispatch({ type: GET_CURRENT_USER_ARCHIVED_TEAM_STREAKS_IS_LOADING });
+
+            const teamStreaks = await streakoid.user.teamStreaks({
                 status: StreakStatus.archived,
             });
             const teamStreaksWithLoadingStates = await Promise.all(
@@ -181,14 +177,14 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                     };
                 }),
             );
-            dispatch({ type: GET_ARCHIVED_TEAM_STREAKS, payload: teamStreaksWithLoadingStates });
-            dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_IS_LOADED });
+            dispatch({ type: GET_CURRENT_USER_ARCHIVED_TEAM_STREAKS, payload: teamStreaksWithLoadingStates });
+            dispatch({ type: GET_CURRENT_USER_ARCHIVED_TEAM_STREAKS_IS_LOADED });
         } catch (err) {
-            dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_IS_LOADED });
+            dispatch({ type: GET_CURRENT_USER_ARCHIVED_TEAM_STREAKS_IS_LOADED });
             if (err.response) {
-                dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_FAIL, payload: err.response.data.message });
+                dispatch({ type: GET_CURRENT_USER_ARCHIVED_TEAM_STREAKS_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: GET_ARCHIVED_TEAM_STREAKS_FAIL, payload: err.message });
+                dispatch({ type: GET_CURRENT_USER_ARCHIVED_TEAM_STREAKS_FAIL, payload: err.message });
             }
         }
     };
@@ -752,7 +748,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
 
     return {
         getCurrentUserLiveTeamStreaks,
-        getArchivedTeamStreaks,
+        getCurrentUserArchivedTeamStreaks,
         getSelectedTeamStreak,
         createTeamStreak,
         clearCreateTeamStreakError,

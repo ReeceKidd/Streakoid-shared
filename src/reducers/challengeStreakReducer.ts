@@ -12,10 +12,10 @@ import {
     GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADING,
     GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADED,
     GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_FAIL,
-    GET_ARCHIVED_CHALLENGE_STREAKS,
-    GET_ARCHIVED_CHALLENGE_STREAKS_LOADING,
-    GET_ARCHIVED_CHALLENGE_STREAKS_LOADED,
-    GET_ARCHIVED_CHALLENGE_STREAKS_FAIL,
+    GET_CURRENT_USER_ARCHIVED_CHALLENGE_STREAKS,
+    GET_CURRENT_USER_ARCHIVED_CHALLENGE_STREAKS_LOADING,
+    GET_CURRENT_USER_ARCHIVED_CHALLENGE_STREAKS_LOADED,
+    GET_CURRENT_USER_ARCHIVED_CHALLENGE_STREAKS_FAIL,
     CREATE_CHALLENGE_STREAK,
     CREATE_CHALLENGE_STREAK_FAIL,
     UPDATE_CHALLENGE_STREAK_TIMEZONES,
@@ -237,25 +237,25 @@ const challengeStreakReducer = (
                 getSelectedChallengeStreakIsLoading: false,
             };
 
-        case GET_ARCHIVED_CHALLENGE_STREAKS:
+        case GET_CURRENT_USER_ARCHIVED_CHALLENGE_STREAKS:
             return {
                 ...state,
                 archivedChallengeStreaks: action.payload,
             };
 
-        case GET_ARCHIVED_CHALLENGE_STREAKS_FAIL:
+        case GET_CURRENT_USER_ARCHIVED_CHALLENGE_STREAKS_FAIL:
             return {
                 ...state,
                 getArchivedChallengeStreaksErrorMessage: action.payload,
             };
 
-        case GET_ARCHIVED_CHALLENGE_STREAKS_LOADING:
+        case GET_CURRENT_USER_ARCHIVED_CHALLENGE_STREAKS_LOADING:
             return {
                 ...state,
                 getArchivedChallengeStreaksIsLoading: true,
             };
 
-        case GET_ARCHIVED_CHALLENGE_STREAKS_LOADED:
+        case GET_CURRENT_USER_ARCHIVED_CHALLENGE_STREAKS_LOADED:
             return {
                 ...state,
                 getArchivedChallengeStreaksIsLoading: false,
