@@ -96,6 +96,9 @@ export interface FollowingWithClientData extends BasicUser {
 }
 
 export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser {
+    soloStreaks: SoloStreak[];
+    teamStreaks: PopulatedTeamStreak[];
+    challengeStreaks: ChallengeStreakListItem[];
     userStreakCompleteInfo: { date: Date; count: number }[];
     following: FollowingWithClientData[];
     followers: BasicUser[];
@@ -222,6 +225,9 @@ const initialState: UserReducerInitialState = {
         _id: '',
         email: '',
         username: '',
+        soloStreaks: [],
+        challengeStreaks: [],
+        teamStreaks: [],
         hasUsernameBeenCustomized: false,
         temporaryPassword: '',
         membershipInformation: {

@@ -235,10 +235,37 @@ const userActions = (streakoid: StreakoidSDK) => {
             const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
                 (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
+            const soloStreaks = await streakoid.user.soloStreaks({});
+            const challengeStreaks = await streakoid.user.challengeStreaks({});
+            const challengeStreaksWithClientData = await Promise.all(
+                challengeStreaks.map(async challengeStreak => {
+                    const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
+                    return {
+                        ...challengeStreak,
+                        challengeName: challenge.name,
+                        challengeDescription: challenge.description,
+                        joinChallengeStreakTaskIsLoading: false,
+                        joinChallengeStreakTaskErrorMessage: '',
+                        completeChallengeStreakListTaskIsLoading: false,
+                        completeChallengeStreakListTaskErrorMessage: '',
+                        incompleteChallengeStreakListTaskIsLoading: false,
+                        incompleteChallengeStreakListTaskErrorMessage: '',
+                        recoverChallengeStreakIsLoading: false,
+                        recoverChallengeStreakErrorMessage: '',
+                        completedChallengeStreakTaskDates: [],
+                        username: user.username,
+                        userProfileImage: user.profileImages.originalImageUrl,
+                    };
+                }),
+            );
+            const teamStreaks = await streakoid.user.teamStreaks({});
             dispatch({
                 type: GET_CURRENT_USER,
                 payload: {
                     ...user,
+                    soloStreaks,
+                    challengeStreaks: challengeStreaksWithClientData,
+                    teamStreaks,
                     userStreakCompleteInfo,
                     following: followingWithClientData,
                     activityFeed: {
