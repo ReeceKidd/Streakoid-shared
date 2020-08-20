@@ -1,15 +1,15 @@
 import { Dispatch } from 'redux';
 
 import {
-    GET_LIVE_TEAM_STREAKS,
-    GET_LIVE_TEAM_STREAKS_FAIL,
+    GET_CURRENT_USER_LIVE_TEAM_STREAKS,
+    GET_CURRENT_USER_LIVE_TEAM_STREAKS_FAIL,
     CREATE_TEAM_STREAK,
     CREATE_TEAM_STREAK_IS_LOADING,
     CREATE_TEAM_STREAK_IS_LOADED,
     CREATE_TEAM_STREAK_ERROR,
     CLEAR_CREATE_TEAM_STREAK_ERROR,
-    GET_LIVE_TEAM_STREAKS_IS_LOADING,
-    GET_LIVE_TEAM_STREAKS_IS_LOADED,
+    GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADING,
+    GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADED,
     EDIT_TEAM_STREAK,
     EDIT_TEAM_STREAK_LOADED,
     EDIT_TEAM_STREAK_FAIL,
@@ -75,14 +75,13 @@ import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 
 export const teamStreakActions = (streakoid: StreakoidSDK) => {
-    const getLiveTeamStreaks = ({ currentUserId }: { currentUserId: string }) => async (
+    const getCurrentUserLiveTeamStreaks = () => async (
         dispatch: Dispatch<AppActions>,
         getState: () => AppState,
     ): Promise<void> => {
         try {
-            dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADING });
-            const teamStreaks = await streakoid.teamStreaks.getAll({
-                memberId: currentUserId,
+            dispatch({ type: GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADING });
+            const teamStreaks = await streakoid.user.teamStreaks({
                 status: StreakStatus.live,
             });
             const teamStreaksWithLoadingStates = await Promise.all(
@@ -136,14 +135,14 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 },
             });
 
-            dispatch({ type: GET_LIVE_TEAM_STREAKS, payload: teamStreaksWithLoadingStates });
-            dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADED });
+            dispatch({ type: GET_CURRENT_USER_LIVE_TEAM_STREAKS, payload: teamStreaksWithLoadingStates });
+            dispatch({ type: GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADED });
         } catch (err) {
-            dispatch({ type: GET_LIVE_TEAM_STREAKS_IS_LOADED });
+            dispatch({ type: GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADED });
             if (err.response) {
-                dispatch({ type: GET_LIVE_TEAM_STREAKS_FAIL, errorMessage: err.response.data.message });
+                dispatch({ type: GET_CURRENT_USER_LIVE_TEAM_STREAKS_FAIL, errorMessage: err.response.data.message });
             } else {
-                dispatch({ type: GET_LIVE_TEAM_STREAKS_FAIL, errorMessage: err.message });
+                dispatch({ type: GET_CURRENT_USER_LIVE_TEAM_STREAKS_FAIL, errorMessage: err.message });
             }
         }
     };
@@ -752,7 +751,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
     };
 
     return {
-        getLiveTeamStreaks,
+        getCurrentUserLiveTeamStreaks,
         getArchivedTeamStreaks,
         getSelectedTeamStreak,
         createTeamStreak,

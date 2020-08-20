@@ -1,5 +1,5 @@
 import {
-    GET_LIVE_TEAM_STREAKS,
+    GET_CURRENT_USER_LIVE_TEAM_STREAKS,
     TeamStreakActionTypes,
     COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK,
     COMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_FAIL,
@@ -13,8 +13,8 @@ import {
     EDIT_TEAM_STREAK_FAIL,
     EDIT_TEAM_STREAK_LOADING,
     EDIT_TEAM_STREAK_LOADED,
-    GET_LIVE_TEAM_STREAKS_IS_LOADING,
-    GET_LIVE_TEAM_STREAKS_IS_LOADED,
+    GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADING,
+    GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADED,
     CREATE_TEAM_STREAK_IS_LOADING,
     CREATE_TEAM_STREAK_IS_LOADED,
     CREATE_TEAM_STREAK_ERROR,
@@ -186,19 +186,19 @@ const initialState: TeamStreakReducerState = {
 
 const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes): TeamStreakReducerState => {
     switch (action.type) {
-        case GET_LIVE_TEAM_STREAKS:
+        case GET_CURRENT_USER_LIVE_TEAM_STREAKS:
             return {
                 ...state,
                 liveTeamStreaks: action.payload,
             };
 
-        case GET_LIVE_TEAM_STREAKS_IS_LOADING:
+        case GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADING:
             return {
                 ...state,
                 getMultipleLiveTeamStreaksIsLoading: true,
             };
 
-        case GET_LIVE_TEAM_STREAKS_IS_LOADED:
+        case GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADED:
             return {
                 ...state,
                 getMultipleLiveTeamStreaksIsLoading: false,

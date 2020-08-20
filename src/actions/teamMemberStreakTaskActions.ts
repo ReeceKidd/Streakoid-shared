@@ -8,7 +8,7 @@ import {
     INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK,
     INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADING,
     INCOMPLETE_TEAM_MEMBER_STREAK_LIST_TASK_LOADED,
-    GET_LIVE_TEAM_STREAKS,
+    GET_CURRENT_USER_LIVE_TEAM_STREAKS,
     GET_SELECTED_TEAM_STREAK,
 } from './types';
 import { AppActions, AppState } from '..';
@@ -92,7 +92,7 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                 }),
             );
             dispatch({
-                type: GET_LIVE_TEAM_STREAKS,
+                type: GET_CURRENT_USER_LIVE_TEAM_STREAKS,
                 payload: teamStreaksWithLoadingStates,
             });
 
@@ -188,7 +188,7 @@ export const teamMemberStreakTaskActions = (streakoid: StreakoidSDK) => {
                 }),
             );
             dispatch({
-                type: GET_LIVE_TEAM_STREAKS,
+                type: GET_CURRENT_USER_LIVE_TEAM_STREAKS,
                 payload: teamStreaksWithLoadingStates,
             });
 

@@ -8,10 +8,10 @@ import {
     INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_FAIL,
     INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADING,
     INCOMPLETE_CHALLENGE_STREAK_LIST_TASK_LOADED,
-    GET_LIVE_CHALLENGE_STREAKS,
-    GET_LIVE_CHALLENGE_STREAKS_LOADING,
-    GET_LIVE_CHALLENGE_STREAKS_LOADED,
-    GET_LIVE_CHALLENGE_STREAKS_FAIL,
+    GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS,
+    GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADING,
+    GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADED,
+    GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_FAIL,
     GET_ARCHIVED_CHALLENGE_STREAKS,
     GET_ARCHIVED_CHALLENGE_STREAKS_LOADING,
     GET_ARCHIVED_CHALLENGE_STREAKS_LOADED,
@@ -189,25 +189,25 @@ const challengeStreakReducer = (
     action: ChallengeStreakActionTypes,
 ): ChallengeStreakReducerState => {
     switch (action.type) {
-        case GET_LIVE_CHALLENGE_STREAKS:
+        case GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS:
             return {
                 ...state,
                 liveChallengeStreaks: action.payload,
             };
 
-        case GET_LIVE_CHALLENGE_STREAKS_LOADING:
+        case GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADING:
             return {
                 ...state,
                 getLiveChallengeStreaksIsLoading: true,
             };
 
-        case GET_LIVE_CHALLENGE_STREAKS_LOADED:
+        case GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADED:
             return {
                 ...state,
                 getLiveChallengeStreaksIsLoading: false,
             };
 
-        case GET_LIVE_CHALLENGE_STREAKS_FAIL:
+        case GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_FAIL:
             return {
                 ...state,
                 getLiveChallengeStreaksErrorMessage: action.payload,

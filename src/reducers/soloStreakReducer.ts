@@ -1,5 +1,5 @@
 import {
-    GET_LIVE_SOLO_STREAKS,
+    GET_CURRENT_USER_LIVE_SOLO_STREAKS,
     CREATE_SOLO_STREAK,
     CREATE_COMPLETE_SOLO_STREAK_LIST_TASK,
     SoloStreakActionTypes,
@@ -16,8 +16,8 @@ import {
     GET_ARCHIVED_SOLO_STREAKS,
     ARCHIVE_SOLO_STREAK,
     DELETE_ARCHIVED_SOLO_STREAK,
-    GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING,
-    GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED,
+    GET_CURRENT_USER_LIVE_SOLO_STREAKS_LOADING,
+    GET_CURRENT_USER_LIVE_SOLO_STREAKS_LOADED,
     GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADING,
     GET_MULTIPLE_ARCHIVED_SOLO_STREAKS_IS_LOADED,
     GET_SOLO_STREAK_IS_LOADED,
@@ -185,7 +185,7 @@ export interface ArchivedSoloStreakListItem extends SoloStreak {
 
 const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes): SoloStreakReducerState => {
     switch (action.type) {
-        case GET_LIVE_SOLO_STREAKS:
+        case GET_CURRENT_USER_LIVE_SOLO_STREAKS:
             return {
                 ...state,
                 liveSoloStreaks: action.payload,
@@ -501,13 +501,13 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
                 deleteArchivedSoloStreakIsLoading: false,
             };
 
-        case GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING:
+        case GET_CURRENT_USER_LIVE_SOLO_STREAKS_LOADING:
             return {
                 ...state,
                 getMultipleLiveSoloStreaksIsLoading: true,
             };
 
-        case GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED:
+        case GET_CURRENT_USER_LIVE_SOLO_STREAKS_LOADED:
             return {
                 ...state,
                 getMultipleLiveSoloStreaksIsLoading: false,

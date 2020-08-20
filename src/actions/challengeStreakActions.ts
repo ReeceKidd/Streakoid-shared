@@ -4,10 +4,10 @@ import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { AppActions, AppState } from '..';
 import { StreakoidSDK } from '@streakoid/streakoid-sdk/lib/streakoidSDKFactory';
 import {
-    GET_LIVE_CHALLENGE_STREAKS_LOADING,
-    GET_LIVE_CHALLENGE_STREAKS_LOADED,
-    GET_LIVE_CHALLENGE_STREAKS,
-    GET_LIVE_CHALLENGE_STREAKS_FAIL,
+    GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADING,
+    GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADED,
+    GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS,
+    GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_FAIL,
     GET_ARCHIVED_CHALLENGE_STREAKS_LOADING,
     GET_ARCHIVED_CHALLENGE_STREAKS_LOADED,
     GET_ARCHIVED_CHALLENGE_STREAKS,
@@ -71,13 +71,10 @@ import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakRem
 import arrayMove from 'array-move';
 
 const challengeStreakActions = (streakoid: StreakoidSDK) => {
-    const getLiveChallengeStreaks = ({ currentUserId }: { currentUserId: string }) => async (
-        dispatch: Dispatch<AppActions>,
-    ): Promise<void> => {
+    const getCurrentUserLiveChallengeStreaks = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
         try {
-            dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_LOADING });
-            const challengeStreaks = await streakoid.challengeStreaks.getAll({
-                userId: currentUserId,
+            dispatch({ type: GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADING });
+            const challengeStreaks = await streakoid.user.challengeStreaks({
                 status: StreakStatus.live,
             });
 
@@ -106,16 +103,16 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
                 },
             );
             dispatch({
-                type: GET_LIVE_CHALLENGE_STREAKS,
+                type: GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS,
                 payload: sortedChallengeStreaksWithClientData,
             });
-            dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_LOADED });
+            dispatch({ type: GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADED });
         } catch (err) {
-            dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_LOADED });
+            dispatch({ type: GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADED });
             if (err.response) {
-                dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_FAIL, payload: err.response.data.message });
+                dispatch({ type: GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_FAIL, payload: err.response.data.message });
             } else {
-                dispatch({ type: GET_LIVE_CHALLENGE_STREAKS_FAIL, payload: err.message });
+                dispatch({ type: GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_FAIL, payload: err.message });
             }
         }
     };
@@ -611,7 +608,7 @@ const challengeStreakActions = (streakoid: StreakoidSDK) => {
     };
 
     return {
-        getLiveChallengeStreaks,
+        getCurrentUserLiveChallengeStreaks,
         getArchivedChallengeStreaks,
         getChallengeStreak,
         archiveChallengeStreak,

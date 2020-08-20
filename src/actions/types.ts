@@ -410,10 +410,10 @@ export type AuthActionTypes =
     | UpdateUsernameAttributeIsLoadedAction
     | ClearUpdateUsernameAttributeErrorMessageAction;
 
-export const GET_LIVE_SOLO_STREAKS = 'GET_LIVE_SOLO_STREAKS';
-export const GET_LIVE_SOLO_STREAKS_FAIL = 'GET_LIVE_SOLO_STREAKS_FAIL';
-export const GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING = 'GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING';
-export const GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED = 'GET_MULTIPLE_SOLO_STREAKS_IS_LOADED';
+export const GET_CURRENT_USER_LIVE_SOLO_STREAKS = 'GET_CURRENT_USER_LIVE_SOLO_STREAKS';
+export const GET_CURRENT_USER_LIVE_SOLO_STREAKS_FAIL = 'GET_CURRENT_USER_LIVE_SOLO_STREAKS_FAIL';
+export const GET_CURRENT_USER_LIVE_SOLO_STREAKS_LOADING = 'GET_CURRENT_USER_LIVE_SOLO_STREAKS_LOADING';
+export const GET_CURRENT_USER_LIVE_SOLO_STREAKS_LOADED = 'GET_MULTIPLE_SOLO_STREAKS_IS_LOADED';
 
 export const GET_ARCHIVED_SOLO_STREAKS = 'GET_ARCHIVED_SOLO_STREAKS';
 export const GET_ARCHIVED_SOLO_STREAKS_FAIL = 'GET_ARCHIVED_SOLO_STREAKS_FAIL';
@@ -496,14 +496,22 @@ export const RECOVER_SOLO_STREAK_FAIL = 'RECOVER_SOLO_STREAK_FAIL';
 export const RECOVER_SOLO_STREAK_LOADING = 'RECOVER_SOLO_STREAK_LOADING';
 export const RECOVER_SOLO_STREAK_LOADED = 'RECOVER_SOLO_STREAK_LOADED';
 
-export interface GetLiveSoloStreaksAction {
-    type: typeof GET_LIVE_SOLO_STREAKS;
+export interface GetCurrentUserLiveSoloStreaksAction {
+    type: typeof GET_CURRENT_USER_LIVE_SOLO_STREAKS;
     payload: SoloStreakListItem[];
 }
 
-export interface GetLiveSoloStreaksFailAction {
-    type: typeof GET_LIVE_SOLO_STREAKS_FAIL;
+export interface GetCurrentUserLiveSoloStreaksFailAction {
+    type: typeof GET_CURRENT_USER_LIVE_SOLO_STREAKS_FAIL;
     errorMessage: string;
+}
+
+export interface GetCurrentUserLiveSoloStreaksLoadingAction {
+    type: typeof GET_CURRENT_USER_LIVE_SOLO_STREAKS_LOADING;
+}
+
+export interface GetCurrentUserLiveSoloStreaksLoadedAction {
+    type: typeof GET_CURRENT_USER_LIVE_SOLO_STREAKS_LOADED;
 }
 
 export interface GetArchivedSoloStreaksAction {
@@ -635,14 +643,6 @@ export interface DeleteArchivedSoloStreakFailAction {
 
 export interface ClearDeleteArchivedSoloStreakErrorMessageAction {
     type: typeof CLEAR_DELETE_ARCHIVED_SOLO_STREAK_ERROR_MESSAGE;
-}
-
-export interface GetMultipleLiveSoloStreaksIsLoadingAction {
-    type: typeof GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADING;
-}
-
-export interface GetMultipleLiveSoloStreaksIsLoadedAction {
-    type: typeof GET_MULTIPLE_LIVE_SOLO_STREAKS_IS_LOADED;
 }
 
 export interface GetMultipleArchivedSoloStreaksIsLoadingAction {
@@ -807,8 +807,10 @@ export interface RecoverSoloStreakIsLoadedAction {
 }
 
 export type SoloStreakActionTypes =
-    | GetLiveSoloStreaksAction
-    | GetLiveSoloStreaksFailAction
+    | GetCurrentUserLiveSoloStreaksAction
+    | GetCurrentUserLiveSoloStreaksFailAction
+    | GetCurrentUserLiveSoloStreaksLoadingAction
+    | GetCurrentUserLiveSoloStreaksLoadedAction
     | GetArchivedSoloStreaksAction
     | GetArchivedSoloStreaksFailAction
     | GetSoloStreakAction
@@ -836,8 +838,6 @@ export type SoloStreakActionTypes =
     | DeleteArchivedSoloStreakAction
     | DeleteArchivedSoloStreakFailAction
     | ClearDeleteArchivedSoloStreakErrorMessageAction
-    | GetMultipleLiveSoloStreaksIsLoadingAction
-    | GetMultipleLiveSoloStreaksIsLoadedAction
     | GetMultipleArchivedSoloStreaksIsLoadingAction
     | GetMultipleArchivedSoloStreaksIsLoadedAction
     | GetSoloStreakIsLoadingAction
@@ -939,10 +939,10 @@ export type StreakRecommendationsActionTypes =
     | SelectStreakRecommendationIsLoaded
     | ClearGetStreakRecommendationsErrorMessageAction;
 
-export const GET_LIVE_TEAM_STREAKS = 'GET_LIVE_TEAM_STREAKS';
-export const GET_LIVE_TEAM_STREAKS_FAIL = 'GET_LIVE_TEAM_STREAKS_FAIL';
-export const GET_LIVE_TEAM_STREAKS_IS_LOADING = 'GET_LIVE_TEAM_STREAKS_IS_LOADING';
-export const GET_LIVE_TEAM_STREAKS_IS_LOADED = 'GET_LIVE_TEAM_STREAKS_IS_LOADED';
+export const GET_CURRENT_USER_LIVE_TEAM_STREAKS = 'GET_CURRENT_USER_LIVE_TEAM_STREAKS';
+export const GET_CURRENT_USER_LIVE_TEAM_STREAKS_FAIL = 'GET_CURRENT_USER_LIVE_TEAM_STREAKS_FAIL';
+export const GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADING = 'GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADING';
+export const GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADED = 'GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADED';
 
 export const GET_ARCHIVED_TEAM_STREAKS = 'GET_ARCHIVED_TEAM_STREAKS';
 export const GET_ARCHIVED_TEAM_STREAKS_FAIL = 'GET_ARCHIVED_TEAM_STREAKS_FAIL';
@@ -1019,22 +1019,22 @@ export const REMOVE_USER_FROM_TEAM_STREAK_FAIL = 'REMOVE_USER_FROM_TEAM_STREAK_F
 export const REMOVE_USER_FROM_TEAM_STREAK_LOADING = 'REMOVE_USER_FROM_TEAM_STREAK_LOADING';
 export const REMOVE_USER_FROM_TEAM_STREAK_LOADED = 'REMOVE_USER_FROM_TEAM_STREAK_LOADED';
 
-export interface GetLiveTeamStreaksAction {
-    type: typeof GET_LIVE_TEAM_STREAKS;
+export interface GetCurrentUserLiveTeamStreaksAction {
+    type: typeof GET_CURRENT_USER_LIVE_TEAM_STREAKS;
     payload: PopulatedTeamStreakWithClientData[];
 }
 
-export interface GetLiveTeamStreaksFailAction {
-    type: typeof GET_LIVE_TEAM_STREAKS_FAIL;
+export interface GetCurrentUserLiveTeamStreaksFailAction {
+    type: typeof GET_CURRENT_USER_LIVE_TEAM_STREAKS_FAIL;
     errorMessage: string;
 }
 
-export interface GetLiveTeamStreaksIsLoadingAction {
-    type: typeof GET_LIVE_TEAM_STREAKS_IS_LOADING;
+export interface GetCurrentUserLiveTeamStreaksIsLoadingAction {
+    type: typeof GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADING;
 }
 
-export interface GetLiveTeamStreaksIsLoadedAction {
-    type: typeof GET_LIVE_TEAM_STREAKS_IS_LOADED;
+export interface GetCurrentUserLiveTeamStreaksIsLoadedAction {
+    type: typeof GET_CURRENT_USER_LIVE_TEAM_STREAKS_IS_LOADED;
 }
 
 export interface GetArchivedTeamStreaksAction {
@@ -1312,10 +1312,10 @@ export interface RemoveUserFromTeamStreakLoadedAction {
 }
 
 export type TeamStreakActionTypes =
-    | GetLiveTeamStreaksAction
-    | GetLiveTeamStreaksFailAction
-    | GetLiveTeamStreaksIsLoadingAction
-    | GetLiveTeamStreaksIsLoadedAction
+    | GetCurrentUserLiveTeamStreaksAction
+    | GetCurrentUserLiveTeamStreaksFailAction
+    | GetCurrentUserLiveTeamStreaksIsLoadingAction
+    | GetCurrentUserLiveTeamStreaksIsLoadedAction
     | GetArchivedTeamStreaksAction
     | GetArchivedTeamStreaksFailAction
     | GetArchivedTeamStreaksLoadingAction
@@ -1951,10 +1951,10 @@ export type ChallengeActionTypes =
     | JoinChallengeIsLoadingAction
     | JoinChallengeIsLoadedAction;
 
-export const GET_LIVE_CHALLENGE_STREAKS = 'GET_LIVE_CHALLENGE_STREAKS';
-export const GET_LIVE_CHALLENGE_STREAKS_FAIL = 'GET_LIVE_CHALLENGE_STREAKS_FAIL';
-export const GET_LIVE_CHALLENGE_STREAKS_LOADING = 'GET_LIVE_CHALLENGE_STREAKS_LOADING';
-export const GET_LIVE_CHALLENGE_STREAKS_LOADED = 'GET_LIVE_CHALLENGE_STREAKS_LOADED';
+export const GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS = 'GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS';
+export const GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_FAIL = 'GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_FAIL';
+export const GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADING = 'GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADING';
+export const GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADED = 'GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADED';
 
 export const GET_ARCHIVED_CHALLENGE_STREAKS = 'GET_ARCHIVED_CHALLENGE_STREAKS';
 export const GET_ARCHIVED_CHALLENGE_STREAKS_FAIL = 'GET_ARCHIVED_CHALLENGE_STREAKS_FAIL';
@@ -2028,22 +2028,22 @@ export const RECOVER_CHALLENGE_STREAK_FAIL = 'RECOVER_CHALLENGE_STREAK_FAIL';
 export const RECOVER_CHALLENGE_STREAK_LOADING = 'RECOVER_CHALLENGE_STREAK_LOADING';
 export const RECOVER_CHALLENGE_STREAK_LOADED = 'RECOVER_CHALLENGE_STREAK_LOADED';
 
-export interface GetLiveChallengeStreaksAction {
-    type: typeof GET_LIVE_CHALLENGE_STREAKS;
+export interface GetCurrentUserLiveChallengeStreaksAction {
+    type: typeof GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS;
     payload: ChallengeStreakListItem[];
 }
 
-export interface GetLiveChallengeStreaksFailAction {
-    type: typeof GET_LIVE_CHALLENGE_STREAKS_FAIL;
+export interface GetCurrentUserLiveChallengeStreaksFailAction {
+    type: typeof GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_FAIL;
     payload: string;
 }
 
-export interface GetLiveChallengeStreaksIsLoadingAction {
-    type: typeof GET_LIVE_CHALLENGE_STREAKS_LOADING;
+export interface GetCurrentUserLiveChallengeStreaksIsLoadingAction {
+    type: typeof GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADING;
 }
 
-export interface GetLiveChallengeStreaksIsLoadedAction {
-    type: typeof GET_LIVE_CHALLENGE_STREAKS_LOADED;
+export interface GetCurrentUserLiveChallengeStreaksIsLoadedAction {
+    type: typeof GET_CURRENT_USER_LIVE_CHALLENGE_STREAKS_LOADED;
 }
 
 export interface GetArchivedChallengeStreaksAction {
@@ -2309,10 +2309,10 @@ export interface RecoverChallengeStreakIsLoadedAction {
 }
 
 export type ChallengeStreakActionTypes =
-    | GetLiveChallengeStreaksAction
-    | GetLiveChallengeStreaksFailAction
-    | GetLiveChallengeStreaksIsLoadingAction
-    | GetLiveChallengeStreaksIsLoadedAction
+    | GetCurrentUserLiveChallengeStreaksAction
+    | GetCurrentUserLiveChallengeStreaksFailAction
+    | GetCurrentUserLiveChallengeStreaksIsLoadingAction
+    | GetCurrentUserLiveChallengeStreaksIsLoadedAction
     | GetArchivedChallengeStreaksAction
     | GetArchivedChallengeStreaksFailAction
     | GetArchivedChallengeStreaksIsLoadingAction
