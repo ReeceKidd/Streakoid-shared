@@ -9,7 +9,7 @@ import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFe
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMemberStreak';
 import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
-import VisibilityTypes from '@streakoid/streakoid-models/lib/Types/VisibilityTypes';
+import TeamVisibilityTypes from '@streakoid/streakoid-models/lib/Types/TeamVisibilityTypes';
 
 export interface TeamMemberStreakReducerState {
     selectedTeamMemberStreak: SelectedTeamMemberStreak;
@@ -20,7 +20,7 @@ const defaultSelectedTeamMemberStreak: SelectedTeamMemberStreak = {
     _id: '',
     currentStreak: { startDate: new Date().toString(), endDate: new Date().toString(), numberOfDaysInARow: 0 },
     status: StreakStatus.live,
-    visibility: VisibilityTypes.everyone,
+    visibility: TeamVisibilityTypes.everyone,
     active: false,
     completedToday: false,
     pastStreaks: [],

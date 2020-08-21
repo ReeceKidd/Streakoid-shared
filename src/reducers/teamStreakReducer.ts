@@ -63,7 +63,7 @@ import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMem
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
-import VisibilityTypes from '@streakoid/streakoid-models/lib/Types/VisibilityTypes';
+import TeamVisibilityTypes from '@streakoid/streakoid-models/lib/Types/TeamVisibilityTypes';
 
 export interface PopulatedTeamStreakWithClientData extends PopulatedTeamStreak {
     members: PopulatedTeamMemberWithClientData[];
@@ -127,7 +127,7 @@ export interface TeamStreakReducerState {
 const defaultSelectedTeamStreak: SelectedTeamStreak = {
     _id: '',
     status: StreakStatus.live,
-    visibility: VisibilityTypes.everyone,
+    visibility: TeamVisibilityTypes.everyone,
     creatorId: '',
     creator: {
         _id: '',
