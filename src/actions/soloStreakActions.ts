@@ -80,6 +80,7 @@ import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakRem
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { SoloStreakListItem } from '../reducers/soloStreakReducer';
 import arrayMove from 'array-move';
+import IndividualVisibilityTypes from '@streakoid/streakoid-models/lib/Types/IndividualVisibilityTypes';
 
 const soloStreakActions = (streakoid: StreakoidSDK) => {
     const getCurrentUserLiveSoloStreaks = () => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -219,12 +220,10 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
 
     const createSoloStreak = ({
         streakName,
-        streakDescription,
-        numberOfMinutes,
+        visibility,
     }: {
         streakName: string;
-        streakDescription?: string;
-        numberOfMinutes?: number;
+        visibility: IndividualVisibilityTypes;
     }) => async (dispatch: Dispatch<AppActions>, getState: () => AppState): Promise<void> => {
         try {
             dispatch({ type: CREATE_SOLO_STREAK_IS_LOADING });
@@ -233,8 +232,7 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
             const soloStreak = await streakoid.soloStreaks.create({
                 userId,
                 streakName,
-                streakDescription,
-                numberOfMinutes,
+                visibility,
             });
             const soloStreakWithLoadingState = {
                 ...soloStreak,
