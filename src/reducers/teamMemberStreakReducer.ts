@@ -18,6 +18,7 @@ export interface TeamMemberStreakReducerState {
 
 const defaultSelectedTeamMemberStreak: SelectedTeamMemberStreak = {
     _id: '',
+    streakName: '',
     currentStreak: { startDate: new Date().toString(), endDate: new Date().toString(), numberOfDaysInARow: 0 },
     status: StreakStatus.live,
     visibility: TeamVisibilityTypes.everyone,
