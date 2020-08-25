@@ -73,6 +73,7 @@ import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import TeamVisibilityTypes from '@streakoid/streakoid-models/lib/Types/TeamVisibilityTypes';
 
 export const teamStreakActions = (streakoid: StreakoidSDK) => {
     const getCurrentUserLiveTeamStreaks = () => async (
@@ -299,11 +300,13 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
 
     const createTeamStreak = ({
         streakName,
+        visibility,
         members,
         streakDescription,
         numberOfMinutes,
     }: {
         streakName: string;
+        visibility: TeamVisibilityTypes;
         members: { memberId: string }[];
         streakDescription?: string;
         numberOfMinutes?: number;
@@ -315,6 +318,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
             const teamStreak = await streakoid.teamStreaks.create({
                 creatorId: userId,
                 streakName,
+                visibility,
                 streakDescription,
                 numberOfMinutes,
                 members,
@@ -365,11 +369,13 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
     const editTeamStreak = ({
         teamStreakId,
         streakName,
+        visibility,
         streakDescription,
         numberOfMinutes,
     }: {
         teamStreakId: string;
         streakName: string;
+        visibility: TeamVisibilityTypes;
         streakDescription?: string;
         numberOfMinutes?: number;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -379,6 +385,7 @@ export const teamStreakActions = (streakoid: StreakoidSDK) => {
                 teamStreakId,
                 updateData: {
                     streakName,
+                    visibility,
                     streakDescription,
                     numberOfMinutes,
                 },
