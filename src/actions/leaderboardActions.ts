@@ -178,10 +178,9 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                 teamMemberStreaks.map(async teamMemberStreak => {
                     try {
                         const user = await streakoid.users.getOne(teamMemberStreak.userId);
-                        const teamStreak = await streakoid.teamStreaks.getOne(teamMemberStreak.teamStreakId);
                         const teamMemberStreakLeaderboardItem: TeamMemberStreakLeaderboardItem = {
                             streakId: teamMemberStreak._id,
-                            streakName: teamStreak.streakName,
+                            streakName: teamMemberStreak.streakName,
                             currentStreak: teamMemberStreak.currentStreak,
                             pastStreaks: teamMemberStreak.pastStreaks,
                             longestTeamMemberStreakNumberOfDays: teamMemberStreak.longestTeamMemberStreak.numberOfDays,
