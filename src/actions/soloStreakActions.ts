@@ -258,11 +258,13 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
     const editSoloStreak = ({
         soloStreakId,
         streakName,
+        visibility,
         streakDescription,
         numberOfMinutes,
     }: {
         soloStreakId: string;
         streakName: string;
+        visibility: IndividualVisibilityTypes;
         streakDescription?: string;
         numberOfMinutes?: number;
     }) => async (dispatch: Dispatch<AppActions>): Promise<void> => {
@@ -272,6 +274,7 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                 soloStreakId,
                 updateData: {
                     streakName,
+                    visibility,
                     streakDescription,
                     numberOfMinutes,
                 },
