@@ -71,10 +71,12 @@ import { PopulatedUser } from '@streakoid/streakoid-models/lib/Models/PopulatedU
 import { BasicUser } from '@streakoid/streakoid-models/lib/Models/BasicUser';
 import WhyDoYouWantToBuildNewHabitsTypes from '@streakoid/streakoid-models/lib/Types/WhyDoYouWantToBuildNewHabitsTypes';
 import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
+import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMemberStreak';
 
 export interface SelectedUser extends PopulatedUser {
     soloStreaks: SoloStreak[];
     teamStreaks: PopulatedTeamStreak[];
+    teamMemberStreaks: TeamMemberStreak[];
     challengeStreaks: ChallengeStreakListItem[];
     userStreakCompleteInfo: { date: Date; count: number }[];
     numberOfStreaks: number;
@@ -98,6 +100,7 @@ export interface FollowingWithClientData extends BasicUser {
 export interface PopulatedCurrentUserWithClientData extends PopulatedCurrentUser {
     soloStreaks: SoloStreak[];
     teamStreaks: PopulatedTeamStreak[];
+    teamMemberStreaks: TeamMemberStreak[];
     challengeStreaks: ChallengeStreakListItem[];
     userStreakCompleteInfo: { date: Date; count: number }[];
     following: FollowingWithClientData[];
@@ -139,6 +142,7 @@ const defaultSelectedUser: SelectedUser = {
     },
     soloStreaks: [],
     teamStreaks: [],
+    teamMemberStreaks: [],
     challengeStreaks: [],
     userStreakCompleteInfo: [],
     numberOfStreaks: 0,
@@ -228,6 +232,7 @@ const initialState: UserReducerInitialState = {
         soloStreaks: [],
         challengeStreaks: [],
         teamStreaks: [],
+        teamMemberStreaks: [],
         hasUsernameBeenCustomized: false,
         temporaryPassword: '',
         membershipInformation: {

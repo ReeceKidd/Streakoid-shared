@@ -145,10 +145,15 @@ const userActions = (streakoid: StreakoidSDK) => {
                 memberId: user._id,
                 status: StreakStatus.live,
             });
+            const activeTeamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+                userId: user._id,
+                active: true,
+            });
             const activeChallengeStreaks = await streakoid.challengeStreaks.getAll({
                 userId: user._id,
                 status: StreakStatus.live,
             });
+
             const challengeStreaksWithClientData = await Promise.all(
                 activeChallengeStreaks.map(async challengeStreak => {
                     const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
@@ -189,6 +194,7 @@ const userActions = (streakoid: StreakoidSDK) => {
                 ...user,
                 soloStreaks: activeSoloStreaks,
                 teamStreaks: activeTeamStreaks,
+                teamMemberStreaks: activeTeamMemberStreaks,
                 challengeStreaks: challengeStreaksWithClientData,
                 userStreakCompleteInfo,
                 numberOfStreaks,
@@ -259,6 +265,7 @@ const userActions = (streakoid: StreakoidSDK) => {
                 }),
             );
             const teamStreaks = await streakoid.user.teamStreaks({});
+            const teamMemberStreaks = await streakoid.user.teamMemberStreaks({});
             dispatch({
                 type: GET_CURRENT_USER,
                 payload: {
@@ -266,6 +273,7 @@ const userActions = (streakoid: StreakoidSDK) => {
                     soloStreaks,
                     challengeStreaks: challengeStreaksWithClientData,
                     teamStreaks,
+                    teamMemberStreaks,
                     userStreakCompleteInfo,
                     following: followingWithClientData,
                     activityFeed: {
