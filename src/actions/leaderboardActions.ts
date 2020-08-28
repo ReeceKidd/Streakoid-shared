@@ -177,7 +177,6 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
             const leaderboardItems: (TeamMemberStreakLeaderboardItem | null)[] = await Promise.all(
                 teamMemberStreaks.map(async teamMemberStreak => {
                     try {
-                        const user = await streakoid.users.getOne(teamMemberStreak.userId);
                         const teamMemberStreakLeaderboardItem: TeamMemberStreakLeaderboardItem = {
                             streakId: teamMemberStreak._id,
                             streakName: teamMemberStreak.streakName,
@@ -186,8 +185,8 @@ const leaderboardActions = (streakoid: StreakoidSDK) => {
                             longestTeamMemberStreakNumberOfDays: teamMemberStreak.longestTeamMemberStreak.numberOfDays,
                             totalTimesTracked: teamMemberStreak.totalTimesTracked,
                             streakCreatedAt: new Date(teamMemberStreak.createdAt),
-                            username: user && user.username,
-                            userProfileImage: user && user.profileImages && user.profileImages.originalImageUrl,
+                            username: teamMemberStreak.username,
+                            userProfileImage: teamMemberStreak.userProfileImage,
                             timezone: teamMemberStreak.timezone,
                         };
                         return teamMemberStreakLeaderboardItem;
