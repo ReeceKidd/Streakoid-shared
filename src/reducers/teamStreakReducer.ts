@@ -54,6 +54,7 @@ import {
     RECOVER_TEAM_MEMBER_STREAK_LOADING,
     RECOVER_TEAM_MEMBER_STREAK_LOADED,
     RECOVER_TEAM_MEMBER_STREAK_FAIL,
+    EDIT_TEAM_STREAK,
 } from '../actions/types';
 import ClientActivityFeedItemType from '../helpers/activityFeed/ClientActivityFeedItem';
 import { CustomTeamStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
@@ -232,6 +233,16 @@ const teamStreakReducer = (state = initialState, action: TeamStreakActionTypes):
             return {
                 ...state,
                 liveTeamStreaks: [...state.liveTeamStreaks, action.payload],
+            };
+
+        case EDIT_TEAM_STREAK:
+            return {
+                ...state,
+                selectedTeamStreak: {
+                    ...state.selectedTeamStreak,
+                    ...action.payload,
+                    members: state.selectedTeamStreak.members,
+                },
             };
 
         case EDIT_TEAM_STREAK_FAIL:
