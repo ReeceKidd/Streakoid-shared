@@ -288,7 +288,7 @@ const soloStreakActions = (streakoid: StreakoidSDK) => {
                 recoverSoloStreakIsLoading: false,
                 recoverSoloStreakErrorMessage: '',
             };
-            dispatch({ type: EDIT_SOLO_STREAK, soloStreak: soloStreakWithLoadingState });
+            dispatch({ type: EDIT_SOLO_STREAK, payload: soloStreakWithLoadingState });
             dispatch({ type: NAVIGATE_TO_SPECIFIC_SOLO_STREAK, payload: soloStreakId });
             dispatch({ type: EDIT_SOLO_STREAK_IS_LOADED });
         } catch (err) {

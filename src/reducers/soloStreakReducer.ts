@@ -207,11 +207,15 @@ const soloStreakReducer = (state = initialState, action: SoloStreakActionTypes):
             return {
                 ...state,
                 liveSoloStreaks: state.liveSoloStreaks.map(soloStreak => {
-                    if (soloStreak._id === action.soloStreak._id) {
-                        return action.soloStreak;
+                    if (soloStreak._id === action.payload._id) {
+                        return action.payload;
                     }
                     return soloStreak;
                 }),
+                selectedSoloStreak: {
+                    ...state.selectedSoloStreak,
+                    ...action.payload,
+                },
             };
 
         case RESTORE_ARCHIVED_SOLO_STREAK:

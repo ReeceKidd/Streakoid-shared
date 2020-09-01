@@ -549,7 +549,7 @@ export interface CreateSoloStreakAction {
 
 export interface EditSoloStreakAction {
     type: typeof EDIT_SOLO_STREAK;
-    soloStreak: SoloStreakListItem;
+    payload: SoloStreakListItem;
 }
 
 export interface EditSoloStreakFailAction {
