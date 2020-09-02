@@ -241,8 +241,8 @@ const userActions = (streakoid: StreakoidSDK) => {
             const supportedPopulatedActivityFeedItems = populatedActivityFeedItems.filter(
                 (activityFeedItem): activityFeedItem is ClientActivityFeedItemType => activityFeedItem !== undefined,
             );
-            const soloStreaks = await streakoid.user.soloStreaks({});
-            const challengeStreaks = await streakoid.user.challengeStreaks({});
+            const soloStreaks = await streakoid.user.soloStreaks({ active: true });
+            const challengeStreaks = await streakoid.user.challengeStreaks({ active: true });
             const challengeStreaksWithClientData = await Promise.all(
                 challengeStreaks.map(async challengeStreak => {
                     const challenge = await streakoid.challenges.getOne({ challengeId: challengeStreak.challengeId });
@@ -264,8 +264,8 @@ const userActions = (streakoid: StreakoidSDK) => {
                     };
                 }),
             );
-            const teamStreaks = await streakoid.user.teamStreaks({});
-            const teamMemberStreaks = await streakoid.user.teamMemberStreaks({});
+            const teamStreaks = await streakoid.user.teamStreaks({ active: true });
+            const teamMemberStreaks = await streakoid.user.teamMemberStreaks({ active: true });
             dispatch({
                 type: GET_CURRENT_USER,
                 payload: {
