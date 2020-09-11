@@ -265,7 +265,7 @@ const userActions = (streakoid: StreakoidSDK) => {
                 }),
             );
             const teamStreaks = await streakoid.user.teamStreaks({ status: StreakStatus.live });
-            const teamMemberStreaks = await streakoid.user.teamMemberStreaks({ active: true });
+            const teamMemberStreaks = await streakoid.user.teamMemberStreaks({ status: StreakStatus.live });
             dispatch({
                 type: GET_CURRENT_USER,
                 payload: {
